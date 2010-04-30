@@ -96,11 +96,6 @@ require_once('settings.inc.php');
  */
 # $db_url = 'mysql://username:password@localhost/databasename';
 # $db_prefix = '';
-/*
- * The database information settings should go into a file called
- * settings.inc in same directory as this settings file.
- */
-include_once('./settings.inc');
 
 /**
  * Access control for update.php script
