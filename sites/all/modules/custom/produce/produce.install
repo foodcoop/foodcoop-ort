@@ -1,0 +1,31 @@
+<?php
+
+function produce_install(){
+	db_query("CREATE TABLE {coop_produce} (
+		  `id` int(11) NOT NULL auto_increment,
+		  `name` varchar(255) character set utf8 collate utf8_unicode_ci default NULL,
+		  `shortname` varchar(255) character set utf8 collate utf8_unicode_ci default NULL,
+		  `basis` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default '',
+		  `type` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default '',
+		  `price` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default '',
+		  `wax` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default '',
+		  `origin` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default '',
+		  `status` int(11) NOT NULL default '0',
+		  PRIMARY KEY  (`id`),
+		  KEY `status` (`status`),
+		  KEY `origin` (`origin`),
+		  KEY `wax` (`wax`),
+		  KEY `price` (`price`),
+		  KEY `name` (`name`),
+		  KEY `type` (`type`)
+		) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;");
+		variable_set("coop_produce_time",0);
+}
+
+function produce_uninstall(){
+	db_query("DROP TABLE {coop_produce}");
+	variable_del("coop_produce_time");
+}
+
+
+?>

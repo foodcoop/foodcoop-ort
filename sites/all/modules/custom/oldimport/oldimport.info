@@ -1,0 +1,9 @@
+; $Id$
+name = "Old Coop Site Importer"
+description = "Import old Coop navigational structure and page content"
+core = 6.x
+php = 5.x
+package = Coop
+version = "1.0"
+dependencies[] = menu
+dependencies[] = path

@@ -1,0 +1,260 @@
+<?php
+
+	function produce_menu(){
+	
+		$items["admin/settings/produce"] = array(
+			"title" => "Produce Import",
+			"description" => "Import produce details from a raw text file in a specific format",
+			"page callback" => "drupal_get_form",
+			"page arguments" => array("produce_admin_settings"),
+			"access arguments" => array("administer site configuration"),
+			"type" => MENU_NORMAL_ITEM,
+			// "file" => "produce.import.inc",
+		);
+		return $items;
+	}
+
+
+	function produce_block($op = 'list', $delta = 0, $edit = array()){
+		switch ($op){
+			case 'list':
+				$blocks[0]['info'] = t('Daily Produce List');
+				$blocks[0]['cache'] = BLOCK_CACHE_GLOBAL;
+				return $blocks;
+			break;
+			
+			case 'view':
+				$block['content'] = produce_table(@$_GET['sort'],@$_GET['dir']);
+				return $block;			
+			break;
+		}
+	}
+
+
+	// print the main produce table, given sort int index and direction
+	// dir TRUE means sort descending
+	function produce_table($sort=1, $dir=""){
+		require_once("produce.enums.inc");
+
+		$out = array();
+		$columns = array(
+			"id",
+			"name",
+			"shortname",
+			"basis",
+			"type",
+			"price",
+			"wax",
+			"origin",
+			"status",
+		);
+
+		$fresh = strftime("%A, %e %B %Y",(int) variable_get("coop_produce_time",0));
+
+		$sort = (0 <= $sort && $sort < count($columns)) ? $sort : 0;
+		if (!$sort) $sort = 1;
+		$cols = array(1=>0, 4=>0, 5=>0, 6=>0, 7=>0);
+		$ind = array(1=>"", 4=>"", 5=>"", 6=>"", 7=>"");
+		$class = array(1=>"", 4=>"", 5=>"", 6=>"", 7=>"");
+		$arr = array("&uarr;","&darr;");
+		$cols[$sort] = !$dir;
+		$ind[$sort] = $arr[!$dir];
+		$class[$sort] = "class='highlight'";
+		$sort = $columns[$sort];
+		$dir = $dir ? "DESC":"ASC";
+		
+		
+		$out[]= "<h3>Prices for $fresh</h3>";
+		$out[]= "<p>Click on any column heading to sort by that column</p>
+					<table border='0' cellpadding='5' cellspacing='0' id='produce'>
+					<thead>
+					<tr>
+						<td nowrap='nowrap' ${class[1]}><a href='produce&sort=1&dir=${cols[1]}' title='click to change sort'>Name ${ind[1]}</a></td>
+						<td nowrap='nowrap' ${class[4]}><a href='produce&sort=4&dir=${cols[4]}' title='click to change sort'>Type ${ind[4]}</a></td>
+						<td nowrap='nowrap' ${class[5]}><a href='produce&sort=5&dir=${cols[5]}' title='click to change sort'>Price ${ind[5]}</a></td>
+						<td nowrap='nowrap' ${class[6]}><a href='produce&sort=6&dir=${cols[6]}' title='click to change sort'>Organic? ${ind[6]}</a></td>
+						<td nowrap='nowrap' ${class[7]}><a href='produce&sort=7&dir=${cols[7]}' title='click to change sort'>Origin ${ind[7]}</a></td>
+					</tr></thead>
+					<tbody>";
+		$colors = array("#ffffff","#fffff0");
+		$flip = 0;
+
+		// $prod = getProduce($sort, $dir);		
+		$results = db_query("select * from {coop_produce} where status = 1 order by $sort $dir");
+
+		// foreach ($prod as $p){
+		while($p = db_fetch_array($results)){
+			$ptype = $produce_types[trim($p["type"])];
+			$pbasis = $produce_basis[trim($p["basis"])];
+			$pwax = $produce_wax_codes[trim($p["wax"])];
+			$porigin = @$produce_location_codes[trim($p["origin"])];
+			if (!$porigin) $porigin = $p["origin"];
+			$color = $colors[$flip];
+			$flip = !$flip;
+			$out[]= "<tr style='background-color: $color;'>
+						<td>${p['name']}</td>
+						<td>$ptype</td>
+						<td>$${p['price']} $pbasis</td>
+						<td>$pwax</td>
+						<td>$porigin</td>
+					</tr>";
+		}
+		$out[]= "</tbody></table>";
+		return implode("\n",$out);
+	}
+
+	function produce_admin_settings(){
+		$form["produce_instructions"] = array(
+			"#type" => "item",
+			"#value" => "
+					<p><b>To import produce data, open the produce export file, select all, copy, and paste the contents in the large text box below.</b> </p>
+					
+						<p>The information you paste should come from the produce export file, which is a common text file (with an extension such as txt or asc, although other extensions are possible).</p>
+						<p>Each line in the pasted file represents seven (7) fields, separated by tabs. The order of the fields in the file is assumed to be: </p>
+							<ol>
+								<li>name</li>
+								<li>short name</li>
+								<li>basis of price</li>
+								<li>type</li>
+								<li>price</li>
+								<li>wax code</li>
+								<li>origin code.</li>
+							</ol>
+						</li>
+						<p>If a line doesn't have the right number of fields, it will be ignored and considered invalid.</p>
+						<p>If the number of invalid lines is greater than or equal to the number of valid lines, no lines will be imported.</p>
+						<p>If there are enough valid lines to import, the existing produce listings will be replaced, in their entirety, with the data you have pasted from the export file.</p>",
+	
+		);
+	
+		$form["produce_text"] = array(
+			"#type" => "textarea",
+			"#title" => t("Raw Produce Text"),
+			"#default_value" => "",
+			"#size" => 3,
+			"#description" => t("Please paste the contents of the produce text file here."),
+		);
+	
+		$form["submit"] = array(
+			"#type" => "submit",
+			"#value" => t("Import Produce"),
+		);
+	
+		return $form;
+	}
+
+
+
+	function produce_admin_settings_submit($form, $form_state){
+		$raw = $form_state["values"]["produce_text"];
+		list($count, $failures) = importRawdata($raw);
+		if (count($failures)){
+			$failcount = count($failures);
+			drupal_set_message("<h3>Found $count row(s) and $failcount failure(s):</h3>","error");
+			drupal_set_message(implode("",$failures),"error");
+			drupal_set_message("Imported ".($count - $failcount)." rows of produce successfully!","error");
+		} else {
+			drupal_set_message("Imported $count row(s) with no failures!<pre>$query</pre>");;
+		}
+	}
+
+
+/*
+CREATE TABLE `coop_produce` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) character set utf8 collate utf8_unicode_ci default NULL,
+  `shortname` varchar(255) character set utf8 collate utf8_unicode_ci default NULL,
+  `basis` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default '',
+  `type` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default '',
+  `price` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default '',
+  `wax` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default '',
+  `origin` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default '',
+  `status` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `status` (`status`),
+  KEY `origin` (`origin`),
+  KEY `wax` (`wax`),
+  KEY `price` (`price`),
+  KEY `name` (`name`),
+  KEY `type` (`type`)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+*/
+
+
+
+	function importRawData($raw){
+
+		$raw = preg_split("/\r\n|\r|\n/",$raw,-1,PREG_SPLIT_NO_EMPTY);
+		$count = count($raw);
+		$query = array();
+		$failures = array();
+		$success = false;
+
+		foreach ($raw as $r){
+			$r = preg_split("/\t+/",$r,-1,PREG_SPLIT_NO_EMPTY);
+				
+			// some rows are incorrectly split:
+			// indices 1 and 2 belong to the same field
+			// so if the row looks likely,
+			// combine 1 and 2, move the rest down
+			// and delete the extra field
+			if (isLongNameRow($r)){
+				$r[1] .= " ".$r[2];
+				for ($i=3; $i<=7; $i++){
+					$r[$i] = $r[$i+1];
+				}
+				unset($r[7]);
+			}
+
+			if (count($r) != 7) {
+				$failures[] = "Ignored row; must have 7 tab-delimited fields--precisely: ".implode(" ",$r);
+			} else {
+				$query[] = prepGoodRow($r);
+			}
+		}
+		
+		$minimum_count = 20;
+		$happycount = count($query);
+		if (count($failures) < $happycount && $happycount >= $minimum_count){
+			db_query("update {coop_produce} set status = -1");
+			$query = "INSERT INTO {coop_produce} (name,shortname,basis,type, price,wax,origin,status) \n VALUES \n".implode(",\n",$query).";";
+			db_query($query);
+			variable_set("coop_produce_time",time());
+			$success = true;
+		}
+		return array($happycount, $failures, $success);
+	}
+
+
+	// Incorrectly split rows typically have a really long secondary name
+	// and it's all caps, forcing the price field to index 5 (instead of 4).
+	// So, if these conditions obtain, return true.
+	function isLongNameRow($row){
+		return count($row) == 8 &&
+				allCaps($row[1]) &&
+				allCaps($row[2]) &&
+				is_numeric($row[5]);
+	}
+	
+	function allCaps($string){
+		return $string == strtoupper($string);
+	}
+
+	// make a tuple suitable for a sql insert statement out of a row
+	function prepGoodRow($r){
+		$line = "(";
+		foreach ($r as $atom) {
+			//$line .= "'".mysql_real_escape_string($atom)."', ";
+			$line .= "'$atom', ";
+		}
+		return $line."1)";
+	}
+
+
+	function pr(&$t){
+		print "<pre>".print_r($t,true)."</pre>";
+	}
+
+
+?>
