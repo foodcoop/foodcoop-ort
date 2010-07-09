@@ -1,0 +1,54 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function psfc_orientation_install() {
+  // Create tables.
+  drupal_install_schema('psfc_orientation');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function psfc_orientation_uninstall() {
+  // Remove tables.
+  drupal_uninstall_schema('psfc_orientation');
+}
+
+
+/**
+ * Implementation of hook_schema().
+ */
+function psfc_orientation_schema() {
+  $schema['psfc_orientation_repeat_rules'] = array(
+    'description' => t('PSFC Orientation repeat'),
+    'fields' => array(
+      'orid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique Orientation Rule ID.',
+      ),
+      'day_of_week' => array(
+        'type' => 'text',
+        'size' => 'tiny',
+        'description' => t('The day of the week of an orientation'),
+      ),
+      'time_of_day' => array(
+        'type' => 'text',
+        'size' => 'tiny',
+        'description' => t('The time of an orientation'),
+      ),
+      'capacity' => array(
+         'type' => 'int',
+         'size' => 'tiny',
+         'description' => t('Capacity of the orientation'),
+      ),
+    ),
+    'primary key' => array('orid'),
+  );
+  return $schema;
+}

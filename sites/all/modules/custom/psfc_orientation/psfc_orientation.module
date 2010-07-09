@@ -27,131 +27,129 @@ function psfc_orientation_menu() {
     'access arguments' => array( 'administer psfc orientation'),
     'page callback' => 'psfc_orientation_temp_admin_land',
   );
-
   $items['admin/psfc/orientation'] = array(
-    'title' => 'PSFC Orientation Settings',
+    'title' => 'Orientation',
     'description' => 'Allow coop workers to change orientation settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('psfc_orientation_admin_page'),
+    'access callback' => 'user_access',
     'access arguments' => array( 'administer psfc orientation'),
-    'type' => 'MENU_DEFAULT_LOCAL_TASK'
+    'file' => 'psfc_orientation.admin.inc',
+    'weight' => 10,
+    'type' => MENU_LOCAL_TASK
+  );
+  $items['admin/psfc/orientation/overview'] = array(
+    'title' => 'Orientation Settings',
+    'description' => 'Allow coop workers to change orientation settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('psfc_orientation_admin_page'),
+    'access callback' => 'user_access',
+    'access arguments' => array( 'administer psfc orientation'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'psfc_orientation.admin.inc',
   );
   $items['admin/psfc/orientation/add-rule'] = array(
-    'title' => 'Create a new Orientation rule',
+    'title' => 'Create Orientation Rule',
     'description' => 'Create a new orientation rule.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('psfc_orientation_admin_add_rule'),
     'access arguments' => array( 'administer psfc orientation'),
-    'type' => 'MENU_LOCAL_TASK'
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'psfc_orientation.admin.inc',
+    'weight' => 10,
+  );
+  $items['admin/psfc/orientation/delete-rule/%psfc_orientation_orid'] = array(
+    'title' => 'Delete Orientation Rule',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('psfc_orientation_admin_delete_rule', 4),
+    'access arguments' => array('administer psfc orientation'),
+    'type' => MENU_CALLBACK,
+    'file' => 'psfc_orientation.admin.inc',
+  );
+  $items['admin/psfc/orientation/edit-rule/%psfc_orientation_orid'] = array(
+    'title' => 'Edit Orientation Rule',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('psfc_orientation_admin_edit_rule', 4),
+    'access arguments' => array('administer psfc orientation'),
+    'type' => MENU_CALLBACK,
+    'file' => 'psfc_orientation.admin.inc',
   );
 
   return $items;
 }
 
 /**
- * Default Administration page
+ * Implemetation of hook_cron().
  */
-function psfc_orientation_admin_page() {
-  $form = array();
-  $form['orientation_description'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Default Orientation Description'),
-    '#default_value' => (!$edit) ? NULL : $edit['orientation_description'],
-    '#description' => t("This is the description that will be put on the auto generated orientations."),
-  );
-  return $form;
+function psfc_orientation_cron() {
+  $query = db_query("SELECT * FROM {psfc_orientation_repeat_rules}");
+  while ($result = db_fetch_array($query)) {
+    if ($result['day_of_week'] == date('l')) {
+      $time = psfc_orienation_split_time_of_day($result['orid']);
+      $next = psfc_orientation_determine_next_repeat($time);
+      watchdog('psfc_orientation', 'Attempted to add an orientation time: '. $next, WATCHDOG_NOTICE);
+    }
+  }
+}
+/**
+ *  Wildcard loader function for hook_menu orientation id
+ */
+function psfc_orientation_orid_load($orid) {
+  if (!is_numeric($orid)) {
+    return FALSE;
+  }
+  $checked_orid = db_result(db_query("SELECT orid FROM {psfc_orientation_repeat_rules} WHERE orid = %d", $orid));
+  if ($checked_orid == $orid) {
+    return $orid;
+  }
+  return FALSE;
 }
 
-function psfc_orientation_admin_add_rule($edit) {
-  $form = array();
-  $form['day'] = array(
-    '#type' => 'select',
-    '#title' => t('Day'),
-    '#options' => array(
-      'Sunday' => 'Sunday',
-      'Monday' =>  'Monday',
-      'Tuesday' =>  'Tuesday',
-      'Wednesday' => 'Wednesday',
-      'Thursday' => 'Thursday',
-      'Friday' => 'Friday',
-      'Saturday' => 'Saturday',
-    ),
-    '#required' => TRUE,
-    '#default_value' => (!$edit) ? NULL : $edit['day'],
-  );
-  $form['hour'] = array(
-    '#type' => 'select',
-    '#title' => 'Hour',
-    '#options' => array(
-      '01' => 1,
-      '02' => 2,
-      '03' => 3,
-      '04' => 4,
-      '05' => 5,
-      '06' => 6,
-      '07' => 7,
-      '08' => 8,
-      '09' => 9,
-      '10' => 10,
-      '11' => 11,
-      '12' => 12,
-    ),
-    '#required' => TRUE
-  );
-  $form['min'] = array(
-    '#type' => 'select',
-    '#title' => 'Minute',
-    '#options' => array(
-      '00' => '00',
-      '15' => '15',
-      '30' => '30',
-      '45' => '45',
-    ),
-    '#required' => TRUE
-  );
-  $form['ampm'] = array(
-    '#type' => 'select',
-    '#title' => 'AM / PM',
-    '#options' => array(
-      'AM' => 'AM',
-      'PM' => 'PM',
-    ),
-    '#required' => TRUE,
-  );
 
-  $form['capacity'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Capacity'),
-    '#default_value' => (!$edit) ? NULL : $edit[0]['capacity'],
-    '#description' => t("The total number of spaces available for this orientation."),
-    '#size' => 2,
-    '#maxlength' => 2,
-    '#required' => TRUE
-  );
-  $form['submit'] = array('#type' => 'submit', '#value' => t('Add'));
-  return $form;
+/**
+ *  Temporary PSFC admin landing page
+ *
+ *  TODO: Move this functionality to a better place
+ */
+function psfc_orientation_temp_admin_land() {
+  $output = l('Administer Orientation', 'admin/psfc/orientation');
+  return $output;
 }
 
-function psfc_orientation_admin_add_rule_validate($form, &$form_state) {
-  $values = $form_state['values'];
+/**
+ *  Helper function to return information about an orientation  rule
+ *
+ * @param $orid
+ * Required. The unique id of the orientation repeat rule
+ *
+ * @return a keyed array with all relevant information about a rule.
+ */
+function psfc_orientation_get_repeat_rule_info($orid) {
+  $result = db_fetch_array(db_query("SELECT * FROM {psfc_orientation_repeat_rules} WHERE orid = %d", $orid));
+  return $result;
+}
 
-  if (date('l') == $values['day']) {
+
+/**
+ *  Helper function to determine next repeated orienation
+ */
+function psfc_orientation_determine_next_repeat($time) {
     $two_weeks = time() + ( 60 * 60 * 24 *14);
     $date = date('l F d', $two_weeks);
-    $string = $date .' '. $values['hour'] .':'. $values['min'] .' '. $values['ampm'];
-   $next_orientation = strtotime($string);
-  }
-  dsm($next_orientation);
-  dsm(strtotime('Sunday June 22 2010 04:45 PM'));
-
-//  dsm('form');
-//  dsm($form);
-//  dsm("form_state");
-//  dsm($form_state);
-
- return;
+    $string = $date .' '. $time['hour'] .':'. $time['minute'] .' '. $time['ampm'];
+    $next_orientation = strtotime($string);
+  return $next_orientation;
 }
 
-function psfc_orientation_temp_admin_land() {
-  return 'temp';
+function psfc_orienation_split_time_of_day($orid) {
+  $info = psfc_orientation_get_repeat_rule_info($orid);
+  $split0 = split(':', $info['time_of_day']);
+  $split1 = split(' ', $split0[1]);
+
+  $time = array();
+  $time['hour'] = $split0[0];
+  $time['minute'] = $split1[0];
+  $time['ampm'] = $split1[1];
+
+  return $time;
 }
