@@ -56,7 +56,7 @@ function psfc_orientation_menu() {
     'access arguments' => array( 'administer psfc orientation'),
     'type' => MENU_LOCAL_TASK,
     'file' => 'psfc_orientation.admin.inc',
-    'weight' => 10,
+    'weight' => 8,
   );
   $items['admin/psfc/orientation/delete-rule/%psfc_orientation_orid'] = array(
     'title' => 'Delete Orientation Rule',
@@ -74,7 +74,24 @@ function psfc_orientation_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'psfc_orientation.admin.inc',
   );
-
+  $items['admin/psfc/orientation/add-blackout'] = array(
+    'title' => 'Create a Blackout date',
+    'description' => 'Orientations will not be automatically created on this date.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('psfc_orientation_add_blackout'),
+    'access arguments' => array( 'administer psfc orientation'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'psfc_orientation.admin.inc',
+    'weight' => 10,
+  );
+  $items['admin/psfc/orientation/delete-blackout/%psfc_orientation_obid'] = array(
+    'title' => 'Delete a Blackout Date',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('psfc_orientation_delete_blackout', 4),
+    'access arguments' => array('administer psfc orientation'),
+    'type' => MENU_CALLBACK,
+    'file' => 'psfc_orientation.admin.inc',
+  );
   return $items;
 }
 
@@ -87,10 +104,21 @@ function psfc_orientation_cron() {
     if ($result['day_of_week'] == date('l')) {
       $time = psfc_orienation_split_time_of_day($result['orid']);
       $next = psfc_orientation_determine_next_repeat($time);
-      watchdog('psfc_orientation', 'Attempted to add an orientation time: '. $next, WATCHDOG_NOTICE);
+      $date = date('Y-m-d', $next);
+      // The hour needs to be saved GMT so add 4
+      $hour = date('H', $next) + 4;
+      $time = date(':i:s', $next);
+      $time_value = $date .'T'. $hour . $time;
+      if (!psfc_orientation_orientation_exists($time_value)) {
+        $node = psfc_orientation_node_build($result, $time_value);
+        if ($node->nid) {
+          watchdog('psfc_orientation', 'Added an orientation for: '. $next, WATCHDOG_NOTICE);
+        }
+      }
     }
   }
 }
+
 /**
  *  Wildcard loader function for hook_menu orientation id
  */
@@ -105,6 +133,19 @@ function psfc_orientation_orid_load($orid) {
   return FALSE;
 }
 
+/**
+ *  Wildcard loader function for hook_menu orientation blackout id
+ */
+function psfc_orientation_obid_load($obid) {
+  if (!is_numeric($obid)) {
+    return FALSE;
+  }
+  $checked_obid = db_result(db_query("SELECT obid FROM {psfc_orientation_blackout_days} WHERE obid = %d", $obid));
+  if ($checked_obid == $obid) {
+    return $obid;
+  }
+  return FALSE;
+}
 
 /**
  *  Temporary PSFC admin landing page
@@ -129,7 +170,6 @@ function psfc_orientation_get_repeat_rule_info($orid) {
   return $result;
 }
 
-
 /**
  *  Helper function to determine next repeated orienation
  */
@@ -141,6 +181,9 @@ function psfc_orientation_determine_next_repeat($time) {
   return $next_orientation;
 }
 
+/**
+ * Helper function to split apart the time_of_day saved in orienation_rule
+ */
 function psfc_orienation_split_time_of_day($orid) {
   $info = psfc_orientation_get_repeat_rule_info($orid);
   $split0 = split(':', $info['time_of_day']);
@@ -152,4 +195,83 @@ function psfc_orienation_split_time_of_day($orid) {
   $time['ampm'] = $split1[1];
 
   return $time;
+}
+
+/**
+ * Helper function to determine if there is already an orientation scheduled
+ * for a time slot
+ *
+ * @param $time
+ *
+ * @return returns TRUE if there there is an already scheduled orientation
+ */
+function psfc_orientation_orientation_exists($time) {
+  $query = db_query('SELECT cto.field_date_value FROM {content_type_orientation} cto INNER JOIN {node} n ON cto.nid = n.nid AND cto.vid = n.vid WHERE n.status = %d AND cto.field_date_value = "%s"', 1, $time);
+  if (db_result($query) == $time) {
+    return TRUE;
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ * Build an orientation node
+ *
+ * @param $orientation_rule an orientation rule as built by
+ *    psfc_orientation_get_repeat_rule_info().
+ *
+ * @param $time_value the tiime of the desired orientation in the format:
+ *    YYYY-MM-DDTHH:MM:SS
+ *
+ * @return the node object of the new orientation.
+ */
+function psfc_orientation_node_build($orientation_rule, $time_value) {
+  // declare a new node object
+  $node = new stdClass();
+
+  // set some values that will not change.
+  $node->type = 'orientation';
+  $node->uid = 1;
+  $node->status = 1;
+  $node->created = time();
+  $node->changed = time();
+  $node->comment = 0;
+  $node->promote = 0;
+  $node->moderate = 0;
+  $node->sticky = 0;
+  $node->tnid = 0;
+  $node->translate = 0;
+  $node->revision_uid = 1;
+  $node->revision_timestamp = time();
+  $node->body = variable_get('psfc_orientation_default_description', t('PSFC Orientations are blah blah blah'));
+  $node->format = 1;
+
+  // Fill in the values from the orientation rule
+  $node->field_capacity = array(
+    0 => array(
+      'value' => $orientation_rule['capacity'],
+    ),
+  );
+
+  $node->field_date = array(
+    0 => array(
+      'value' =>   $time_value,
+      'timezone' => 'America/New_York',
+      'timezone_db' => 'UTC',
+      'date_type' => 'date',
+    ),
+  );
+
+  $node->field_open = array(
+    0 => array(
+      'value' => 0,
+    ),
+  );
+
+  // validate and save the node
+  node_validate($node);
+  node_submit($node);
+  node_save($node);
+  return $node;
 }

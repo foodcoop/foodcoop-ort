@@ -50,5 +50,23 @@ function psfc_orientation_schema() {
     ),
     'primary key' => array('orid'),
   );
+
+  $schema['psfc_orientation_blackout_days'] = array(
+     'description' => t('PSFC Orientation Blackout dates'),
+     'fields' => array(
+      'obid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique Orientation Blackout date ID.',
+      ),
+      'blackout_date' => array(
+        'type' => 'datetime',
+        'not null' => TRUE,
+        'description' => 'An orientation blackout date.',
+      ),
+    ),
+    'primary key' => array('obid'),
+  );
+
   return $schema;
 }

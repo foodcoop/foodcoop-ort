@@ -10,6 +10,10 @@ function psfc_orientation_admin_page() {
     '#type' => 'markup',
     '#value' => $existing_orientations,
   );
+  $form['blackouts'] = array(
+    '#type' => 'markup',
+    '#value' => psfc_orientation_display_blackouts(),
+  );
   $form['psfc_orientation_default_description'] = array(
     '#type' => 'textarea',
     '#title' => t('Default Orientation Description'),
@@ -154,7 +158,97 @@ function psfc_orientation_display_orientation_rules() {
 }
 
 /**
- * Delete an orientation rule
+ *  Helper function to return a themed list of orientation blackout days
+ *
+ * @return Returns a themed table of orientation blackout days
+ */
+function psfc_orientation_display_blackouts() {
+  $query = db_query("SELECT * FROM {psfc_orientation_blackout_days}");
+  $rows = array();
+  while ($result = db_fetch_array($query)) {
+    $date = str_replace('00:00:00', '', $result['blackout_date']);
+    $rows[] = array($date, l('delete', 'admin/psfc/orientation/delete-blackout/'. $result['obid']));
+  }
+  $output = theme('table', array(t('Upcoming Blackout Dates')), $rows);
+
+  return $output;
+
+}
+
+/**
+ * Form for adding and orientation blackout date.
+ */
+function psfc_orientation_add_blackout($form_state) {
+  $form = array();
+
+  $form['obid'] = array(
+    '#type' => 'value',
+    '#value' => (!$values) ? NULL : $values['obid'],
+  );
+
+  $format = 'Y-m-d';
+
+  $date = date('Y-m-d') .' 00:00:00';
+
+  $form['date'] = array(
+    '#type' => 'date_select',
+    '#title' => 'select a date',
+   '#default_value' => (!$values) ? $date : $values['date'],
+   '#date_format' => $format,
+    '#date_label_position' => 'within',
+    '#date_year_range' => '-0:+3',
+  );
+
+  $form['submit'] = array('#type' => 'submit', '#value' => t('Add'));
+  return $form;
+}
+
+/**
+ * Process blackout date submission.
+ */
+function psfc_orientation_add_blackout_submit($form, &$form_state) {
+  $values = $form_state['values'];
+
+  if ($values['submit'] == 'Add') {
+    db_query('INSERT INTO {psfc_orientation_blackout_days} (blackout_date) VALUES ("%s")', $values['date']);
+    $form_state['values']['orid'] = db_last_insert_id('psfc_orientation_repeat_rules', 'orid');
+    drupal_set_message(t('A new orientation blackout time has been created for %day', array('%day' => $values['date'])));
+  }
+  drupal_goto( 'admin/psfc/orientation');
+}
+
+/**
+ * Form to delete orientation blackout dates
+ */
+function psfc_orientation_delete_blackout($form_state, $obid = NULL) {
+  $info = db_fetch_array(db_query('SELECT * FROM {psfc_orientation_blackout_days} WHERE obid = %d', $obid));
+  $form['obid'] = array(
+      '#type' => 'value',
+      '#value' => $info['obid'],
+    );
+  if ($info['obid']) {
+    return confirm_form($form, t('Are you sure you want to delete the blackout date set for %day?', array('%day' => $info['blackout_date'])), 'admin/psfc/orientation', t('Orientations will once again be automatically scheduled at this time.'), t('Delete'), t('Cancel'));
+  }
+  else {
+    drupal_set_message(t('Orientation blackout date not found.'), 'error');
+    drupal_goto('admin/psfc/orientation');
+  }
+}
+
+/**
+ * Process orientation blackout form submission.
+ */
+function psfc_orientation_delete_blackout_submit($form, &$form_state) {
+  $info = db_fetch_array(db_query('SELECT * FROM {psfc_orientation_blackout_days} WHERE obid = %d', $form_state['values']['obid']));
+  db_query("DELETE FROM {psfc_orientation_blackout_days} WHERE obid = %d", $info['obid']);
+  drupal_set_message(t('The blackout date for  %day has been deleted.', array('%day' => $info['blackout_date'])));
+  watchdog('psfc', 'Orientation blackout date for  %day was deleted.', array('%day' => $info['blackout_date']), WATCHDOG_NOTICE);
+
+  $form_state['redirect'] = 'admin/psfc/orientation';
+}
+
+/**
+ * Form to delete an orientation rule
  */
 function psfc_orientation_admin_delete_rule($form_state, $orid = NULL) {
   if ($info = psfc_orientation_get_repeat_rule_info($orid)) {
@@ -182,16 +276,18 @@ function psfc_orientation_admin_delete_rule_submit($form, &$form_state) {
   $form_state['redirect'] = 'admin/psfc/orientation';
 }
 
+/**
+ *  Form function to edit an orientation rule.
+ */
 function psfc_orientation_admin_edit_rule($form, $orid) {
   $form = psfc_orientation_admin_rule_form_skel('edit', $orid);
   $form['submit'] = array('#type' => 'submit', '#value' => t('Update'));
   return $form;
 }
 
-// function psfc_orientation_admin_edit_rule_validate($form, &$form_state) {
-//   dsm($form_state);
-// }
-
+/**
+ * Process orientation rule edit submission.
+ */
 function psfc_orientation_admin_edit_rule_submit($form, &$form_state) {
   $values = $form_state['values'];
   $time = $values['hour'] .':'. $values['min'] .' '. $values['ampm'];

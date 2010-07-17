@@ -5,3 +5,4 @@ description = Handles the Orientation scheduling for the coop site
 package = PSFC
 core = 6.x
 
+dependencies[] = date_api
