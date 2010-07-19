@@ -109,7 +109,7 @@ function psfc_orientation_cron() {
       $hour = date('H', $next) + 4;
       $time = date(':i:s', $next);
       $time_value = $date .'T'. $hour . $time;
-      if (!psfc_orientation_orientation_exists($time_value)) {
+      if (!psfc_orientation_orientation_exists($time_value) && !psfc_orientation_orientation_blacked_out($date)) {
         $node = psfc_orientation_node_build($result, $time_value);
         if ($node->nid) {
           watchdog('psfc_orientation', 'Added an orientation for: '. $next, WATCHDOG_NOTICE);
@@ -203,16 +203,33 @@ function psfc_orienation_split_time_of_day($orid) {
  *
  * @param $time
  *
- * @return returns TRUE if there there is an already scheduled orientation
+ * @return blooean TRUE if there there is an already scheduled orientation
  */
 function psfc_orientation_orientation_exists($time) {
   $query = db_query('SELECT cto.field_date_value FROM {content_type_orientation} cto INNER JOIN {node} n ON cto.nid = n.nid AND cto.vid = n.vid WHERE n.status = %d AND cto.field_date_value = "%s"', 1, $time);
   if (db_result($query) == $time) {
     return TRUE;
   }
-  else {
-    return FALSE;
+  return FALSE;
+}
+
+/**
+ * Helper function to determine if a date is blacked out
+ *
+ * @param $date a datestring formatted as YYY-MM-DD
+ *
+ *
+ * @return boolean TRUE if $date is blacked out
+ */
+function psfc_orientation_orientation_blacked_out($date) {
+  $date = $date .' 00:00:00';
+  $query = db_query('SELECT blackout_date FROM {psfc_orientation_blackout_days} WHERE blackout_date = "%s"', $date);
+  while ($result = db_fetch_array($query)) {
+    if ($result['blackout_date'] == $date) {
+      return TRUE;
+    }
   }
+  return FALSE;
 }
 
 /**
