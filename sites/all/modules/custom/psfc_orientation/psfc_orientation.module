@@ -120,6 +120,17 @@ function psfc_orientation_cron() {
 }
 
 /**
+ * Implementation of hook_views_api().
+ */
+function psfc_orientation_views_api() {
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', 'psfc_orientation'),
+    //'path' => drupal_get_path('module', 'psfc_orientation') . '/includes',
+  );
+}
+
+/**
  *  Wildcard loader function for hook_menu orientation id
  */
 function psfc_orientation_orid_load($orid) {

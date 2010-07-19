@@ -4,8 +4,19 @@
  * Default Administration page
  */
 function psfc_orientation_admin_page() {
+
+  $view_name = 'orientation_admin';
+  $display_id = 'default';
+  $upcoming_orientations = views_embed_view($view_name, $display_id);
+
   $existing_orientations = psfc_orientation_display_orientation_rules();
   $form = array();
+  $form['upcoming_orientations'] = array(
+    '#type' => 'markup',
+    '#value' => $upcoming_orientations,
+  );
+
+
   $form['existing_orientations'] = array(
     '#type' => 'markup',
     '#value' => $existing_orientations,

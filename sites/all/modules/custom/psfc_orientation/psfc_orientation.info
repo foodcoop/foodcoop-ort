@@ -6,3 +6,4 @@ package = PSFC
 core = 6.x
 
 dependencies[] = date_api
+dependencies[] = views
