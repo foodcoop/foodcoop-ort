@@ -1,7 +1,9 @@
 <?php
 /**
  * @file PSFC Orientation module
- *./
+ */
+
+module_load_include('inc', 'psfc_orientation', 'psfc_orientation.email');
 
 /**
  * Implementation of hook_perm().
@@ -92,6 +94,15 @@ function psfc_orientation_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'psfc_orientation.admin.inc',
   );
+  $items['admin/psfc/orientation/mail'] = array(
+    'title' => 'Edit orientation emails',
+    'description' => 'Configure default e-mail text for orientation messages.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('psfc_orientation_mail_settings'),
+    'access arguments' => array('administer users'),
+    'file' => 'psfc_orientation.email.inc',
+  );
+
   return $items;
 }
 
@@ -156,6 +167,31 @@ function psfc_orientation_obid_load($obid) {
     return $obid;
   }
   return FALSE;
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  if ($node->type == 'orientation_attendee') {
+    $recipient = $node->field_email[0]['email'];
+    // This is the attendee node.
+    $params['node'] = $node;    
+    switch ($op) {
+      case 'insert' :
+        // A new attendee as been created for an orientation.
+        // Attendee signed self up and is confirmed.
+        if ($node->field_attendee_confirmed[0]['value'] == TRUE) {
+          drupal_mail('psfc_orientation', 'registration_confirmed', $recipient, language_default(), $params);
+        }
+        // Attendee was signed up by someone else, must confirm.
+        // @TODO make sure we don't email an admin who created the attendee.
+        else {
+          drupal_mail('psfc_orientation', 'registration_not_confirmed', $recipient, language_default(), $params);
+        }
+        break;
+    }
+  }
 }
 
 /**
