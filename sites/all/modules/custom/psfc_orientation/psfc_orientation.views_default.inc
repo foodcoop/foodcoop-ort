@@ -40,7 +40,7 @@ function psfc_orientation_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
-      'link_to_node' => 0,
+      'link_to_node' => 1,
       'exclude' => 0,
       'id' => 'title',
       'table' => 'node',
@@ -121,6 +121,24 @@ function psfc_orientation_views_default_views() {
       'id' => 'field_open_value',
       'table' => 'node_data_field_open',
       'field' => 'field_open_value',
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('sorts', array(
+    'field_date_value' => array(
+      'order' => 'ASC',
+      'delta' => -1,
+      'id' => 'field_date_value',
+      'table' => 'node_data_field_date',
+      'field' => 'field_date_value',
+      'relationship' => 'none',
+    ),
+    'field_date_value_1' => array(
+      'order' => 'ASC',
+      'delta' => -1,
+      'id' => 'field_date_value_1',
+      'table' => 'node_data_field_date',
+      'field' => 'field_date_value',
       'relationship' => 'none',
     ),
   ));
@@ -221,7 +239,7 @@ function psfc_orientation_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
-      'link_to_node' => 0,
+      'link_to_node' => 1,
       'exclude' => 0,
       'id' => 'title',
       'table' => 'node',
@@ -320,3 +338,5 @@ function psfc_orientation_views_default_views() {
 
   return $views;
 }
+
+
