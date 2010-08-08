@@ -339,3 +339,20 @@ function psfc_orientation_node_build($orientation_rule, $time_value) {
   node_save($node);
   return $node;
 }
+
+/**
+ * Helper function to count open slots in an orientation.
+ *
+ * @param $node
+ *   Either an orientation node object or node ID.
+ *
+ * @return The number of open spaces remaining for the orientation.
+ */
+
+function psfc_orientation_attendees($node) {
+  if(!is_object($node)){
+    $node = node_load($node);
+  }
+  $count = db_result(db_query("SELECT COUNT(*) nid FROM {content_type_orientation_attendee} WHERE field_orientation_nid_nid = %d", $node->nid));
+  return $node->field_capacity[0]['value'] - $count;
+}
