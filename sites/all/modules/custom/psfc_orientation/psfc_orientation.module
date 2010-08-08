@@ -354,6 +354,6 @@ function psfc_orientation_attendees($node) {
     $node = node_load($node);
   }
 //   $count = db_result(db_query("SELECT COUNT(*) nid FROM {content_type_orientation_attendee} WHERE field_orientation_nid_nid = %d", $node->nid));
-  $count = count($node->field_orienttion_attendees[0]['items']);
+  $count = count($node->field_orientation_attendees[0]['items']);
   return $node->field_capacity[0]['value'] - $count;
 }
