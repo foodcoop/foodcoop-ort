@@ -755,6 +755,7 @@ function psfc_orientation_views_default_views() {
   ));
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
+  $views[$view->name] = $view;
 
   return $views;
 }
