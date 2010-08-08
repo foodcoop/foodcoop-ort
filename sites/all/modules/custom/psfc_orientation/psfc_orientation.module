@@ -176,7 +176,7 @@ function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   if ($node->type == 'orientation_attendee') {
     $recipient = $node->field_email[0]['email'];
     // This is the attendee node.
-    $params['node'] = $node;    
+    $params['node'] = $node;
     switch ($op) {
       case 'insert' :
         // A new attendee as been created for an orientation.
@@ -353,6 +353,7 @@ function psfc_orientation_attendees($node) {
   if(!is_object($node)){
     $node = node_load($node);
   }
-  $count = db_result(db_query("SELECT COUNT(*) nid FROM {content_type_orientation_attendee} WHERE field_orientation_nid_nid = %d", $node->nid));
+//   $count = db_result(db_query("SELECT COUNT(*) nid FROM {content_type_orientation_attendee} WHERE field_orientation_nid_nid = %d", $node->nid));
+  $count = count($node->field_orientation_attendees[0]['items'];
   return $node->field_capacity[0]['value'] - $count;
 }
