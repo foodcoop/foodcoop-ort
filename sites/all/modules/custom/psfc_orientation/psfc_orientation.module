@@ -102,9 +102,27 @@ function psfc_orientation_menu() {
     'access arguments' => array('administer users'),
     'file' => 'psfc_orientation.email.inc',
   );
-
+  $items['orientation/login'] = array(
+    'title' => 'Sign in',
+    'description' => 'Log in or create an account.',
+    'page callback' => 'psfc_orientation_login',
+    'access arguments' => array('access content'),
+    'file' => 'psfc_orientation.admin.inc',
+  );
   return $items;
 }
+
+/**
+ * Implementation of hook_theme().
+ */
+function psfc_orientation_theme() {
+  return array(
+    'psfc_orientation_login' => array(
+      'arguments' => array(),
+    ),
+  );
+}
+
 
 /**
  * Implemetation of hook_cron().
@@ -129,6 +147,39 @@ function psfc_orientation_cron() {
     }
   }
 }
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    case 'user_login':
+      $form['submit']['#value'] = 'Sign In'; // Change button value.
+    break;
+    case 'user_register':
+      $form['submit']['#value'] = t('Sign Up');  // Change button value.
+
+      // Move name category to account.
+      $form['account']['profile_first_name'] = $form['Name']['profile_first_name'];
+      $form['account']['profile_last_name'] = $form['Name']['profile_last_name'];
+      // Unset description and move all to $form.
+      foreach(element_children($form['account'])as $field) {
+        unset($form['account'][$field]['#description']);
+        $form[$field] = $form['account'][$field];
+      }
+      // Lose the fieldsets.
+      unset($form['Name']);
+      unset($form['account']);
+      //Put fields in order.
+      $form['profile_first_name']['#weight'] = 1;
+      $form['profile_last_name']['#weight'] = 2;
+      $form['mail']['#weight'] = 3;
+      $form['name']['#weight'] = 4;
+      $form['pass']['#weight'] = 5;
+    break;
+  }
+}
+
 
 /**
  * Implementation of hook_views_api().
