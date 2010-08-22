@@ -154,7 +154,11 @@ function psfc_orientation_cron() {
 function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'user_login':
+      dsm($form);
       $form['submit']['#value'] = 'Sign In'; // Change button value.
+      foreach(element_children($form)as $field) {
+        unset($form[$field]['#description']);
+      }
     break;
     case 'user_register':
       $form['submit']['#value'] = t('Sign Up');  // Change button value.
