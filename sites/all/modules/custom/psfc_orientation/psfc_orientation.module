@@ -99,8 +99,18 @@ function psfc_orientation_menu() {
     'description' => 'Configure default e-mail text for orientation messages.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('psfc_orientation_mail_settings'),
-    'access arguments' => array('administer users'),
+    'access arguments' => array('administer psfc orientation'),
     'file' => 'psfc_orientation.email.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 12,
+  );
+  $items['orientation/signup/add-additional'] = array(
+    'title' => 'Add Additional Attendees',
+    'description' => 'A temporary place holder',
+    'access arguments' => array( 'access content'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('psfc_orientation_additional_attendees_form'),
+    'file' => 'psfc_orientation.pages.inc',
   );
   $items['orientation/login'] = array(
     'title' => 'Sign in',
