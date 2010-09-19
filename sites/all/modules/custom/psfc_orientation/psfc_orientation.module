@@ -518,15 +518,20 @@ function psfc_orientation_node_build_attendee($account, $onid, $confirmed = 0) {
  * @return The number of open spaces remaining for the orientation.
  */
 
-function psfc_orientation_attendees($node, $close = FALSE) {
+function psfc_orientation_attendees($node, $status = FALSE) {
   if(!is_object($node)){
     // We have to reset the node cache to get the latest count.
     $node = node_load($node, NULL, TRUE);
   }
   $count = $node->field_capacity[0]['value'] - count($node->field_orientation_attendees[0]['items']);
 
-  if ($close && $count <= 0) {
+  if ($status && $count <= 0 && $node->field_open[0]['value'] == 0) {
     $node->field_open[0]['value'] = 1; // 0 is open, 1 is closed.
+    node_save($node);
+  }
+
+  if ($status && $count > 0 && $node->field_open[0]['value'] == 1) {
+    $node->field_open[0]['value'] = 0; // 0 is open, 1 is closed.
     node_save($node);
   }
 
@@ -543,7 +548,7 @@ function psfc_orientation_attendees($node, $close = FALSE) {
  */
 
 function psfc_orientation_registered($uid) {
-  if (db_result(db_query("SELECT COUNT(*) FROM {content_type_orientation_attendee} a LEFT JOIN {content_type_orientation} o ON a.nid = o.nid WHERE o.field_open_value = 1 AND a.field_userid_uid = %d", $uid))) {
+  if (db_result(db_query("SELECT COUNT(*) FROM {content_type_orientation_attendee} a LEFT JOIN {content_type_orientation} o ON a.field_orientation_nid_nid = o.nid WHERE o.field_open_value = 0 AND a.field_userid_uid = %d", $uid))) {
     return TRUE;
   }
   return FALSE;

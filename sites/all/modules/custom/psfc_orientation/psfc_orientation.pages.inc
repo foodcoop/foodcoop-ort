@@ -125,7 +125,7 @@ function psfc_orientation_additional_attendees_form(&$form_state) {
 function psfc_orientation_additional_attendees_form_validate($form, &$form_state) {
   // We only need extra validation if we're on step 1 and if user clicked to
   // add additional attendees.
-  if ($form_state['storage']['step'] == 1 && $form_state['clicked_button']['#id'] == 'edit-proceed_add') {
+  if ($form_state['storage']['step'] == 1 && $form_state['clicked_button']['#id'] == 'edit-proceed-add') {
     $values = $form_state['values'];
     if ($values['first_name_1'] != '') {
       if (!drupal_validate_utf8($values['first_name_1'])) {
@@ -212,7 +212,7 @@ function psfc_orientation_additional_attendees_form_submit($form, &$form_state) 
   if (!$form_state['storage']['values']) {
     $form_state['storage']['values'] = array();
   }
-  if ($form_state['clicked_button']['#id'] == 'edit-proceed') {
+  if ($form_state['clicked_button']['#id'] == 'edit-proceed' || $form_state['clicked_button']['#id'] == 'edit-proceed-add') {
     $form_state['storage']['step'] = 2;
     $form_state['storage']['values'] = $form_state['values'] + $form_state['storage']['values'];
     return;
@@ -226,7 +226,7 @@ function psfc_orientation_additional_attendees_form_submit($form, &$form_state) 
     // Create the attendee node for the logged in user, if not already registered
     // and there is space.
     global $user;
-    if (psfc_orientation_registered($user->uid) ) {
+    if (!psfc_orientation_registered($user->uid) ) {
       if (psfc_orientation_attendees($onid, TRUE) >= 1) {
         profile_load_profile($user);
         psfc_orientation_node_build_attendee($user, $onid, 1);
