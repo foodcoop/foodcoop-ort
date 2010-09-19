@@ -223,32 +223,56 @@ function psfc_orientation_additional_attendees_form_submit($form, &$form_state) 
     $from = variable_get('site_mail', ini_get('sendmail_from'));
     $onid = $_SESSION['psfc_orientation']['onid'];
 
+
+    // Build an array of addl users and filter in case only 2nd user fields are
+    // complete.
+
+    if ($form_state['values']['first_name_1'] != '') {
+      $users_array[1]['first_name'] = $form_state['values']['first_name_1'];
+      $users_array[1]['last_name'] = $form_state['values']['last_name_1'];
+      $users_array[1]['email'] = $form_state['values']['email_1'];
+    }
+    else {
+      $users_array[1] = NULL;
+    }
+    if ($form_state['values']['first_name_2'] != '') {
+      $users_array[2]['first_name'] = $form_state['values']['first_name_2'];
+      $users_array[2]['last_name'] = $form_state['values']['last_name_2'];
+      $users_array[2]['email'] = $form_state['values']['email_2'];
+    }
+    else {
+      $users_array[2] = NULL;
+    }
+
+    $users_array = array_filter($users_array);
+    $users_count = count($users_array);
+
     // Create the attendee node for the logged in user, if not already registered
     // and there is space.
     global $user;
     if (!psfc_orientation_registered($user->uid) ) {
       if (psfc_orientation_attendees($onid, TRUE) >= 1) {
         profile_load_profile($user);
-        psfc_orientation_node_build_attendee($user, $onid, 1);
+        psfc_orientation_node_build_attendee($user, $onid);
 
-        // Create the attendee nodes for any additiona users.
+        // Create the attendee nodes for any additional users.
         // Let's do this as a while loop so we can easily expand the number of addl
         // attendees if we need to.
-        $i = 1;
-        // Is there still a spot open?
-        while ($form_state['values']['first_name_'. $i] != '') {
-          if (psfc_orientation_attendees($onid, TRUE) >= 1 ) {
-            $username = $form_state['values']['first_name_'. $i] .'.'. $form_state['values']['last_name_'. $i];
+        // Are enough spots available?
+
+        if (psfc_orientation_attendees($onid, TRUE) >= $users_count) {
+          foreach ($users_array as $addl_user) {
+            $username = $addl_user['first_name'] .'.'. $addl_user['last_name'];
             $username = pfsc_orientation_check_username($username);
 
             $user_data = array(
-              'mail' => $form_state['values']['email_'. $i],
+              'mail' => $addl_user['email'],
               'name' => $username,
               'pass' => user_password(),
               'roles' => array(),
               'status' => 1,
-              'profile_firstname' => $form_state['values']['first_name_'. $i],
-              'profile_lastname' => $form_state['values']['last_name_'. $i],
+              'profile_firstname' => $addl_user['first_name'],
+              'profile_lastname' => $addl_user['last_name'],
             );
 
             // We need to set the categor to 'name so our name fields get saved.
@@ -268,14 +292,13 @@ function psfc_orientation_additional_attendees_form_submit($form, &$form_state) 
           // Create the attendee node for the additional attendee.
           psfc_orientation_node_build_attendee($account, $onid);
         }
-        // No more spots open for at least one attendee.
-        else {
-          drupal_set_message(t('Oops! We just ran out of spots and were not able to register @name for this orientation.', array('@name' => $form_state['values']['first_name_'. $i] .' '. $form_state['values']['last_name_'. $i] )));
-        }
-        $i++;
-        }
       }
-      // No more spots open!
+      // No more spots open for at least one attendee.
+      else {
+        drupal_set_message(t('Oops! We just ran out of spots and were not able to register @name for this orientation.', array('@name' => $form_state['values']['first_name_'. $i] .' '. $form_state['values']['last_name_'. $i] )));
+      }
+      }
+      // No more spots open for logged in user!
       else {
         drupal_set_message(t('Oops! We just ran out of spots and were not able to register you for this orientation. Please try again.'));
       }
@@ -316,5 +339,8 @@ function pfsc_orientation_check_username($name) {
  */
 
 function pfsc_orientation_check_email($email) {
+  if ($email == '') {
+    return FALSE;
+  }
   return db_result(db_query("SELECT COUNT(*) FROM {users} WHERE LOWER(mail) = LOWER('%s') AND uid <> 0", $email));
 }

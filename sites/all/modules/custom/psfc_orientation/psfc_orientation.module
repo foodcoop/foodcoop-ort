@@ -443,7 +443,7 @@ function psfc_orientation_node_build($orientation_rule, $time_value) {
  *
  * @return the node object of the new attendee.
  */
-function psfc_orientation_node_build_attendee($account, $onid, $confirmed = 0) {
+function psfc_orientation_node_build_attendee($account, $onid) {
   // declare a new node object
   $node = new stdClass();
 
@@ -497,7 +497,7 @@ function psfc_orientation_node_build_attendee($account, $onid, $confirmed = 0) {
 
   $node->field_attendee_confirmed = array(
     0 => array(
-      'value' => $confirmed,
+      'value' => 0,
     ),
   );
 
