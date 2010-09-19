@@ -104,6 +104,13 @@ function psfc_orientation_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 12,
   );
+  $items['orientation/signup/session/%'] = array(
+    'title' => 'Choose orientation',
+    'description' => 'Save orientation nid to session',
+    'access arguments' => array( 'access content'),
+    'page callback' => 'psfc_orientation_signup_session',
+    'page arguments' => array(3),
+  );
   $items['orientation/signup/add-additional'] = array(
     'title' => 'Add Additional Attendees',
     'description' => 'A temporary place holder',
@@ -133,7 +140,6 @@ function psfc_orientation_theme() {
   );
 }
 
-
 /**
  * Implemetation of hook_cron().
  */
@@ -154,6 +160,19 @@ function psfc_orientation_cron() {
           watchdog('psfc_orientation', 'Added an orientation for: '. $next, WATCHDOG_NOTICE);
         }
       }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_user().
+ */
+function psfc_orientation_user($op, &$edit, &$user) {
+  // When users are deleted, we delete their attendee nodes.
+  if ($op == 'delete') {
+    $nids = db_fetch_array(db_query("SELECT nid from {content_type_orientation_attendee} WHERE field_userid_uid = %d", $user->uid));
+    foreach ($nids as $nid) {
+      node_delete($nid);
     }
   }
 }
@@ -221,6 +240,11 @@ function psfc_orientation_orid_load($orid) {
 
 /**
  *  Wildcard loader function for hook_menu orientation blackout id
+ *
+ * @param $obid
+ *   A black out date
+ *
+ * @return The blacked out data or FALSE
  */
 function psfc_orientation_obid_load($obid) {
   if (!is_numeric($obid)) {
@@ -247,12 +271,13 @@ function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         // Attendee signed self up and is confirmed.
         if ($node->field_attendee_confirmed[0]['value'] == TRUE) {
           drupal_mail('psfc_orientation', 'registration_confirmed', $recipient, language_default(), $params);
+          drupal_set_message(t('@name, you are confirmed for orientation. A reminder has been sent to your email address.', array('@name' => $node->field_firstname[0]['value'] .' '. $node->field_lastname[0]['value'])));
         }
         // Attendee was signed up by someone else, must confirm.
         // @TODO make sure we don't email an admin who created the attendee.
         else {
           drupal_mail('psfc_orientation', 'registration_not_confirmed', $recipient, language_default(), $params);
-        }
+          drupal_set_message(t('An orientation spot is reserved for @name. Confirmation instructions have been sent by email. Confirmation is required within 48 hours or the spot will be released.', array('@name' => $node->field_firstname[0]['value'] .' '. $node->field_lastname[0]['value'])));        }
         break;
     }
   }
@@ -283,6 +308,7 @@ function psfc_orientation_get_repeat_rule_info($orid) {
 
 /**
  *  Helper function to determine next repeated orienation
+ *
  */
 function psfc_orientation_determine_next_repeat($time) {
     $two_weeks = time() + ( 60 * 60 * 24 *14);
@@ -404,20 +430,155 @@ function psfc_orientation_node_build($orientation_rule, $time_value) {
   return $node;
 }
 
+
+/**
+ * Build an attendee node
+ *
+ * @param $account the attendee user account
+ *
+ * @param $onid the node id for the orientation the attended will attend.
+ *
+ * @param $confirmed
+ *   The confirmed status for the attendee.
+ *
+ * @return the node object of the new attendee.
+ */
+function psfc_orientation_node_build_attendee($account, $onid, $confirmed = 0) {
+  // declare a new node object
+  $node = new stdClass();
+
+  // set some values that will not change.
+  $node->type = 'orientation_attendee';
+  $node->uid = 1;
+  $node->name = 'Admin User';
+  $node->status = 1;
+  $node->created = time();
+  $node->changed = time();
+  $node->comment = 0;
+  $node->promote = 0;
+  $node->moderate = 0;
+  $node->sticky = 0;
+  $node->tnid = 0;
+  $node->translate = 0;
+  $node->revision_uid = 1;
+  $node->revision_timestamp = time();
+  $node->format = 1;
+
+  // Fill in the values from the account
+  $node->field_firstname = array(
+    0 => array(
+      'value' => $account->profile_firstname,
+    ),
+  );
+
+  $node->field_lastname = array(
+    0 => array(
+      'value' => $account->profile_lastname,
+    ),
+  );
+
+  $node->field_email = array(
+    0 => array(
+      'value' => $account->mail,
+    ),
+  );
+
+  $node->field_orientation_nid = array(
+    0 => array(
+      'nid' => $onid,
+    ),
+  );
+
+  $node->field_userid = array(
+    0 => array(
+      'uid' => $account->uid,
+    ),
+  );
+
+  $node->field_attendee_confirmed = array(
+    0 => array(
+      'value' => $confirmed,
+    ),
+  );
+
+  // validate and save the node
+  node_validate($node);
+  node_submit($node);
+  node_save($node);
+  return $node;
+}
+
 /**
  * Helper function to count open slots in an orientation.
  *
  * @param $node
  *   Either an orientation node object or node ID.
- *
+ * @param $close
+ *   If TRUE the orientation node should be closed.
  * @return The number of open spaces remaining for the orientation.
  */
 
-function psfc_orientation_attendees($node) {
+function psfc_orientation_attendees($node, $close = FALSE) {
   if(!is_object($node)){
-    $node = node_load($node);
+    // We have to reset the node cache to get the latest count.
+    $node = node_load($node, NULL, TRUE);
   }
-//   $count = db_result(db_query("SELECT COUNT(*) nid FROM {content_type_orientation_attendee} WHERE field_orientation_nid_nid = %d", $node->nid));
-  $count = count($node->field_orientation_attendees[0]['items']);
-  return $node->field_capacity[0]['value'] - $count;
+  $count = $node->field_capacity[0]['value'] - count($node->field_orientation_attendees[0]['items']);
+
+  if ($close && $count <= 0) {
+    $node->field_open[0]['value'] = 1; // 0 is open, 1 is closed.
+    node_save($node);
+  }
+
+  return $count;
 }
+
+/**
+ * Helper function to check if user is already signed up for an open orientation.
+ *
+ * @param $uid
+ *   User's uid to check.
+ *
+ * @return Boolean.
+ */
+
+function psfc_orientation_registered($uid) {
+  if (db_result(db_query("SELECT COUNT(*) FROM {content_type_orientation_attendee} a LEFT JOIN {content_type_orientation} o ON a.nid = o.nid WHERE o.field_open_value = 1 AND a.field_userid_uid = %d", $uid))) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
+ * Helper function to create a signup link for an orientation.
+ *
+ * @param $nid
+ *   The nid of the orientation node.
+ *
+ * @return A link starting the signup process or a link to the login/register page.
+ */
+function psfc_orientation_signup_link($nid) {
+  global $user;
+  // Return link to the orientation.
+  if ($user->uid) {
+    return l(t('Sign Up for Orientation'), 'orientation/signup/session/'. $nid);
+  }
+  // @todo Do we need a destination here?
+  return l(t('Sign Up for Orientation'), 'orientation/login');
+}
+
+/**
+ * Callback function for the signup link.
+ *
+ * Save the orientation nid to $_SESSION and redirect to the add attendees form.
+ *
+ * @param $nid
+ *   The nid of the orientation node.
+ *
+ */
+
+function psfc_orientation_signup_session($nid) {
+  $_SESSION['psfc_orientation']['onid'] = $nid;
+  drupal_goto('orientation/signup/add-additional');
+}
+
