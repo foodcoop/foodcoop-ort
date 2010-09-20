@@ -101,12 +101,31 @@ function psfc_orientation_additional_attendees_form(&$form_state) {
    $form['proceed_add'] = array('#type' => 'submit', '#value' => t('Add Attendees'));
   }
   if ($form_state['storage']['step'] == 2) {
-    $form['confirm_info'] = array(
-       '#value' => 'We will display orientation time and any addl attendees here',
-       '#prefix' => '<div>',
+    drupal_set_title(t('Review the Details of Your Orientation Session'));
+    global $user;
+    $orientation = node_load($_SESSION['psfc_orientation']['onid']);    
+
+    $form['confirm_info_text'] = array(
+       '#value' => t('You have signed up for the following Orientation Session:'),
+       '#prefix' => '<div class="confirm-info-text">',
        '#suffix' => '</div>',
     );
-    drupal_set_title(t('Review the Details of Your Orientation Session'));
+    $form['confirm_info_date'] = array(
+       '#value' => theme(psfc_orientation_date_table, $orientation->field_date[0]['value']),
+       '#prefix' => '<div class="confirm-info-date">',
+       '#suffix' => '</div>',
+    );
+    $form['confirm_info_addl_text'] = array(
+       '#value' => t('You have included the following additional attendees:'),
+       '#prefix' => '<div class="confirm-info-addl-text">',
+       '#suffix' => '</div>',
+    );
+    $form['confirm_info_addl_attendees'] = array(
+       '#value' => theme('psfc_orientation_additional_attendees', psfc_orientation_parse_additional($form_state)),
+       '#prefix' => '<div class="confirm-info-addl-text">',
+       '#suffix' => '</div>',
+    );
+
     $form['submit'] = array('#type' => 'submit', '#value' => t('Register for this Orientation'));
     $form['#redirect'] = 'orientations';
 
@@ -188,10 +207,10 @@ function psfc_orientation_additional_attendees_form_validate($form, &$form_state
     }
     
     // @todo What do we want to do if the account already exists?
-    if (pfsc_orientation_check_email($values['email_1'])) {
+    if (psfc_orientation_check_email($values['email_1'])) {
       form_set_error('email_1', t('The email address for attendee 1 has an account already.'));
     }
-    if (pfsc_orientation_check_email($values['email_2'])) {
+    if (psfc_orientation_check_email($values['email_2'])) {
       form_set_error('email_2', t('The email address for attendee 2 has an account already.'));
     }
     if ($values['email_2'] == $values['email_1'] && $values['email_1'] != '') {
@@ -223,47 +242,27 @@ function psfc_orientation_additional_attendees_form_submit($form, &$form_state) 
     $from = variable_get('site_mail', ini_get('sendmail_from'));
     $onid = $_SESSION['psfc_orientation']['onid'];
 
-
-    // Build an array of addl users and filter in case only 2nd user fields are
-    // complete.
-
-    if ($form_state['values']['first_name_1'] != '') {
-      $users_array[1]['first_name'] = $form_state['values']['first_name_1'];
-      $users_array[1]['last_name'] = $form_state['values']['last_name_1'];
-      $users_array[1]['email'] = $form_state['values']['email_1'];
-    }
-    else {
-      $users_array[1] = NULL;
-    }
-    if ($form_state['values']['first_name_2'] != '') {
-      $users_array[2]['first_name'] = $form_state['values']['first_name_2'];
-      $users_array[2]['last_name'] = $form_state['values']['last_name_2'];
-      $users_array[2]['email'] = $form_state['values']['email_2'];
-    }
-    else {
-      $users_array[2] = NULL;
-    }
-
-    $users_array = array_filter($users_array);
+    $users_array = psfc_orientation_parse_additional($form_state);
     $users_count = count($users_array);
 
     // Create the attendee node for the logged in user, if not already registered
-    // and there is space.
+    // and there is space. We already check if user is registered, but let's do
+    // it again just in case they open 2 browsers or something.
     global $user;
     if (!psfc_orientation_registered($user->uid) ) {
-      if (psfc_orientation_attendees($onid, TRUE) >= 1) {
+      if (psfc_orientation_capacity($onid, TRUE) >= 1) {
         profile_load_profile($user);
-        psfc_orientation_node_build_attendee($user, $onid);
+        $registerer = psfc_orientation_node_build_attendee($user, $onid);
 
         // Create the attendee nodes for any additional users.
         // Let's do this as a while loop so we can easily expand the number of addl
         // attendees if we need to.
         // Are enough spots available?
 
-        if (psfc_orientation_attendees($onid, TRUE) >= $users_count) {
+        if (psfc_orientation_capacity($onid, TRUE) >= $users_count) {
           foreach ($users_array as $addl_user) {
             $username = $addl_user['first_name'] .'.'. $addl_user['last_name'];
-            $username = pfsc_orientation_check_username($username);
+            $username = psfc_orientation_check_username($username);
 
             $user_data = array(
               'mail' => $addl_user['email'],
@@ -291,6 +290,10 @@ function psfc_orientation_additional_attendees_form_submit($form, &$form_state) 
 
           // Create the attendee node for the additional attendee.
           psfc_orientation_node_build_attendee($account, $onid);
+
+          // Add a reference to the additional attendee on the resterer's attendee node.
+          $registerer->field_additional_attendees[]['uid'] = $account->uid;
+          node_save($registerer);
         }
       }
       // No more spots open for at least one attendee.
@@ -320,11 +323,11 @@ function psfc_orientation_additional_attendees_form_submit($form, &$form_state) 
  *
  * @return A unique user name.
  */
-function pfsc_orientation_check_username($name) {
+function psfc_orientation_check_username($name) {
   if (db_result(db_query("SELECT COUNT(*) FROM {users} WHERE LOWER(name) = LOWER('%s') AND uid <> 0", $name))) {
     // Username is unse. Try again with a random 2 digit number appended.
     $name .= rand(10, 99);
-    pfsc_orientation_check_username($name);
+    psfc_orientation_check_username($name);
   }
   return $name;
 }
@@ -338,9 +341,37 @@ function pfsc_orientation_check_username($name) {
  * @return The number of times the email address is in use. (Should be 1 or 0.)
  */
 
-function pfsc_orientation_check_email($email) {
+function psfc_orientation_check_email($email) {
   if ($email == '') {
     return FALSE;
   }
   return db_result(db_query("SELECT COUNT(*) FROM {users} WHERE LOWER(mail) = LOWER('%s') AND uid <> 0", $email));
+}
+
+/**
+ * Build an array of additional attendees.
+ *
+ * @param $form_state
+ *
+ * @return The array.
+ */
+function psfc_orientation_parse_additional($form_state) {
+  if ($form_state['values']['first_name_1'] != '') {
+    $users_array[1]['first_name'] = $form_state['values']['first_name_1'];
+    $users_array[1]['last_name'] = $form_state['values']['last_name_1'];
+    $users_array[1]['email'] = $form_state['values']['email_1'];
+  }
+  else {
+    $users_array[1] = NULL;
+  }
+  if ($form_state['values']['first_name_2'] != '') {
+    $users_array[2]['first_name'] = $form_state['values']['first_name_2'];
+    $users_array[2]['last_name'] = $form_state['values']['last_name_2'];
+    $users_array[2]['email'] = $form_state['values']['email_2'];
+  }
+  else {
+    $users_array[2] = NULL;
+  }
+
+  return array_filter($users_array);
 }

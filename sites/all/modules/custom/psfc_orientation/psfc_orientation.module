@@ -137,6 +137,12 @@ function psfc_orientation_theme() {
     'psfc_orientation_login' => array(
       'arguments' => array(),
     ),
+    'psfc_orientation_date_table' => array(
+      'arguments' => array('date' => NULL),
+    ),
+    'psfc_orientation_additional_attendees' => array(
+      'arguments' => array('attendees' => NULL),
+    ),
   );
 }
 
@@ -168,11 +174,13 @@ function psfc_orientation_cron() {
  * Implementation of hook_user().
  */
 function psfc_orientation_user($op, &$edit, &$user) {
-  // When users are deleted, we delete their attendee nodes.
+  // When users are deleted, we delete their attendee nodes if they have any.
   if ($op == 'delete') {
     $nids = db_fetch_array(db_query("SELECT nid from {content_type_orientation_attendee} WHERE field_userid_uid = %d", $user->uid));
-    foreach ($nids as $nid) {
-      node_delete($nid);
+    if (count($nids)) {
+      foreach ($nids as $nid) {
+        node_delete($nid);
+      }
     }
   }
 }
@@ -278,6 +286,11 @@ function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         else {
           drupal_mail('psfc_orientation', 'registration_not_confirmed', $recipient, language_default(), $params);
           drupal_set_message(t('An orientation spot is reserved for @name. Confirmation instructions have been sent by email. Confirmation is required within 48 hours or the spot will be released.', array('@name' => $node->field_firstname[0]['value'] .' '. $node->field_lastname[0]['value'])));        }
+        break;
+
+        case 'delete' :
+        // Update the orientation nodes open/closed status.
+        psfc_orientation_capacity($node->field_orientation_nid[0]['nid'], TRUE);
         break;
     }
   }
@@ -518,18 +531,20 @@ function psfc_orientation_node_build_attendee($account, $onid) {
  * @return The number of open spaces remaining for the orientation.
  */
 
-function psfc_orientation_attendees($node, $status = FALSE) {
+function psfc_orientation_capacity($node, $status = FALSE) {
   if(!is_object($node)){
     // We have to reset the node cache to get the latest count.
     $node = node_load($node, NULL, TRUE);
   }
   $count = $node->field_capacity[0]['value'] - count($node->field_orientation_attendees[0]['items']);
 
+  // It's full. Close it if it's not already closed.
   if ($status && $count <= 0 && $node->field_open[0]['value'] == 0) {
     $node->field_open[0]['value'] = 1; // 0 is open, 1 is closed.
     node_save($node);
   }
 
+  // It's not full, reopen it if it's not already open.
   if ($status && $count > 0 && $node->field_open[0]['value'] == 1) {
     $node->field_open[0]['value'] = 0; // 0 is open, 1 is closed.
     node_save($node);
@@ -583,7 +598,65 @@ function psfc_orientation_signup_link($nid) {
  */
 
 function psfc_orientation_signup_session($nid) {
+  // Is user already signed up? @todo This needs to go to status page.
+  global $user;
+  if (psfc_orientation_registered($user->uid) ) {
+    drupal_set_message(t('You are already registered for an orientation. We need to redirect you to your status page.'));
+    drupal_goto('orientations');
+  }
   $_SESSION['psfc_orientation']['onid'] = $nid;
   drupal_goto('orientation/signup/add-additional');
 }
 
+/**
+ * Helper function to get a user's additional attendees.
+ *
+ * @param $uid
+ *   User's uid to check.
+ * @param $oid
+ *   The orientation.
+ *
+ * @return Boolean.
+ */
+
+function psfc_orientation_get_additional_attendees($uid) {
+  if (db_fetch_array(db_query("SELECT uid FROM {content_type_orientation_attendee} a LEFT JOIN {content_type_orientation} o ON a.field_orientation_nid_nid = o.nid WHERE o.field_open_value = 0 AND a.field_userid_uid = %d", $uid))) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
+ * Theme a table with 1 orientation date.
+ * *
+ * @param $date
+ *   The date of the orientation.
+ *
+ */
+function theme_psfc_orientation_date_table($date) {
+  $date = strtotime($date);
+  $headers = array('Date', 'Day', 'Time');
+  $rows[] = array(
+          '<span class = "mon">'. format_date($date, 'custom', 'M') .'</span>' . ' <span class = "date">'. format_date($date, 'custom', 'j') .'</span>',
+          '<span class = "day">'. format_date($date, 'custom', 'l') .'</span>',
+          '<span class = "time">'. format_date($date, 'custom', 'g:i') .'</span>' . '<span class = "meridiem">'. format_date($date, 'custom', 'A') .'</span>',
+    );
+  return theme('table', $headers, $rows, array('class' => 'odate-table'));
+}
+
+/**
+ * Theme a list of additional attendees.
+ * *
+ * @param $attendees
+ *   An array of additional users
+ *
+ */
+function theme_psfc_orientation_additional_attendees($attendees) {
+  foreach($attendees as $attendee) {
+    $items[] = '<span class = "addl-name">'.  $attendee['first_name'] .' '.  $attendee['last_name'] .', </span><span class = "addl-email">'.  $attendee['email'] .'</span>';
+  }
+  if (!count($items)) {
+    $items[] = '<span class = "addl-name">'. t('None') .'</span>';
+  }
+  return theme('item_list', $items, NULL, 'ul', array('class' => 'addl-attendee-list'));
+}
