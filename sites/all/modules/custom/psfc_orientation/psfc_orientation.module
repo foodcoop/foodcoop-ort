@@ -126,6 +126,13 @@ function psfc_orientation_menu() {
     'access arguments' => array('access content'),
     'file' => 'psfc_orientation.admin.inc',
   );
+  $items['orientation/confirm/%/%/%/%'] = array(
+    'title' => 'Set registration status',
+    'page callback' => 'psfc_orientation_confirm',
+    'page arguments' => array(2, 3, 4, 5),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -150,10 +157,12 @@ function psfc_orientation_theme() {
  * Implemetation of hook_cron().
  */
 function psfc_orientation_cron() {
+
+  // Create orientation based on repeat rules.
   $query = db_query("SELECT * FROM {psfc_orientation_repeat_rules}");
   while ($result = db_fetch_array($query)) {
     if ($result['day_of_week'] == date('l')) {
-      $time = psfc_orienation_split_time_of_day($result['orid']);
+      $time = psfc_orientation_split_time_of_day($result['orid']);
       $next = psfc_orientation_determine_next_repeat($time);
       $date = date('Y-m-d', $next);
       // The hour needs to be saved GMT so add 4
@@ -163,11 +172,24 @@ function psfc_orientation_cron() {
       if (!psfc_orientation_orientation_exists($time_value) && !psfc_orientation_orientation_blacked_out($date)) {
         $node = psfc_orientation_node_build($result, $time_value);
         if ($node->nid) {
-          watchdog('psfc_orientation', 'Added an orientation for: '. $next, WATCHDOG_NOTICE);
+          watchdog('psfc_orientation', 'Added an orientation for: @date', array('@date' => $time_value), WATCHDOG_NOTICE);
         }
       }
     }
   }
+
+  // Delete unconfirmed registrations after 48 hours. By deleting the user we
+  // cause hook_nodeapi to delete the attendee's node and update the orientation
+  // capacity and open/closed status.
+  $expires = time() - (2 * 24 * 60 * 60);
+  $result = db_query("SELECT * from {node} n LEFT JOIN {content_type_orientation_attendee} o ON n.nid = o.nid WHERE n.type = 'orientation_attendee' AND n.created < %d AND o.field_attendee_confirmed_value = 0", $expires);
+
+  while ($attendee = db_fetch_array($result)) {
+    user_delete(array(), $attendee['field_userid_uid']);
+  }
+
+  // Send reminder emails
+  psfc_orientation_send_reminders();
 }
 
 /**
@@ -176,11 +198,9 @@ function psfc_orientation_cron() {
 function psfc_orientation_user($op, &$edit, &$user) {
   // When users are deleted, we delete their attendee nodes if they have any.
   if ($op == 'delete') {
-    $nids = db_fetch_array(db_query("SELECT nid from {content_type_orientation_attendee} WHERE field_userid_uid = %d", $user->uid));
-    if (count($nids)) {
-      foreach ($nids as $nid) {
-        node_delete($nid);
-      }
+    $result = db_query("SELECT nid from {content_type_orientation_attendee} WHERE field_userid_uid = %d", $user->uid);
+    while ($nid = db_result($result)){
+      node_delete($nid);
     }
   }
 }
@@ -272,7 +292,10 @@ function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   if ($node->type == 'orientation_attendee') {
     $recipient = $node->field_email[0]['email'];
     // This is the attendee node.
+    $account = user_load($node->field_userid[0]['uid']);
     $params['node'] = $node;
+    $params['node']->confirm = psfc_orientation_confirm_url($account, 'confirm');
+    $params['node']->cancel = psfc_orientation_confirm_url($account, 'cancel');
     switch ($op) {
       case 'insert' :
         // A new attendee as been created for an orientation.
@@ -288,8 +311,11 @@ function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
           drupal_set_message(t('An orientation spot is reserved for @name. Confirmation instructions have been sent by email. Confirmation is required within 48 hours or the spot will be released.', array('@name' => $node->field_firstname[0]['value'] .' '. $node->field_lastname[0]['value'])));        }
         break;
 
-        case 'delete' :
-        // Update the orientation nodes open/closed status.
+      case 'delete' :
+        // Email the attendee
+          drupal_mail('psfc_orientation', 'registration_cancelled', $recipient, language_default(), $params);
+
+      // Update the orientation nodes open/closed status.
         psfc_orientation_capacity($node->field_orientation_nid[0]['nid'], TRUE);
         break;
     }
@@ -334,7 +360,7 @@ function psfc_orientation_determine_next_repeat($time) {
 /**
  * Helper function to split apart the time_of_day saved in orienation_rule
  */
-function psfc_orienation_split_time_of_day($orid) {
+function psfc_orientation_split_time_of_day($orid) {
   $info = psfc_orientation_get_repeat_rule_info($orid);
   $split0 = split(':', $info['time_of_day']);
   $split1 = split(' ', $split0[1]);
@@ -400,6 +426,7 @@ function psfc_orientation_node_build($orientation_rule, $time_value) {
   // set some values that will not change.
   $node->type = 'orientation';
   $node->uid = 1;
+  $node->name = 'Admin User';
   $node->status = 1;
   $node->created = time();
   $node->changed = time();
@@ -436,6 +463,12 @@ function psfc_orientation_node_build($orientation_rule, $time_value) {
     ),
   );
 
+  $node->field_reminders = array(
+    0 => array(
+      'value' => 0,
+    ),
+  );
+
   // validate and save the node
   node_validate($node);
   node_submit($node);
@@ -450,10 +483,7 @@ function psfc_orientation_node_build($orientation_rule, $time_value) {
  * @param $account the attendee user account
  *
  * @param $onid the node id for the orientation the attended will attend.
- *
- * @param $confirmed
- *   The confirmed status for the attendee.
- *
+ * *
  * @return the node object of the new attendee.
  */
 function psfc_orientation_node_build_attendee($account, $onid) {
@@ -492,7 +522,7 @@ function psfc_orientation_node_build_attendee($account, $onid) {
 
   $node->field_email = array(
     0 => array(
-      'value' => $account->mail,
+      'email' => $account->mail,
     ),
   );
 
@@ -530,13 +560,12 @@ function psfc_orientation_node_build_attendee($account, $onid) {
  *   If TRUE the orientation node should be closed.
  * @return The number of open spaces remaining for the orientation.
  */
-
 function psfc_orientation_capacity($node, $status = FALSE) {
   if(!is_object($node)){
     // We have to reset the node cache to get the latest count.
     $node = node_load($node, NULL, TRUE);
   }
-  $count = $node->field_capacity[0]['value'] - count($node->field_orientation_attendees[0]['items']);
+  $count = isset($node->field_orientation_attendees[0]) ? $node->field_capacity[0]['value'] - count($node->field_orientation_attendees[0]['items']) : $node->field_capacity[0]['value'];
 
   // It's full. Close it if it's not already closed.
   if ($status && $count <= 0 && $node->field_open[0]['value'] == 0) {
@@ -609,21 +638,155 @@ function psfc_orientation_signup_session($nid) {
 }
 
 /**
- * Helper function to get a user's additional attendees.
+ * Menu callback for attendee confirm and cancel link.
  *
  * @param $uid
- *   User's uid to check.
- * @param $oid
- *   The orientation.
+ *   Attendee's uid.
+ * @param $timestamp
+ *   Unix time when link was created.
+ * @param $hassed_pass
+ *   md5 hash of the attendee's password.
+ * @param $action
+ *   Confirm or cance the orientation registration.
  *
- * @return Boolean.
  */
 
-function psfc_orientation_get_additional_attendees($uid) {
-  if (db_fetch_array(db_query("SELECT uid FROM {content_type_orientation_attendee} a LEFT JOIN {content_type_orientation} o ON a.field_orientation_nid_nid = o.nid WHERE o.field_open_value = 0 AND a.field_userid_uid = %d", $uid))) {
-    return TRUE;
+function psfc_orientation_confirm($uid, $timestamp, $hashed_pass, $action) {
+  // Check for active user and confirm hashed pass.
+  if ($account = user_load(array('uid' => $uid, 'status' => 1))) {
+    if ($hashed_pass == psfc_orientation_confirm_rehash($account->pass, $timestamp, $account->login)) {
+      // Load the attendee node.
+      if ($node = psfc_orientation_get_attendee_node($account)) {
+        if ($action == 'confirm') {
+          $node->field_attendee_confirmed[0]['value'] = 1;
+          node_save($node);
+          drupal_goto('content/thank-you-confirming-your-orientation-registration');
+        }
+        elseif ($action == 'cancel') {
+          // show confirm form.
+          return drupal_get_form('psfc_orientation_cancel_confirm', $node);
+        }
+      }
+      // Account exists, but no attendee node. This should probably be a page
+      // redirect and not a message.
+      else {
+        drupal_set_message(t('You have not registered for orientation, or your registration has expired or been cancelled.'));
+        drupal_goto('orientations');
+      }
+    }
+  }
+  //No account or bad link. An attendee will get here if trying to confirm too
+  // late. This should probably be a page redirect and not a message.
+  drupal_set_message(t('There is no user for the operation you requested.'));
+  drupal_goto('orientations');
+}
+
+/**
+ * Confirm regisgration cancellation.
+ */
+function psfc_orientation_cancel_confirm($form_state, $node) {
+  $form['#orientation_attendee_uid'] = $node->field_userid[0]['uid'];
+  $form['#orientation_attendee_nid'] = $node->nid;
+  $question = t('Confirm Your Cancellation');
+  $path = 'orientations';
+  $description = 'Are you sure you want to cancel your registration for New Member Orientation?';
+  $yes = t('Yes, I want to cancel my registration');
+  $no = t('No, Please do not Cancel');
+  return confirm_form($form, $question, $path, $description, $yes, $no, $name = 'confirm_cancellation');
+}
+
+/**
+ * Confirm regisgration cancellation form submit.
+ */
+function psfc_orientation_cancel_confirm_submit($form, $form_state) {
+  global $user;
+   $account = user_load($form['#orientation_attendee_uid']);
+
+   // Let's not delete any users with additional roles.
+  if (count($account->roles) == 1) {
+    node_delete($form['#orientation_attendee_nid']);
+    user_delete(array(), $form['#orientation_attendee_uid']);
+  }
+  else {
+    node_delete($form['#orientation_attendee_nid']);
+  }
+  drupal_goto('content/your-cancellation-has-been-confirmed');
+}
+
+/**
+ * Generate a secure confirm/cancel link.
+ *
+ * @param $account
+ *   Attendee's useraccount.
+ * @param $action
+ *   Confirm or cance the orientation registration.
+ *
+ * @return An absolute link.
+ */
+function psfc_orientation_confirm_url($account, $action) {
+  $timestamp = time();
+  return l(t('Click here to @action your orientation.', array('@action' => $action)), 'orientation/confirm/'. $account->uid .'/'. $timestamp .'/'. psfc_orientation_confirm_rehash($account->pass, $timestamp, $account->login) .'/'. $action, array('absolute' => TRUE));
+}
+
+/**
+ * Generate a hashed password.
+ *
+ * @param $password
+ *   Attendee's password.
+ * @param $timestamp
+ *   Unix time of registration.
+ * @param $login
+ *   Unix time of attendee's first login. This was automatically set on reg.
+ *
+ * @return A hashed password.
+ */
+function psfc_orientation_confirm_rehash($password, $timestamp, $login) {
+  return md5($timestamp . $password . $login);
+}
+
+/**
+ * Helper function to load single attendee node.
+ *
+ * @param $account
+ *   The attende.
+ *
+ * @return Node object.
+ */
+
+function psfc_orientation_get_attendee_node($account) {
+  $result = db_query("SELECT nid FROM {content_type_orientation_attendee} WHERE field_userid_uid = %d", $account->uid);
+  while ($nid = db_result($result)) {
+    $nids[] = $nid;
+  }
+  if (count($nids) > 1) {
+    // Oops, there are 2 or more registrations for this user. This should not
+    // happen, but maybe an admin did it.
+    drupal_set_message(t('There is a problem with your registration. Please contact the co-op.'));
+    return FALSE;
+  }
+  elseif ($nids[0]) {
+    return node_load($nids[0]);
   }
   return FALSE;
+}
+
+
+/**
+ * Helper function to load attendee node.
+ *
+ * @param $oid
+ *   The orientation node id.
+ *
+ * @return Array of node objects.
+ */
+
+function psfc_orientation_get_all_attendee_nodes($oid) {
+  $attendees = array();
+  $result = db_query("SELECT nid FROM {content_type_orientation_attendee} WHERE field_orientation_nid_nid = %d", $oid);
+  while ($nid = db_result($result)) {
+    $attendees[] = node_load($nid);
+  }
+  return $attendees;
 }
 
 /**
@@ -631,7 +794,6 @@ function psfc_orientation_get_additional_attendees($uid) {
  * *
  * @param $date
  *   The date of the orientation.
- *
  */
 function theme_psfc_orientation_date_table($date) {
   $date = strtotime($date);
@@ -659,4 +821,28 @@ function theme_psfc_orientation_additional_attendees($attendees) {
     $items[] = '<span class = "addl-name">'. t('None') .'</span>';
   }
   return theme('item_list', $items, NULL, 'ul', array('class' => 'addl-attendee-list'));
+}
+
+// This is node_delete() without the access check.
+function psfc_orientation_node_delete($nid) {
+  // Clear the cache before the load, so if multiple nodes are deleted, the
+  // memory will not fill up with nodes (possibly) already removed.
+  $node = node_load($nid, NULL, TRUE);
+
+  db_query('DELETE FROM {node} WHERE nid = %d', $node->nid);
+  db_query('DELETE FROM {node_revisions} WHERE nid = %d', $node->nid);
+
+  // Call the node-specific callback (if any):
+  node_invoke($node, 'delete');
+  node_invoke_nodeapi($node, 'delete');
+
+  // Clear the page and block caches.
+  cache_clear_all();
+
+  // Remove this node from the search index if needed.
+  if (function_exists('search_wipe')) {
+    search_wipe($node->nid, 'node');
+  }
+  watchdog('content', '@type: deleted %title.', array('@type' => $node->type, '%title' => $node->title));
+  drupal_set_message(t('@type %title has been deleted.', array('@type' => node_get_types('name', $node), '%title' => $node->title)));
 }

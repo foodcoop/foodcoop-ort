@@ -30,11 +30,11 @@ function _psfc_orientation_mail_text($key, $language = NULL, $variables = array(
       case 'registration_reminder_subject':
         return t('Reminder: Your PSFC orientation is coming up.', $variables, $langcode);
       case 'registration_reminder_body':
-        return t("Dear !username\n\nYou are confirmed to attend a PSFC new member orientation.", $variables, $langcode);
+        return t("Dear !username\n\nYou are registered to attend a PSFC new member orientation.", $variables, $langcode);
       case 'registration_cancelled_subject':
         return t('Reminder: Your PSFC orientation has been cancelled.', $variables, $langcode);
       case 'registration_cancelled_body':
-        return t("Dear !username\n\nYour scheduled PSFC new member orientation has been cancelled.", $variables, $langcode);
+        return t("Dear !attendee_firstname !attendee_lastname\n\nYour scheduled PSFC new member orientation has been cancelled.", $variables, $langcode);
     }
   }
 }
@@ -49,7 +49,7 @@ function psfc_orientation_mail_settings() {
   );
   // These email tokens are shared for all settings, so just define
   // the list once to help ensure they stay in sync.
-  $email_token_help = t('Available variables are: ') .'!attendee_firstname, !attendee_lastname, !attendee_email, !attendee_confirmed_status, !orientation_description, !orientation_date, !orientation_link, !registered_on_date, !registerer, !site, !uri, !uri_brief, !login_uri';
+  $email_token_help = t('Available variables are: ') .'!attendee_firstname, !attendee_lastname, !attendee_email, !attendee_confirmed_status, !orientation_description, !orientation_date, !orientation_link, !confirm_link, !cancel_link, !registered_on_date, !registerer, !site, !uri, !uri_brief, !login_uri';
 
   $form['email']['registration_confirmed'] = array(
     '#type' => 'fieldset',
@@ -144,10 +144,46 @@ function psfc_orientation_mail_tokens($node, $language) {
     '!orientation_link' => l($orientation->title, $orientation->path),
     '!registered_on_date' => format_date($node->timestamp, 'medium', '', NULL, $language->language),
     '!registerer' => $node->name,
+    '!confirm_link' => $node->confirm,
+    '!cancel_link' => $node->cancel,
     '!site' => variable_get('site_name', 'Drupal'),
     '!uri' => $base_url,
     '!uri_brief' => preg_replace('!^https?://!', '', $base_url),
     '!login_uri' => url('user', array('absolute' => TRUE, 'language' => $language)),
   );
   return $tokens;
+}
+
+/**
+ * Send orientaion reminder emails.
+ */
+function psfc_orientation_send_reminders() {
+  $time = (2 * 24 * 60 * 60); // 2 days
+  $result = db_query("SELECT o.nid from {node} n LEFT JOIN {content_type_orientation} o ON n.nid = o.nid
+    WHERE n.type = 'orientation' AND UNIX_TIMESTAMP(o.field_date_value) - UNIX_TIMESTAMP() < %d AND o.field_reminders_value = 0", $time);
+
+  while ($oid = db_result($result)) {
+    // Load orienation node.
+    $node = node_load($oid);
+
+    //Send emails
+    $attendees = psfc_orientation_get_all_attendee_nodes($node->nid);
+    if (count($attendees)) {
+      foreach ($attendees as $attendee) {
+        $account = user_load($attendee->field_userid_uid[0]['uid']);
+        $recipient = $account->mail;
+
+        // We only need the node params. The confirm and cancel links are added
+        // in nodeapi.
+        $params['node'] = $attendee;
+
+        drupal_mail('psfc_orientation', 'registration_reminder', $recipient, language_default(), $params);
+
+      }
+      // Mark as emails sent only if we actually sent any.
+      $node->field_reminders[0]['value'] = 1;
+      node_save($node);
+      watchdog('psfc_orientation', 'Email reminders sent for: @title', array('@title' => $node->title), WATCHDOG_NOTICE);
+    }
+  }
 }

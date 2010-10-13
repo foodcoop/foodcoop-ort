@@ -202,16 +202,15 @@ function psfc_orientation_additional_attendees_form_validate($form, &$form_state
 
     if ($values['email_2'] != '') {
       if (!valid_email_address($values['email_2'])) {
-        form_set_error('email_2', t('You must provide a valid email address for your seconde attendee.'));
+        form_set_error('email_2', t('You must provide a valid email address for your second attendee.'));
       }
     }
     
-    // @todo What do we want to do if the account already exists?
     if (psfc_orientation_check_email($values['email_1'])) {
-      form_set_error('email_1', t('The email address for attendee 1 has an account already.'));
+      form_set_error('email_1', t('The email address for attendee 1 has an account already. This person must self-register.'));
     }
     if (psfc_orientation_check_email($values['email_2'])) {
-      form_set_error('email_2', t('The email address for attendee 2 has an account already.'));
+      form_set_error('email_2', t('The email address for attendee 2 has an account already. This person must self-register.'));
     }
     if ($values['email_2'] == $values['email_1'] && $values['email_1'] != '') {
       form_set_error('email_1', t('Each attendee must have a unique email address.'));
@@ -255,7 +254,7 @@ function psfc_orientation_additional_attendees_form_submit($form, &$form_state) 
         $registerer = psfc_orientation_node_build_attendee($user, $onid);
 
         // Create the attendee nodes for any additional users.
-        // Let's do this as a while loop so we can easily expand the number of addl
+        // Let's do this as a loop so we can easily expand the number of addl
         // attendees if we need to.
         // Are enough spots available?
 
@@ -274,7 +273,7 @@ function psfc_orientation_additional_attendees_form_submit($form, &$form_state) 
               'profile_lastname' => $addl_user['last_name'],
             );
 
-            // We need to set the categor to 'name so our name fields get saved.
+            // We need to set the category to 'name so our name fields get saved.
            $account = user_save('', $user_data, 'name');
 
           // Terminate if an error occured during user_save().
@@ -286,7 +285,7 @@ function psfc_orientation_additional_attendees_form_submit($form, &$form_state) 
 
           watchdog('user', 'New user: %name (%email).', array('%name' => $name, '%email' => $mail), WATCHDOG_NOTICE, l(t('edit'), 'user/'. $account->uid .'/edit'));
      //     This is the default drupal message. We probably don't need it.
-     //          drupal_set_message(t('Password and further instructions have been e-mailed to the new user <a href="@url">%name</a>.', array('@url' => url("user/$account->uid"), '%name' => $account->name)));
+     //     drupal_set_message(t('Password and further instructions have been e-mailed to the new user <a href="@url">%name</a>.', array('@url' => url("user/$account->uid"), '%name' => $account->name)));
 
           // Create the attendee node for the additional attendee.
           psfc_orientation_node_build_attendee($account, $onid);
