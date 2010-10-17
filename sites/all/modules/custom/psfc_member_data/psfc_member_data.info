@@ -1,0 +1,9 @@
+; $Id$
+
+name = PSFC Member Data
+description = Handles Member Data for the Coop Site
+package = PSFC
+core = 6.x
+
+dependencies[] = psfc_orientation
+

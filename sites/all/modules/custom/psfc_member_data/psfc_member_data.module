@@ -1,0 +1,39 @@
+<?php
+/**
+ * Implementation of hook_block().
+ */
+function psfc_member_data_block($op = 'list', $delta = 0, $edit = array()) {
+  if ($op ==  'list') {
+      $blocks = array();
+      $blocks[0] = array(
+        'info' => t('Member status block'),
+        'cache' => BLOCK_CACHE_PER_PAGE
+      );
+    return $blocks;
+  }
+  elseif ($op == 'view') {
+    switch ($delta) {
+      case 0:
+        $block = array(
+          'subject' => t(''),
+          'content' => psfc_member_data_block_0(),
+        );
+        break;
+    }
+    return $block;
+  }
+}
+
+/**
+ * Define the member status block conent
+ */
+function psfc_member_data_block_0() {
+  global $user;
+  if ($user->uid == 0) {
+    return;
+  }
+  $output = t('You are logged in as:') .'<br />';
+  $output .= $user->name;
+  $output .= '<div>'. t('Your registration status') .' | '. l('Log Out', 'logout') .'</div>';
+  return $output;
+}
