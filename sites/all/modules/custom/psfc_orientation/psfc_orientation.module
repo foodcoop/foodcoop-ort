@@ -128,6 +128,12 @@ function psfc_orientation_menu() {
     'access arguments' => array('access content'),
     'file' => 'psfc_orientation.admin.inc',
   );
+  $items['orientation/status'] = array(
+    'title' => 'Your Registration Status',
+    'description' => 'Are you signed up for orientation.',
+    'page callback' => 'psfc_orientation_status',
+    'access arguments' => array('access content'),
+  );
   $items['orientation/confirm/%/%/%/%'] = array(
     'title' => 'Set registration status',
     'page callback' => 'psfc_orientation_confirm',
@@ -151,6 +157,9 @@ function psfc_orientation_theme() {
     ),
     'psfc_orientation_additional_attendees' => array(
       'arguments' => array('attendees' => NULL),
+    ),
+    'psfc_orientation_status' => array(
+      'arguments' => array(),
     ),
   );
 }
@@ -374,6 +383,15 @@ function psfc_orientation_split_time_of_day($orid) {
 
   return $time;
 }
+
+/**
+ * Wrapper for theme function to display user's orientation status page
+ *
+ */
+function psfc_orientation_status() {
+  return theme('psfc_orientation_status');
+}
+
 
 /**
  * Helper function to determine if there is already an orientation scheduled
@@ -725,9 +743,9 @@ function psfc_orientation_cancel_confirm_submit($form, $form_state) {
  *
  * @return An absolute link.
  */
-function psfc_orientation_confirm_url($account, $action) {
+function psfc_orientation_confirm_url($account, $action, $text = 'Click here to @action your orientation.' ) {
   $timestamp = time();
-  return l(t('Click here to @action your orientation.', array('@action' => $action)), 'orientation/confirm/'. $account->uid .'/'. $timestamp .'/'. psfc_orientation_confirm_rehash($account->pass, $timestamp, $account->login) .'/'. $action, array('absolute' => TRUE));
+  return l(t($text, array('@action' => $action)), 'orientation/confirm/'. $account->uid .'/'. $timestamp .'/'. psfc_orientation_confirm_rehash($account->pass, $timestamp, $account->login) .'/'. $action, array('absolute' => TRUE));
 }
 
 /**
@@ -824,6 +842,58 @@ function theme_psfc_orientation_additional_attendees($attendees) {
   }
   return theme('item_list', $items, NULL, 'ul', array('class' => 'addl-attendee-list'));
 }
+
+
+/**
+ * Theme a the user's orientation status page.
+ *
+ */
+function theme_psfc_orientation_status() {
+  global $user;
+  if (!$user->uid) {
+    return t('Please login to the site to check you registration status.');
+  }
+
+  $attendee = psfc_orientation_get_attendee_node($user);
+
+  $attendees = array();
+  foreach ($attendee->field_additional_attendees as $key => $addl_uid) {
+    if ($addl_uid['uid']) {
+      $addl_attendee->uid = $addl_uid['uid'];
+      $addl_attendee = psfc_orientation_get_attendee_node($addl_attendee);
+      $attendees[] = array(
+        'first_name' => $addl_attendee->field_firstname[0]['value'],
+        'last_name' => $addl_attendee->field_lastname[0]['value'],
+        'email' => $addl_attendee->field_email[0]['email'],
+      );
+    }
+  }
+
+  $orientation = node_load($attendee->field_orientation_nid[0]['nid']);
+
+  $output = '<div class="status-info-text">';
+  $output .= t('You have signed up for the following Orientation Session:');
+  $output .= '</div>';
+
+  $output .= '<div class="status-info-date">';
+  $output .= theme(psfc_orientation_date_table, $orientation->field_date[0]['value']);
+  $output .= '</div>';
+
+  if (count($attendees)) {
+    dsm($attendees);
+    $output .= '<div class="status-info-addl-text">';
+    $output .= t('You have included the following additional attendees:');
+    $output .= '</div>';
+
+    $output .= '<div class="status-info-addl-text">';
+    $output .= theme('psfc_orientation_additional_attendees', $attendees);
+    $output .= '</div>';
+  }
+
+  $output .= t('If this is not correct, ') . psfc_orientation_confirm_url($user, 'cancel', 'please cancel and sign up again.');
+  return $output;
+}
+
 
 // This is node_delete() without the access check.
 function psfc_orientation_node_delete($nid) {
