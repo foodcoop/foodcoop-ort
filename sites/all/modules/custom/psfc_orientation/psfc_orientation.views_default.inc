@@ -337,9 +337,8 @@ function psfc_orientation_views_default_views() {
   $views[$view->name] = $view;
 
 /*
- * View 'orientations'
- */
-
+  * View 'orientations'
+  */
 $view = new view;
 $view->name = 'orientations';
 $view->description = 'Upcoming orientations - user facing';
@@ -569,10 +568,10 @@ print psfc_orientation_signup_link($data->nid);
     'hide_empty' => 0,
     'empty_zero' => 0,
     'value' => '<?php
-  if (psfc_orientation_capacity($data->nid) <= 3) {
-    print t(\'Fewer than 3 spots available\');
-  }
-  ?>',
+if (psfc_orientation_capacity($data->nid) <= 3) {
+  print t(\'Fewer than 3 spots available\');
+}
+?>',
     'exclude' => 0,
     'id' => 'phpcode',
     'table' => 'customfield',
@@ -666,16 +665,19 @@ $handler->override_option('cache', array(
   'type' => 'none',
 ));
 $handler->override_option('title', 'Sign up for an orientation session');
-$handler->override_option('footer', 'Load the node with the footer information. Everyone must attend a New Member Orientation Session before
-joining the Coop, and must sign up in advance for this Orientation
-(sorry, walk-ins won\'t be admitted).
-');
-$handler->override_option('footer_format', '2');
-$handler->override_option('footer_empty', 1);
-$handler->override_option('empty', 'Load the node with the no available orientations info: Sorry, There Are No Orientation Sessions Available at This Time
-
-');
-$handler->override_option('empty_format', '2');
+$handler->override_option('footer', '<?php
+$footer_txt = node_load(variable_get(\'psfc_orientation_upcoming_orientations\', 36));
+unset($footer_txt->title);
+return node_view($footer_txt);
+?>');
+$handler->override_option('footer_format', '3');
+$handler->override_option('footer_empty', 0);
+$handler->override_option('empty', '<?php
+$empty_txt = node_load(variable_get(\'psfc_orientation_no_orientations\', 35));
+unset($empty_txt->title);
+return node_view($empty_txt);
+?>');
+$handler->override_option('empty_format', '3');
 $handler->override_option('items_per_page', 0);
 $handler->override_option('style_plugin', 'table');
 $handler = $view->new_display('page', 'Page', 'page_1');
@@ -694,8 +696,7 @@ $handler->override_option('tab_options', array(
   'weight' => 0,
   'name' => 'navigation',
 ));
-
-  $views[$view->name] = $view;
+$views[$view->name] = $view;
 
   return $views;
 }
