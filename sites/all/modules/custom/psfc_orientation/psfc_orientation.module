@@ -854,7 +854,9 @@ function theme_psfc_orientation_status() {
     return t('Please login to the site to check you registration status.');
   }
 
-  $attendee = psfc_orientation_get_attendee_node($user);
+  if (!$attendee = psfc_orientation_get_attendee_node($user)) {
+    return t('Oops! You are not registered for any upcoming orientations.');
+  }
 
   $attendees = array();
   foreach ($attendee->field_additional_attendees as $key => $addl_uid) {
