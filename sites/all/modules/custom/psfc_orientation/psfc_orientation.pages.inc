@@ -304,20 +304,22 @@ function psfc_orientation_additional_attendees_form_submit($form, &$form_state) 
       }
       // No more spots open for at least one attendee.
       else {
-        drupal_set_message(t('Oops! We just ran out of spots and were not able to register @name for this orientation.', array('@name' => $form_state['values']['first_name_'. $i] .' '. $form_state['values']['last_name_'. $i] )));
-      }
-      }
-      // No more spots open for logged in user!
-      else {
-        drupal_set_message(t('Oops! We just ran out of spots and were not able to register you for this orientation. Please try again.'));
+        drupal_goto('node/'. variable_get('psfc_orientation_no_additional_attendees', ''));
       }
     }
-    // Already registered!
+    // No more spots open for logged in user!
     else {
-      drupal_set_message(t('Sorry, you are alredy registered for a future orientation. To switch sessions you must first cancel your existing registration.'));
+      drupal_goto('node/'. variable_get('psfc_orientation_orientation_filled', ''));
     }
+  }
+  // Already registered!
+  else {
+    drupal_set_message(t('Sorry, you are already registered for a future orientation. To switch sessions you must first cancel your existing registration.'));
+  }
   $form_state['rebuild'] = '';
   unset($form_state['storage']);
+  // Logged in user is registered.
+  drupal_goto('node/'. variable_get('psfc_orientation_confirm_orientation_page', ''));
   }
 }
 

@@ -324,7 +324,9 @@ function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         // @TODO make sure we don't email an admin who created the attendee.
         else {
           drupal_mail('psfc_orientation', 'registration_not_confirmed', $recipient, language_default(), $params);
-          drupal_set_message(t('An orientation spot is reserved for @name. Confirmation instructions have been sent by email. Confirmation is required within 48 hours or the spot will be released.', array('@name' => $node->field_firstname[0]['value'] .' '. $node->field_lastname[0]['value'])));        }
+  //        drupal_set_message(t('An orientation spot is reserved for @name. Confirmation instructions have been sent by email. Confirmation is required within 48 hours or the spot will be released.', array('@name' => $node->field_firstname[0]['value'] .' '. $node->field_lastname[0]['value'])));
+
+          }
         break;
 
       case 'delete' :
@@ -685,8 +687,7 @@ function psfc_orientation_signup_session($nid) {
   // Is user already signed up? @todo This needs to go to status page.
   global $user;
   if (psfc_orientation_registered($user->uid) ) {
-    drupal_set_message(t('You are already registered for an orientation. We need to redirect you to your status page.'));
-    drupal_goto('orientations');
+    drupal_goto('orientation/status');
   }
   $_SESSION['psfc_orientation']['onid'] = $nid;
   drupal_goto('orientation/signup/add-additional');
@@ -765,7 +766,7 @@ function psfc_orientation_cancel_confirm_submit($form, $form_state) {
   else {
     node_delete($form['#orientation_attendee_nid']);
   }
-  drupal_goto('content/your-cancellation-has-been-confirmed');
+  drupal_goto('node/'. variable_get('psfc_orientation_registrant_removed', ''));
 }
 
 /**
@@ -909,7 +910,13 @@ function theme_psfc_orientation_status() {
   $orientation = node_load($attendee->field_orientation_nid[0]['nid']);
 
   $output = '<div class="status-info-text">';
-  $output .= t('You have signed up for the following Orientation Session:');
+  if (!$attendee->field_attendee_confirmed[0]['value']) {
+    $output .= '<p>'. t('You are not yet confirmed. ') . psfc_orientation_confirm_url($user, 'confirm', 'Please click here to confirm.'). '</p>';
+  }
+  else {
+    $output .= '<p>'. t('You orientation registration is confirmed. '). '</p>';
+  }
+  $output .= '<p>'. t('You have signed up for the following Orientation Session:'). '</p>';
   $output .= '</div>';
 
   $output .= '<div class="status-info-date">';
