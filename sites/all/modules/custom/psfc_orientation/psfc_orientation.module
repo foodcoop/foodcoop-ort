@@ -880,7 +880,6 @@ function theme_psfc_orientation_status() {
   $output .= '</div>';
 
   if (count($attendees)) {
-    dsm($attendees);
     $output .= '<div class="status-info-addl-text">';
     $output .= t('You have included the following additional attendees:');
     $output .= '</div>';
