@@ -134,6 +134,11 @@ function psfc_orientation_menu() {
     'page callback' => 'psfc_orientation_status',
     'access arguments' => array('access content'),
   );
+  $items['orientation/confirmed'] = array(
+    'title' => 'Thank you for Confirming your Orientation Registration',
+    'page callback' => 'psfc_orientation_confirmed',
+    'access arguments' => array('access content'),
+  );
   $items['orientation/confirm/%/%/%/%'] = array(
     'title' => 'Set registration status',
     'page callback' => 'psfc_orientation_confirm',
@@ -392,6 +397,36 @@ function psfc_orientation_status() {
   return theme('psfc_orientation_status');
 }
 
+/**
+ * Menu callback for registration confirmed page.
+ *
+ */
+function psfc_orientation_confirmed() {
+  global $user;
+  // Not logged in.
+  if(!$user->uid) {
+    drupal_goto();
+  }
+
+  $attendee = psfc_orientation_get_attendee_node($user);
+
+  // User has not registered or is not confirmed.
+  if(!$attendee || !$attendee->field_attendee_confirmed[0]['value']) {
+    drupal_goto();
+  }
+  
+  $orientation = node_load($attendee->field_orientation_nid[0]['nid']);
+  $date = $orientation->field_date[0]['value'];
+
+  $output = '<p>'. t('We will see you on:'). '</p>';
+  $output .= theme_psfc_orientation_date_table($date);
+  $text = node_load(variable_get('psfc_orientation_confirmation_thank_you', FALSE));
+  if (is_object($text)) {
+    unset($text->title);
+    $output .= node_view($text);
+  }
+    return $output;
+}
 
 /**
  * Helper function to determine if there is already an orientation scheduled
