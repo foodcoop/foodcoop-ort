@@ -4,6 +4,8 @@
  */
 
 module_load_include('inc', 'psfc_orientation', 'psfc_orientation.email');
+module_load_include('inc', 'psfc_orientation', 'psfc_orientation.nodemap');
+
 
 /**
  * Implementation of hook_perm().
