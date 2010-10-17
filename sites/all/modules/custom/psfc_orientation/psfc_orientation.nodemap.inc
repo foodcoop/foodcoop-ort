@@ -1,5 +1,5 @@
 <?php
-// There are no orientations availalbe
+// There are no orientations available
 variable_set('psfc_orientation_no_orientations', 35);
 
 // Text below list of available orientations
@@ -15,7 +15,7 @@ variable_set('psfc_orientation_account_create', 38);
 variable_set('psfc_orientation_add_additional_instructions', 39);
 
 // Add additional email info
-  variable_set('psfc_orientation_add_additional_email', 123);
+  variable_set('psfc_orientation_add_additional_email', 45);
 
 // Confirm orientation details page
 variable_set('psfc_orientation_confirm_orientation_page', 40);
