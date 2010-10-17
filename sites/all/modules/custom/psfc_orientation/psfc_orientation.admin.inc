@@ -318,17 +318,23 @@ function psfc_orientation_login() {
 
 
 function theme_psfc_orientation_login() {
+  $why_account_help_txt = node_load(variable_get('psfc_orientation_why_account', 37));
+  unset($why_account_help_txt->title);
+  $why_account_help_txt_view = node_view($why_account_help_txt);
+
+  $account_create_help_txt = node_load(variable_get('psfc_orientation_account_create', 38));
+  unset($account_create_help_txt->title);
+  $account_create_help_txt_view = node_view($account_create_help_txt);
+
   _user_password_dynamic_validation();
   $output = '<div class="orientation-login"><h3>Sign In</h3>';
   $output .= '<p>If you already have an account, please sign in.</p>';
   $output .= drupal_get_form('user_login');
   $output .= '</div>';
   $output .= '<div class="orientation-or">OR</div>';
-  $output .= '<div class="orientation-help"><h3>What is the Online Account?</h3>';
-  $output .= '<p>Probably load a node here for the help text.</p>';
-  $output .= '</div>';
-  $output .= '<div class="orientation-register"><h3>Create an Account</h3>';
-  $output .= '<p>If you do not already have an account, please fill out the form below. After you sign up for Orientation, you will receive an email to confirm the details of your Orientation Session.</p>';
+  $output .= $why_account_help_txt_view;
+  $output .= '<div class="orientation-register">';
+  $output .= $account_create_help_txt_view;
   $output .= drupal_get_form('user_register');
   $output .= '</div>';
   return $output;

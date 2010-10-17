@@ -17,11 +17,13 @@ function psfc_orientation_additional_attendees_form(&$form_state) {
   if (!isset($_SESSION['psfc_orientation']['onid'])) {
     drupal_goto('orientations');
   }
-  $attendee_info = node_load(variable_get('psfc_orientation_add_additional_instructions', ''));
-  $attendee_info_view = $attendee_info->view;
+  $attendee_info = node_load(variable_get('psfc_orientation_add_additional_instructions', 39));
+  unset($attendee_info->title);
+  $attendee_info_view = node_view($attendee_info);
 
-  $attendee_email = node_load(variable_get('psfc_orientation_add_additional_email', ''));
-  $attendee_email_view = $attendee_email->view;
+  $attendee_email = node_load(variable_get('psfc_orientation_add_additional_email', 45));
+  unset($attendee_email->title);
+  $attendee_email_view = node_view($attendee_email);
 
   $form = array();
   $values = &$form_state['post'];
