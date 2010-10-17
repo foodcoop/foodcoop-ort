@@ -17,6 +17,11 @@ function psfc_orientation_additional_attendees_form(&$form_state) {
   if (!isset($_SESSION['psfc_orientation']['onid'])) {
     drupal_goto('orientations');
   }
+  $attendee_info = node_load(variable_get('psfc_orientation_add_additional_instructions', ''));
+  $attendee_info_view = $attendee_info->view;
+
+  $attendee_email = node_load(variable_get('psfc_orientation_add_additional_email', ''));
+  $attendee_email_view = $attendee_email->view;
 
   $form = array();
   $values = &$form_state['post'];
@@ -29,7 +34,7 @@ function psfc_orientation_additional_attendees_form(&$form_state) {
 
   if ($form_state['storage']['step'] == 1) {
      $form['attendee_info'] = array(
-       '#value' => 'We will probably load a node here for the instructions',
+       '#value' => $attendee_info_view,
        '#prefix' => '<div>',
        '#suffix' => '</div>',
     );
@@ -91,11 +96,11 @@ function psfc_orientation_additional_attendees_form(&$form_state) {
       '#default_value' =>  (filter_xss($values['email_2'])) ? $values['email_2'] : '',
     );
      $form['attendee_email_info'] = array(
-      '#value' => 'We will probably load a node here for info about shared email',
+      '#value' => $attendee_email_view,
        '#prefix' => '<div>',
        '#suffix' => '</div>',
     );
-     
+
    $form['proceed'] = array('#type' => 'submit', '#value' => t('Do Not Add Attendees'));
 
    $form['proceed_add'] = array('#type' => 'submit', '#value' => t('Add Attendees'));
@@ -103,7 +108,7 @@ function psfc_orientation_additional_attendees_form(&$form_state) {
   if ($form_state['storage']['step'] == 2) {
     drupal_set_title(t('Review the Details of Your Orientation Session'));
     global $user;
-    $orientation = node_load($_SESSION['psfc_orientation']['onid']);    
+    $orientation = node_load($_SESSION['psfc_orientation']['onid']);
 
     $form['confirm_info_text'] = array(
        '#value' => t('You have signed up for the following Orientation Session:'),
@@ -205,7 +210,7 @@ function psfc_orientation_additional_attendees_form_validate($form, &$form_state
         form_set_error('email_2', t('You must provide a valid email address for your second attendee.'));
       }
     }
-    
+
     if (psfc_orientation_check_email($values['email_1'])) {
       form_set_error('email_1', t('The email address for attendee 1 has an account already. This person must self-register.'));
     }

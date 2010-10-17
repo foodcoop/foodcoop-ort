@@ -14,6 +14,9 @@ variable_set('psfc_orientation_account_create', 38);
 // Add additional attendees page
 variable_set('psfc_orientation_add_additional_instructions', 39);
 
+// Add additional email info
+  variable_set('psfc_orientation_add_additional_email', 123);
+
 // Confirm orientation details page
 variable_set('psfc_orientation_confirm_orientation_page', 40);
 
