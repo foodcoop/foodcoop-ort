@@ -1,0 +1,197 @@
+@font-face {
+    font-family: '../LeagueGothic';
+    src: url('LeagueGothic.otf ') format("truetype");
+  }
+
+body {
+	background: #050;
+	color: #333;
+	font-size: 1em;
+	font-family: Georgia, Times New Roman, Times, seriff;
+}
+
+#header {
+	overflow: hidden;
+	background: #577613;
+	background-image: url(../img/header-bg.jpg);
+	background-repeat: no-repeat;
+}
+
+a {
+	color: #0f0;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+h1, h2, h4 {
+  font-family: 'LeagueGothic';
+  letter-spacing: -1px;
+}
+
+
+.container_12 {
+/*	background: #fff url(../img/12_col.gif) repeat-y; */
+	background-color: #fbffe6;
+}
+
+
+
+
+/* Header */
+
+#header #logo {
+	width: 140px;
+	height: 87px;
+	margin-bottom: 18px;
+}
+#header #logo a {
+	display: block;
+	background-repeat: no-repeat;
+	width: 140px;
+	height: 87px;
+}
+#header ul#nav li {
+	overflow: hidden;
+	padding: 0;
+}
+#header ul#nav li a {
+	display: block;
+	border-left: 5px solid #aac500;
+	color: #900;
+	width; 155px;
+	height: 60px;
+	text-indent: -9999em;
+	background-repeat: no-repeat;
+}
+#header ul#nav li a.about {
+	background-image: url(../img/nav-about.png);
+}
+#header ul#nav li a.about {
+	background-image: url(../img/nav-about.png);
+}
+#header ul#nav li a.members {
+	background-image: url(../img/nav-members.png);
+}
+#header ul#nav li a.food {
+	background-image: url(../img/nav-food.png);
+}
+#header ul#nav li a.events {
+	background-image: url(../img/nav-events.png);
+}
+#header ul#nav li a.news {
+	background-image: url(../img/nav-news.png);
+}
+#header ul#nav li a.join {
+	background-image: url(../img/nav-join.png);
+}
+#section-header {
+	background-image: url(../img/header-bg-2.jpg);
+	padding: 10px;
+	height: 64px;
+}
+#section-header h2 {
+	color: #fff;
+	font-size: 48px;
+	margin-bottom: 0;
+	margin-top: 10px;
+}
+
+
+
+/* Footer */
+
+#footer {
+	background-color: #213d00;
+	color: #fff;
+	padding: 10px 0 15px 0;
+	overflow: hidden;
+	font-size: .9em;
+}
+#footer a  { color: #ad0; }
+
+#footer h4 {
+	text-transform: uppercase;
+	color: #9c0;
+	font-size: 24px;
+	margin: 0;
+}
+#footer ul.social-media {
+	list-style: none;
+	margin: 10px 0 0 0;
+}
+#footer ul.social-media li {
+	margin: 0;
+}
+#footer ul.social-media li a {
+	height: 35px;
+	display: block;
+	padding-left: 30px;
+	font-family: Verdana, Helvetica, sans;
+}
+#footer ul.social-media .twitter {
+	background-image: url(../img/footer-twitter.png);
+	background-repeat: no-repeat;
+}
+#footer ul.social-media .facebook {
+	background-image: url(../img/footer-facebook.png);
+	background-repeat: no-repeat;
+}
+#footer ul.social-media .rss {
+	background-image: url(../img/footer-rss.png);
+	background-repeat: no-repeat;
+}
+
+/* Devel area */
+#devel-area {
+  clear: both;
+  margin: 2em;
+  padding: 1em;
+  background: #FBFFE6;
+  float: left;
+}
+#devel-area .block {
+  float: left;
+  margin: .5em 2em .5em 0;
+  padding: .5em;
+  border: 1px solid #333;
+}
+#devel-area .block a {
+  color: #690;
+}
+
+/* Content */
+
+#content {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+h1, h2 { color: #8f8d2c; }
+h1 { font-size: 2.5em; }
+h2 { font-size: 1.8em; }
+
+#content a {
+	color: #690;
+	text-decoration: underline;
+}
+
+#right-side {
+  float: right;
+  width: 225px;
+}
+#right-side .block-psfc_member_data {
+  background: #F0E7D7;
+  padding: 1em;
+  margin: 0 0 2em 0;
+}
+#main-content {
+  margin-right: 250px;
+}
+
+/* user profile page */
+.profile {
+  clear: none;
+}
