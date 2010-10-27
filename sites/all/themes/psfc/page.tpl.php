@@ -14,25 +14,7 @@
           <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" /></a>
         </div>
         <div class="clear"></div>
-                                <ul id="nav">
-                                  <li class="grid_2">
-                                      <a href="#" class="about">About the Coop</a>
-                                  </li>
-                                  <li class="grid_2">
-                                      <a href="#" class="join">Join the Coop</a>
-                                  </li>
-                                  <li class="grid_2">
-                                      <a href="#" class="news">News &amp; Publications</a>
-                                  </li>
-                                  <li class="grid_2">
-                                      <a href="#" class="food">Food &amp; Recipes</a>
-                                  </li>
-                                  <li class="grid_2">
-                                      <a href="#" class="events">Events &amp; Community</a>
-                                  </li>
-                                  <li class="grid_2">
-                                      <a href="#" class="members">Member Information</a>
-                                  </li>                                </ul>
+        <?php print $primary_links; ?>
 
       </div><!-- /header -->
 
