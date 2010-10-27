@@ -321,10 +321,15 @@ function theme_psfc_orientation_login() {
   $why_account_help_txt = node_load(variable_get('psfc_orientation_why_account', 37));
   unset($why_account_help_txt->title);
   $why_account_help_txt_view = node_view($why_account_help_txt);
-
+  if (user_access('administer psfc orientation') && user_access('administer nodes')) {
+    $why_account_help_txt_view .= l('edit', "node/". variable_get('psfc_orientation_why_account', 37) ."/edit");
+  }
   $account_create_help_txt = node_load(variable_get('psfc_orientation_account_create', 38));
   unset($account_create_help_txt->title);
   $account_create_help_txt_view = node_view($account_create_help_txt);
+  if (user_access('administer psfc orientation') && user_access('administer nodes')) {
+    $account_create_help_txt_view .= l('edit', "node/". variable_get('psfc_orientation_account_create', 38) ."/edit");
+  }
 
   _user_password_dynamic_validation();
   $output = '<div class="orientation-login"><h3>Sign In</h3>';

@@ -20,11 +20,15 @@ function psfc_orientation_additional_attendees_form(&$form_state) {
   $attendee_info = node_load(variable_get('psfc_orientation_add_additional_instructions', 39));
   unset($attendee_info->title);
   $attendee_info_view = node_view($attendee_info);
-
+  if (user_access('administer psfc orientation') && user_access('administer nodes')) {
+    $attendee_info_view .= l('edit', "node/". variable_get('psfc_orientation_add_additional_instructions', 39) ."/edit");
+  }
   $attendee_email = node_load(variable_get('psfc_orientation_add_additional_email', 45));
   unset($attendee_email->title);
   $attendee_email_view = node_view($attendee_email);
-
+  if (user_access('administer psfc orientation') && user_access('administer nodes')) {
+    $attendee_email_view .= l('edit', "node/". variable_get('psfc_orientation_add_additional_email', 45) ."/edit");
+  }
   $form = array();
   $values = &$form_state['post'];
 

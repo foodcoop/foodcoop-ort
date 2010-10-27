@@ -666,16 +666,27 @@ $handler->override_option('cache', array(
 ));
 $handler->override_option('title', 'Sign up for an orientation session');
 $handler->override_option('footer', '<?php
-$footer_txt = node_load(variable_get(\'psfc_orientation_upcoming_orientations\', 36));
+$nid = variable_get(\'psfc_orientation_upcoming_orientations\', 36);
+$footer_txt = node_load($nid);
 unset($footer_txt->title);
-return node_view($footer_txt);
+$out = node_view($footer_txt);
+if (user_access(\'administer psfc orientation\') && user_access(\'administer nodes\')) {
+$out .= l(\'edit\', "node/". $nid ."/edit");
+}
+
+return $out;
 ?>');
 $handler->override_option('footer_format', '3');
 $handler->override_option('footer_empty', 0);
 $handler->override_option('empty', '<?php
-$empty_txt = node_load(variable_get(\'psfc_orientation_no_orientations\', 35));
+$nid = variable_get(\'psfc_orientation_no_orientations\', 35)
+$empty_txt = node_load($nid);
 unset($empty_txt->title);
-return node_view($empty_txt);
+$out = node_view($empty_txt);
+if (user_access(\'administer psfc orientation\') && user_access(\'administer nodes\')) {
+$out .= l(\'edit\', "node/". $nid ."/edit");
+}
+return $out;
 ?>');
 $handler->override_option('empty_format', '3');
 $handler->override_option('items_per_page', 0);
