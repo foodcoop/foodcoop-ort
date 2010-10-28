@@ -199,7 +199,11 @@ function psfc_orientation_cron() {
   $result = db_query("SELECT * from {node} n LEFT JOIN {content_type_orientation_attendee} o ON n.nid = o.nid WHERE n.type = 'orientation_attendee' AND n.created < %d AND o.field_attendee_confirmed_value = 0", $expires);
 
   while ($attendee = db_fetch_array($result)) {
-    user_delete(array(), $attendee['field_userid_uid']);
+    // Let's not delete any key users.
+    $account = user_load($attendee['field_userid_uid']);
+    if (!user_access('administer psfc orientation', $account)) {
+      user_delete(array(), $attendee['field_userid_uid']);
+    }
   }
 
   // Send reminder emails
@@ -797,10 +801,10 @@ function psfc_orientation_cancel_confirm($form_state, $node) {
  */
 function psfc_orientation_cancel_confirm_submit($form, $form_state) {
   global $user;
-   $account = user_load($form['#orientation_attendee_uid']);
+  $account = user_load($form['#orientation_attendee_uid']);
 
-   // Let's not delete any users with additional roles.
-  if (count($account->roles) == 1) {
+  // Let's not delete any key users.
+  if (!user_access('administer psfc orientation', $account)) {
     node_delete($form['#orientation_attendee_nid']);
     user_delete(array(), $form['#orientation_attendee_uid']);
   }
