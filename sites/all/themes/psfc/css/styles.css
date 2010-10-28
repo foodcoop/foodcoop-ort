@@ -1,12 +1,15 @@
 @font-face {
-    font-family: '../LeagueGothic';
-    src: url('LeagueGothic.otf ') format("truetype");
+    font-family: 'League Gothic';
+    src: url('../LeagueGothic.otf ') format("truetype");
   }
 
 body {
 	background: #050;
 	color: #333;
-	font-size: 1em;
+	font:13px/1.5 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif}
+}
+
+.content {
 	font-family: Georgia, Times New Roman, Times, seriff;
 }
 
@@ -31,7 +34,7 @@ a:hover {
 	background-color: #fbffe6;
 }
 
-
+h1, h2 { font-family: 'League Gothic', 'Tahoma', sans-serif !important; }
 
 
 /* Header */
