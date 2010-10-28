@@ -107,19 +107,17 @@ function psfc_orientation_menu() {
     'weight' => 12,
   );
   $items['orientation/signup/session/%'] = array(
-    'title' => 'Choose orientation',
-    'description' => 'Save orientation nid to session',
+    'title' => 'Review the Details of Your Orientation Session',
+    'description' => 'Let the user check the date',
     'access arguments' => array( 'access content'),
     'page callback' => 'psfc_orientation_signup_session',
     'page arguments' => array(3),
   );
-  $items['orientation/signup/add-additional'] = array(
-    'title' => 'Add Additional Attendees',
-    'description' => 'A temporary place holder',
+  $items['orientation/signup/session/register/%'] = array(
+    'title' => 'Do the registration',
     'access arguments' => array( 'access content'),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('psfc_orientation_additional_attendees_form'),
-    'file' => 'psfc_orientation.pages.inc',
+    'page callback' => 'psfc_orientation_signup_session_register',
+    'page arguments' => array(4),
   );
   $items['orientation/login'] = array(
     'title' => 'Sign in',
@@ -160,9 +158,9 @@ function psfc_orientation_theme() {
     'psfc_orientation_date_table' => array(
       'arguments' => array('date' => NULL),
     ),
-    'psfc_orientation_additional_attendees' => array(
-      'arguments' => array('attendees' => NULL),
-    ),
+//    'psfc_orientation_additional_attendees' => array(
+//      'arguments' => array('attendees' => NULL),
+//    ),
     'psfc_orientation_status' => array(
       'arguments' => array(),
     ),
@@ -679,21 +677,61 @@ function psfc_orientation_signup_link($nid) {
 /**
  * Callback function for the signup link.
  *
- * Save the orientation nid to $_SESSION and redirect to the add attendees form.
+ * Let the user review the session details before we save.
+ *
+ * @param $nid
+ *   The nid of the orientation node.
+ */
+
+function psfc_orientation_signup_session($onid) {
+  global $user;
+  // Is user already signed up?
+  if (psfc_orientation_registered($user->uid) ) {
+    drupal_goto('orientation/status/registered');
+  }
+  $orientation = node_load($onid);
+  $output = '<div class="confirm-info-text">';
+  $output .= t('You have signed up for the following Orientation Session:');
+  $output .= '</div>';
+  $output .= '<div class="confirm-info-date">';
+  $output .= theme(psfc_orientation_date_table, $orientation->field_date[0]['value']);
+  $output .= '</div>';
+  $output .= '<div class="confirm-info-link">';
+  $output .= l(t('Register for this Orientation'), 'orientation/signup/session/register/'. $onid);
+  $output .= '</div>';
+  return $output;
+}
+
+/**
+ * Callback function for the signup link.
+ *
+ * Write the registration to the db (add attendee node).
  *
  * @param $nid
  *   The nid of the orientation node.
  *
  */
-
-function psfc_orientation_signup_session($nid) {
-  // Is user already signed up? @todo This needs to go to status page.
+function psfc_orientation_signup_session_register($onid) {
   global $user;
+
+  // Is user already signed up?
   if (psfc_orientation_registered($user->uid) ) {
     drupal_goto('orientation/status');
   }
-  $_SESSION['psfc_orientation']['onid'] = $nid;
-  drupal_goto('orientation/signup/add-additional');
+  // Create the attendee node for the logged in user, if not already registered
+  // and there is space.
+  if (psfc_orientation_capacity($onid, TRUE) >= 1) {
+    profile_load_profile($user);
+    psfc_orientation_node_build_attendee($user, $onid);
+  }
+
+  // No more spots open for logged in user!
+  else {
+    drupal_goto('node/'. variable_get('psfc_orientation_orientation_filled', ''));
+  }
+
+  // Logged in user is registered.
+  drupal_goto('node/'. variable_get('psfc_orientation_confirm_orientation_page', ''));
 }
 
 /**
@@ -866,24 +904,6 @@ function theme_psfc_orientation_date_table($date) {
 }
 
 /**
- * Theme a list of additional attendees.
- * *
- * @param $attendees
- *   An array of additional users
- *
- */
-function theme_psfc_orientation_additional_attendees($attendees) {
-  foreach($attendees as $attendee) {
-    $items[] = '<span class = "addl-name">'.  $attendee['first_name'] .' '.  $attendee['last_name'] .', </span><span class = "addl-email">'.  $attendee['email'] .'</span>';
-  }
-  if (!count($items)) {
-    $items[] = '<span class = "addl-name">'. t('None') .'</span>';
-  }
-  return theme('item_list', $items, NULL, 'ul', array('class' => 'addl-attendee-list'));
-}
-
-
-/**
  * Theme a the user's orientation status page.
  *
  */
@@ -897,27 +917,11 @@ function theme_psfc_orientation_status() {
     return t('Oops! You are not registered for any upcoming orientations.');
   }
 
-  $attendees = array();
-  foreach ($attendee->field_additional_attendees as $key => $addl_uid) {
-    if ($addl_uid['uid']) {
-      $addl_attendee->uid = $addl_uid['uid'];
-      $addl_attendee = psfc_orientation_get_attendee_node($addl_attendee);
-      $attendees[] = array(
-        'first_name' => $addl_attendee->field_firstname[0]['value'],
-        'last_name' => $addl_attendee->field_lastname[0]['value'],
-        'email' => $addl_attendee->field_email[0]['email'],
-      );
-    }
-  }
-
   $orientation = node_load($attendee->field_orientation_nid[0]['nid']);
 
   $output = '<div class="status-info-text">';
-  if (!$attendee->field_attendee_confirmed[0]['value']) {
-    $output .= '<p>'. t('You are not yet confirmed. ') . psfc_orientation_confirm_url($user, 'confirm', 'Please click here to confirm.'). '</p>';
-  }
-  else {
-    $output .= '<p>'. t('You orientation registration is confirmed. '). '</p>';
+  if (arg(2) == 'registered') {
+    $output .= '<p>'. t('You are already registered for an oriententation session. Here are the details:'). '</p>';
   }
   $output .= '<p>'. t('You have signed up for the following Orientation Session:'). '</p>';
   $output .= '</div>';
@@ -926,41 +930,13 @@ function theme_psfc_orientation_status() {
   $output .= theme(psfc_orientation_date_table, $orientation->field_date[0]['value']);
   $output .= '</div>';
 
-  if (count($attendees)) {
-    $output .= '<div class="status-info-addl-text">';
-    $output .= t('You have included the following additional attendees:');
-    $output .= '</div>';
-
-    $output .= '<div class="status-info-addl-text">';
-    $output .= theme('psfc_orientation_additional_attendees', $attendees);
-    $output .= '</div>';
+  if (!$attendee->field_attendee_confirmed[0]['value']) {
+    $output .= '<p>'. t('You are not yet confirmed. ') . psfc_orientation_confirm_url($user, 'confirm', 'Please click here to confirm.'). '</p>';
+  }
+  else {
+    $output .= '<p>'. t('You orientation registration is confirmed. '). '</p>';
   }
 
-  $output .= t('If this is not correct, ') . psfc_orientation_confirm_url($user, 'cancel', 'please cancel and sign up again.');
+  $output .= '<p>'. t('If this is not correct, ') . psfc_orientation_confirm_url($user, 'cancel', 'please cancel and sign up again.');
   return $output;
-}
-
-
-// This is node_delete() without the access check.
-function psfc_orientation_node_delete($nid) {
-  // Clear the cache before the load, so if multiple nodes are deleted, the
-  // memory will not fill up with nodes (possibly) already removed.
-  $node = node_load($nid, NULL, TRUE);
-
-  db_query('DELETE FROM {node} WHERE nid = %d', $node->nid);
-  db_query('DELETE FROM {node_revisions} WHERE nid = %d', $node->nid);
-
-  // Call the node-specific callback (if any):
-  node_invoke($node, 'delete');
-  node_invoke_nodeapi($node, 'delete');
-
-  // Clear the page and block caches.
-  cache_clear_all();
-
-  // Remove this node from the search index if needed.
-  if (function_exists('search_wipe')) {
-    search_wipe($node->nid, 'node');
-  }
-  watchdog('content', '@type: deleted %title.', array('@type' => $node->type, '%title' => $node->title));
-  drupal_set_message(t('@type %title has been deleted.', array('@type' => node_get_types('name', $node), '%title' => $node->title)));
 }

@@ -26,7 +26,7 @@ function _psfc_orientation_mail_text($key, $language = NULL, $variables = array(
       case 'registration_not_confirmed_subject':
         return t('Please confirm your orientation !site', $variables, $langcode);
       case 'registration_not_confirmed_body':
-        return t("Dear !username\n\nsomeone registered for you for orientation. Please confirm.", $variables, $langcode);
+        return t("Dear !username\n\nYou have been registered for you for orientation. Please confirm.", $variables, $langcode);
       case 'registration_reminder_subject':
         return t('Reminder: Your PSFC orientation is coming up.', $variables, $langcode);
       case 'registration_reminder_body':
