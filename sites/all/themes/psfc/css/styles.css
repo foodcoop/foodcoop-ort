@@ -199,3 +199,21 @@ h2, h4 {
 .profile {
   clear: none;
 }
+
+
+
+
+/* un-drupalism */
+.node-form .standard {
+  clear: none;
+}
+
+.content .fake-leaf {
+  display: none;
+}
+ul.menu li {
+	margin-top: 5px;
+}
+ul.menu li ul.menu li {
+	list-style: none;
+}
