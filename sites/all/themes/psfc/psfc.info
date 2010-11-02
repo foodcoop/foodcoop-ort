@@ -9,6 +9,9 @@ stylesheets[all][]   = css/reset.css
 stylesheets[all][]   = css/styles.css
 stylesheets[all][]   = css/text.css
 
+scripts[]   = js/cufon-yui.js
+scripts[]   = js/League_Gothic_400.font.js
+
 regions[right] = right sidebar
 regions[contenttop] = contenttop
 regions[content] = content
