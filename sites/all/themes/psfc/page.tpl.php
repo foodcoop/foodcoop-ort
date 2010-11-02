@@ -7,7 +7,7 @@
     <?php print $styles; ?>
     <?php print $scripts; ?>
 	<script type="text/javascript">
-		Cufon.replace('h1,h2,h3,h4,.button', { fontFamily: 'League Gothic' });
+		Cufon.replace('h1,h2,h3,h4,button.rounded', { fontFamily: 'League Gothic' });
 	</script>
   </head>
   <body>

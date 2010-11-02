@@ -702,7 +702,7 @@ function psfc_orientation_signup_session($onid) {
   $output .= '</div>';
   $output .= '<div class="confirm-info-link"><button class="rounded"><span>';
   $output .= l(t('Register for this Orientation'), 'orientation/signup/session/register/'. $onid);
-  $output .= ' &#187;</span></button></div>';
+  $output .= '</span></button></div>';
   return $output;
 }
 
