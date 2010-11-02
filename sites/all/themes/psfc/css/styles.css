@@ -34,7 +34,10 @@ a:hover {
 	background-color: #fbffe6;
 }
 
-h1, h2 { font-family: 'League Gothic', 'Tahoma', sans-serif !important; }
+h1, h2 { font-family: 'League Gothic', 'Impact', sans-serif !important; font-weight: normal; }
+
+
+
 
 
 /* Header */
@@ -98,6 +101,7 @@ h1, h2 { font-family: 'League Gothic', 'Tahoma', sans-serif !important; }
 
 
 
+
 /* Footer */
 
 #footer {
@@ -141,7 +145,12 @@ h1, h2 { font-family: 'League Gothic', 'Tahoma', sans-serif !important; }
 	background-repeat: no-repeat;
 }
 
+
+
+
+
 /* Devel area */
+
 #devel-area {
   clear: both;
   margin: 2em;
@@ -159,6 +168,10 @@ h1, h2 { font-family: 'League Gothic', 'Tahoma', sans-serif !important; }
   color: #690;
 }
 
+
+
+
+
 /* Content */
 
 #content {
@@ -167,18 +180,17 @@ h1, h2 { font-family: 'League Gothic', 'Tahoma', sans-serif !important; }
 }
 
 h1, h2 {
-  color: #8f8d2c;
-  font-family: 'LeagueGothic';
+	color: #8f8d2c;
+	font-family: 'LeagueGothic';
 }
-h1 {
-  font-size: 2.5em;
-  letter-spacing: -2px;
-}
-h2 { font-size: 1.8em; }
 
-h2, h4 {
-  letter-spacing: -1px;
+h1 {
+	font-size: 2.5em;
+	letter-spacing: -2px;
 }
+
+h2 { font-size: 1.8em; }
+h2, h4 { letter-spacing: -1px; }
 
 #content a {
 	color: #690;
@@ -186,27 +198,34 @@ h2, h4 {
 }
 
 #right-side {
-  float: right;
-  width: 225px;
-}
-#right-side .block-psfc_member_data {
-  background: #F0E7D7;
-  padding: 1em;
-  margin: 0 0 2em 0;
-}
-#main-content {
-  margin-right: 250px;
+	float: right;
+	width: 225px;
 }
 
-/* user profile page */
-.profile {
-  clear: none;
+#right-side .block-psfc_member_data {
+	background: #F0E7D7;
+	padding: 1em;
+	margin: 0 0 2em 0;
 }
+
+#main-content { margin-right: 250px; }
+
+
+
+
+
+/* user profile page */
+
+.profile {
+	clear: none;
+}
+
 
 
 
 
 /* un-drupalism */
+
 .node-form .standard {
   clear: none;
 }
@@ -220,3 +239,53 @@ ul.menu li {
 ul.menu li ul.menu li {
 	list-style: none;
 }
+
+
+
+
+
+
+/* large rounded button */
+
+button {
+	border: 0 none;
+	cursor: pointer;
+	font-family: 'League Gothic';
+	font-size: 21px;
+	font-weight: normal;
+	height: 44px;
+	line-height: 44px;
+	margin-left: -4px;
+	padding: 0 20px 0 0;
+	text-align: center;
+	width: auto;
+}
+button a {
+	text-decoration: none !important;
+}
+
+button.rounded {
+	background: transparent url( ../img/btn_right.png ) no-repeat scroll right top;
+	clear: left;
+}
+
+button span {
+	display: block;
+	height: 44px;
+	line-height: 44px;
+	padding: 0 0 0 20px;
+	position: relative;
+	white-space: nowrap;
+}
+
+button.rounded span {
+	background: transparent url( ../img/btn_left.png ) no-repeat scroll left top;
+	color: #7b9544;
+}
+
+button.rounded:hover { background-position: 100% -44px; }
+button.rounded:hover span { background-position: 0% -44px; }
+button::-moz-focus-inner { border: none; }
+
+
+
