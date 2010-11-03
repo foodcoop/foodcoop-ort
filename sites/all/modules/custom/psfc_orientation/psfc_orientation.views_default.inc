@@ -535,9 +535,9 @@ $handler->override_option('fields', array(
     'empty' => '',
     'hide_empty' => 0,
     'empty_zero' => 0,
-    'value' => '<?php
+    'value' => '<button class="rounded"><span><?php
 print psfc_orientation_signup_link($data->nid);
-?>',
+?></span></button>',
     'exclude' => 0,
     'id' => 'phpcode_1',
     'table' => 'customfield',

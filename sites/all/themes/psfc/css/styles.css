@@ -213,18 +213,23 @@ h1, h2, h3 {
   clear: none;
 }
 
-.content .fake-leaf {
+#main-content .fake-leaf {
   display: none;
 }
-ul.menu li {
+#main-content ul.menu li {
 	margin-top: 5px;
 }
-ul.menu li ul.menu li {
+#main-content ul.menu li ul.menu li {
 	list-style: none;
 }
 
+tr.even, tr.odd {
+	background-color: transparent;
+}
 
-
+div.block-user h4 {
+	display: none;
+}
 
 
 
@@ -272,6 +277,8 @@ button::-moz-focus-inner { border: none; }
 
 
 
+
+
 /* orientation sign-in */
 
 div.orientation-login, 
@@ -292,3 +299,7 @@ div.orientation-register input {
 	width: 200px;
 }
 
+div.username {
+	font: 22px/32px Georgia;
+	color: #8d942d;
+}
