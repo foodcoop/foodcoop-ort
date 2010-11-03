@@ -332,13 +332,15 @@ function theme_psfc_orientation_login() {
   }
 
   _user_password_dynamic_validation();
-  $output = '<div class="orientation-login"><h3>Sign In</h3>';
-  $output .= '<p>If you already have an account, please sign in.</p>';
+  $output = '<div class="orientation-login">';
+  $output .= '<h3>If you already have an account, please log in</h3>';
   $output .= drupal_get_form('user_login');
-  $output .= '</div>';
-  $output .= '<div class="orientation-or">OR</div>';
+  $output .= '<div class="orientation-what">';
   $output .= $why_account_help_txt_view;
+  $output .= '</div>';
+  $output .= '</div>';
   $output .= '<div class="orientation-register">';
+  $output .= '<h3>Create an Account</h3>';
   $output .= $account_create_help_txt_view;
   $output .= drupal_get_form('user_register');
   $output .= '</div>';

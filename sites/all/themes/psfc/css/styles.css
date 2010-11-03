@@ -171,7 +171,7 @@ a:hover {
 	margin-bottom: 1em;
 }
 
-h1, h2 {
+h1, h2, h3 {
 	color: #8f8d2c;
 }
 
@@ -271,4 +271,24 @@ button.rounded:hover span { background-position: 0% -44px; }
 button::-moz-focus-inner { border: none; }
 
 
+
+/* orientation sign-in */
+
+div.orientation-login, 
+div.orientation-register {
+	float: left;
+	width: 330px;
+}
+div.orientation-register {
+	padding-left: 20px;
+	border-left: 2px solid #e9d8ac;
+}
+div#node-37.node.clear-block, 
+div#node-38.node.clear-block {
+	width: 330px;
+}
+div.orientation-login input, 
+div.orientation-register input {
+	width: 200px;
+}
 
