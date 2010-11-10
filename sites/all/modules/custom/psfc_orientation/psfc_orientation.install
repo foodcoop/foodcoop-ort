@@ -17,6 +17,13 @@ function psfc_orientation_install() {
 function psfc_orientation_uninstall() {
   // Remove tables.
   drupal_uninstall_schema('psfc_orientation');
+
+  // Remove site variables.
+  $query = db_query('SELECT name FROM variable WHERE name LIKE "psfc_orientation%"');
+
+  while ($result = db_fetch_object($query)) {
+    variable_del($result->name);
+  }
 }
 
 

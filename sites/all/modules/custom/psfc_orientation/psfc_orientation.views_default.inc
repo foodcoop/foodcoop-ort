@@ -513,7 +513,7 @@ $handler->override_option('fields', array(
     'relationship' => 'none',
   ),
   'phpcode_1' => array(
-    'label' => 'Signup link',
+    'label' => '',
     'alter' => array(
       'alter_text' => 0,
       'text' => '',
@@ -668,6 +668,7 @@ $handler->override_option('title', 'Sign up for an orientation session');
 $handler->override_option('footer', '<?php
 $nid = variable_get(\'psfc_orientation_upcoming_orientations\', 36);
 $footer_txt = node_load($nid);
+drupal_set_title(t($footer_txt->title));
 unset($footer_txt->title);
 $out = node_view($footer_txt);
 if (user_access(\'administer psfc orientation\') && user_access(\'administer nodes\')) {
@@ -681,6 +682,7 @@ $handler->override_option('footer_empty', 0);
 $handler->override_option('empty', '<?php
 $nid = variable_get(\'psfc_orientation_no_orientations\', 35)
 $empty_txt = node_load($nid);
+drupal_set_title(t($empty_txt->title));
 unset($empty_txt->title);
 $out = node_view($empty_txt);
 if (user_access(\'administer psfc orientation\') && user_access(\'administer nodes\')) {

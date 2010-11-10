@@ -426,6 +426,7 @@ function psfc_orientation_confirmed() {
   $output .= theme_psfc_orientation_date_table($date);
   $text = node_load(variable_get('psfc_orientation_confirmation_thank_you', FALSE));
   if (is_object($text)) {
+    drupal_set_title(t($text->title));
     unset($text->title);
     $output .= node_view($text);
     if (user_access('administer psfc orientation') && user_access('administer nodes')) {
