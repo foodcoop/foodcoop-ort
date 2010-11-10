@@ -226,7 +226,9 @@ h1, h2, h3 {
 tr.even, tr.odd {
 	background-color: transparent;
 }
-
+td {
+  padding: 0 2em 0 0;
+}
 div.block-user h4 {
 	display: none;
 }
@@ -235,7 +237,7 @@ div.block-user h4 {
 
 /* large rounded button */
 
-button {
+div.button-rounded, button {
 	border: 0 none;
 	cursor: pointer;
 	font-family: 'League Gothic';
@@ -248,16 +250,20 @@ button {
 	text-align: center;
 	width: auto;
 }
-button a {
+div.confirm-info-link .button-rounded {
+  float: left;
+  width: 250px;
+}
+div.button-rounded a, button a {
 	text-decoration: none !important;
 }
 
-button.rounded {
+div.button-rounded, button.rounded {
 	background: transparent url( ../img/btn_right.png ) no-repeat scroll right top;
 	clear: left;
 }
 
-button span {
+div.button-rounded span, button span {
 	display: block;
 	height: 44px;
 	line-height: 44px;
@@ -266,14 +272,14 @@ button span {
 	white-space: nowrap;
 }
 
-button.rounded span {
+div.button-rounded span, button.rounded span {
 	background: transparent url( ../img/btn_left.png ) no-repeat scroll left top;
 	color: #7b9544;
 }
 
-button.rounded:hover { background-position: 100% -44px; }
-button.rounded:hover span { background-position: 0% -44px; }
-button::-moz-focus-inner { border: none; }
+div.button-rounded:hover, button.rounded:hover { background-position: 100% -44px; }
+div.button-rounded:hover span, button.rounded:hover span { background-position: 0% -44px; }
+div.button-rounded::-moz-focus-inner, button::-moz-focus-inner { border: none; }
 
 
 
@@ -281,7 +287,7 @@ button::-moz-focus-inner { border: none; }
 
 /* orientation sign-in */
 
-div.orientation-login, 
+div.orientation-login,
 div.orientation-register {
 	float: left;
 	width: 330px;
@@ -290,11 +296,11 @@ div.orientation-register {
 	padding-left: 20px;
 	border-left: 2px solid #e9d8ac;
 }
-div#node-37.node.clear-block, 
+div#node-37.node.clear-block,
 div#node-38.node.clear-block {
 	width: 330px;
 }
-div.orientation-login input, 
+div.orientation-login input,
 div.orientation-register input {
 	width: 200px;
 }
