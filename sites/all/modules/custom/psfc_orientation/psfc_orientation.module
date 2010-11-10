@@ -701,9 +701,9 @@ function psfc_orientation_signup_session($onid) {
   $output .= '<div class="confirm-info-date">';
   $output .= theme(psfc_orientation_date_table, $orientation->field_date[0]['value']);
   $output .= '</div>';
-  $output .= '<div class="confirm-info-link"><button class="rounded"><span>';
+  $output .= '<div class="confirm-info-link"><div class="button-rounded"><span>';
   $output .= l(t('Register for this Orientation'), 'orientation/signup/session/register/'. $onid);
-  $output .= '</span></button></div>';
+  $output .= '</span></div></div>';
   return $output;
 }
 
