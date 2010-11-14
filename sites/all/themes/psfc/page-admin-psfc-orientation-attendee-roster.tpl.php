@@ -12,6 +12,13 @@
   <body>
    <h1><img src="<?php print base_path() . path_to_theme()  ?>/img/logo-grayscale.png" /> <?php print $title; ?></h1>
    <?php print $content; ?>
+   <table>
+      <tr><td class="walk-in" >&nbsp;</td></tr>
+      <tr><td class="walk-in" >&nbsp;</td></tr>
+      <tr><td class="walk-in" >&nbsp;</td></tr>
+      <tr><td class="walk-in" >&nbsp;</td></tr>
+      <tr><td class="walk-in" >&nbsp;</td></tr>
+   </table>
     <?php print $closure; ?>
   </body>
 </html>
