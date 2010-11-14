@@ -641,7 +641,7 @@ function psfc_orientation_node_build_attendee($account, $onid) {
  *   If TRUE the orientation node should be closed.
  * @return The number of open spaces remaining for the orientation.
  */
-function psfc_orientation_capacity($node, $status = FALSE) {
+function psfc_orientation_capacity($node, $close = FALSE) {
   if(!is_object($node)){
     // We have to reset the node cache to get the latest count.
     $node = node_load($node, NULL, TRUE);
@@ -649,13 +649,13 @@ function psfc_orientation_capacity($node, $status = FALSE) {
   $count = isset($node->field_orientation_attendees[0]) ? $node->field_capacity[0]['value'] - count($node->field_orientation_attendees[0]['items']) : $node->field_capacity[0]['value'];
 
   // It's full. Close it if it's not already closed.
-  if ($status && $count <= 0 && $node->field_open[0]['value'] == 0) {
+  if ($close && $count <= 0 && $node->field_open[0]['value'] == 0) {
     $node->field_open[0]['value'] = 1; // 0 is open, 1 is closed.
     node_save($node);
   }
 
   // It's not full, reopen it if it's not already open.
-  if ($status && $count > 0 && $node->field_open[0]['value'] == 1) {
+  if ($close && $count > 0 && $node->field_open[0]['value'] == 1) {
     $node->field_open[0]['value'] = 0; // 0 is open, 1 is closed.
     node_save($node);
   }

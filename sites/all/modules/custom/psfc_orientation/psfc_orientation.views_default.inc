@@ -568,7 +568,7 @@ print psfc_orientation_signup_link($data->nid);
     'hide_empty' => 0,
     'empty_zero' => 0,
     'value' => '<?php
-if (psfc_orientation_capacity($data->nid) <= 3) {
+if (psfc_orientation_capacity($data->nid, TRUE) <= 3) {
   print t(\'Fewer than 3 spots available\');
 }
 ?>',
