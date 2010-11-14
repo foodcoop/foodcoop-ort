@@ -235,25 +235,30 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
       }
     break;
     case 'user_register':
-      $form['submit']['#value'] = t('Sign Up');  // Change button value.
+      // Only alter reg form on our custom signup page.
+      if ($_GET['q'] == 'orientation/login') {
+        $form['submit']['#value'] = t('Sign Up');  // Change button value.
 
-      // Move name category to account.
-      $form['account']['profile_first_name'] = $form['Name']['profile_first_name'];
-      $form['account']['profile_last_name'] = $form['Name']['profile_last_name'];
-      // Unset description and move all to $form.
-      foreach(element_children($form['account'])as $field) {
-        unset($form['account'][$field]['#description']);
-        $form[$field] = $form['account'][$field];
+        // Move name category to account.
+        $form['profile_firstname'] = $form['Name']['profile_firstname'];
+        $form['profile_lastname'] = $form['Name']['profile_lastname'];
+        unset($form['profile_firstname']['#description']);
+        unset($form['profile_lastname']['#description']);
+        // Unset description and move all to $form.
+        foreach(element_children($form['account'])as $field) {
+          unset($form['account'][$field]['#description']);
+          $form[$field] = $form['account'][$field];
+        }
+        // Lose the fieldsets.
+        unset($form['Name']);
+        unset($form['account']);
+        //Put fields in order.
+        $form['profile_firstname']['#weight'] = 1;
+        $form['profile_lastname']['#weight'] = 2;
+        $form['mail']['#weight'] = 3;
+        $form['name']['#weight'] = 4;
+        $form['pass']['#weight'] = 5;
       }
-      // Lose the fieldsets.
-      unset($form['Name']);
-      unset($form['account']);
-      //Put fields in order.
-      $form['profile_first_name']['#weight'] = 1;
-      $form['profile_last_name']['#weight'] = 2;
-      $form['mail']['#weight'] = 3;
-      $form['name']['#weight'] = 4;
-      $form['pass']['#weight'] = 5;
     break;
   }
 }
