@@ -174,7 +174,7 @@ function psfc_orientation_display_orientation_rules() {
  * @return Returns a themed table of orientation blackout days
  */
 function psfc_orientation_display_blackouts() {
-  $query = db_query("SELECT * FROM {psfc_orientation_blackout_days}");
+  $query = db_query("SELECT * FROM {psfc_orientation_blackout_days} ORDER BY blackout_date");
   $rows = array();
   while ($result = db_fetch_array($query)) {
     $date = str_replace('00:00:00', '', $result['blackout_date']);

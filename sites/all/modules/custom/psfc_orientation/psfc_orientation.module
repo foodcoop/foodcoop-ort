@@ -205,6 +205,9 @@ function psfc_orientation_cron() {
 
   // Send reminder emails
   psfc_orientation_send_reminders();
+
+  // Delete old blackout dates
+  psfc_orientation_past_blackout_delete();
 }
 
 /**
@@ -979,4 +982,21 @@ function psfc_orientation_orientation_creation_window($time, $range = 15) {
     }
   }
   return FALSE;
+}
+/**
+ * Helper function to delete past blackout days via cron
+ */
+function psfc_orientation_past_blackout_delete() {
+  $q = db_query("SELECT * FROM {psfc_orientation_blackout_days}");
+
+  $obids = array();
+  while ($r = db_fetch_array($q)) {
+    $date = strtotime($r['blackout_date']);
+    if ($date < time()) {
+      $obids[] = $r['obid'];
+    }
+  }
+  foreach ($obids as $key => $obid) {
+    db_query("DELETE FROM {psfc_orientation_blackout_days} WHERE obid = %d", $obid);
+  }
 }
