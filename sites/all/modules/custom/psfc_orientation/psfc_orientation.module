@@ -183,7 +183,7 @@ function psfc_orientation_cron() {
       $hour = date('H', $next) + 4;
       $time = date(':i:s', $next);
       $time_value = $date .'T'. $hour . $time;
-      if (!psfc_orientation_orientation_exists($time_value) && !psfc_orientation_orientation_blacked_out($date)) {
+      if (!psfc_orientation_orientation_exists($time_value) && !psfc_orientation_orientation_blacked_out($date) &&  psfc_orientation_orientation_creation_window($next)) {
         $node = psfc_orientation_node_build($result, $time_value);
         if ($node->nid) {
           watchdog('psfc_orientation', 'Added an orientation for: @date', array('@date' => $time_value), WATCHDOG_NOTICE);
@@ -965,4 +965,24 @@ function theme_psfc_orientation_status() {
 
   $output .= '<p>'. t('If this is not correct, ') . psfc_orientation_confirm_url($user, 'cancel', 'please cancel and sign up again.');
   return $output;
+}
+/**
+ * Helper function to determine if now is the right time window to create
+ * an orientation
+ *
+ * @param $time The unix timestamp of an orientation you are looking to create.
+ * @param $range Optional The number of minutes after a time that an
+ *  orientation should still get created.
+ *
+ * @return returns TRUE if it is okay to create the orientation
+ */
+function psfc_orientation_orientation_creation_window($time, $range = 15) {
+  if (date('l') == date('l', $time) && date('G') == date('G', $time)) {
+    $current_minute = date('i');
+    $time_minute = date('i', $time);
+    if ($current_minute - $time_minute <= $range)  {
+      return TRUE;
+    }
+  }
+  return FALSE;
 }
