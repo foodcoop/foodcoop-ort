@@ -260,12 +260,15 @@ div.button-rounded a, button a {
 	text-decoration: none !important;
 }
 
-div.button-rounded, button.rounded {
+div.button-rounded,
+button.rounded {
 	background: transparent url( ../img/btn_right.png ) no-repeat scroll right top;
 	clear: left;
 }
 
-div.button-rounded span, button span {
+div.button-rounded span,
+div.button-rounded input,
+button span {
 	display: block;
 	height: 44px;
 	line-height: 44px;
@@ -274,14 +277,27 @@ div.button-rounded span, button span {
 	white-space: nowrap;
 }
 
-div.button-rounded span, button.rounded span {
+div.button-rounded span,
+div.button-rounded input,
+button.rounded span {
 	background: transparent url( ../img/btn_left.png ) no-repeat scroll left top;
 	color: #7b9544;
 }
 
-div.button-rounded:hover, button.rounded:hover { background-position: 100% -44px; }
-div.button-rounded:hover span, button.rounded:hover span { background-position: 0% -44px; }
-div.button-rounded::-moz-focus-inner, button::-moz-focus-inner { border: none; }
+div.button-rounded:hover,
+button.rounded:hover {
+  background-position: 100% -44px;
+ }
+div.button-rounded:hover span,
+div.button-rounded input:hover,
+button.rounded:hover span  {
+ background-position: 0% -44px;
+}
+div.button-rounded::-moz-focus-inner,
+div.button-rounded input::-moz-focus-inner,
+button::-moz-focus-inner {
+  border: none;
+}
 
 
 

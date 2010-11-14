@@ -43,3 +43,14 @@ function psfc_preprocess_block(&$variables) {
 
   return $out;
 }
+
+function psfc_button($element) {
+  // Make sure not to overwrite classes.
+  if (isset($element['#attributes']['class'])) {
+    $element['#attributes']['class'] = 'form-' . $element['#button_type'] . ' ' . $element['#attributes']['class'];
+  }
+  else {
+    $element['#attributes']['class'] = 'form-' . $element['#button_type'];
+  }
+  return '<div class="button-rounded"><input type="submit" ' . (empty($element['#name']) ? '' : 'name="' . $element['#name'] . '" ') . 'id="' . $element['#id'] . '" value="' . check_plain($element['#value']) . '" ' . drupal_attributes($element['#attributes']) . " /></div>\n";
+}
