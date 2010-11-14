@@ -214,12 +214,25 @@ function psfc_orientation_cron() {
  * Implementation of hook_user().
  */
 function psfc_orientation_user($op, &$edit, &$user) {
-  // When users are deleted, we delete their attendee nodes if they have any.
-  if ($op == 'delete') {
-    $result = db_query("SELECT nid from {content_type_orientation_attendee} WHERE field_userid_uid = %d", $user->uid);
-    while ($nid = db_result($result)){
-      node_delete($nid);
-    }
+  switch ($op) {
+    case 'load' :
+      // Add member statuses to the user object.
+      if ($attendee = psfc_orientation_get_attendee_node($user)) {
+        $user->member_status['orientation']['registered'] = TRUE;
+        $user->member_status['orientation']['confirmed'] = $attendee->field_attendee_confirmed[0]['value'];
+        $user->member_status['orientation']['attended'] = $attendee->field_attendee_attended[0]['value'];
+      }
+      else {
+        $user->member_status['orientation']['registered'] = FALSE;
+      }
+      break;
+    case 'delete' :
+      // When users are deleted, we delete their attendee nodes if they have any.
+      $result = db_query("SELECT nid from {content_type_orientation_attendee} WHERE field_userid_uid = %d", $user->uid);
+      while ($nid = db_result($result)){
+        node_delete($nid);
+      }
+      break;
   }
 }
 
@@ -877,7 +890,6 @@ function psfc_orientation_get_attendee_node($account) {
   return FALSE;
 }
 
-
 /**
  * Helper function to load attendee node.
  *
@@ -941,7 +953,7 @@ function theme_psfc_orientation_status() {
   $output .= '</div>';
 
   if (!$attendee->field_attendee_confirmed[0]['value']) {
-    $output .= '<p>'. t('You are not yet confirmed. ') . psfc_orientation_confirm_url($user, 'confirm', 'Please click here to confirm.'). '</p>';
+    $output .= '<p>'. t('You are not yet confirmed. You should have received an email with confirmation instructions. You must confirm withing 48 hours of registerting or you will lose your resereved place.') .'</p>';
   }
   else {
     $output .= '<p>'. t('You orientation registration is confirmed. '). '</p>';
