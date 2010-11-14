@@ -328,12 +328,12 @@ function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   if ($node->type == 'orientation_attendee') {
     $recipient = $node->field_email[0]['email'];
     // This is the attendee node.
-    $account = user_load($node->field_userid[0]['uid']);
-    $params['node'] = $node;
-    $params['node']->confirm = psfc_orientation_confirm_url($account, 'confirm');
-    $params['node']->cancel = psfc_orientation_confirm_url($account, 'cancel');
     switch ($op) {
       case 'insert' :
+        $account = user_load($node->field_userid[0]['uid']);
+        $params['node'] = $node;
+        $params['node']->confirm = psfc_orientation_confirm_url($account, 'confirm');
+        $params['node']->cancel = psfc_orientation_confirm_url($account, 'cancel');
         // A new attendee as been created for an orientation.
         // Attendee signed self up and is confirmed.
         if ($node->field_attendee_confirmed[0]['value'] == TRUE) {
@@ -350,6 +350,10 @@ function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         break;
 
       case 'delete' :
+        $account = user_load($node->field_userid[0]['uid']);
+        $params['node'] = $node;
+        $params['node']->confirm = psfc_orientation_confirm_url($account, 'confirm');
+        $params['node']->cancel = psfc_orientation_confirm_url($account, 'cancel');
         // Email the attendee
           drupal_mail('psfc_orientation', 'registration_cancelled', $recipient, language_default(), $params);
 
