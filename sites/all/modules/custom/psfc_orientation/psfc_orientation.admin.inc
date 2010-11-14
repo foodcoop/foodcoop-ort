@@ -43,7 +43,7 @@ function psfc_orientation_admin_rule_form_skel($op, $orid = NULL) {
     case 'edit':
       if (is_numeric($orid)) {
         $info = psfc_orientation_get_repeat_rule_info($orid);
-        $time = psfc_orienation_split_time_of_day($orid);
+        $time = psfc_orientation_split_time_of_day($orid);
       }
       break;
   }
