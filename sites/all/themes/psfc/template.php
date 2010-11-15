@@ -52,5 +52,5 @@ function psfc_button($element) {
   else {
     $element['#attributes']['class'] = 'form-' . $element['#button_type'];
   }
-  return '<div class="button-rounded"><span><input type="submit" ' . (empty($element['#name']) ? '' : 'name="' . $element['#name'] . '" ') . 'id="' . $element['#id'] . '" value="' . check_plain($element['#value']) . '" ' . drupal_attributes($element['#attributes']) . " /></span></div>\n";
+  return '<div class="button-rounded"><span><button type="submit" ' . (empty($element['#name']) ? '' : 'name="' . $element['#name'] . '" ') . 'id="' . $element['#id'] . drupal_attributes($element['#attributes']) . '>' . check_plain($element['#value']) . '</button></span></div>';
 }

@@ -254,7 +254,7 @@ div.confirm-info-link .button-rounded {
   width: 250px;
 }
 div.button-rounded a,
-div.button-rounded input {
+div.button-rounded button {
 	position: relative;
 	top: -3px;
 	text-decoration: none !important;
@@ -288,10 +288,17 @@ div.button-rounded:hover span  {
 div.button-rounded::-moz-focus-inner {
   border: none;
 }
-div.button-rounded span input {
+div.button-rounded span button {
 	border: none;
+	color: #6d9900;
+	font-size: 22px;
 	background: transparent;
 }
+
+
+
+
+
 
 
 /* orientation sign-in */
@@ -321,6 +328,8 @@ div.username {
 
 
 
+
+/* orientation time date table */
 
 table {
 	margin-top: 1em;
@@ -357,5 +366,4 @@ div.block-user {
 #user-login-form ul li {
 	margin-left: 0;
 }
-
 
