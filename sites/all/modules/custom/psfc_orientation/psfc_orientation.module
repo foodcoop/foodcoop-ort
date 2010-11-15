@@ -198,10 +198,16 @@ function psfc_orientation_cron() {
   while ($attendee = db_fetch_array($result)) {
     // Let's not delete any key users.
     $account = user_load($attendee['field_userid_uid']);
-    if (!user_access('administer psfc orientation', $account)) {
-      user_delete(array(), $attendee['field_userid_uid']);
+    // Make sure the account still exists.
+    if (is_object($account)) {
+      if (!user_access('administer psfc orientation', $account)) {
+        user_delete(array(), $attendee['field_userid_uid']);
+      }
     }
   }
+
+  // Close old orientations.
+  psfc_orientation_close_old();
 
   // Send reminder emails
   psfc_orientation_send_reminders();
@@ -662,6 +668,20 @@ function psfc_orientation_capacity($node, $close = FALSE) {
   }
 
   return $count;
+}
+
+/**
+ * Helper function to close past orientations. Called by cron.
+ *
+ */
+function psfc_orientation_close_old() {
+  $old = time() - 360;
+  $result = db_query("SELECT n.nid FROM {content_type_orientation} cto INNER JOIN {node} n ON cto.nid = n.nid AND cto.vid = n.vid AND cto.field_open_value = 0 AND UNIX_TIMESTAMP(cto.field_date_value) < %d", $old);
+  while ($nid = db_result($result)) {
+    $node = node_load($nid);
+    $node->field_open[0]['value'] = 1; // 0 is open, 1 is closed.
+    node_save($node);
+  }
 }
 
 /**
