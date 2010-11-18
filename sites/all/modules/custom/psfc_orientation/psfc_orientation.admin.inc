@@ -163,7 +163,7 @@ function psfc_orientation_display_orientation_rules() {
     $rows[] = array($orientation, l('edit', 'admin/psfc/orientation/edit-rule/'. $result['orid']), l('delete', 'admin/psfc/orientation/delete-rule/'. $result['orid']));
   }
 
-  $output = theme('table', array(t('Existing Rules')), $rows);
+  $output = theme('table', array(t('Existing Rules'), '', ''), $rows);
 
   return $output;
 }
@@ -180,7 +180,7 @@ function psfc_orientation_display_blackouts() {
     $date = str_replace('00:00:00', '', $result['blackout_date']);
     $rows[] = array($date, l('delete', 'admin/psfc/orientation/delete-blackout/'. $result['obid']));
   }
-  $output = theme('table', array(t('Upcoming Blackout Dates')), $rows);
+  $output = theme('table', array(t('Upcoming Blackout Dates'), ''), $rows);
 
   return $output;
 
