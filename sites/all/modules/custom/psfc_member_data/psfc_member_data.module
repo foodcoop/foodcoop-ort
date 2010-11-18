@@ -23,7 +23,6 @@ function psfc_member_data_block($op = 'list', $delta = 0, $edit = array()) {
     return $block;
   }
 }
-
 /**
  * Define the member status block conent
  */
@@ -32,8 +31,20 @@ function psfc_member_data_block_0() {
   if ($user->uid == 0) {
     return;
   }
+  $orientation_status = psfc_orientation_user_orientation_status($user->uid);
+  if ($orientation_status != 1) {
+    $status = $orientation_status;
+  }
+  elseif ($orientation_status == 1) {
+    // TODO: Here is where we will have to call in actual member status once
+    //  we start pulling in the member data.
+    $status = t('You have completed orientation.');
+  }
+  else {
+    $status = t('Unkown status');
+  }
   $output = t('You are logged in as:') .'<br />';
   $output .= '<div class="username">' . $user->name . '</div>';
-  $output .= '<div>'. t('Your registration status') .' | '. l('Log Out', 'logout') .'</div>';
+  $output .= '<div>'. $status .' | '. l('Log Out', 'logout') .'</div>';
   return $output;
 }

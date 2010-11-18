@@ -219,22 +219,22 @@ function psfc_orientation_cron() {
 /**
  * Implementation of hook_user().
  */
-function psfc_orientation_user($op, &$edit, &$user) {
+function psfc_orientation_user($op, &$edit, &$account) {
   switch ($op) {
     case 'load' :
       // Add member statuses to the user object.
-      if ($attendee = psfc_orientation_get_attendee_node($user)) {
-        $user->member_status['orientation']['registered'] = TRUE;
-        $user->member_status['orientation']['confirmed'] = $attendee->field_attendee_confirmed[0]['value'];
-        $user->member_status['orientation']['attended'] = $attendee->field_attendee_attended[0]['value'];
+      if ($attendee = psfc_orientation_get_attendee_node($account)) {
+        $account->member_status['orientation']['registered'] = TRUE;
+        $account->member_status['orientation']['confirmed'] = $attendee->field_attendee_confirmed[0]['value'];
+        $account->member_status['orientation']['attended'] = $attendee->field_attendee_attended[0]['value'];
       }
       else {
-        $user->member_status['orientation']['registered'] = FALSE;
+        $account->member_status['orientation']['registered'] = FALSE;
       }
       break;
     case 'delete' :
       // When users are deleted, we delete their attendee nodes if they have any.
-      $result = db_query("SELECT nid from {content_type_orientation_attendee} WHERE field_userid_uid = %d", $user->uid);
+      $result = db_query("SELECT nid from {content_type_orientation_attendee} WHERE field_userid_uid = %d", $account->uid);
       while ($nid = db_result($result)){
         node_delete($nid);
       }
@@ -1018,5 +1018,31 @@ function psfc_orientation_past_blackout_delete() {
   }
   foreach ($obids as $key => $obid) {
     db_query("DELETE FROM {psfc_orientation_blackout_days} WHERE obid = %d", $obid);
+  }
+}
+
+/**
+ * Helper function to pass a user's orientation status to
+ * the member_data module
+ *
+ * @param $uid The user id for the the member status you are looking for
+ *
+ * @return A textual representation of the user/member's orientation status,
+ *  or a 1 for a user who has attended an orientation
+ */
+function psfc_orientation_user_orientation_status($uid) {
+  $user = user_load($uid);
+  $member_status = $user->member_status;
+  if (!$member_status['orientation']['registered']) {
+    return t('You are not registered for an orientation.');
+  }
+  elseif ($member_status['orientation']['confirmed'] == 0) {
+    return t('You have registered for an orientation and not confirmed');
+  }
+  elseif ($member_status['orientation']['confirmed'] == 1  && !$member_status['orientation']['attended']) {
+    return t('You are confirmed to attend an upcoming orientation');
+  }
+  elseif ($member_status['orientation']['attended'] == 1) {
+    return 1;
   }
 }
