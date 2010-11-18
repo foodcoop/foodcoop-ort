@@ -973,6 +973,28 @@ $views[$view->name] = $view;
       'validate_argument_php' => '',
     ),
   ));
+  $handler->override_option('filters', array(
+    'field_attendee_confirmed_value' => array(
+      'operator' => '=',
+      'value' => '1',
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => 'field_attendee_confirmed_value_op',
+        'label' => 'Content: Confirmed (field_attendee_confirmed)',
+        'use_operator' => FALSE,
+        'identifier' => 'field_attendee_confirmed_value',
+        'remember' => FALSE,
+        'single' => TRUE,
+        'optional' => TRUE,
+      ),
+      'case' => 1,
+      'id' => 'field_attendee_confirmed_value',
+      'table' => 'node_data_field_attendee_confirmed',
+      'field' => 'field_attendee_confirmed_value',
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('access', array(
     'type' => 'perm',
     'perm' => 'access content',
