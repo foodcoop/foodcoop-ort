@@ -218,7 +218,7 @@ div#right-side ul.menu { margin-left: 6px; }
 tr.even, tr.odd { background-color: transparent; }
 td { padding: 2px 2.5em 0 0; }
 td.views-field-phpcode-1,td.views-field-phpcode { padding: 0px; }
-td.views-field-phpcode { 
+td.views-field-phpcode {
 	vertical-align: middle;
 }
 td.views-field-phpcode div.only-three {
@@ -361,9 +361,35 @@ span.date-display-single {
 div.block-user {
 	background: #F0E7D7;
 	margin-bottom: 20px;
-	padding: 10px 0 10px 0;	
+	padding: 10px 0 10px 0;
 }
 #user-login-form ul li {
 	margin-left: 0;
 }
 
+
+
+/* menu tabs */
+div#main-content ul.tabs {
+  padding: 0;
+}
+div#main-content ul.tabs li {
+  margin: 0;
+  border: 1px solid #bbb;
+  border-bottom: none;
+  background: #F0E7D7;
+  padding: 3px 10px;
+}
+div#main-content ul.tabs li.active {
+  background: #FBFFE6;
+  padding-bottom: 4px;
+}
+div#main-content ul.tabs li:hover {
+  background: #FBFFE6;
+}
+div#main-content ul.tabs a {
+  text-decoration: none;
+}
+div#main-content ul.tabs a.active {
+  border: none;
+}

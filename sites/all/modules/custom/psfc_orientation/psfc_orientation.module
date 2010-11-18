@@ -112,12 +112,14 @@ function psfc_orientation_menu() {
     'access arguments' => array( 'access content'),
     'page callback' => 'psfc_orientation_signup_session',
     'page arguments' => array(3),
+    'type' => MENU_CALLBACK,
   );
   $items['orientation/signup/session/register/%'] = array(
     'title' => 'Do the registration',
     'access arguments' => array( 'access content'),
     'page callback' => 'psfc_orientation_signup_session_register',
     'page arguments' => array(4),
+    'type' => MENU_CALLBACK,
   );
   $items['orientation/login'] = array(
     'title' => 'Sign in',
@@ -125,17 +127,20 @@ function psfc_orientation_menu() {
     'page callback' => 'psfc_orientation_login',
     'access arguments' => array('access content'),
     'file' => 'psfc_orientation.admin.inc',
+    'type' => MENU_CALLBACK,
   );
   $items['orientation/status'] = array(
     'title' => 'Your Registration Status',
     'description' => 'Are you signed up for orientation.',
     'page callback' => 'psfc_orientation_status',
     'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
   );
   $items['orientation/confirmed'] = array(
     'title' => 'Thank you for Confirming your Orientation Registration',
     'page callback' => 'psfc_orientation_confirmed',
     'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
   );
   $items['orientation/confirm/%/%/%/%'] = array(
     'title' => 'Set registration status',

@@ -19,11 +19,11 @@ function psfc_orientation_admin_page() {
 
   $form['existing_orientations'] = array(
     '#type' => 'markup',
-    '#value' => $existing_orientations,
+    '#value' => $existing_orientations .  l('Create a new Orientation rule', 'admin/psfc/orientation/add-rule'),
   );
   $form['blackouts'] = array(
     '#type' => 'markup',
-    '#value' => psfc_orientation_display_blackouts(),
+    '#value' => psfc_orientation_display_blackouts() . l('Create a new blackout date', 'admin/psfc/orientation/add-blackout'),
   );
   $form['psfc_orientation_default_description'] = array(
     '#type' => 'textarea',
