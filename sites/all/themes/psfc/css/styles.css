@@ -370,26 +370,19 @@ div.block-user {
 
 
 /* menu tabs */
-div#main-content ul.tabs {
+div#main-content ul.primary {
   padding: 0;
 }
-div#main-content ul.tabs li {
-  margin: 0;
-  border: 1px solid #bbb;
-  border-bottom: none;
-  background: #F0E7D7;
-  padding: 3px 10px;
-}
-div#main-content ul.tabs li.active {
-  background: #FBFFE6;
-  padding-bottom: 4px;
-}
-div#main-content ul.tabs li:hover {
-  background: #FBFFE6;
-}
-div#main-content ul.tabs a {
+div#main-content ul.primary a {
   text-decoration: none;
+  background: #F0E7D7;
 }
-div#main-content ul.tabs a.active {
-  border: none;
+div#main-content ul.primary li {
+  margin-left: 0;
+}
+div#main-content ul.primary li.active a{
+  background: #FBFFE6;
+}
+div#main-content ul.primary li:hover a {
+  background: #FBFFE6;
 }

@@ -40,7 +40,7 @@ function psfc_orientation_menu() {
     'access arguments' => array( 'administer psfc orientation'),
     'file' => 'psfc_orientation.admin.inc',
     'weight' => 10,
-    'type' => MENU_LOCAL_TASK
+    'type' => MENU_DEFUALT_LOCAL_TASK
   );
   $items['admin/psfc/orientation/overview'] = array(
     'title' => 'Orientation Settings',
