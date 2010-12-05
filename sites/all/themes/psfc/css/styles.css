@@ -253,6 +253,11 @@ div.confirm-info-link .button-rounded {
   float: left;
   width: 250px;
 }
+
+div.confirm-info-link {
+  clear: left;
+}
+
 div.button-rounded a,
 div.button-rounded button {
 	position: relative;

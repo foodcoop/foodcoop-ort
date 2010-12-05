@@ -44,13 +44,13 @@ function psfc_preprocess_block(&$variables) {
   return $out;
 }
 
-function psfc_button($element) {
-  // Make sure not to overwrite classes.
-  if (isset($element['#attributes']['class'])) {
-    $element['#attributes']['class'] = 'form-' . $element['#button_type'] . ' ' . $element['#attributes']['class'];
-  }
-  else {
-    $element['#attributes']['class'] = 'form-' . $element['#button_type'];
-  }
-  return '<div class="button-rounded"><span><button type="submit" ' . (empty($element['#name']) ? '' : 'name="' . $element['#name'] . '" ') . 'id="' . $element['#id'] . drupal_attributes($element['#attributes']) . '>' . check_plain($element['#value']) . '</button></span></div>';
-}
+//function psfc_button($element) {
+//  // Make sure not to overwrite classes.
+//  if (isset($element['#attributes']['class'])) {
+//    $element['#attributes']['class'] = 'form-' . $element['#button_type'] . ' ' . $element['#attributes']['class'];
+//  }
+//  else {
+//    $element['#attributes']['class'] = 'form-' . $element['#button_type'];
+//  }
+//  return '<div class="button-rounded"><span><button type="submit" ' . (empty($element['#name']) ? '' : 'name="' . $element['#name'] . '" ') . 'id="' . $element['#id'] . drupal_attributes($element['#attributes']) . '>' . check_plain($element['#value']) . '</button></span></div>';
+//}

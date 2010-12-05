@@ -746,7 +746,11 @@ function psfc_orientation_signup_session($onid) {
   $output .= theme(psfc_orientation_date_table, $orientation->field_date[0]['value']);
   $output .= '</div>';
   $output .= '<div class="confirm-info-link"><div class="button-rounded"><span>';
-  $output .= l(t('Register for this Orientation'), 'orientation/signup/session/register/'. $onid);
+  $output .= l(t('Yes, register me for this Orientation'), 'orientation/signup/session/register/'. $onid);
+  $output .= '</span></div></div>';
+  $output .= '<div class="confirm-info-link"><p>'. t('Or if this is not correct,') .'</p>';
+  $output .= '<div class="button-rounded"><span>';
+  $output .= l(t('Begin Registration Process Again'), 'orientations');
   $output .= '</span></div></div>';
   return $output;
 }
@@ -983,7 +987,10 @@ function theme_psfc_orientation_status() {
     $output .= '<p>'. t('You orientation registration is confirmed. '). '</p>';
   }
 
-  $output .= '<p>'. t('If this is not correct, ') . psfc_orientation_confirm_url($user, 'cancel', 'please cancel and sign up again.');
+  $output .= '<p>'. t('If this is not correct, please cancel and sign up again.');
+
+  $output .= '<div class="button-rounded"><span>'. psfc_orientation_confirm_url($user, 'cancel', 'Cancel') . '</span></div>';
+
   return $output;
 }
 /**
