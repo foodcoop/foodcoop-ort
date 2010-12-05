@@ -49,7 +49,7 @@ function psfc_orientation_mail_settings() {
   );
   // These email tokens are shared for all settings, so just define
   // the list once to help ensure they stay in sync.
-  $email_token_help = t('Available variables are: ') .'!attendee_firstname, !attendee_lastname, !attendee_email, !attendee_confirmed_status, !orientation_description, !orientation_date, !orientation_link, !confirm_link, !cancel_link, !registered_on_date, !registerer, !site, !uri, !uri_brief, !login_uri';
+  $email_token_help = t('Available variables are: ') .'!attendee_firstname, !attendee_lastname, !attendee_email, !attendee_confirmed_status, !orientation_description, !orientation_date, !orientation_date_short, !orientation_link, !confirm_link, !cancel_link, !registered_on_date, !registerer, !site, !uri, !uri_brief, !login_uri';
 
   $form['email']['registration_confirmed'] = array(
     '#type' => 'fieldset',
@@ -140,7 +140,8 @@ function psfc_orientation_mail_tokens($node, $language) {
     '!attendee_email' => $node->field_email[0]['email'],
     '!attendee_confirmed_status' => $node->field_attendee_confirmed[0]['value'] ? t('Confirmed') : t('Not confirmed'),
     '!orientation_description' => $orientation->body,
-    '!orientation_date' => $orientation->field_date[0]['value'],
+    '!orientation_date' => format_date(strtotime($orientation->field_date[0]['value']), 'large'),
+    '!orientation_date_short' => format_date(strtotime($orientation->field_date[0]['value']), 'small'),
     '!orientation_link' => l($orientation->title, $orientation->path),
     '!registered_on_date' => format_date($node->timestamp, 'medium', '', NULL, $language->language),
     '!registerer' => $node->name,
