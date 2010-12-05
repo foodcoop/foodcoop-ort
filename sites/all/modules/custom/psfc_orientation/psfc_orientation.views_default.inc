@@ -710,7 +710,7 @@ return $out;
 $handler->override_option('footer_format', '3');
 $handler->override_option('footer_empty', 0);
 $handler->override_option('empty', '<?php
-$nid = variable_get(\'psfc_orientation_no_orientations\', 35)
+$nid = variable_get(\'psfc_orientation_no_orientations\', 35);
 $empty_txt = node_load($nid);
 drupal_set_title(t($empty_txt->title));
 unset($empty_txt->title);
