@@ -740,7 +740,7 @@ function psfc_orientation_signup_session($onid) {
   }
   $orientation = node_load($onid);
   $output = '<div class="confirm-info-text">';
-  $output .= t('You have signed up for the following Orientation Session:');
+  $output .= t('You have selected for the following Orientation Session:');
   $output .= '</div>';
   $output .= '<div class="confirm-info-date">';
   $output .= theme(psfc_orientation_date_table, $orientation->field_date[0]['value']);
