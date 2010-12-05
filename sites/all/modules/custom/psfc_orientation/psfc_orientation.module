@@ -871,7 +871,7 @@ function psfc_orientation_cancel_confirm_submit($form, $form_state) {
  */
 function psfc_orientation_confirm_url($account, $action, $text = 'Click here to @action your orientation.' ) {
   $timestamp = time();
-  return l(t($text, array('@action' => $action)), 'orientation/confirm/'. $account->uid .'/'. $timestamp .'/'. psfc_orientation_confirm_rehash($account->pass, $timestamp, $account->login) .'/'. $action, array('absolute' => TRUE));
+  return url('orientation/confirm/'. $account->uid .'/'. $timestamp .'/'. psfc_orientation_confirm_rehash($account->pass, $timestamp, $account->login) .'/'. $action, array('absolute' => TRUE));
 }
 
 /**
