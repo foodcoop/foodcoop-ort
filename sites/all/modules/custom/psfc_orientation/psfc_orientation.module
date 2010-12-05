@@ -847,15 +847,7 @@ function psfc_orientation_cancel_confirm($form_state, $node) {
 function psfc_orientation_cancel_confirm_submit($form, $form_state) {
   global $user;
   $account = user_load($form['#orientation_attendee_uid']);
-
-  // Let's not delete any key users.
-  if (!user_access('administer psfc orientation', $account)) {
-    // The user's attendee node will be deleted in hook_user().
-    user_delete(array(), $form['#orientation_attendee_uid']);
-  }
-  else {
-    node_delete($form['#orientation_attendee_nid']);
-  }
+  node_delete($form['#orientation_attendee_nid']);
   drupal_goto('node/'. variable_get('psfc_orientation_registrant_removed', ''));
 }
 
