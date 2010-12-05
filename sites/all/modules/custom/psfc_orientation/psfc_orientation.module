@@ -343,8 +343,8 @@ function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       case 'insert' :
         $account = user_load($node->field_userid[0]['uid']);
         $params['node'] = $node;
-        $params['node']->confirm = psfc_orientation_confirm_url($account, 'confirm', FALSE);
-        $params['node']->cancel = psfc_orientation_confirm_url($account, 'cancel', FALSE);
+        $params['node']->confirm = psfc_orientation_confirm_url($account, 'confirm', NULL, FALSE);
+        $params['node']->cancel = psfc_orientation_confirm_url($account, 'cancel', NULL, FALSE);
         // A new attendee as been created for an orientation and is confirmed.
         // This would have to have been created by an admin
         if ($node->field_attendee_confirmed[0]['value'] == TRUE) {
@@ -360,8 +360,8 @@ function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       case 'delete' :
         $account = user_load($node->field_userid[0]['uid']);
         $params['node'] = $node;
-        $params['node']->confirm = psfc_orientation_confirm_url($account, 'confirm', FALSE);
-        $params['node']->cancel = psfc_orientation_confirm_url($account, 'cancel', FALSE);
+        $params['node']->confirm = psfc_orientation_confirm_url($account, 'confirm', NULL, FALSE);
+        $params['node']->cancel = psfc_orientation_confirm_url($account, 'cancel', NULL, FALSE);
         // Email the attendee.
         drupal_mail('psfc_orientation', 'registration_cancelled', $recipient, language_default(), $params);
         // Update the orientation nodes open/closed status. This will reopen
@@ -740,7 +740,7 @@ function psfc_orientation_signup_session($onid) {
   }
   $orientation = node_load($onid);
   $output = '<div class="confirm-info-text">';
-  $output .= t('You have selected for the following Orientation Session:');
+  $output .= t('You have selected the following Orientation Session:');
   $output .= '</div>';
   $output .= '<div class="confirm-info-date">';
   $output .= theme(psfc_orientation_date_table, $orientation->field_date[0]['value']);
@@ -869,7 +869,7 @@ function psfc_orientation_cancel_confirm_submit($form, $form_state) {
  *
  * @return An absolute link.
  */
-function psfc_orientation_confirm_url($account, $action, $text = 'Click here to @action your orientation.', $l = TRUE) {
+function psfc_orientation_confirm_url($account, $action,   $text = 'Click here to @action your orientation.', $l = TRUE) {
   $timestamp = time();
   if ($l) {
     return l(t($text, array('@action' => $action)), 'orientation/confirm/'. $account->uid .'/'. $timestamp .'/'. psfc_orientation_confirm_rehash($account->pass, $timestamp, $account->login) .'/'. $action, array('absolute' => TRUE));
