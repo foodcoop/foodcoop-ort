@@ -985,7 +985,7 @@ function theme_psfc_orientation_status() {
   $output .= '</div>';
 
   if (!$attendee->field_attendee_confirmed[0]['value']) {
-    $output .= '<p>'. t('You are not yet confirmed. You should have received an email with confirmation instructions. You must confirm withing 48 hours of registerting or you will lose your resereved place.') .'</p>';
+    $output .= '<p>'. t('You are not yet confirmed. You should have received an email with confirmation instructions. You must confirm within 48 hours of registering or you will lose your reserved place.') .'</p>';
   }
   else {
     $output .= '<p>'. t('You orientation registration is confirmed. '). '</p>';
