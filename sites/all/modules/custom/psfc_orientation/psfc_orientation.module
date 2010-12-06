@@ -244,6 +244,17 @@ function psfc_orientation_user($op, &$edit, &$account) {
         node_delete($nid);
       }
       break;
+    case 'insert' :
+      global $user;
+      if ($_GET['q'] == 'orientation/login' && !$user->uid) {
+        // User signed self up during orientation process.
+        drupal_goto('node/'. variable_get('psfc_orientation_new_user_from_orientation', ''));
+      }
+      elseif (!$user->uid) {
+        // User signed self up outside of registration workflow.
+        drupal_goto('node/'. variable_get('psfc_orientation_new_user', ''));
+      }
+      break;
   }
 }
 

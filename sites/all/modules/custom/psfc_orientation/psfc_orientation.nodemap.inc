@@ -11,11 +11,11 @@ variable_set('psfc_orientation_why_account', 37);
 // Account creation instructions (login page right)
 variable_set('psfc_orientation_account_create', 38);
 
-// Add additional attendees page
-variable_set('psfc_orientation_add_additional_instructions', 39);
+// New user signed up as part of orientation registration
+variable_set('psfc_orientation_new_user_from_orientation', 86);
 
-// Add additional email info
-  variable_set('psfc_orientation_add_additional_email', 45);
+// New user signed up from another form
+variable_set('psfc_orientation_new_user', 87);
 
 // Confirm orientation details page
 variable_set('psfc_orientation_confirm_orientation_page', 40);
