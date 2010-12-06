@@ -390,3 +390,6 @@ div#main-content ul.primary li.active a{
 div#main-content ul.primary li:hover a {
   background: #FBFFE6;
 }
+ul.tabs {
+  white-space: normal;
+}
