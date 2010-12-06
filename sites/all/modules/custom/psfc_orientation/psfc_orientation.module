@@ -244,17 +244,6 @@ function psfc_orientation_user($op, &$edit, &$account) {
         node_delete($nid);
       }
       break;
-    case 'insert' :
-      global $user;
-      if ($_GET['q'] == 'orientation/login' && !$user->uid) {
-        // User signed self up during orientation process.
-        drupal_goto('node/'. variable_get('psfc_orientation_new_user_from_orientation', ''));
-      }
-      elseif (!$user->uid) {
-        // User signed self up outside of registration workflow.
-        drupal_goto('node/'. variable_get('psfc_orientation_new_user', ''));
-      }
-      break;
   }
 }
 
@@ -270,6 +259,8 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
       }
     break;
     case 'user_register':
+      // We need to redirect sometime so we need our own submit.
+      $form['#submit'][] = 'psfc_orientation_user_register_submit';
       // Only alter reg form on our custom signup page.
       if ($_GET['q'] == 'orientation/login') {
         $form['submit']['#value'] = t('Sign Up');  // Change button value.
@@ -298,6 +289,22 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
+/**
+ * Extra submit function for user account creation 
+ */
+function psfc_orientation_user_register_submit ($form, &$form_state) {
+  $admin = user_access('administer users');
+  if ($_GET['q'] == 'orientation/login' && !$admin) {
+    // User signed self up during orientation process and unset messages.
+    $form_state['redirect'] = 'node/'. variable_get('psfc_orientation_new_user_from_orientation', '');
+    drupal_get_messages();
+  }
+  elseif (!$admin) {
+    // User signed self up outside of registration workflow and unset messages.
+    $form_state['redirect'] = 'node/'. variable_get('psfc_orientation_new_user', '');
+    drupal_get_messages();
+  }
+}
 
 /**
  * Implementation of hook_views_api().
