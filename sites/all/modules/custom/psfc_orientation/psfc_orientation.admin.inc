@@ -346,3 +346,125 @@ function theme_psfc_orientation_login() {
   $output .= '</div>';
   return $output;
 }
+
+function psfc_orientation_add_registrant($form_state) {
+
+  // Build avaiable orientations list from a view.
+  $orientations = views_get_view_result('orientations_list');
+  foreach ($orientations as $orientation) {
+    $options[$orientation->nid] = format_date(strtotime($orientation->node_data_field_date_field_date_value), 'large');
+  }
+
+  $form['instructions'] = array (
+    '#value' => '<h2>'. t('Manually sign up a person for orientation') .'</h2>'. t('You may add one person at a time to an orientation. The person may be added by email address or by name and phone number.'),
+  );
+  $form['onid'] = array(
+    '#type' => 'select',
+    '#title' => t('Select an orientation'),
+    '#default_value' => $form_state['values']['onid'],
+    '#options' => $options,
+    '#required' => TRUE,
+    '#description' => t('All upcoming orientations are listed.'),
+  );
+  $form['has_account'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Sign up a person who has internet access and a site account'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#description' => t('You will need to have the person\'s email address. The person must already have a site account.'),
+  );
+
+  $form['has_account']['mail'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Registrant\'s email address'),
+    '#maxlength' => 60,
+    '#autocomplete_path' => 'psfc-orientation/autocomplete',
+    '#default_value' => $form_state['values']['mail'],
+  );
+  $form['no_account'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Sign up a person who has no internet access'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#description' => t('You will need to have the person\'s email address.'),
+  );
+  $form['no_account']['first_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('First name'),
+    '#default_value' => $form_state['values']['first_name'],
+    '#size' => 30,
+    '#maxlength' => 30,
+  );
+  $form['no_account']['middle_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Middle initial'),
+    '#default_value' => $form_state['values']['middle_name'],
+    '#size' => 3,
+    '#maxlength' => 3,
+  );
+  $form['no_account']['last_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Last name'),
+    '#default_value' => $form_state['values']['last_name'],
+    '#size' => 30,
+    '#maxlength' => 30,
+  );
+  $form['no_account']['phone'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Phone number'),
+    '#default_value' => $form_state['values']['phone'],
+    '#size' => 30,
+    '#maxlength' => 30,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+  return $form;
+}
+
+/**
+ * Validation function for manual sign up.
+ */
+function psfc_orientation_add_registrant_validate (&$form, &$form_state) {
+  $values = $form_state['values'];
+  if (!empty($values['mail']) && (!empty($values['first_name']) || !empty($values['last_name']) || !empty($values['middle_name']) || !empty($values['phone']))) {
+    form_set_error('mail', t('You may only register someone by email OR by name and phone.'));
+  }
+  if (empty($values['mail']) && (empty($values['first_name']) || empty($values['last_name']) || empty($values['phone']))) {
+    form_set_error('first_name', t('First name, last name and phone number are required for non-internet users.'));
+  }
+}
+
+/**
+ * Submit function for manual sign up.
+ */
+function psfc_orientation_add_registrant_submit ($form, &$form_state) {
+  // Registrant has a site account.
+  $orientation = node_load($form_state['values']['onid']);
+  if (!empty($form_state['values']['mail'])) {
+    $account = user_load(array('mail' => $form_state['values']['mail']));
+    $attendee = psfc_orientation_node_build_attendee($account, $form_state['values']['onid']);
+    $info = $attendee->field_firstname[0]['value'] .' '. $attendee->field_lastname[0]['value'];
+    $email = t('Confimration has been requested by email. Confirmation is required within 48 hours.');
+  }
+  // Registrant has no internet access ever.
+  else {
+    $info = $form_state['values']['first_name'] .' '. $form_state['values']['middle_name'] .' '. $form_state['values']['last_name'] . t(' Phone: ') . $form_state['values']['phone'];
+    $orientation->field_orientation_by_phone[]['value'] = $info;
+    node_save($orientation);
+  }
+  drupal_set_message(t('@info has been registed for orientation on @date. @email', array('@info' => $info, '@date' => format_date(strtotime($orientation->field_date[0]['value']), 'large'), '@email' => $email)));
+}
+
+function psfc_orientation_email_autocomplete($string = '') {
+  $matches = array();
+  if ($string) {
+    $result = db_query_range("SELECT mail FROM {users} WHERE LOWER(mail) LIKE LOWER('%s%%')", $string, 0, 10);
+    while ($user = db_fetch_object($result)) {
+      $matches[$user->mail] = check_plain($user->mail);
+    }
+  }
+
+  drupal_json($matches);
+}

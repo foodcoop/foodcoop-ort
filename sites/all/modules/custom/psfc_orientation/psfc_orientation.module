@@ -96,6 +96,24 @@ function psfc_orientation_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'psfc_orientation.admin.inc',
   );
+  $items['admin/psfc/orientation/add-registrant'] = array(
+    'title' => 'Manually sign up a person for orientation',
+    'description' => 'Admin users can sign up someone who does not have internet access',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('psfc_orientation_add_registrant'),
+    'access arguments' => array('administer psfc orientation'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'psfc_orientation.admin.inc',
+    'weight' => 11,
+  );
+  $items['psfc-orientation/autocomplete'] = array(
+    'title' => 'User email autocomplete',
+    'page callback' => 'psfc_orientation_email_autocomplete',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer psfc orientation'),
+    'type' => MENU_CALLBACK,
+    'file' => 'psfc_orientation.admin.inc',
+  );
   $items['admin/psfc/orientation/mail'] = array(
     'title' => 'Edit orientation emails',
     'description' => 'Configure default e-mail text for orientation messages.',
