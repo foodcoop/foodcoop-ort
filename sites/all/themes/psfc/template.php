@@ -43,14 +43,18 @@ function psfc_preprocess_block(&$variables) {
 
   return $out;
 }
-/*
+
+// Adding the class "button" so we can target to replace with cufon text in
+// psfc.js
 function psfc_button($element) {
   // Make sure not to overwrite classes.
   if (isset($element['#attributes']['class'])) {
-    $element['#attributes']['class'] = 'form-' . $element['#button_type'] . ' ' . $element['#attributes']['class'];
+    $element['#attributes']['class'] = 'form-' . $element['#button_type'] . ' ' . $element['#attributes']['class']  .' button';
   }
   else {
-    $element['#attributes']['class'] = 'form-' . $element['#button_type'];
+    $element['#attributes']['class'] = 'form-' . $element['#button_type'] .' button';
   }
-  return '<div class="button-rounded"><span><button type="submit" ' . (empty($element['#name']) ? '' : 'name="' . $element['#name'] . '" ') . 'id="' . $element['#id'] . drupal_attributes($element['#attributes']) . '>' . check_plain($element['#value']) . '</button></span></div>';
-}*/
+
+  return '<input type="submit" ' . (empty($element['#name']) ? '' : 'name="' . $element['#name'] . '" ') . 'id="' . $element['#id'] . '" value="' . check_plain($element['#value']) . '" ' . drupal_attributes($element['#attributes']) . " />\n";
+
+}
