@@ -251,6 +251,9 @@ function psfc_orientation_user($op, &$edit, &$account) {
  * Implementation of hook_form_alter().
  */
 function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
+  if ($form['#theme'] == 'confirm_form') {
+    $form['actions']['cancel']['#value'] = '<div class="button-rounded"><span>'. $form['actions']['cancel']['#value'] . '</span></div>';
+  }
   switch ($form_id) {
     case 'user_login':
       $form['submit']['#value'] = 'Sign In'; // Change button value.
