@@ -1,3 +1,5 @@
+/* @override http://stage.foodcoop.com/sites/all/themes/psfc/css/styles.css?e */
+
 body {
 	background: #050;
 	color: #333;
@@ -393,3 +395,28 @@ div#main-content ul.primary li:hover a {
 ul.tabs {
   white-space: normal;
 }
+
+
+
+/* join inter-sectional nav block */
+
+div#block-block-6 {
+  background: #F0E7D7;
+  padding: 10px;
+  margin: 20px 0 20px 0;
+}
+div#block-block-6 h3 {
+	margin: 0;
+}
+div#block-block-6 h3 {
+	margin: 0;
+}
+div#block-block-6 h3 a {
+	display: block;
+}
+div#block-block-6 h3 a:hover {
+  background: #F5F5E0;
+}
+
+
+
