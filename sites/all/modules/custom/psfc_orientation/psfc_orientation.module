@@ -1009,9 +1009,12 @@ function theme_psfc_orientation_status() {
   $orientation = node_load($attendee->field_orientation_nid[0]['nid']);
 
   $output = '<div class="status-info-text">';
-  if (arg(2) == 'registered') {
-    $output .= '<p>'. t('You are already registered for an oriententation session. Here are the details:'). '</p>';
-  }
+//
+// JM 2010-12-14 removed per Steve, ticket #126
+//
+//   if (arg(2) == 'registered') {
+//     $output .= '<p>'. t('You are already registered for an oriententation session. Here are the details:'). '</p>';
+//   }
   $output .= '<p>'. t('You have signed up for the following Orientation Session:'). '</p>';
   $output .= '</div>';
 
