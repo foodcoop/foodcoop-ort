@@ -756,7 +756,7 @@ function psfc_orientation_signup_link($nid) {
   global $user;
   // Return link to the orientation.
   if ($user->uid) {
-    return l(t('Sign Up for Orientation'), 'orientation/signup/session/'. $nid);
+    return l(t('Register for Orientation'), 'orientation/signup/session/'. $nid);
   }
   // @todo Do we need a destination here?
   return l(t('Sign Up for Orientation'), 'orientation/login');
