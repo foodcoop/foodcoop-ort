@@ -565,9 +565,9 @@ $handler->override_option('fields', array(
     'empty' => '',
     'hide_empty' => 0,
     'empty_zero' => 0,
-    'value' => '<div class="button-rounded"><span><?php
+    'value' => '<?php
 print psfc_orientation_signup_link($data->nid);
-?></span></div>',
+?>',
     'exclude' => 0,
     'id' => 'phpcode_1',
     'table' => 'customfield',
@@ -724,13 +724,13 @@ $handler->override_option('empty_format', '3');
 $handler->override_option('items_per_page', 0);
 $handler->override_option('style_plugin', 'table');
 $handler = $view->new_display('page', 'Page', 'page_1');
-$handler->override_option('path', 'orientations');
+$handler->override_option('path', 'join/orientation');
 $handler->override_option('menu', array(
-  'type' => 'none',
-  'title' => '',
-  'description' => '',
-  'weight' => 0,
-  'name' => 'navigation',
+    'type' => 'normal',
+    'title' => 'Register for an orientation',
+    'description' => '',
+    'weight' => '-30',
+    'name' => 'primary-links',
 ));
 $handler->override_option('tab_options', array(
   'type' => 'none',

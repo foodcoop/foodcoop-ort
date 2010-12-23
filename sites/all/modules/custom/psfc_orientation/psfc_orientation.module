@@ -124,7 +124,7 @@ function psfc_orientation_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 12,
   );
-  $items['orientation/signup/session/%'] = array(
+  $items['join/orientation/signup/session/%'] = array(
     'title' => 'Review the Details of Your Orientation Session',
     'description' => 'Let the user check the date',
     'access arguments' => array( 'access content'),
@@ -132,14 +132,14 @@ function psfc_orientation_menu() {
     'page arguments' => array(3),
     'type' => MENU_CALLBACK,
   );
-  $items['orientation/signup/session/register/%'] = array(
+  $items['join/orientation/signup/session/register/%'] = array(
     'title' => 'Do the registration',
     'access arguments' => array( 'access content'),
     'page callback' => 'psfc_orientation_signup_session_register',
     'page arguments' => array(4),
     'type' => MENU_CALLBACK,
   );
-  $items['orientation/login'] = array(
+  $items['join/orientation/login'] = array(
     'title' => 'Sign in',
     'description' => 'Log in or create an account.',
     'page callback' => 'psfc_orientation_login',
@@ -147,20 +147,20 @@ function psfc_orientation_menu() {
     'file' => 'psfc_orientation.admin.inc',
     'type' => MENU_CALLBACK,
   );
-  $items['orientation/status'] = array(
+  $items['join/orientation/status'] = array(
     'title' => 'Your Registration Status',
     'description' => 'Are you signed up for orientation.',
     'page callback' => 'psfc_orientation_status',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
-  $items['orientation/confirmed'] = array(
+  $items['join/orientation/confirmed'] = array(
     'title' => 'Thank you for Confirming your Orientation Registration',
     'page callback' => 'psfc_orientation_confirmed',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
-  $items['orientation/confirm/%/%/%/%'] = array(
+  $items['join/orientation/confirm/%/%/%/%'] = array(
     'title' => 'Set registration status',
     'page callback' => 'psfc_orientation_confirm',
     'page arguments' => array(2, 3, 4, 5),
@@ -311,7 +311,7 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Extra submit function for user account creation 
+ * Extra submit function for user account creation
  */
 function psfc_orientation_user_register_submit ($form, &$form_state) {
   $admin = user_access('administer users');
@@ -756,10 +756,10 @@ function psfc_orientation_signup_link($nid) {
   global $user;
   // Return link to the orientation.
   if ($user->uid) {
-    return l(t('Register for Orientation'), 'orientation/signup/session/'. $nid);
+    return '<div class="button-rounded"><span>' . l(t('Register for Orientation'), 'orientation/signup/session/'. $nid) .'</span></div>';
   }
   // @todo Do we need a destination here?
-  return l(t('Sign Up for Orientation'), 'orientation/login');
+  return ;
 }
 
 /**
