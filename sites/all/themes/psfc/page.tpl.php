@@ -29,6 +29,7 @@
       <div id="content" class="grid_12">
         <h1><?php print $title; ?></h1>
         <div id="right-side">
+          <?php print theme('links', $secondary_links); ?>
           <?php print $right; ?>
         </div>
         <div id="main-content">
