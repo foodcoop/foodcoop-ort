@@ -871,21 +871,21 @@ function psfc_orientation_confirm($uid, $timestamp, $hashed_pass, $action) {
 }
 
 /**
- * Confirm regisgration cancellation.
+ * Confirm registration cancellation.
  */
 function psfc_orientation_cancel_confirm($form_state, $node) {
   $form['#orientation_attendee_uid'] = $node->field_userid[0]['uid'];
   $form['#orientation_attendee_nid'] = $node->nid;
   $question = t('Confirm Your Cancellation');
   $path = 'orientations';
-  $description = 'Are you sure you want to cancel your registration for New Member Orientation?';
-  $yes = t('Yes, I want to cancel my registration');
-  $no = t('No, Please do not Cancel');
+  $description = 'Are you sure you want to cancel your registration for new member orientation?<br /><br />';
+  $yes = t('Yes, I Want to Cancel My Registration');
+  $no = t('No, Please Do Not Cancel');
   return confirm_form($form, $question, $path, $description, $yes, $no, $name = 'confirm_cancellation');
 }
 
 /**
- * Confirm regisgration cancellation form submit.
+ * Confirm registration cancellation form submit.
  */
 function psfc_orientation_cancel_confirm_submit($form, $form_state) {
   global $user;

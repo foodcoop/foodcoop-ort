@@ -1,13 +1,7 @@
-/* @override http://stage.foodcoop.com/sites/all/themes/psfc/css/styles.css?e */
-
 body {
 	background: #050;
 	color: #333;
-	font:13px/1.5 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif}
-}
-
-.content {
-	font-family: Georgia, Times New Roman, Times, seriff;
+	font: 13px/1.5 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif;
 }
 
 #header {
@@ -400,7 +394,7 @@ ul.tabs {
 
 /* join inter-sectional nav block */
 
-div#block-block-6 {
+div#block-block-6, div#secondary-links {
   background: #F0E7D7;
   padding: 10px;
   margin: 20px 0 20px 0;
@@ -415,8 +409,11 @@ div#block-block-6 h3 a {
 	display: block;
 }
 div#block-block-6 h3 a:hover {
-  background: #F5F5E0;
+	background: #F5F5E0;
 }
-
-
+div#secondary-links ul.links li {
+	margin: 0px;
+	display: block;
+	padding: 0px 0px 3px 0px;
+}
 
