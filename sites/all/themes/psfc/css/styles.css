@@ -217,11 +217,26 @@ td.views-field-phpcode-1,td.views-field-phpcode { padding: 0px; }
 td.views-field-phpcode {
 	vertical-align: middle;
 }
-td.views-field-phpcode div.only-three {
-	width: 100px;
-	padding-left: 10px;
-	color: #f00;
-	line-height: 1.2em;
+td.views-field-phpcode div.only-three,
+td.views-field-phpcode-1 div.must-login {
+  width: 100px;
+  padding-left: 10px;
+  color: #f00;
+  line-height: 1.2em;
+}
+td.views-field-phpcode-1 div.must-login {
+  display:none;
+  float: right;
+  width: 160px;
+}
+td.views-field-phpcode-1:hover div.must-login {
+  display: block;
+}
+td.views-field-phpcode-1:hover {
+  border-top: none;
+}
+td.views-field-phpcode-1 div.must-login a {
+  color: #000  !important;
 }
 div.block-user h4 { display: none; }
 
@@ -284,6 +299,12 @@ div.button-rounded:hover {
  }
 div.button-rounded:hover span  {
  background-position: 0% -44px;
+}
+div.button-rounded-off:hover {
+  background-position: right top;
+}
+div.button-rounded-off:hover span {
+  background-position:  left top;
 }
 div.button-rounded::-moz-focus-inner {
   border: none;

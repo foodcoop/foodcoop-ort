@@ -129,14 +129,14 @@ function psfc_orientation_menu() {
     'description' => 'Let the user check the date',
     'access arguments' => array( 'access content'),
     'page callback' => 'psfc_orientation_signup_session',
-    'page arguments' => array(3),
+    'page arguments' => array(4),
     'type' => MENU_CALLBACK,
   );
   $items['join/orientation/signup/session/register/%'] = array(
     'title' => 'Do the registration',
     'access arguments' => array( 'access content'),
     'page callback' => 'psfc_orientation_signup_session_register',
-    'page arguments' => array(4),
+    'page arguments' => array(5),
     'type' => MENU_CALLBACK,
   );
   $items['join/orientation/login'] = array(
@@ -283,7 +283,7 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
       // We need to redirect sometime so we need our own submit.
       $form['#submit'][] = 'psfc_orientation_user_register_submit';
       // Only alter reg form on our custom signup page.
-      if ($_GET['q'] == 'orientation/login') {
+      if ($_GET['q'] == 'join/orientation/login') {
         $form['submit']['#value'] = t('Sign Up');  // Change button value.
 
         // Move name category to account.
@@ -315,7 +315,7 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
  */
 function psfc_orientation_user_register_submit ($form, &$form_state) {
   $admin = user_access('administer users');
-  if ($_GET['q'] == 'orientation/login' && !$admin) {
+  if ($_GET['q'] == 'join/orientation/login' && !$admin) {
     // User signed self up during orientation process and unset messages.
     $form_state['redirect'] = 'node/'. variable_get('psfc_orientation_new_user_from_orientation', '');
     drupal_get_messages();
@@ -755,11 +755,10 @@ function psfc_orientation_registered($uid) {
 function psfc_orientation_signup_link($nid) {
   global $user;
   // Return link to the orientation.
-  if ($user->uid) {
-    return '<div class="button-rounded"><span>' . l(t('Register for Orientation'), 'orientation/signup/session/'. $nid) .'</span></div>';
+  if ($user->uid > 0) {
+    return '<div class="button-rounded"><span>' . l(t('Register for Orientation'), 'join/orientation/signup/session/'. $nid) .'</span></div>';
   }
-  // @todo Do we need a destination here?
-  return ;
+  return '<div class="button-rounded button-rounded-off"><span>'. t('Register for Orientation') .'</span></div><div class="must-login">' . l(t('Log In or Create an account'), 'join/orientation/login') . t(' to sign up for Orientation.') .'</div>';
 }
 
 /**
@@ -775,7 +774,7 @@ function psfc_orientation_signup_session($onid) {
   global $user;
   // Is user already signed up?
   if (psfc_orientation_registered($user->uid) ) {
-    drupal_goto('orientation/status/registered');
+    drupal_goto('join/orientation/status/registered');
   }
   $orientation = node_load($onid);
   $output = '<div class="confirm-info-text">';
@@ -785,11 +784,11 @@ function psfc_orientation_signup_session($onid) {
   $output .= theme(psfc_orientation_date_table, $orientation->field_date[0]['value']);
   $output .= '</div>';
   $output .= '<div class="confirm-info-link"><div class="button-rounded"><span>';
-  $output .= l(t('Yes, register me for this Orientation'), 'orientation/signup/session/register/'. $onid);
+  $output .= l(t('Yes, register me for this Orientation'), 'join/orientation/signup/session/register/'. $onid);
   $output .= '</span></div></div>';
   $output .= '<div class="confirm-info-link"><p>'. t('Or if this is not correct,') .'</p>';
   $output .= '<div class="button-rounded"><span>';
-  $output .= l(t('Begin Registration Process Again'), 'orientations');
+  $output .= l(t('Begin Registration Process Again'), 'join/orientation');
   $output .= '</span></div></div>';
   return $output;
 }

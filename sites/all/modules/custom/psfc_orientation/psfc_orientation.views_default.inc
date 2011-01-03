@@ -598,9 +598,12 @@ print psfc_orientation_signup_link($data->nid);
     'hide_empty' => 0,
     'empty_zero' => 0,
     'value' => '<?php
-if (psfc_orientation_capacity($data->nid) <= 3) {
-	print \'<div class="only-three">\' . t(\'Fewer than 3 spots available\') . \'</div>\';
-}
+    global $user;
+    if ($user->uid > 0) {
+      if (psfc_orientation_capacity($data->nid) <= 3) {
+        print \'<div class="only-three">\' . t(\'Fewer than 3 spots available\') . \'</div>\';
+      }
+    }
 ?>',
     'exclude' => 0,
     'id' => 'phpcode',
@@ -726,11 +729,11 @@ $handler->override_option('style_plugin', 'table');
 $handler = $view->new_display('page', 'Page', 'page_1');
 $handler->override_option('path', 'join/orientation');
 $handler->override_option('menu', array(
-    'type' => 'normal',
-    'title' => 'Register for an orientation',
+    'type' => 'none',
+    'title' => '',
     'description' => '',
-    'weight' => '-30',
-    'name' => 'primary-links',
+    'weight' => '',
+    'name' => '',
 ));
 $handler->override_option('tab_options', array(
   'type' => 'none',

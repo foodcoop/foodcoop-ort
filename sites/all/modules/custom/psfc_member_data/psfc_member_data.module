@@ -46,7 +46,6 @@ function psfc_member_data_block_0() {
   $output = t('You are logged in as:') .'<br />';
   $output .= '<div class="username">' . $user->name . '</div>';
   $output .= '<div>'. $status .'</div>';
-  $output .= '<div>'. l('Your registration status', 'orientation/status/registered') .'</div>';
   $output .= '<div>'. l('Log Out', 'logout') .'</div>';
   return $output;
 }
