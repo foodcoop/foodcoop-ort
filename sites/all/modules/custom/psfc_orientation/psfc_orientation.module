@@ -163,7 +163,7 @@ function psfc_orientation_menu() {
   $items['join/orientation/confirm/%/%/%/%'] = array(
     'title' => 'Set registration status',
     'page callback' => 'psfc_orientation_confirm',
-    'page arguments' => array(2, 3, 4, 5),
+    'page arguments' => array(3, 4, 5, 6),
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
@@ -624,8 +624,8 @@ function psfc_orientation_node_build_attendee($account, $onid) {
 
   // set some values that will not change.
   $node->type = 'orientation_attendee';
-  $node->uid = 1;
-  $node->name = 'Admin User';
+  $node->uid = $account->uid;
+  $node->name = $account->name;
   $node->status = 1;
   $node->created = time();
   $node->changed = time();
@@ -807,7 +807,7 @@ function psfc_orientation_signup_session_register($onid) {
 
   // Is user already signed up?
   if (psfc_orientation_registered($user->uid) ) {
-    drupal_goto('orientation/status');
+    drupal_goto('join/orientation/status');
   }
   // Create the attendee node for the logged in user, if not already registered
   // and there is space.
@@ -841,14 +841,14 @@ function psfc_orientation_signup_session_register($onid) {
 
 function psfc_orientation_confirm($uid, $timestamp, $hashed_pass, $action) {
   // Check for active user and confirm hashed pass.
-  if ($account = user_load(array('uid' => $uid, 'status' => 1))) {
+  if (is_numeric($uid) && $account = user_load(array('uid' => $uid, 'status' => 1))) {
     if ($hashed_pass == psfc_orientation_confirm_rehash($account->pass, $timestamp, $account->login)) {
       // Load the attendee node.
       if ($node = psfc_orientation_get_attendee_node($account)) {
         if ($action == 'confirm') {
           $node->field_attendee_confirmed[0]['value'] = 1;
           node_save($node);
-          drupal_goto('content/thank-you-confirming-your-orientation-registration');
+          drupal_goto('join/orientation/thank-you-confirming-your-orientation-registration');
         }
         elseif ($action == 'cancel') {
           // show confirm form.
@@ -859,14 +859,14 @@ function psfc_orientation_confirm($uid, $timestamp, $hashed_pass, $action) {
       // redirect and not a message.
       else {
         drupal_set_message(t('You have not registered for orientation, or your registration has expired or been cancelled.'));
-        drupal_goto('orientations');
+        drupal_goto('join/orientation');
       }
     }
   }
   //No account or bad link. An attendee will get here if trying to confirm too
   // late. This should probably be a page redirect and not a message.
   drupal_set_message(t('There is no user for the operation you requested.'));
-  drupal_goto('orientations');
+  drupal_goto('join/orientation');
 }
 
 /**
@@ -876,7 +876,7 @@ function psfc_orientation_cancel_confirm($form_state, $node) {
   $form['#orientation_attendee_uid'] = $node->field_userid[0]['uid'];
   $form['#orientation_attendee_nid'] = $node->nid;
   $question = t('Confirm Your Cancellation');
-  $path = 'orientations';
+  $path = 'join/orientation';
   $description = 'Are you sure you want to cancel your registration for new member orientation?<br /><br />';
   $yes = t('Yes, I Want to Cancel My Registration');
   $no = t('No, Please Do Not Cancel');
@@ -887,8 +887,6 @@ function psfc_orientation_cancel_confirm($form_state, $node) {
  * Confirm registration cancellation form submit.
  */
 function psfc_orientation_cancel_confirm_submit($form, $form_state) {
-  global $user;
-  $account = user_load($form['#orientation_attendee_uid']);
   node_delete($form['#orientation_attendee_nid']);
   drupal_goto('node/'. variable_get('psfc_orientation_registrant_removed', ''));
 }
@@ -906,11 +904,11 @@ function psfc_orientation_cancel_confirm_submit($form, $form_state) {
 function psfc_orientation_confirm_url($account, $action,   $text = 'Click here to @action your orientation.', $l = TRUE) {
   $timestamp = time();
   if ($l) {
-    return l(t($text, array('@action' => $action)), 'orientation/confirm/'. $account->uid .'/'. $timestamp .'/'. psfc_orientation_confirm_rehash($account->pass, $timestamp, $account->login) .'/'. $action, array('absolute' => TRUE));
+    return l(t($text, array('@action' => $action)), 'join/orientation/confirm/'. $account->uid .'/'. $timestamp .'/'. psfc_orientation_confirm_rehash($account->pass, $timestamp, $account->login) .'/'. $action, array('absolute' => TRUE));
   }
   // Used to format link for email tokens.
   else {
-    return url('orientation/confirm/'. $account->uid .'/'. $timestamp .'/'. psfc_orientation_confirm_rehash($account->pass, $timestamp, $account->login) .'/'. $action, array('absolute' => TRUE));
+    return url('join/orientation/confirm/'. $account->uid .'/'. $timestamp .'/'. psfc_orientation_confirm_rehash($account->pass, $timestamp, $account->login) .'/'. $action, array('absolute' => TRUE));
   }
 }
 
@@ -1091,7 +1089,7 @@ function psfc_orientation_user_orientation_status($uid) {
     return t('You have registered for an orientation and not confirmed');
   }
   elseif ($member_status['orientation']['confirmed'] == 1  && !$member_status['orientation']['attended']) {
-    return t('You are confirmed to attend an upcoming orientation');
+    return l(t('You are confirmed to attend an upcoming orientation'), 'join/orientation/status/registered');
   }
   elseif ($member_status['orientation']['attended'] == 1) {
     return 1;
