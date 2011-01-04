@@ -19,12 +19,13 @@
       </div><!-- /header -->
 
       <div id="section-header">
-        <h2>New Member Orientation</h2>
+        <!-- <h2>New Member Orientation</h2> -->
+        <h1><?php print $title; ?></h1>
       </div>
       <div class="clear"></div>
 
       <div id="content" class="grid_12">
-        <h1><?php print $title; ?></h1>
+        <!-- h1><?php print $title; ?></h1 -->
         <div id="right-side">
           <div id="secondary-links">
             <?php print theme('links', $secondary_links); ?>
