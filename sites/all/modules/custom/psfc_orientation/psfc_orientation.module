@@ -784,7 +784,7 @@ function psfc_orientation_signup_session($onid) {
   $output .= theme(psfc_orientation_date_table, $orientation->field_date[0]['value']);
   $output .= '</div>';
   $output .= '<div class="confirm-info-link"><div class="button-rounded"><span>';
-  $output .= l(t('Yes, register me for this Orientation'), 'join/orientation/signup/session/register/'. $onid);
+  $output .= l(t('Yes, Register Me for This Orientation'), 'join/orientation/signup/session/register/'. $onid);
   $output .= '</span></div></div>';
   $output .= '<div class="confirm-info-link"><p>'. t('Or if this is not correct,') .'</p>';
   $output .= '<div class="button-rounded"><span>';
