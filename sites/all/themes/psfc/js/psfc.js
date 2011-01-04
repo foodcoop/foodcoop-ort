@@ -9,3 +9,11 @@ $(document).ready(function() {
       });
   });
 });
+
+/**
+ * Collapse the "menus" used as help text for js enabled browsers
+ */
+$(document).ready(function() {
+    $('div#main-content div.content ul.menu li.collapsed').addClass('start-collapsed');
+
+});
