@@ -743,6 +743,23 @@ function psfc_orientation_registered($uid) {
   }
   return FALSE;
 }
+/**
+ * Helper function to check if user is already signed up for a particular
+ *  orientation
+ *
+ * @param $uid
+ *   User's uid to check.
+ * @param $nid
+ *   Orientation nid to check.
+ *
+ * @return Boolean.
+ */
+function psfc_orientation_registered_specific($uid, $nid) {
+  if (db_result(db_query("SELECT COUNT(*) FROM {content_type_orientation_attendee} WHERE field_orientation_nid_nid = %d AND field_userid_uid = %d", $nid, $uid))) {
+    return TRUE;
+  }
+  return FALSE;
+}
 
 /**
  * Helper function to create a signup link for an orientation.
@@ -756,7 +773,17 @@ function psfc_orientation_signup_link($nid) {
   global $user;
   // Return link to the orientation.
   if ($user->uid > 0) {
-    return '<div class="button-rounded"><span>' . l(t('Register for Orientation'), 'join/orientation/signup/session/'. $nid) .'</span></div>';
+    $account = user_load($user->uid);
+    $member_status = $account->member_status;
+    if (psfc_orientation_registered_specific($account->uid, $nid)) {
+      return '<div class="button-rounded"><span>'. l(t("Orientation Status"), 'join/orientation/status') . '</span></div>';
+    }
+    elseif ($member_status['orientation']['registered']) {
+      return;
+    }
+    else {
+      return '<div class="button-rounded"><span>' . l(t('Register for Orientation'), 'join/orientation/signup/session/'. $nid) .'</span></div>';
+    }
   }
   return '<div class="button-rounded button-rounded-off"><span>'. t('Register for Orientation') .'</span></div><div class="must-login">' . l(t('Log In or Create an account'), 'join/orientation/login') . t(' to sign up for Orientation.') .'</div>';
 }
@@ -1086,7 +1113,7 @@ function psfc_orientation_user_orientation_status($uid) {
     return t('You are not registered for an orientation.');
   }
   elseif ($member_status['orientation']['confirmed'] == 0) {
-    return t('You have registered for an orientation and not confirmed');
+    return l(t('You have registered for an orientation and not confirmed'), 'join/orientation/status');
   }
   elseif ($member_status['orientation']['confirmed'] == 1  && !$member_status['orientation']['attended']) {
     return l(t('You are confirmed to attend an upcoming orientation'), 'join/orientation/status/registered');
@@ -1095,3 +1122,4 @@ function psfc_orientation_user_orientation_status($uid) {
     return 1;
   }
 }
+
