@@ -10,8 +10,6 @@ stylesheets[all][]   = css/styles.css
 stylesheets[all][]   = css/text.css
 
 scripts[]   = js/psfc.js
-scripts[]   = js/cufon-yui.js
-scripts[]   = js/DINSchrift_400.font.js
 
 regions[right] = right sidebar
 regions[contenttop] = contenttop

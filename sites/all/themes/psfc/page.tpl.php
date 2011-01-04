@@ -6,9 +6,6 @@
     <?php print $head; ?>
     <?php print $styles; ?>
     <?php print $scripts; ?>
-	<script type="text/javascript">
-		Cufon.replace('h1,h2,h3,h4,.button-rounded,.date-display-single,table.odate-table span', { fontFamily: 'DINSchrift' });
-	</script>
   </head>
   <body>
     <div class="container_12">

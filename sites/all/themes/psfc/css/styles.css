@@ -1,8 +1,18 @@
-body {
-	background: #050;
+﻿body {
+	background: #340;
 	color: #333;
 	font: 13px/1.5 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif;
 }
+
+@font-face {
+	font-family: 'DIN1451StdEngschrift';
+	src: url('dinengschriftstd-webfont.eot');
+	src: local('☺'), url('dinengschriftstd-webfont.woff') format('woff'), url('dinengschriftstd-webfont.ttf') format('truetype'), url('dinengschriftstd-webfont.svg#webfontjeP1lQbS') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+h1,h2,h3,h4,.button-rounded,.date-display-single,table.odate-table span { font-family: 'DIN1451StdEngschrift',Tahoma,'Liberation Sans',FreeSans,sans; font-weight: normal; }
 
 #header {
 	overflow: hidden;
@@ -168,11 +178,11 @@ a:hover {
 }
 
 h1, h2, h3 {
-	color: #8f8d2c;
+	color: #570;
 }
 
 #content a {
-	color: #690;
+	color: #270;
 	text-decoration: underline;
 }
 
