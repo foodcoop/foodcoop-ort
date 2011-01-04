@@ -12,7 +12,7 @@
       <div id="header">
         <div id="logo" class="grid_2">
           <!-- a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" /></a -->
-          <a href="/" rel="home"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" /></a>
+          <a href="http://foodcoop.com/" rel="home"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" /></a>
         </div>
         <div class="clear"></div>
         <?php print $primary_links; ?>
