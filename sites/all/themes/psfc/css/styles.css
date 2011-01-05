@@ -448,3 +448,10 @@ div#secondary-links ul.links li {
 	padding: 0px 0px 3px 0px;
 }
 
+
+
+/*  quick hack to show context sensitive secondary nav state */
+div#secondary-links li.active-trail a{
+	font-weight: bold;
+	text-decoration: none;
+}
