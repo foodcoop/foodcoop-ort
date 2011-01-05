@@ -27,7 +27,7 @@ function psfc_preprocess_block(&$variables) {
   // create an array to map css classes, for background image in links
   $class_names = array(
     'About the Coop' => 'about',
-    'Join the Coop' => 'join',
+    'Overview' => 'join',
     'News & Publications' => 'news',
     'Food & Recipies' => 'food',
    'Events & Community' =>  'events',
