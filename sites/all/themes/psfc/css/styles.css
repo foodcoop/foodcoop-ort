@@ -454,4 +454,5 @@ div#secondary-links ul.links li {
 div#secondary-links li.active-trail a{
 	font-weight: bold;
 	text-decoration: none;
+	color: #000;
 }
