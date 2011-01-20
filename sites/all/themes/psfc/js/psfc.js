@@ -42,10 +42,10 @@ $(function() {
 		function toggle(quick){
 			if (ap.isOpen){
 				ap.hide(quick?0:"medium");
-				qp.css("list-style-image","url(/coop/misc/menu-collapsed.png)");
+				qp.css("list-style-image","url(/misc/menu-collapsed.png)");
 			} else {
 				ap.show("medium");
-				qp.css("list-style-image","url(/coop/misc/menu-expanded.png)");
+				qp.css("list-style-image","url(/misc/menu-expanded.png)");
 			}
 			ap.isOpen = !ap.isOpen;
 		}
