@@ -40,6 +40,7 @@
             </div>
           <?php endif; ?>
           <?php print $tabs ?>
+          <?php if ($node->field_subhead) print "<h2>".$node->field_subhead[0]["value"]."</h2>";?>
           <?php print $content; ?>
         </div>
       </div>
