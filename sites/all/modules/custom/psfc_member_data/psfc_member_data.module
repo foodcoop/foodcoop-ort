@@ -29,7 +29,8 @@ function psfc_member_data_block($op = 'list', $delta = 0, $edit = array()) {
 function psfc_member_data_block_0() {
   global $user;
   if ($user->uid == 0) {
-    return;
+    $output = l(t('Log in or Create and Account'), 'login');
+    return $output;
   }
   $orientation_status = psfc_orientation_user_orientation_status($user->uid);
   if ($orientation_status != 1) {
@@ -43,8 +44,8 @@ function psfc_member_data_block_0() {
   else {
     $status = t('Unkown status');
   }
-  $output = t('You are logged in as:') .'<br />';
-  $output .= '<div class="username">' . $user->name . '</div>';
+  $output = t('Hi, ');
+  $output .= '<span class="username">' . $user->name . '</span>';
   $output .= '<div>'. $status .'</div>';
   $output .= '<div>'. l('Log Out', 'logout') .'</div>';
   return $output;

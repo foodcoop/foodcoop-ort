@@ -14,6 +14,11 @@
           <!-- a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" /></a -->
           <a href="http://foodcoop.com/" rel="home"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" /></a>
         </div>
+        <?php if ($header_user): ?>
+          <div id="header-user-block" class="grid_8 push_2">
+            <?php print $header_user; ?>
+          </div>
+        <?php endif; ?>
         <div class="clear"></div>
         <?php print $primary_links; ?>
 

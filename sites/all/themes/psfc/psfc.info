@@ -16,6 +16,7 @@ regions[contenttop] = contenttop
 regions[content] = content
 regions[footer] = footer
 regions[devel_area] = devel area
+regions[header_user] = header user blocks
 
 features[] = logo
 features[] = favicon
