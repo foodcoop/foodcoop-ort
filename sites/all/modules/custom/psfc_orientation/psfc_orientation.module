@@ -1082,7 +1082,7 @@ function theme_psfc_orientation_status() {
 
   $output .= '<p>'. t('If this is not correct, please cancel and sign up again.');
 
-  $output .= '<div class="button-rounded"><span>'. psfc_orientation_confirm_url($user, 'cancel', 'Cancel') . '</span></div>';
+  $output .= '<div class="button-rounded"><span>'. psfc_orientation_confirm_url($user, 'cancel', 'Cancel Registration') . '</span></div>';
 
   return $output;
 }
