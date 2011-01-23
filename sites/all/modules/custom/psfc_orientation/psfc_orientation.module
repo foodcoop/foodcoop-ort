@@ -5,7 +5,19 @@
 
 module_load_include('inc', 'psfc_orientation', 'psfc_orientation.email');
 module_load_include('inc', 'psfc_orientation', 'psfc_orientation.nodemap');
+module_load_include('inc', 'psfc_orientation', 'psfc_orientation.token');
 
+
+/**
+ * Implementation of hook_init().
+ */
+function psfc_orientation_init() {
+  // Don't cache nodes with dynamic content for anon users. Node 120 has a
+  // token that gets replaced.
+  if (arg(0) == 'node' && in_array(arg(1), array(120))) {
+    $GLOBALS['conf']['cache'] = FALSE;
+  }
+}
 
 /**
  * Implementation of hook_perm().
@@ -408,6 +420,13 @@ function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         // the orientation if it is closed.
         psfc_orientation_capacity($node->field_orientation_nid[0]['nid'], TRUE);
         break;
+    }
+  }
+  if ($node->type == 'page') {
+    switch ($op) {
+      case 'alter' :
+        $node->body = token_replace($node->body);
+      break;
     }
   }
 }
@@ -1127,3 +1146,13 @@ function psfc_orientation_user_orientation_status($uid) {
   }
 }
 
+/*
+ * Helper function returns number of future orientations that have openings.
+ */
+function psfc_orientation_check_openings() {
+  $view = views_get_view('orientations');
+  $view->set_display('default');
+  $view->pre_execute();
+  $view->execute();
+  return $view->total_rows;
+}

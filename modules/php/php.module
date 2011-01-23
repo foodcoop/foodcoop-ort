@@ -84,6 +84,3 @@ function php_filter($op, $delta = 0, $format = -1, $text = '') {
       return $text;
   }
 }
-
-
-
