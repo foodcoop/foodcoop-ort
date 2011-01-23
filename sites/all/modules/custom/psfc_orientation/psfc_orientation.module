@@ -20,12 +20,8 @@ function psfc_orientation_init() {
   }
 
   // If user has an unconfirmed registration, nag with a message on every page;
-  if ($user->uid && $attendee = psfc_orientation_get_attendee_node($user)) {
-      $orientation = node_load($attendee->field_orientation_nid[0]['nid']);
-       // Orientation open status: 0 is open, 1 is closed.
-      if (!$orientation->field_open[0]['value'] && !$attendee->field_attendee_confirmed[0]['value']) {
-      drupal_set_message(t('Replace me: You have registered but not confirmed. Please check your email and confirm.'), 'status');
-    }
+  if ($user->uid && psfc_orientation_user_orientation_status($user->uid) == 2) {
+    drupal_set_message(t('Replace me: You have registered but not confirmed. Please check your email and confirm.'), 'warning');
   }
 }
 
