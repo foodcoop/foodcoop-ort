@@ -28,8 +28,11 @@ function psfc_member_data_block($op = 'list', $delta = 0, $edit = array()) {
  */
 function psfc_member_data_block_0() {
   global $user;
+  
+  $output = '<div id="header_user">';
   if ($user->uid == 0) {
-    $output = l(t('Log in or Create and Account'), 'login');
+    $output .= l(t('Log in or Create and Account'), 'login');
+    $output .= '</div>';
     return $output;
   }
   $orientation_status = psfc_orientation_user_orientation_status($user->uid);
@@ -42,11 +45,14 @@ function psfc_member_data_block_0() {
     $status = t('You have completed orientation.');
   }
   else {
-    $status = t('Unkown status');
+    $status = t('Unknown status');
   }
-  $output = t('Hi, ');
+  $output .= t('Hi, ');
   $output .= '<span class="username">' . $user->name . '</span>';
-  $output .= '<div>'. $status .'</div>';
-  $output .= '<div>'. l('Log Out', 'logout') .'</div>';
+  $output .= '<span class="status">'. $status .'</span>';
+  $output .= '<span class="logout">'. l('Log Out', 'logout') .'</span>';
+
+  $output .= '</div>';
+
   return $output;
 }

@@ -100,6 +100,42 @@ a:hover {
 
 
 
+
+/* header userspace */
+
+#header_user {
+	background-color: #560;
+	padding: 10px;
+	color: #fff;
+	text-align: right;
+	float: right;
+}
+#header_user a {
+	color: #ac0;
+	border-bottom: 1px solid #780;
+}	
+#header_user a:hover {
+	text-decoration: none;
+	border-bottom: 1px solid #ac0;
+}
+#header_user .username {
+	font-weight: bold;
+}
+#header_user .status {
+	padding: 0 10px 0 10px;	
+	margin: 0 10px 0 10px;	
+	border-left: 1px solid #780;
+	border-right: 1px solid #780;
+}
+#header_user .logout {
+	padding-right: 10px;
+}
+
+
+
+
+
+
 /* Footer */
 
 #footer {
