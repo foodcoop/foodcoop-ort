@@ -28,28 +28,38 @@ function psfc_member_data_block($op = 'list', $delta = 0, $edit = array()) {
  */
 function psfc_member_data_block_0() {
   global $user;
-  
+    
+  // make this bigger:
   $output = '<div id="header_user">';
   if ($user->uid == 0) {
-    $output .= l(t('Log in or Create and Account'), 'login');
-    $output .= '</div>';
+    $output .= '<span class="login">';
+    $output .= l(t('Log in or Create an Account'), 'login');
+    $output .= '</span></div>';
     return $output;
   }
-  $orientation_status = psfc_orientation_user_orientation_status($user->uid);
-  if ($orientation_status != 1) {
-    $status = $orientation_status;
-  }
-  elseif ($orientation_status == 1) {
+
+// JE: This is not going to be dynamic just yet.
+//
+//  $orientation_status = psfc_orientation_user_orientation_status($user->uid);
+//  if ($orientation_status != 1) {
+//    $status = $orientation_status;
+//  }
+//  elseif ($orientation_status == 1) {
     // TODO: Here is where we will have to call in actual member status once
     //  we start pulling in the member data.
-    $status = t('You have completed orientation.');
-  }
-  else {
-    $status = t('Unknown status');
-  }
+//    $status = t('Orientation Status');
+//  }
+//  else {
+//    $status = t('Unknown status');
+//  }
+   
+  $status = t('Orientation Status');
+
   $output .= t('Hi, ');
   $output .= '<span class="username">' . $user->name . '</span>';
-  $output .= '<span class="status">'. $status .'</span>';
+  $output .= '<span class="status">';
+  $output .= l(t('Orientation Status'), 'join/orientation/status');
+  $output .= '</span>';  
   $output .= '<span class="logout">'. l('Log Out', 'logout') .'</span>';
 
   $output .= '</div>';
