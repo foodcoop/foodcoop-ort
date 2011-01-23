@@ -509,10 +509,9 @@ function psfc_orientation_confirmed() {
   }
 
   $orientation = node_load($attendee->field_orientation_nid[0]['nid']);
-  $date = $orientation->field_date[0]['value'];
 
   $output = '<p>'. t('We will see you on:'). '</p>';
-  $output .= theme_psfc_orientation_date_table($date);
+  $output .= theme_psfc_orientation_date_table($orientation);
   $text = node_load(variable_get('psfc_orientation_confirmation_thank_you', FALSE));
   if (is_object($text)) {
     drupal_set_title(t($text->title));
@@ -830,13 +829,9 @@ function psfc_orientation_signup_session($onid) {
   $output .= '</div>';
 
   $output .= '<div class="confirm-info-date">';
-  $output .= theme(psfc_orientation_date_table, $orientation->field_date[0]['value']);
+  $output .= theme(psfc_orientation_date_table, $orientation);
   $output .= '</div>';
-  
-  $output .= '<div class="button-rounded"><span>';
-  $output .= l(t('Yes, Register Me'), 'join/orientation/signup/session/register/'. $onid);
-  $output .= '</span></div>';
-  
+    
   $output .= '<div class="button-rounded red"><span>';
   $output .= l(t('No, Select Another Date'), 'join/orientation');
   $output .= '</span></div>';
@@ -1025,16 +1020,25 @@ function psfc_orientation_get_all_attendee_nodes($oid) {
 /**
  * Theme a table with 1 orientation date.
  * *
- * @param $date
- *   The date of the orientation.
+ * @param $orientation
+ *   The orientation node.
  */
-function theme_psfc_orientation_date_table($date) {
-  $date = strtotime($date);
-  $headers = array('Date', 'Day', 'Time');
+function theme_psfc_orientation_date_table($orientation) {
+  $date = strtotime($orientation->field_date[0]['value']);
+  $headers = array('Date', 'Day', 'Time', '');
   $rows[] = array(
-          '<span class = "mon">'. format_date($date, 'custom', 'M') .'</span>' . ' <span class = "date">'. format_date($date, 'custom', 'j') .'</span>',
-          '<span class = "day">'. format_date($date, 'custom', 'l') .'</span>',
-          '<span class = "time">'. format_date($date, 'custom', 'g:i') .'</span>' . '<span class = "meridiem">'. format_date($date, 'custom', 'A') .'</span>',
+          array(
+            'data' => '<span class = "mon">'. format_date($date, 'custom', 'M') .'</span>' . ' <span class = "date">'. format_date($date, 'custom', 'j') .'</span>',
+            'class' => 'first'
+            ),
+          array(
+            'data' => '<span class = "day">'. format_date($date, 'custom', 'l') .'</span>'),
+          array(
+            'data' => '<span class = "time">'. format_date($date, 'custom', 'g:i') .'</span>' . '<span class = "meridiem">'. format_date($date, 'custom', 'A') .'</span>'),
+          array(
+            'data' => '<div class="button-rounded"><span>'.  l(t('Yes, Register Me'), 'join/orientation/signup/session/register/'. $orientation->nid) .'</span></div>',
+            'class' => 'last'
+            )
     );
   return theme('table', $headers, $rows, array('class' => 'odate-table'));
 }
@@ -1066,7 +1070,7 @@ function theme_psfc_orientation_status() {
   $output .= '</div>';
 
   $output .= '<div class="status-info-date">';
-  $output .= theme(psfc_orientation_date_table, $orientation->field_date[0]['value']);
+  $output .= theme(psfc_orientation_date_table, $orientation);
   $output .= '</div>';
 
   if (!$attendee->field_attendee_confirmed[0]['value']) {
