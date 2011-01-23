@@ -142,6 +142,10 @@ a:hover {
 	background-image: url(../img/footer-rss.png);
 	background-repeat: no-repeat;
 }
+#footer ul.social-media .privacy {
+	background-image: url(../img/footer-privacy.png);
+	background-repeat: no-repeat;
+}
 
 
 
