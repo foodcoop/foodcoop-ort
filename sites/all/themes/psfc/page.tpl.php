@@ -46,7 +46,7 @@
           <?php endif; ?>
           <?php print $tabs ?>
           <?php if ($node->field_subhead): ?>
-            <h2><?php print $node->field_subhead[0]['view']; ?></h2>
+            <h2><?php print $node->field_subhead[0]['safe']; ?></h2>
           <?php endif; ?>
           <?php print $content; ?>
         </div>

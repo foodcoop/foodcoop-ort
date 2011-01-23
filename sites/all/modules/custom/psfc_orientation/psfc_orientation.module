@@ -801,10 +801,10 @@ function psfc_orientation_signup_link($nid) {
       return;
     }
     else {
-      return '<div class="button-rounded"><span>' . l(t('Register for Orientation'), 'join/orientation/signup/session/'. $nid) .'</span></div>';
+      return '<div class="button-rounded"><span>' . l(t('I want this one'), 'join/orientation/signup/session/'. $nid) .'</span></div>';
     }
   }
-  return '<div class="button-rounded button-rounded-off"><span>'. t('Register for Orientation') .'</span></div><div class="must-login">' . l(t('Log In or Create an account'), '/login') . t(' to sign up for Orientation.') .'</div>';
+  return '<div class="button-rounded"><span>' . l(t('Log in to select'), 'login') .'</span></div>';
 }
 
 /**

@@ -752,6 +752,15 @@ $handler->override_option('tab_options', array(
   'weight' => 0,
   'name' => 'navigation',
 ));
+$handler->override_option('header', '<?php
+$nid = variable_get(\'psfc_orientation_upcoming_orientations\', 36);
+$node = node_load($nid);
+$txt = check_markup($node->field_subhead[0][\'value\']);
+print \'<h2>\'. $txt .\'</h2>\';
+?>');
+$handler->override_option('header_format', '3');
+$handler->override_option('header_empty', 0);
+
 $views[$view->name] = $view;
 
   /*
