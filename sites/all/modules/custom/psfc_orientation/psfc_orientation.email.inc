@@ -34,7 +34,7 @@ function _psfc_orientation_mail_text($key, $language = NULL, $variables = array(
       case 'registration_cancelled_subject':
         return t('Reminder: Your PSFC orientation has been cancelled.', $variables, $langcode);
       case 'registration_cancelled_body':
-        return t("Dear !attendee_firstname !attendee_lastname\n\nYour scheduled PSFC new member orientation has been cancelled.", $variables, $langcode);
+        return t("Dear !attendee_firstname !attendee_lastname\n\nYour scheduled PSFC new member orientation has been cancelled.\n\n Thank you,\nThe Park Slope Food Coop", $variables, $langcode);
     }
   }
 }
