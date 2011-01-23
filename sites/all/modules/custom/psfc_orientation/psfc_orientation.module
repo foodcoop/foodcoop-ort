@@ -12,10 +12,20 @@ module_load_include('inc', 'psfc_orientation', 'psfc_orientation.token');
  * Implementation of hook_init().
  */
 function psfc_orientation_init() {
+  global $user;
   // Don't cache nodes with dynamic content for anon users. Node 120 has a
   // token that gets replaced.
   if (arg(0) == 'node' && in_array(arg(1), array(120))) {
     $GLOBALS['conf']['cache'] = FALSE;
+  }
+
+  // If user has an unconfirmed registration, nag with a message on every page;
+  if ($user->uid && $attendee = psfc_orientation_get_attendee_node($user)) {
+      $orientation = node_load($attendee->field_orientation_nid[0]['nid']);
+       // Orientation open status: 0 is open, 1 is closed.
+      if (!$orientation->field_open[0]['value'] && !$attendee->field_attendee_confirmed[0]['value']) {
+      drupal_set_message(t('Replace me: You have registered but not confirmed. Please check your email and confirm.'), 'status');
+    }
   }
 }
 
@@ -1026,7 +1036,7 @@ function psfc_orientation_get_all_attendee_nodes($oid) {
 function theme_psfc_orientation_date_table($orientation) {
   $date = strtotime($orientation->field_date[0]['value']);
   $headers = array('Date', 'Day', 'Time', '');
-  $rows[] = array(
+  $rows[0] = array(
           array(
             'data' => '<span class = "mon">'. format_date($date, 'custom', 'M') .'</span>' . ' <span class = "date">'. format_date($date, 'custom', 'j') .'</span>',
             'class' => 'first'
@@ -1035,14 +1045,18 @@ function theme_psfc_orientation_date_table($orientation) {
             'data' => '<span class = "day">'. format_date($date, 'custom', 'l') .'</span>'),
           array(
             'data' => '<span class = "time">'. format_date($date, 'custom', 'g:i') .'</span>' . '<span class = "meridiem">'. format_date($date, 'custom', 'A') .'</span>'),
-          array(
+    );
+
+  // Move the register me to the table if we're on the correct page.
+  if (arg(1) == 'orientation' && arg(2) == 'signup') {
+    $rows[0][] = array(
             'data' => '<div class="button-rounded"><span>'.  l(t('Yes, Register Me'), 'join/orientation/signup/session/register/'. $orientation->nid) .'</span></div>',
             'class' => 'last'
-            )
-    );
+          );
+
+  }
   return theme('table', $headers, $rows, array('class' => 'odate-table'));
 }
-
 /**
  * Theme a the user's orientation status page.
  *
