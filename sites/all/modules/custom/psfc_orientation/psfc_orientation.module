@@ -139,7 +139,7 @@ function psfc_orientation_menu() {
     'page arguments' => array(5),
     'type' => MENU_CALLBACK,
   );
-  $items['join/orientation/login'] = array(
+  $items['login'] = array(
     'title' => 'Sign in',
     'description' => 'Log in or create an account.',
     'page callback' => 'psfc_orientation_login',
@@ -283,7 +283,7 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
       // We need to redirect sometime so we need our own submit.
       $form['#submit'][] = 'psfc_orientation_user_register_submit';
       // Only alter reg form on our custom signup page.
-      if ($_GET['q'] == 'join/orientation/login') {
+      if ($_GET['q'] == 'login') {
         $form['submit']['#value'] = t('Sign Up');  // Change button value.
 
         // Move name category to account.
@@ -315,7 +315,8 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
  */
 function psfc_orientation_user_register_submit ($form, &$form_state) {
   $admin = user_access('administer users');
-  if ($_GET['q'] == 'join/orientation/login' && !$admin) {
+  if ($_GET['q'] == 'login' && !$admin) {
+    // TODO: Remove the this riderict, in favor of more check/ diff redirect --ncm
     // User signed self up during orientation process and unset messages.
     $form_state['redirect'] = 'node/'. variable_get('psfc_orientation_new_user_from_orientation', '');
     drupal_get_messages();
@@ -785,7 +786,7 @@ function psfc_orientation_signup_link($nid) {
       return '<div class="button-rounded"><span>' . l(t('Register for Orientation'), 'join/orientation/signup/session/'. $nid) .'</span></div>';
     }
   }
-  return '<div class="button-rounded button-rounded-off"><span>'. t('Register for Orientation') .'</span></div><div class="must-login">' . l(t('Log In or Create an account'), 'join/orientation/login') . t(' to sign up for Orientation.') .'</div>';
+  return '<div class="button-rounded button-rounded-off"><span>'. t('Register for Orientation') .'</span></div><div class="must-login">' . l(t('Log In or Create an account'), '/login') . t(' to sign up for Orientation.') .'</div>';
 }
 
 /**
