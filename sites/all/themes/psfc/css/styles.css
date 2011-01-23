@@ -329,6 +329,20 @@ div.button-rounded span button {
 
 
 
+/* red rounded button */
+
+div.button-rounded.red span {
+	background: transparent url( ../img/btn_left_red.png ) no-repeat scroll left top;	
+}
+div.button-rounded.red {
+	background: transparent url( ../img/btn_right_red.png ) no-repeat scroll right top;
+}
+div.button-rounded.red span a {
+	color: #fff !important;
+}
+
+
+
 
 
 

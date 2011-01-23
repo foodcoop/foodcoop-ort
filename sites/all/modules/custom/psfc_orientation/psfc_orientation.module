@@ -125,7 +125,7 @@ function psfc_orientation_menu() {
     'weight' => 12,
   );
   $items['join/orientation/signup/session/%'] = array(
-    'title' => 'Review the Details of Your Orientation Session',
+    'title' => 'Review Your Selection',
     'description' => 'Let the user check the date',
     'access arguments' => array( 'access content'),
     'page callback' => 'psfc_orientation_signup_session',
@@ -805,19 +805,22 @@ function psfc_orientation_signup_session($onid) {
     drupal_goto('join/orientation/status/registered');
   }
   $orientation = node_load($onid);
+
   $output = '<div class="confirm-info-text">';
   $output .= t('You have selected the following Orientation Session:');
   $output .= '</div>';
+
   $output .= '<div class="confirm-info-date">';
   $output .= theme(psfc_orientation_date_table, $orientation->field_date[0]['value']);
   $output .= '</div>';
-  $output .= '<div class="confirm-info-link"><div class="button-rounded"><span>';
-  $output .= l(t('Yes, Register Me for This Orientation'), 'join/orientation/signup/session/register/'. $onid);
-  $output .= '</span></div></div>';
-  $output .= '<div class="confirm-info-link"><p>'. t('Or if this is not correct,') .'</p>';
+  
   $output .= '<div class="button-rounded"><span>';
-  $output .= l(t('Begin Registration Process Again'), 'join/orientation');
-  $output .= '</span></div></div>';
+  $output .= l(t('Yes, Register Me'), 'join/orientation/signup/session/register/'. $onid);
+  $output .= '</span></div>';
+  
+  $output .= '<div class="button-rounded red"><span>';
+  $output .= l(t('No, Select Another Date'), 'join/orientation');
+  $output .= '</span></div>';
   return $output;
 }
 
