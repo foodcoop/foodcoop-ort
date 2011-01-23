@@ -38,27 +38,31 @@ function psfc_member_data_block_0() {
     return $output;
   }
 
-// JE: This is not going to be dynamic just yet.
-//
-//  $orientation_status = psfc_orientation_user_orientation_status($user->uid);
-//  if ($orientation_status != 1) {
-//    $status = $orientation_status;
-//  }
-//  elseif ($orientation_status == 1) {
+  /**
+   *  Orientation statuses
+   *  0 = User has attended a registration
+   *  1 = User has select and confirmed a registration slot
+   *  2 = User has selected but not confirmed
+   *  3 = User has neither selected, confirmed, or completed reg
+   */
+  $orientation_status = psfc_orientation_user_orientation_status($user->uid);
+  if ($orientation_status != 0) {
+    $status_link_text = t('Orientation Status');
+    $status_link = 'join/orientation/status';
+  }
+  else {
     // TODO: Here is where we will have to call in actual member status once
     //  we start pulling in the member data.
-//    $status = t('Orientation Status');
-//  }
-//  else {
-//    $status = t('Unknown status');
-//  }
+    $status_text = t('Member status');
+    $status_link = 'user';
+  }
    
   $status = t('Orientation Status');
 
   $output .= t('Hi, ');
   $output .= '<span class="username">' . $user->name . '</span>';
   $output .= '<span class="status">';
-  $output .= l(t('Orientation Status'), 'join/orientation/status');
+  $output .= l($status_link_text, $status_link);
   $output .= '</span>';  
   $output .= '<span class="logout">'. l('Log Out', 'logout') .'</span>';
 

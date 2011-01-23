@@ -1144,23 +1144,26 @@ function psfc_orientation_past_blackout_delete() {
  *
  * @param $uid The user id for the the member status you are looking for
  *
- * @return A textual representation of the user/member's orientation status,
- *  or a 1 for a user who has attended an orientation
+ * @return A numeric representation of the user/member's orientation status,
+ *  0: User has attended a registration
+ *  1: User has select and confirmed a registration slot
+ *  2: User has selected but not confirmed
+ *  3: User has neither selected, confirmed, or completed reg
  */
 function psfc_orientation_user_orientation_status($uid) {
   $user = user_load($uid);
   $member_status = $user->member_status;
   if (!$member_status['orientation']['registered']) {
-    return t('You are not registered for an orientation.');
+    return 3;
   }
   elseif ($member_status['orientation']['confirmed'] == 0) {
-    return l(t('You have registered for an orientation and not confirmed'), 'join/orientation/status');
+    return 2;
   }
   elseif ($member_status['orientation']['confirmed'] == 1  && !$member_status['orientation']['attended']) {
-    return l(t('You are confirmed to attend an upcoming orientation'), 'join/orientation/status/registered');
+    return 1;
   }
   elseif ($member_status['orientation']['attended'] == 1) {
-    return 1;
+    return 0;
   }
 }
 
