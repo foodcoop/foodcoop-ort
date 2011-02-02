@@ -14,9 +14,12 @@ function psfc_orientation_admin_page() {
   $form['upcoming_orientations'] = array(
     '#type' => 'markup',
     '#value' => $upcoming_orientations,
+    '#prefix' => '<div id="psfc-admin-form">',
   );
-
-
+  $form['manual_signup'] = array(
+    '#type' => 'markup',
+    '#value' => l('Manually sign up a person for an orientation', 'admin/psfc/orientation/add-registrant'),
+  );
   $form['existing_orientations'] = array(
     '#type' => 'markup',
     '#value' => $existing_orientations .  l('Create a new Orientation rule', 'admin/psfc/orientation/add-rule'),
@@ -24,12 +27,7 @@ function psfc_orientation_admin_page() {
   $form['blackouts'] = array(
     '#type' => 'markup',
     '#value' => psfc_orientation_display_blackouts() . l('Create a new blackout date', 'admin/psfc/orientation/add-blackout'),
-  );
-  $form['psfc_orientation_default_description'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Default Orientation Description'),
-    '#default_value' => variable_get('psfc_orientation_default_description', t('PSFC Orientations are blah blah blah')),
-    '#description' => t("This is the description that will be put on the auto generated orientations."),
+    '#suffix' => '</div>',
   );
   return system_settings_form($form);
 }
@@ -190,8 +188,12 @@ function psfc_orientation_display_blackouts() {
  * Form for adding and orientation blackout date.
  */
 function psfc_orientation_add_blackout($form_state) {
+  drupal_set_title(t('Create an Orientation black out date'));
   $form = array();
-
+  $form['pre'] = array(
+    '#type' => 'markup',
+    '#value' => '<div>',
+  );
   $form['obid'] = array(
     '#type' => 'value',
     '#value' => (!$values) ? NULL : $values['obid'],
@@ -211,6 +213,10 @@ function psfc_orientation_add_blackout($form_state) {
   );
 
   $form['submit'] = array('#type' => 'submit', '#value' => t('Add'));
+  $form['suff'] = array(
+    '#type' => 'markup',
+    '#value' => '</div>',
+  );
   return $form;
 }
 

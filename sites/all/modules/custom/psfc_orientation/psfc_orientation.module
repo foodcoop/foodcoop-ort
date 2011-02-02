@@ -325,6 +325,26 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
         $form['pass']['#weight'] = 5;
       }
     break;
+    case 'views_bulk_operations_form__1':
+      // string replacements to make the attendee manage page more friendly.
+      $form['select']['operation']['#options']['views_bulk_operations_delete_node_action'] = t('Remove Attendee(s)');
+      $form['select']['operation']['#options']['views_bulk_operations_fields_action'] = t('Record if Attendee(s) attended');
+      $form['select']['operation']['#options']['system_send_email_action'] = t('Send Attendee(s) Email');
+      if ($form['step']['#value'] == 1) {
+        unset($form['select']['#title']);
+      }
+      if ($form['step']['#value'] == 3) {
+        drupal_set_title(t('Are you sure you want to remove selected attendees?'));
+        $p = $form['description']['#value'];
+        $pattern = '/<h3\b[^>]*>(.*?)<\/h3>/ims';
+        $content = '<h2>'. t('You have selected the following attendees for removal from their orientation:') .'</h2>';
+        $content .= '<div><em>'. t('NOTE: This action cannot be undone, the user will need to be signed up again.') .'</em><br /><br /></div>';
+        $form['description']['#value'] = preg_replace($pattern, $content, $p);
+      }
+      if ($form['step']['#value'] == 2 && $form['operation']['#value']['key'] = 'system_send_email_action   | (Callback) system_send_email_action();') {
+        drupal_set_title(t('Send Orientation Attendees an Email'));
+      }
+    break;
   }
 }
 

@@ -508,3 +508,20 @@ div#secondary-links li.active-trail a{
 	text-decoration: none;
 	color: #000;
 }
+
+/* admin page rules */
+div#psfc-admin-form {
+  margin-bottom: 20px;
+}
+form#psfc-orientation-add-blackout {
+  float: left;
+}
+form#views-bulk-operations-form--1 .views-node-selector {
+  clear: left;
+}
+form#views-bulk-operations-form--1 .views-node-selector td.active {
+  background: none;
+}
+.view-id-orientation_admin td {
+  padding: .25em 5px;
+}

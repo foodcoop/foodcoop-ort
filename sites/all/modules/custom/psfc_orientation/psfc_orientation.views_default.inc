@@ -40,7 +40,7 @@ function psfc_orientation_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
-      'link_to_node' => 1,
+      'link_to_node' => 0,
       'exclude' => 0,
       'id' => 'title',
       'table' => 'node',
@@ -123,6 +123,36 @@ function psfc_orientation_views_default_views() {
       'field' => 'field_open_value',
       'relationship' => 'none',
     ),
+    'phpcode_1' => array(
+      'label' => '',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'value' => '<?php print l(\'Manage attendees\', \'admin/psfc/orientation/attendee-manage/\'. $data->nid); ?>',
+      'exclude' => 0,
+      'id' => 'phpcode_1',
+      'table' => 'customfield',
+      'field' => 'phpcode',
+      'relationship' => 'none',
+    ),
     'phpcode' => array(
       'label' => '',
       'alter' => array(
@@ -146,7 +176,7 @@ function psfc_orientation_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
-      'value' => '<?php print l(\'View attendee roster\', \'admin/psfc/orientation/attendee-roster/\'. $data->nid); ?>',
+      'value' => '<?php print l(\'View roster\', \'admin/psfc/orientation/attendee-roster/\'. $data->nid); ?>',
       'exclude' => 0,
       'id' => 'phpcode',
       'table' => 'customfield',
@@ -365,6 +395,7 @@ function psfc_orientation_views_default_views() {
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
   $views[$view->name] = $view;
+
 
 /*
   * View 'orientations'
@@ -1022,14 +1053,14 @@ $views[$view->name] = $view;
   ));
   $handler->override_option('access', array(
     'type' => 'perm',
-    'perm' => 'access content',
+    'perm' => 'administer psfc orientation',
   ));
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
   $handler->override_option('items_per_page', 0);
   $handler->override_option('style_plugin', 'table');
-  $handler = $view->new_display('page', 'Page', 'page_1');
+  $handler = $view->new_display('page', 'Roster', 'page_1');
   $handler->override_option('path', 'admin/psfc/orientation/attendee-roster/%');
   $handler->override_option('menu', array(
     'type' => 'none',
@@ -1211,7 +1242,216 @@ $views[$view->name] = $view;
     'page_1' => 'page_1',
     'default' => 0,
   ));
+  $handler = $view->new_display('page', 'Manage page', 'page_2');
+  $handler->override_option('fields', array(
+    'field_firstname_value' => array(
+      'label' => 'First Name',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'link_to_node' => 0,
+      'label_type' => 'widget',
+      'format' => 'default',
+      'multiple' => array(
+        'group' => TRUE,
+        'multiple_number' => '',
+        'multiple_from' => '',
+        'multiple_reversed' => FALSE,
+      ),
+      'exclude' => 0,
+      'id' => 'field_firstname_value',
+      'table' => 'node_data_field_firstname',
+      'field' => 'field_firstname_value',
+      'relationship' => 'none',
+    ),
+    'field_lastname_value' => array(
+      'label' => 'Last Name',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'link_to_node' => 0,
+      'label_type' => 'widget',
+      'format' => 'default',
+      'multiple' => array(
+        'group' => TRUE,
+        'multiple_number' => '',
+        'multiple_from' => '',
+        'multiple_reversed' => FALSE,
+      ),
+      'exclude' => 0,
+      'id' => 'field_lastname_value',
+      'table' => 'node_data_field_lastname',
+      'field' => 'field_lastname_value',
+      'relationship' => 'none',
+    ),
+    'field_email_email' => array(
+      'label' => 'Email Address',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'link_to_node' => 0,
+      'label_type' => 'widget',
+      'format' => 'default',
+      'multiple' => array(
+        'group' => TRUE,
+        'multiple_number' => '',
+        'multiple_from' => '',
+        'multiple_reversed' => FALSE,
+      ),
+      'exclude' => 0,
+      'id' => 'field_email_email',
+      'table' => 'node_data_field_email',
+      'field' => 'field_email_email',
+      'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+    ),
+  ));
+  $handler->override_option('header', '<?php
+print l(t(\'Go back to main orientations admin page.\'), \'admin/psfc/orientation\');
+?>');
+  $handler->override_option('header_format', '3');
+  $handler->override_option('header_empty', 0);
+  $handler->override_option('style_plugin', 'bulk');
+  $handler->override_option('style_options', array(
+    'grouping' => '',
+    'override' => 1,
+    'sticky' => 1,
+    'order' => 'asc',
+    'columns' => array(
+      'field_firstname_value' => 'field_firstname_value',
+      'field_lastname_value' => 'field_lastname_value',
+      'field_email_email' => 'field_email_email',
+    ),
+    'info' => array(
+      'field_firstname_value' => array(
+        'sortable' => 1,
+        'separator' => '',
+      ),
+      'field_lastname_value' => array(
+        'sortable' => 1,
+        'separator' => '',
+      ),
+      'field_email_email' => array(
+        'sortable' => 0,
+        'separator' => ' | ',
+      ),
+    ),
+    'default' => 'field_lastname_value',
+    'execution_type' => '1',
+    'display_type' => '0',
+    'hide_select_all' => 0,
+    'skip_confirmation' => 0,
+    'display_result' => 1,
+    'merge_single_action' => 1,
+    'selected_operations' => array(
+      'views_bulk_operations_delete_node_action' => 'views_bulk_operations_delete_node_action',
+      'views_bulk_operations_fields_action' => 'views_bulk_operations_fields_action',
+      'system_send_email_action' => 'system_send_email_action',
+      'node_assign_owner_action' => 0,
+      'node_mass_update:a27b9efabcd054685a549378b174ad11' => 0,
+      'system_message_action' => 0,
+      'views_bulk_operations_action' => 0,
+      'views_bulk_operations_script_action' => 0,
+      'node_make_sticky_action' => 0,
+      'node_make_unsticky_action' => 0,
+      'node_mass_update:c4d3b28efb86fd703619a50b74d43794' => 0,
+      'views_bulk_operations_taxonomy_action' => 0,
+      'views_bulk_operations_argument_selector_action' => 0,
+      'node_promote_action' => 0,
+      'node_mass_update:14de7d028b4bffdf2b4a266562ca18ac' => 0,
+      'node_mass_update:9c585624b9b3af0b4687d5f97f35e047' => 0,
+      'node_publish_action' => 0,
+      'system_goto_action' => 0,
+      'node_unpromote_action' => 0,
+      'node_mass_update:8ce21b08bb8e773d10018b484fe4815e' => 0,
+      'node_save_action' => 0,
+      'node_mass_update:0ccad85c1ebe4c9ceada1aa64293b080' => 0,
+      'node_unpublish_action' => 0,
+      'node_unpublish_by_keyword_action' => 0,
+      'auto_nodetitle_operations_update' => 0,
+      'pathauto_node_update_alias_multiple:620e193b20ba9caa374fea9ca0ad38f0' => 0,
+    ),
+    'views_bulk_operations_fields_action' => array(
+      'php_code' => 0,
+      'display_fields' => array(
+        'field_attendee_attended' => 'field_attendee_attended',
+      ),
+      '_error_element_base' => 'style_options][views_bulk_operations_fields_action][',
+    ),
+  ));
+  $handler->override_option('path', 'admin/psfc/orientation/attendee-manage');
+  $handler->override_option('menu', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+    'name' => 'navigation',
+  ));
   $views[$view->name] = $view;
+
 
 /*
  * List of upcoming orientations.
