@@ -31,7 +31,8 @@ function psfc_orientation_init() {
 function psfc_orientation_perm() {
   return array(
     'administer psfc orientation',
-    'sign up for psfc orientation'
+    'administer orientation attendance',
+    'sign up for psfc orientation',
     );
 }
 
@@ -46,7 +47,7 @@ function psfc_orientation_menu() {
   $items['admin/psfc'] = array(
     'title' => 'PSFC Admin Page',
     'description' => 'An Admin landing page for psfc pages',
-    'access arguments' => array( 'administer psfc orientation'),
+    'access callback' => psfc_orientation_access_admin(),
     'page callback' => 'psfc_orientation_temp_admin_land',
   );
   $items['admin/psfc/orientation'] = array(
@@ -54,8 +55,7 @@ function psfc_orientation_menu() {
     'description' => 'Allow coop workers to change orientation settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('psfc_orientation_admin_page'),
-    'access callback' => 'user_access',
-    'access arguments' => array( 'administer psfc orientation'),
+    'access callback' => psfc_orientation_access_admin(),
     'file' => 'psfc_orientation.admin.inc',
     'weight' => 10,
     'type' => MENU_DEFUALT_LOCAL_TASK
@@ -65,8 +65,7 @@ function psfc_orientation_menu() {
     'description' => 'Allow coop workers to change orientation settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('psfc_orientation_admin_page'),
-    'access callback' => 'user_access',
-    'access arguments' => array( 'administer psfc orientation'),
+    'access callback' => psfc_orientation_access_admin(),
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'file' => 'psfc_orientation.admin.inc',
   );
@@ -119,7 +118,7 @@ function psfc_orientation_menu() {
     'description' => 'Admin users can sign up someone who does not have internet access',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('psfc_orientation_add_registrant'),
-    'access arguments' => array('administer psfc orientation'),
+    'access callback' => psfc_orientation_access_admin(),
     'type' => MENU_LOCAL_TASK,
     'file' => 'psfc_orientation.admin.inc',
     'weight' => 11,
@@ -128,7 +127,7 @@ function psfc_orientation_menu() {
     'title' => 'User email autocomplete',
     'page callback' => 'psfc_orientation_email_autocomplete',
     'access callback' => 'user_access',
-    'access arguments' => array('administer psfc orientation'),
+    'access callback' => psfc_orientation_access_admin(),
     'type' => MENU_CALLBACK,
     'file' => 'psfc_orientation.admin.inc',
   );
@@ -186,6 +185,19 @@ function psfc_orientation_menu() {
     'type' => MENU_CALLBACK,
   );
   return $items;
+}
+
+/**
+ * User access function for admin pages intended for multiple roles.
+ */
+function psfc_orientation_access_admin() {
+  if (user_access('administer orientation attendance')) {
+    return TRUE;
+  }
+  elseif (user_access('administer psfc orientation')) {
+    return TRUE;
+  }
+  return FALSE;
 }
 
 /**
