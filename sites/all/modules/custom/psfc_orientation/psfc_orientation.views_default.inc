@@ -85,6 +85,38 @@ function psfc_orientation_views_default_views() {
       'field' => 'field_capacity_value',
       'relationship' => 'none',
     ),
+    'phpcode_2' => array(
+      'label' => 'Open seats',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'value' => '<?php
+ print psfc_orientation_capacity($data->nid, $close = FALSE);
+?>',
+      'exclude' => 0,
+      'id' => 'phpcode_2',
+      'table' => 'customfield',
+      'field' => 'phpcode',
+      'relationship' => 'none',
+    ),
     'field_open_value' => array(
       'label' => 'Open/Closed',
       'alter' => array(
@@ -264,7 +296,11 @@ function psfc_orientation_views_default_views() {
     ),
   ));
   $handler->override_option('access', array(
-    'type' => 'none',
+    'type' => 'role',
+    'role' => array(
+      '4' => 4,
+      '5' => 5,
+    ),
   ));
   $handler->override_option('cache', array(
     'type' => 'none',
@@ -395,7 +431,6 @@ function psfc_orientation_views_default_views() {
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
   $views[$view->name] = $view;
-
 
 /*
   * View 'orientations'
