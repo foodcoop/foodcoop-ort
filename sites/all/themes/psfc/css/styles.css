@@ -477,7 +477,9 @@ ul.tabs {
 
 /* join inter-sectional nav block */
 
-div#block-block-6, div#secondary-links {
+div#block-block-6, 
+div#secondary-links,
+div#block-menu-menu-psfc-admin {
   background: #F0E7D7;
   padding: 10px;
   margin: 20px 0 20px 0;
