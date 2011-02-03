@@ -3,34 +3,28 @@
 /**
  * Default Administration page
  */
-function psfc_orientation_admin_page() {
-
+function psfc_orientation_admin_page() {  
   $view_name = 'orientation_admin';
   $display_id = 'default';
   $upcoming_orientations = views_embed_view($view_name, $display_id);
 
   $existing_orientations = psfc_orientation_display_orientation_rules();
-  $form = array();
-  $form['upcoming_orientations'] = array(
-    '#type' => 'markup',
-    '#value' => $upcoming_orientations,
-    '#prefix' => '<div id="psfc-admin-form">',
-  );
-  $form['manual_signup'] = array(
-    '#type' => 'markup',
-    '#value' => l('Manually sign up a person for an orientation', 'admin/psfc/orientation/add-registrant'),
-  );
-  $form['existing_orientations'] = array(
-    '#type' => 'markup',
-    '#value' => $existing_orientations .  l('Create a new Orientation rule', 'admin/psfc/orientation/add-rule'),
-  );
-  $form['blackouts'] = array(
-    '#type' => 'markup',
-    '#value' => psfc_orientation_display_blackouts() . l('Create a new blackout date', 'admin/psfc/orientation/add-blackout'),
-    '#suffix' => '</div>',
-  );
-  return system_settings_form($form);
+
+  $output = '<div id="psfc-admin-form">';
+  $output .= $upcoming_orientations;
+  $output .= l('Manually sign up a person for an orientation', 'admin/psfc/orientation/add-registrant');
+  if (user_access('administer psfc orientation')) {
+    $output .= $existing_orientations .  l('Create a new Orientation rule', 'admin/psfc/orientation/add-rule');
+  }
+  $blackout_content = psfc_orientation_display_blackouts();
+  if (user_access('administer psfc orientation')) {
+    $blackout_content .= l('Create a new blackout date', 'admin/psfc/orientation/add-blackout');
+  }
+  $output .= $blackout_content;
+  $output .= '</div>';
+  return $output;
 }
+
 /**
  * Build a generic resuable form for dealing with orientation rules
  */
@@ -176,7 +170,12 @@ function psfc_orientation_display_blackouts() {
   $rows = array();
   while ($result = db_fetch_array($query)) {
     $date = str_replace('00:00:00', '', $result['blackout_date']);
-    $rows[] = array($date, l('delete', 'admin/psfc/orientation/delete-blackout/'. $result['obid']));
+    if (user_access('administer psfc orientation')) {
+      $rows[] = array($date, l('delete', 'admin/psfc/orientation/delete-blackout/'. $result['obid']));
+    }
+    else {
+      $rows[] = array($date);
+    }
   }
   $output = theme('table', array(t('Upcoming Blackout Dates'), ''), $rows);
 

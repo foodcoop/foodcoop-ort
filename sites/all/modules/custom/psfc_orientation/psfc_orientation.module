@@ -47,25 +47,23 @@ function psfc_orientation_menu() {
   $items['admin/psfc'] = array(
     'title' => 'PSFC Admin Page',
     'description' => 'An Admin landing page for psfc pages',
-    'access callback' => psfc_orientation_access_admin(),
+    'access callback' => 'psfc_orientation_access_admin',
     'page callback' => 'psfc_orientation_temp_admin_land',
   );
   $items['admin/psfc/orientation'] = array(
     'title' => 'Orientation',
     'description' => 'Allow coop workers to change orientation settings.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('psfc_orientation_admin_page'),
-    'access callback' => psfc_orientation_access_admin(),
+    'page callback' => 'psfc_orientation_admin_page',
+    'access callback' => 'psfc_orientation_access_admin',
     'file' => 'psfc_orientation.admin.inc',
     'weight' => 10,
     'type' => MENU_DEFUALT_LOCAL_TASK
   );
   $items['admin/psfc/orientation/overview'] = array(
-    'title' => 'Orientation Settings',
+    'title' => 'Orientation Overview',
     'description' => 'Allow coop workers to change orientation settings.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('psfc_orientation_admin_page'),
-    'access callback' => psfc_orientation_access_admin(),
+    'page callback' => 'psfc_orientation_admin_page',
+    'access callback' => 'psfc_orientation_access_admin',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'file' => 'psfc_orientation.admin.inc',
   );
@@ -114,11 +112,11 @@ function psfc_orientation_menu() {
     'file' => 'psfc_orientation.admin.inc',
   );
   $items['admin/psfc/orientation/add-registrant'] = array(
-    'title' => 'Manually sign up a person for orientation',
+    'title' => 'Manual sign up',
     'description' => 'Admin users can sign up someone who does not have internet access',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('psfc_orientation_add_registrant'),
-    'access callback' => psfc_orientation_access_admin(),
+    'access callback' => 'psfc_orientation_access_admin',
     'type' => MENU_LOCAL_TASK,
     'file' => 'psfc_orientation.admin.inc',
     'weight' => 11,
@@ -127,7 +125,7 @@ function psfc_orientation_menu() {
     'title' => 'User email autocomplete',
     'page callback' => 'psfc_orientation_email_autocomplete',
     'access callback' => 'user_access',
-    'access callback' => psfc_orientation_access_admin(),
+    'access callback' => 'psfc_orientation_access_admin',
     'type' => MENU_CALLBACK,
     'file' => 'psfc_orientation.admin.inc',
   );

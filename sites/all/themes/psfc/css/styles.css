@@ -525,3 +525,7 @@ form#views-bulk-operations-form--1 .views-node-selector td.active {
 .view-id-orientation_admin td {
   padding: .25em 5px;
 }
+.view-id-orientation_admin td.views-field-field-capacity-value,
+.view-id-orientation_admin td.views-field-phpcode-2 {
+  text-align: center;
+}
