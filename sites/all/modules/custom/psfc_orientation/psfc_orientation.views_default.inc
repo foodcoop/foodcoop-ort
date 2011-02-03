@@ -1088,7 +1088,7 @@ $views[$view->name] = $view;
   ));
   $handler->override_option('access', array(
     'type' => 'perm',
-    'perm' => 'administer psfc orientation',
+    'perm' => 'administer orientation attendance',
   ));
   $handler->override_option('cache', array(
     'type' => 'none',
@@ -1486,7 +1486,6 @@ print l(t(\'Go back to main orientations admin page.\'), \'admin/psfc/orientatio
     'name' => 'navigation',
   ));
   $views[$view->name] = $view;
-
 
 /*
  * List of upcoming orientations.
