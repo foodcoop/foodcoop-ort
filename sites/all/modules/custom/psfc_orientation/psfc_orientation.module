@@ -251,9 +251,12 @@ function psfc_orientation_cron() {
     $account = user_load($attendee['field_userid_uid']);
     // Make sure the account still exists.
     if (is_object($account)) {
-      if (!user_access('administer psfc orientation', $account)) {
-        user_delete(array(), $attendee['field_userid_uid']);
-      }
+      // Record non-confirmation in orientation node and delete attendee node.
+      $orientation = node_load($attendee['field_orientation_nid_nid']);
+      $delete_message = $account->profile_firstname .' '. $account->profile_lastname .', '. $account->mail .' Username: '. $account->name .' Date removed: '. format_date(time(), 'large');
+      $orientation->field_orientation_unconfirmed[]['value'] = $delete_message;
+      node_save($orientation);
+      node_delete($attendee['nid']);
     }
   }
 
@@ -472,6 +475,17 @@ function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         // the orientation if it is closed.
         psfc_orientation_capacity($node->field_orientation_nid[0]['nid'], TRUE);
         break;
+    }
+  }
+  if ($node->type == 'orientation') {
+    switch ($op) {
+      case 'delete' :
+        // Delete all attendee nodes.
+        $attendees = psfc_orientation_get_all_attendee_nodes($node->nid);
+        foreach ($attendees as $attendee) {
+          node_delete($attendee->nid);
+        }
+      break;
     }
   }
   if ($node->type == 'page') {
