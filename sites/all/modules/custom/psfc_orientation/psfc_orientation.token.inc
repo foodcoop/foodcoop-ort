@@ -56,5 +56,8 @@ function psfc_orientation_token_values($type, $object = NULL) {
     $orientation = node_load($attendee->field_orientation_nid[0]['nid']);
     $values['orientation-date'] = theme_psfc_orientation_date_table($orientation);
   }
+  else {
+    $values['orientation-date'] = '';
+  }
   return $values;
 }
