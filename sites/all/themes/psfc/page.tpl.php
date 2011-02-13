@@ -45,6 +45,9 @@
             </div>
           <?php endif; ?>
           <?php print $tabs ?>
+          <?php if ($orientation_crumbs): ?>
+            <?php print $orientation_crumbs; ?>
+          <?php endif; ?>
           <?php if ($node->field_subhead): ?>
             <h2><?php print $node->field_subhead[0]['safe']; ?></h2>
           <?php endif; ?>

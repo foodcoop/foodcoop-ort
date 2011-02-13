@@ -7,6 +7,7 @@ function psfc_orientation_token_list($type = 'all') {
   $tokens = array();
   if ($type == 'node' || $type == 'all') {
     $tokens['psfc_orientation']['register-button'] = t('Contextual button: Register for an Orientation, or Create Account / Log in to Register for an Orientation, or No Orientations available. ');
+    $tokens['psfc_orientation']['orientation-date'] = t('Confirmed orientation session date for current user.');
   }
   return $tokens;
 }
@@ -47,6 +48,13 @@ function psfc_orientation_token_values($type, $object = NULL) {
        website to learn more about the Coop and Coop Membership.</p>'.
       '<div class="button-rounded grey"><span>Register for Orientation.</span></div>';
     }
+  }
+  // We only want this token if the user is confirme form orientation, no more,
+  // no less.
+  if (psfc_orientation_user_orientation_status($user->uid) == 1) {
+    $attendee = psfc_orientation_get_attendee_node($user);
+    $orientation = node_load($attendee->field_orientation_nid[0]['nid']);
+    $values['orientation-date'] = theme_psfc_orientation_date_table($orientation);
   }
   return $values;
 }

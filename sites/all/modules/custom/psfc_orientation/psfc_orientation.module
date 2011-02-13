@@ -212,6 +212,9 @@ function psfc_orientation_theme() {
     'psfc_orientation_status' => array(
       'arguments' => array(),
     ),
+    'psfc_orientation_crumbs' => array(
+      'arguments' => array('path' => NULL),
+    ),
   );
 }
 
@@ -1231,4 +1234,57 @@ function psfc_orientation_check_openings() {
   $view->pre_execute();
   $view->execute();
   return $view->total_rows;
+}
+
+/*
+ * Theme function to return orientation status/workflow breadcrumbs.
+ */
+function theme_psfc_orientation_crumbs($path) {
+
+  // Trim unneeded path elements.
+  $path = explode('/', $path);
+  $path = array_slice($path, 0, 4);
+  $path = implode('/', $path);
+
+  if (!in_array($path, array('join/orientation', 'join/orientation/status', 'node/40', 'join/orientation/signup/session', 'node/43'))) {
+    return;
+  }
+
+  global $user;
+  $status = psfc_orientation_user_orientation_status($user->uid);
+
+  $items = array(
+    array(
+      'data' => 'Select',
+    ),
+    array(
+      'data' => 'Review',
+    ),
+    array(
+      'data' => 'Confirm',
+    ),
+    array(
+      'data' => 'You are Confirmed',
+    ),
+  );
+
+  if ($status ==1) {
+    $items[3]['class'] = 'active';
+  }
+  else {
+    switch ($path) {
+      case 'join/orientation':
+        $items[0]['class'] = $status == 1 ? '' : 'active';
+        break;
+      case 'join/orientation/signup/session':
+        $items[1]['class'] = $status == 1 ? '' : 'active';
+        break;
+      case 'node/40':
+        $items[2]['class'] = $status == 1 ? '' : 'active';
+        break;
+      case 'join/orientation/status':
+        $items[2]['class'] = $status == 1 ? '' : 'active';
+      }
+  }
+  return theme('item_list', $items, NULL, 'ul', array('id' => 'breadcrumbs'));
 }

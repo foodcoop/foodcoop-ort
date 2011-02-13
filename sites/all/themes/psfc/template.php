@@ -8,6 +8,7 @@ function psfc_preprocess_page(&$variables) {
     $variables['devel'] = '<div id="devel-area">'. $variables['devel_area'] .'</div>';
   }
   $variables['primary_links'] = psfc_output_primary($variables['primary_links']);
+  $variables['orientation_crumbs'] = theme('psfc_orientation_crumbs', $_GET['q']);
 }
 
 /**
