@@ -324,6 +324,21 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
           unset($form['account'][$field]['#description']);
           $form[$field] = $form['account'][$field];
         }
+
+
+		// For email validation
+        $form['mail2'] = array(
+        	'#type' => 'textfield',
+        	'#name' => 'email_confirm',
+        	'#required' => TRUE,
+        	'#title' => t('Confirm e-mail address'),
+        	'#size' => 30,
+        	'#maxlength' => 30,
+        );
+        $form['mail']['#name'] = 'email_address';
+		$form['submit']['#attributes']['onClick'] = 'return verifyEmail();';
+
+
         // Lose the fieldsets.
         unset($form['Name']);
         unset($form['account']);
@@ -331,8 +346,9 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
         $form['profile_firstname']['#weight'] = 1;
         $form['profile_lastname']['#weight'] = 2;
         $form['mail']['#weight'] = 3;
-        $form['name']['#weight'] = 4;
-        $form['pass']['#weight'] = 5;
+        $form['mail2']['#weight'] = 4;
+        $form['name']['#weight'] = 5;
+        $form['pass']['#weight'] = 6;
       }
     break;
     case 'views_bulk_operations_form__1':

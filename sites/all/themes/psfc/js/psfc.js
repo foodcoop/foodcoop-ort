@@ -58,3 +58,15 @@ $(function() {
 /////////////////////////////
 
 });
+
+
+
+function verifyEmail(){
+	if (document.forms[1].email_address.value != document.forms[1].email_confirm.value) {
+		alert("Email addresses do not match.  Please retype them to make sure they are the same.");
+		return false;
+	} else {
+		return true;
+	}
+}
+
