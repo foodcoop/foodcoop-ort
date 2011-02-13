@@ -29,6 +29,6 @@ variable_set('psfc_orientation_no_additional_attendees', 42);
 // Thank you for confirming your orientation
 variable_set('psfc_orientation_confirmation_thank_you', 43);
 
-// Cancelation completion
+// Cancellation completion
 variable_set('psfc_orientation_registrant_removed', 44);
 

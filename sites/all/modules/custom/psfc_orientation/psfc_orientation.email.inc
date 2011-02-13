@@ -121,7 +121,7 @@ function psfc_orientation_mail_settings() {
     '#default_value' => _psfc_orientation_mail_text('registration_cancelled_subject'),
     '#maxlength' => 180,
   );
-  $form['email']['registration_cancelled']['psfc_orientation_mail_registration_canceled_body'] = array(
+  $form['email']['registration_cancelled']['psfc_orientation_mail_registration_cancelled_body'] = array(
     '#type' => 'textarea',
     '#title' => t('Body'),
     '#default_value' => _psfc_orientation_mail_text('registration_cancelled_body'),
