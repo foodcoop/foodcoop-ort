@@ -166,8 +166,11 @@ function psfc_orientation_send_reminders() {
 
 	// Get all orientation nodes where email reminders haven't been sent and 
   // orientation date within 2 days.
+//   $result = db_query("SELECT o.nid from {node} n LEFT JOIN {content_type_orientation} o ON n.nid = o.nid
+//     WHERE n.type = 'orientation' AND o.field_reminders_value = 0 AND (UNIX_TIMESTAMP(o.field_date_value) - UNIX_TIMESTAMP()) < %d AND o.field_reminders_value = 0", $time);
+
   $result = db_query("SELECT o.nid from {node} n LEFT JOIN {content_type_orientation} o ON n.nid = o.nid
-    WHERE n.type = 'orientation' AND o.field_reminders_value = 0 AND (UNIX_TIMESTAMP(o.field_date_value) - UNIX_TIMESTAMP()) < %d AND o.field_reminders_value = 1", $time);
+    WHERE n.type = 'orientation' AND o.field_reminders_value = 0 AND UNIX_TIMESTAMP(o.field_date_value) - UNIX_TIMESTAMP() < %d", $time);
 
   while ($oid = db_result($result)) {
     // Load orienation node.
