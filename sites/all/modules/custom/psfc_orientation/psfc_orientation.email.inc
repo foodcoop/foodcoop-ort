@@ -159,18 +159,12 @@ function psfc_orientation_mail_tokens($node, $language) {
  * Send orientaion reminder emails.
  */
 function psfc_orientation_send_reminders() {
-  // $time = (2 * 24 * 60 * 60); // 2 days
-
-	// XXX: for testing, moved to 20 days
-	$time = (20 * 24 * 60 * 60); // 20 days
-
+  $time = (2 * 24 * 60 * 60); // 2 days
+  
 	// Get all orientation nodes where email reminders haven't been sent and 
   // orientation date within 2 days.
-//   $result = db_query("SELECT o.nid from {node} n LEFT JOIN {content_type_orientation} o ON n.nid = o.nid
-//     WHERE n.type = 'orientation' AND o.field_reminders_value = 0 AND (UNIX_TIMESTAMP(o.field_date_value) - UNIX_TIMESTAMP()) < %d AND o.field_reminders_value = 0", $time);
-
   $result = db_query("SELECT o.nid from {node} n LEFT JOIN {content_type_orientation} o ON n.nid = o.nid
-    WHERE n.type = 'orientation' AND o.field_reminders_value = 0 AND UNIX_TIMESTAMP(o.field_date_value) - UNIX_TIMESTAMP() < %d", $time);
+    WHERE n.type = 'orientation' AND o.field_reminders_value = 0 AND (UNIX_TIMESTAMP(o.field_date_value) - UNIX_TIMESTAMP()) < %d AND o.field_reminders_value = 0", $time);
 
   while ($oid = db_result($result)) {
     // Load orienation node.
