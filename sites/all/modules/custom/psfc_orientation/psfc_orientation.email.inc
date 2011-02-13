@@ -167,6 +167,8 @@ function psfc_orientation_send_reminders() {
   $result = db_query("SELECT o.nid from {node} n LEFT JOIN {content_type_orientation} o ON n.nid = o.nid
     WHERE n.type = 'orientation' AND (UNIX_TIMESTAMP(o.field_date_value) - UNIX_TIMESTAMP()) < %d AND o.field_reminders_value = 0", $time);
 
+  // add check that emails haven't already been sent.
+
   while ($oid = db_result($result)) {
     // Load orienation node.
     $node = node_load($oid);
@@ -175,7 +177,7 @@ function psfc_orientation_send_reminders() {
     $attendees = psfc_orientation_get_all_attendee_nodes($node->nid);
     if (count($attendees)) {
       foreach ($attendees as $attendee) {
-        $account = user_load($attendee->field_userid_uid[0]['uid']);
+        $account = user_load($attendee->field_userid[0]['uid']);
         $recipient = $account->mail;
 
         // We only need the node params. The confirm and cancel links are added
