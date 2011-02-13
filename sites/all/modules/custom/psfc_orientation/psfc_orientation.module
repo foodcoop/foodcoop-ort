@@ -332,15 +332,14 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
 		// For email validation
         $form['mail2'] = array(
         	'#type' => 'textfield',
-        	'#name' => 'email_confirm',
+          //	'#name' => 'email_confirm',
         	'#required' => TRUE,
         	'#title' => t('Confirm e-mail address'),
         	'#size' => 30,
         	'#maxlength' => 30,
         );
-        $form['mail']['#name'] = 'email_address';
-		$form['submit']['#attributes']['onClick'] = 'return verifyEmail();';
-
+        //        $form['mail']['#name'] = 'email_address';
+    		$form['submit']['#attributes'] = array('onClick' => 'return verifyEmail();');
 
         // Lose the fieldsets.
         unset($form['Name']);
