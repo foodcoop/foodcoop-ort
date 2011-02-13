@@ -139,6 +139,31 @@ a:hover {
 
 
 
+/* breadcrumbs */
+
+ul#breadcrumbs {
+	font-family: 'DIN1451StdEngschrift',Tahoma,'Liberation Sans',FreeSans,sans; font-weight: normal;
+	font-size: 21px;
+	list-style: none;	
+}
+ul#breadcrumbs li {
+	color: #dcbe76;
+	display: inline;
+	padding-right: 32px;
+	margin: 0 3px 0 0;
+	background: url(../img/bread-arrow.png) no-repeat right;
+}
+ul#breadcrumbs li.last {
+	background: none;
+}
+ul#breadcrumbs li.active {
+	color: #6f7c24;
+}
+
+
+
+
+
 /* Footer */
 
 #footer {
