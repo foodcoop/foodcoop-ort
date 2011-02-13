@@ -159,9 +159,13 @@ function psfc_orientation_mail_tokens($node, $language) {
  * Send orientaion reminder emails.
  */
 function psfc_orientation_send_reminders() {
-  $time = (2 * 24 * 60 * 60); // 2 days
+  // $time = (2 * 24 * 60 * 60); // 2 days
+	
+	// XXX: for testing
+	$time = (20 * 24 * 60 * 60); // 20 days for testing purposes
+
   $result = db_query("SELECT o.nid from {node} n LEFT JOIN {content_type_orientation} o ON n.nid = o.nid
-    WHERE n.type = 'orientation' AND UNIX_TIMESTAMP(o.field_date_value) - UNIX_TIMESTAMP() < %d AND o.field_reminders_value = 0", $time);
+    WHERE n.type = 'orientation' AND (UNIX_TIMESTAMP(o.field_date_value) - UNIX_TIMESTAMP()) < %d AND o.field_reminders_value = 0", $time);
 
   while ($oid = db_result($result)) {
     // Load orienation node.
@@ -179,7 +183,9 @@ function psfc_orientation_send_reminders() {
         $params['node'] = $attendee;
 
         drupal_mail('psfc_orientation', 'registration_reminder', $recipient, language_default(), $params);
-
+        
+        // XXX: adding additional watchdog for purposes of testing
+		watchdog('psfc_orientation', "Mailing ".$recipient, array('@title' => $node->title),WATCHDOG_NOTICE);
       }
       // Mark as emails sent only if we actually sent any.
       $node->field_reminders[0]['value'] = 1;
