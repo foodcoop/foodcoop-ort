@@ -140,7 +140,7 @@ function psfc_orientation_menu() {
     'weight' => 12,
   );
   $items['join/orientation/signup/session/%'] = array(
-    'title' => 'Review Your Selection',
+    'title' => 'Review your selection',
     'description' => 'Let the user check the date',
     'access arguments' => array( 'access content'),
     'page callback' => 'psfc_orientation_signup_session',
