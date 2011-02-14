@@ -59,14 +59,21 @@ $(function() {
 
 });
 
-
-
-function verifyEmail(){
-	if (document.forms[1].email_address.value != document.forms[1].email_confirm.value) {
-		alert("Email addresses do not match.  Please retype them to make sure they are the same.");
-		return false;
-	} else {
-		return true;
-	}
-}
-
+// Email field matching
+$(document).ready(function(){
+  $("input#edit-mail2").blur(function(){
+    if ($("input#edit-mail").val() != $("input#edit-mail2").val()) {
+      $("input#edit-mail").addClass('error');
+      $("input#edit-mail2").addClass('error');
+      if ($("#emails .fields").next().hasClass("email-match-warning")) {
+        $("#emails .fields").next().remove();
+      }
+      $("form #emails").append('<div class="email-match-warning" style="color:red;">Email addresses do not match.  Please retype them to make sure they are the same.</div>');
+    }
+    else {
+      $("input#edit-mail").removeClass('error');
+      $("input#edit-mail2").removeClass('error');
+      $(".email-match-warning").remove();
+    }
+  });
+});
