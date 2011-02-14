@@ -259,10 +259,14 @@ h1, h2, h3 {
 	width: 225px;
 }
 
+#right-side #block-block-7,
 #right-side .block-psfc_member_data {
 	background: #F0E7D7;
 	padding: 1em;
 	margin: 0 0 2em 0;
+}
+#right-side #block-block-7 {
+	margin-bottom: 1em;
 }
 
 #main-content { margin-right: 250px; }
