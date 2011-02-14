@@ -163,7 +163,7 @@ function psfc_orientation_menu() {
     'type' => MENU_CALLBACK,
   );
   $items['join/orientation/status'] = array(
-    'title' => 'Your Registration Status',
+    'title' => 'Your Orientation Status',
     'description' => 'Are you signed up for orientation.',
     'page callback' => 'psfc_orientation_status',
     'access arguments' => array('access content'),
@@ -1167,7 +1167,7 @@ function theme_psfc_orientation_status() {
     $output .= '<p>'. t('You are not yet confirmed. You should have received an email with confirmation instructions. You must confirm within 48 hours of registering or you will lose your reserved place.') .'</p>';
   }
   else {
-    $output .= '<p>'. t('You orientation registration is confirmed. '). '</p>';
+    $output .= '<p>'. t('Your orientation registration is confirmed. '). '</p>';
   }
 
   $output .= '<p>'. t('If this is not correct, please cancel and sign up again.');
