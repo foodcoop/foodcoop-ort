@@ -556,3 +556,28 @@ form#views-bulk-operations-form--1 .views-node-selector td.active {
 .view-id-orientation_admin td.views-field-phpcode-2 {
   text-align: center;
 }
+
+/* new visitor popup window */
+div#psfc_welcom_new {
+  position: fixed;
+  top: 5px;
+  left: 180px;
+  background: #FBFFE6;
+  padding: 20px;
+  width: 500px;
+  z-index: 1000;
+  border: 3px solid #340;
+}
+div#psfc_welcom_new .close {
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  background: #340;
+  text-align: center;
+  color: #FBFFE6;
+  font-weight: bold;
+  cursor: pointer;
+  display:none;
+}

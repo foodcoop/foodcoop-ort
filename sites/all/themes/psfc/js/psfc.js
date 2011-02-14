@@ -77,3 +77,12 @@ $(document).ready(function(){
     }
   });
 });
+
+
+// Close the welcom bubble
+$(document).ready(function(){
+  $("div#psfc_welcom_new .close").show();
+  $("div#psfc_welcom_new .close").click(function() {
+    $("div#psfc_welcom_new").remove();
+  });
+});

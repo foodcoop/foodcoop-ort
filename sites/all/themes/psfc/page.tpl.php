@@ -8,6 +8,9 @@
     <?php print $scripts; ?>
   </head>
   <body>
+    <?php if ($psfc_welcom_new): ?>
+      <?php print $psfc_welcom_new; ?>
+    <?php endif; ?>
     <div class="container_12">
       <div id="header">
         <div id="logo" class="grid_2">

@@ -4,11 +4,24 @@
  * Implementation of template_preprocess_page().
  */
 function psfc_preprocess_page(&$variables) {
+  global $user;
   if (module_exists('devel') && user_access('access devel information')) {
     $variables['devel'] = '<div id="devel-area">'. $variables['devel_area'] .'</div>';
   }
   $variables['primary_links'] = psfc_output_primary($variables['primary_links']);
   $variables['orientation_crumbs'] = theme('psfc_orientation_crumbs', $_GET['q']);
+
+  // Temporarily tell users about the new site via a popup
+  if ($_SESSION['psfc_seen_new'] != 1 && $user->uid == 0) {
+    $output = '<div id="psfc_welcom_new">';
+    $output .= '<div class="close">X</div>';
+    $output .= '<h2>'. t('Welcome to the PSFC Orientation Registration site') .'</h2>';
+    $output .= t("This site is new, and will slowly become the Coop's web page over time.");
+    $output .= '</div>';
+
+    $variables['psfc_welcom_new'] = $output;
+    $_SESSION['psfc_seen_new'] = 1;
+  }
 }
 
 /**
