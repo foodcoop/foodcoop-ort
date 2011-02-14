@@ -1115,6 +1115,11 @@ $views[$view->name] = $view;
         'button' => 'Override',
       ),
     ),
+    'type' => array(
+      'id' => 'type',
+      'table' => 'node',
+      'field' => 'type',
+    ),
   ));
   $handler->override_option('access', array(
     'type' => 'perm',
@@ -1141,7 +1146,7 @@ $views[$view->name] = $view;
     'weight' => 0,
     'name' => 'navigation',
   ));
-  $handler = $view->new_display('attachment', 'Attachment', 'attachment_1');
+  $handler = $view->new_display('attachment', 'Registered by phone Roster Attachment', 'attachment_1');
   $handler->override_option('fields', array(
     'rownumber' => array(
       'label' => '',
@@ -1426,6 +1431,91 @@ $views[$view->name] = $view;
         'button' => 'Use default',
       ),
     ),
+    'field_attendee_confirmed_value' => array(
+      'label' => 'Confirmation status',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'link_to_node' => 0,
+      'label_type' => 'custom',
+      'format' => 'default',
+      'multiple' => array(
+        'group' => TRUE,
+        'multiple_number' => '',
+        'multiple_from' => '',
+        'multiple_reversed' => FALSE,
+      ),
+      'exclude' => 0,
+      'id' => 'field_attendee_confirmed_value',
+      'table' => 'node_data_field_attendee_confirmed',
+      'field' => 'field_attendee_confirmed_value',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('filters', array(
+    'field_attendee_confirmed_value' => array(
+      'operator' => '=',
+      'value' => '0',
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => 'field_attendee_confirmed_value_op',
+        'label' => 'Content: Confirmed (field_attendee_confirmed)',
+        'use_operator' => FALSE,
+        'identifier' => 'field_attendee_confirmed_value',
+        'remember' => FALSE,
+        'single' => TRUE,
+        'optional' => TRUE,
+      ),
+      'case' => 1,
+      'id' => 'field_attendee_confirmed_value',
+      'table' => 'node_data_field_attendee_confirmed',
+      'field' => 'field_attendee_confirmed_value',
+      'relationship' => 'none',
+      'override' => array(
+        'button' => 'Override',
+      ),
+    ),
+    'type' => array(
+      'operator' => 'in',
+      'value' => array(
+        'orientation_attendee' => 'orientation_attendee',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'type',
+      'table' => 'node',
+      'field' => 'type',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
   ));
   $handler->override_option('header', '<?php
 print l(t(\'Go back to main orientations admin page.\'), \'admin/psfc/orientation\');
@@ -1514,6 +1604,109 @@ print l(t(\'Go back to main orientations admin page.\'), \'admin/psfc/orientatio
     'description' => '',
     'weight' => 0,
     'name' => 'navigation',
+  ));
+  $handler = $view->new_display('attachment', 'Non Confirmed Attendee Attachment', 'attachment_2');
+  $handler->override_option('fields', array(
+    'field_orientation_unconfirmed_value' => array(
+      'label' => 'People who missed their confirmation window',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'link_to_node' => 0,
+      'label_type' => 'custom',
+      'format' => 'default',
+      'multiple' => array(
+        'group' => 0,
+        'multiple_number' => '',
+        'multiple_from' => '',
+        'multiple_reversed' => 0,
+      ),
+      'exclude' => 0,
+      'id' => 'field_orientation_unconfirmed_value',
+      'table' => 'node_data_field_orientation_unconfirmed',
+      'field' => 'field_orientation_unconfirmed_value',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('arguments', array(
+    'nid' => array(
+      'default_action' => 'not found',
+      'style_plugin' => 'default_summary',
+      'style_options' => array(),
+      'wildcard' => 'all',
+      'wildcard_substitution' => 'All',
+      'title' => '',
+      'breadcrumb' => '',
+      'default_argument_type' => 'fixed',
+      'default_argument' => '',
+      'validate_type' => 'node',
+      'validate_fail' => 'not found',
+      'break_phrase' => 0,
+      'not' => 0,
+      'id' => 'nid',
+      'table' => 'node',
+      'field' => 'nid',
+      'validate_user_argument_type' => 'uid',
+      'validate_user_roles' => array(
+        '2' => 0,
+        '3' => 0,
+        '4' => 0,
+        '5' => 0,
+      ),
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+      'default_options_div_prefix' => '',
+      'default_argument_fixed' => '',
+      'default_argument_user' => 0,
+      'default_argument_php' => '',
+      'validate_argument_node_type' => array(
+        'orientation' => 'orientation',
+        'orientation_attendee' => 0,
+        'page' => 0,
+        'story' => 0,
+      ),
+      'validate_argument_node_access' => 0,
+      'validate_argument_nid_type' => 'nid',
+      'validate_argument_vocabulary' => array(),
+      'validate_argument_type' => 'tid',
+      'validate_argument_transform' => 0,
+      'validate_user_restrict_roles' => 0,
+      'validate_argument_php' => '',
+    ),
+  ));
+  $handler->override_option('filters', array());
+  $handler->override_option('attachment_position', 'after');
+  $handler->override_option('inherit_arguments', TRUE);
+  $handler->override_option('inherit_exposed_filters', FALSE);
+  $handler->override_option('inherit_pager', FALSE);
+  $handler->override_option('render_pager', TRUE);
+  $handler->override_option('displays', array(
+    'page_2' => 'page_2',
+    'default' => 0,
+    'page_1' => 0,
   ));
   $views[$view->name] = $view;
 
