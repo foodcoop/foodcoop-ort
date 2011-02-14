@@ -1144,7 +1144,8 @@ function theme_psfc_orientation_status() {
   }
 
   if (!$attendee = psfc_orientation_get_attendee_node($user)) {
-    return t('You have created a user account, but are not registered for any upcoming Orientations.');
+    return t('You have created a user account, but are not registered for any upcoming Orientations.<br /><br />
+    <div class="button-rounded"><span><a href="node/120">Register for Orientation</a></span></div>');
   }
 
   $orientation = node_load($attendee->field_orientation_nid[0]['nid']);
