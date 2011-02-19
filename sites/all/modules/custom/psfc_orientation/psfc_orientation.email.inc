@@ -35,6 +35,10 @@ function _psfc_orientation_mail_text($key, $language = NULL, $variables = array(
         return t('Reminder: Your PSFC orientation has been cancelled.', $variables, $langcode);
       case 'registration_cancelled_body':
         return t("Dear !attendee_firstname !attendee_lastname\n\nYour scheduled PSFC new member orientation has been cancelled.\n\n Thank you,\nThe Park Slope Food Coop", $variables, $langcode);
+      case 'registration_coop_cancelled_subject':
+        return t('Notice: Your PSFC orientation has been cancelled.', $variables, $langcode);
+      case 'registration_coop_cancelled_body':
+        return t("Dear !attendee_firstname !attendee_lastname\n\nYour scheduled PSFC new member orientation has been cancelled by the coop.\n\n Thank you,\nThe Park Slope Food Coop", $variables, $langcode);
     }
   }
 }
@@ -113,7 +117,7 @@ function psfc_orientation_mail_settings() {
     '#title' => t('Registration cancelled'),
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
-    '#description' => t('Notify registrants that their orientation session has been cancelled') .' '. $email_token_help,
+    '#description' => t('Reminder to registrants who cancelled their orientation themselves') .' '. $email_token_help,
   );
   $form['email']['registration_cancelled']['psfc_orientation_mail_registration_cancelled_subject'] = array(
     '#type' => 'textfield',
@@ -125,6 +129,25 @@ function psfc_orientation_mail_settings() {
     '#type' => 'textarea',
     '#title' => t('Body'),
     '#default_value' => _psfc_orientation_mail_text('registration_cancelled_body'),
+    '#rows' => 15,
+  );
+  $form['email']['registration_coop_cancelled'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Registration cancelled by the coop'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#description' => t('Notify registrants that their orientation session has been cancelled by the coop') .' '. $email_token_help,
+  );
+  $form['email']['registration_coop_cancelled']['psfc_orientation_mail_registration_coop_cancelled_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subject'),
+    '#default_value' => _psfc_orientation_mail_text('registration_coop_cancelled_subject'),
+    '#maxlength' => 180,
+  );
+  $form['email']['registration_coop_cancelled']['psfc_orientation_mail_registration_coop_cancelled_body'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Body'),
+    '#default_value' => _psfc_orientation_mail_text('registration_coop_cancelled_body'),
     '#rows' => 15,
   );
   return system_settings_form($form);

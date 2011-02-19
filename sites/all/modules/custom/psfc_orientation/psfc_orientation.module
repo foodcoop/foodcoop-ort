@@ -18,11 +18,6 @@ function psfc_orientation_init() {
   if (arg(0) == 'node' && in_array(arg(1), array(120))) {
     $GLOBALS['conf']['cache'] = FALSE;
   }
-
-  // If user has an unconfirmed registration, nag with a message on every page;
-  if ($user->uid && psfc_orientation_user_orientation_status($user->uid) == 2) {
-    drupal_set_message(t('You have registered for an Orientation but have not yet confirmed. Instructions for for confirming should be in your email.'), 'warning');
-  }
 }
 
 /**
@@ -494,14 +489,25 @@ function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
       case 'delete' :
         $account = user_load($node->field_userid[0]['uid']);
+        // Does the orientation node still exist? If not, it was cancelled by
+        // the coop.
+        $coop_cancelled = !node_load($node->field_orientation_nid[0]['nid']);
         $params['node'] = $node;
         $params['node']->confirm = psfc_orientation_confirm_url($account, 'confirm', NULL, FALSE);
         $params['node']->cancel = psfc_orientation_confirm_url($account, 'cancel', NULL, FALSE);
         // Email the attendee.
-        drupal_mail('psfc_orientation', 'registration_cancelled', $recipient, language_default(), $params);
-        // Update the orientation nodes open/closed status. This will reopen
-        // the orientation if it is closed.
-        psfc_orientation_capacity($node->field_orientation_nid[0]['nid'], TRUE);
+
+        if ($coop_cancelled) {
+          // Cancelled by coop admin.
+          drupal_mail('psfc_orientation', 'registration_coop_cancelled', $recipient, language_default(), $params);
+        }
+        else {
+          // Self-cancelled by registrant.
+          drupal_mail('psfc_orientation', 'registration_cancelled', $recipient, language_default(), $params);
+          // Update the orientation nodes open/closed status. This will reopen
+          // the orientation if it is closed.
+          psfc_orientation_capacity($node->field_orientation_nid[0]['nid'], TRUE);
+        }
         break;
     }
   }
