@@ -45,8 +45,7 @@ function psfc_orientation_token_values($type, $object = NULL) {
        If you have not yet created an PSFC user account, we encourage you to do so now</strong> 
        to expedite the registration process when you return to the site at a later date, and to 
        better your chances of getting an Orientation seat in time. Please also feel free to explore our 
-       website to learn more about the Coop and Coop Membership.</p>'.
-      '<div class="button-rounded grey"><span>Register for Orientation.</span></div>';
+       website to learn more about the Coop and Coop Membership.</p>';
     }
   }
   // We only want this token if the user is confirme form orientation, no more,
