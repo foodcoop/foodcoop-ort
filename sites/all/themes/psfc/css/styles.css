@@ -1,7 +1,7 @@
 ﻿@font-face {
   font-family:  'DIN1451StdEngschrift';
-  src: url("dinengschriftstd-webfont.eot");
-  src: local('☺'), url("dinengschriftstd-webfont.woff") format("woff"), url("dinengschriftstd-webfont.ttf") format("truetype"), url("dinengschriftstd-webfont.svg#webfontjeP1lQbS") format("svg");
+  src: url('dinengschriftstd-webfont.eot');
+  src: local('☺'), url('dinengschriftstd-webfont.woff') format("woff"), url('dinengschriftstd-webfont.ttf') format("truetype"), url('dinengschriftstd-webfont.svg#webfontjeP1lQbS') format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -21,7 +21,7 @@ h1,h2,h3,h4,.button-rounded,.date-display-single,table.odate-table span {
 #header {
   overflow: hidden;
   background: #577613;
-  background-image: url(../img/header-bg.jpg);
+  background-image: url('../img/header-bg.jpg');
   background-repeat: no-repeat;
 }
 
@@ -69,28 +69,28 @@ a:hover {
   background-repeat: no-repeat;
 }
 #header ul#nav li a.about {
-  background-image: url("../img/nav-about.png");
+  background-image: url('../img/nav-about.png');
 }
 #header ul#nav li a.about {
-  background-image: url(../img/nav-about.png);
+  background-image: url('../img/nav-about.png');
 }
 #header ul#nav li a.members {
-  background-image: url(../img/nav-members.png);
+  background-image: url('../img/nav-members.png');
 }
 #header ul#nav li a.food {
-  background-image: url(../img/nav-food.png);
+  background-image: url('../img/nav-food.png');
 }
 #header ul#nav li a.events {
-  background-image: url(../img/nav-events.png);
+  background-image: url('../img/nav-events.png');
 }
 #header ul#nav li a.news {
-  background-image: url(../img/nav-news.png);
+  background-image: url('../img/nav-news.png');
 }
 #header ul#nav li a.join {
-  background-image: url("../img/nav-join.png");
+  background-image: url('../img/nav-join.png');
 }
 #section-header {
-  background-image: url(../img/header-bg-2.jpg);
+  background-image: url('../img/header-bg-2.jpg');
   padding: 10px;
   height: 64px;
 }
@@ -155,7 +155,7 @@ ul#breadcrumbs li {
   display: inline;
   padding-right: 32px;
   margin: 0 3px 0 0;
-  background: url(../img/bread-arrow.png) no-repeat right;
+  background: url('../img/bread-arrow.png') no-repeat right;
 }
 ul#breadcrumbs li.last {
   background: none;
@@ -199,19 +199,19 @@ ul#breadcrumbs li.active {
   font-family: Verdana, Helvetica, sans;
 }
 #footer ul.social-media .twitter {
-  background-image: url(../img/footer-twitter.png);
+  background-image: url('../img/footer-twitter.png');
   background-repeat: no-repeat;
 }
 #footer ul.social-media .facebook {
-  background-image: url(../img/footer-facebook.png);
+  background-image: url('../img/footer-facebook.png');
   background-repeat: no-repeat;
 }
 #footer ul.social-media .rss {
-  background-image: url(../img/footer-rss.png);
+  background-image: url('../img/footer-rss.png');
   background-repeat: no-repeat;
 }
 #footer ul.social-media .privacy {
-  background-image: url(../img/footer-privacy.png);
+  background-image: url('../img/footer-privacy.png');
   background-repeat: no-repeat;
 }
 
@@ -340,10 +340,11 @@ div.button-rounded {
   margin-left: -4px;
   padding: 0 20px 0 0;
   text-align: center;
+
   display:-moz-inline-stack;
   display:inline-block;
   zoom:1;
-  display:inline;
+  *display:inline;
 }
 div.confirm-info-link .button-rounded {
   float: left;
@@ -361,7 +362,7 @@ div.button-rounded button {
 }
 
 div.button-rounded {
-  background: transparent url( "../img/btn_right.png ") no-repeat scroll right top;
+  background: transparent url('../img/btn_right.png') no-repeat scroll right top;
   clear: left;
 }
 
@@ -375,7 +376,7 @@ div.button-rounded span  {
 }
 
 div.button-rounded span {
-  background: transparent url("../img/btn_left.png") no-repeat scroll left top;
+  background: transparent url('../img/btn_left.png') no-repeat scroll left top;
   color: #7b9544;
 }
 
@@ -407,10 +408,10 @@ div.button-rounded span button {
 /* red rounded button */
 
 div.button-rounded.red span {
-  background: transparent url("../img/btn_left_red.png") no-repeat scroll left top;
+  background: transparent url('../img/btn_left_red.png') no-repeat scroll left top;
 }
 div.button-rounded.red {
-  background: transparent url("../img/btn_right_red.png") no-repeat scroll right top;
+  background: transparent url('../img/btn_right_red.png') no-repeat scroll right top;
 }
 div.button-rounded.red span a {
   color: #fff !important;
