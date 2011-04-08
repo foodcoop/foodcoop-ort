@@ -22,6 +22,11 @@ function psfc_preprocess_page(&$variables) {
     $variables['psfc_welcom_new'] = $output;
     $_SESSION['psfc_seen_new'] = 1;
   }
+
+  // add grid theme CSS before the rest of Drupal's CSS
+  $css_reset .= '<link type="text/css" rel="stylesheet" media="all" href="'. base_path() . path_to_theme() .'/css/960.css" />';  
+  $css_reset .= '<link type="text/css" rel="stylesheet" media="all" href="'. base_path() . path_to_theme() .'/css/reset.css" />';
+  $variables['styles'] = $css_reset . $variables['styles'];
 }
 
 /**
