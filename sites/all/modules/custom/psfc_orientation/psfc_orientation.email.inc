@@ -157,16 +157,21 @@ function psfc_orientation_mail_settings() {
 function psfc_orientation_mail_tokens($node, $language) {
   global $base_url;
   $orientation = node_load($node->field_orientation_nid[0]['nid']);
+  // Get our timezone offset. This should account for daylight savings. The
+  // offset is applied using format_date() below.
+  $offset = date_offset_get(new DateTime);
+  // Set runtime TZ to UTC.
+  date_default_timezone_set($orientation->field_date[0]['timezone_db']);
   $tokens = array(
     '!attendee_firstname' => $node->field_firstname[0]['value'],
     '!attendee_lastname' => $node->field_lastname[0]['value'],
     '!attendee_email' => $node->field_email[0]['email'],
     '!attendee_confirmed_status' => $node->field_attendee_confirmed[0]['value'] ? t('Confirmed') : t('Not confirmed'),
     '!orientation_description' => $orientation->body,
-    '!orientation_date' => format_date(strtotime($orientation->field_date[0]['value']), 'large'),
-    '!orientation_date_short' => format_date(strtotime($orientation->field_date[0]['value']), 'small'),
+    '!orientation_date' => format_date(strtotime($orientation->field_date[0]['value']), 'large', '', $offset),
+    '!orientation_date_short' => format_date(strtotime($orientation->field_date[0]['value']), 'small', '', $offset),
     '!orientation_link' => l($orientation->title, $orientation->path),
-    '!registered_on_date' => format_date($node->timestamp, 'medium', '', NULL, $language->language),
+    '!registered_on_date' => format_date($node->timestamp, 'medium', '', $offset, $language->language),
     '!registerer' => $node->name,
     '!confirm_link' => $node->confirm,
     '!cancel_link' => $node->cancel,
@@ -175,6 +180,8 @@ function psfc_orientation_mail_tokens($node, $language) {
     '!uri_brief' => preg_replace('!^https?://!', '', $base_url),
     '!login_uri' => url('user', array('absolute' => TRUE, 'language' => $language)),
   );
+// Set runtime TZ back to NY.
+  date_default_timezone_set('America/New_York');
   return $tokens;
 }
 

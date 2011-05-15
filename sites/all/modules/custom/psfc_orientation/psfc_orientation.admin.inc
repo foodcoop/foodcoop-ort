@@ -354,12 +354,19 @@ function theme_psfc_orientation_login() {
 }
 
 function psfc_orientation_add_registrant($form_state) {
-
+  // Get our timezone offset. This should account for daylight savings. The
+  // offset is applied using format_date() below.
+  $offset = date_offset_get(new DateTime);
+  // Set runtime TZ to UTC.
+  date_default_timezone_set('UTC');
+  
   // Build avaiable orientations list from a view.
   $orientations = views_get_view_result('orientations_list');
   foreach ($orientations as $orientation) {
-    $options[$orientation->nid] = format_date(strtotime($orientation->node_data_field_date_field_date_value), 'large');
+    $options[$orientation->nid] = format_date(strtotime($orientation->node_data_field_date_field_date_value), 'large', '', $offset);
   }
+  // Set runtime TZ back.
+  date_default_timezone_set('America/New_York');
 
   $form['instructions'] = array (
     '#value' => '<h2>'. t('Manually sign up a person for orientation') .'</h2>'. t('You may add one person at a time to an orientation. The person may be added by email address or by name and phone number.'),
@@ -460,7 +467,16 @@ function psfc_orientation_add_registrant_submit ($form, &$form_state) {
     $orientation->field_orientation_by_phone[]['value'] = $info;
     node_save($orientation);
   }
-  drupal_set_message(t('@info has been registed for orientation on @date. @email', array('@info' => $info, '@date' => format_date(strtotime($orientation->field_date[0]['value']), 'large'), '@email' => $email)));
+  // Get our timezone offset. This should account for daylight savings. The
+  // offset is applied using format_date() below.
+  $offset = date_offset_get(new DateTime);
+  // Set runtime TZ to UTC.
+  date_default_timezone_set($orientation->field_date[0]['timezone_db']);
+
+  drupal_set_message(t('@info has been registed for orientation on @date. @email', array('@info' => $info, '@date' => format_date(strtotime($orientation->field_date[0]['value']), 'large', '', $offset), '@email' => $email)));
+    // Set runtime TZ back.
+  date_default_timezone_set('America/New_York');
+
 }
 
 function psfc_orientation_email_autocomplete($string = '') {
@@ -471,6 +487,5 @@ function psfc_orientation_email_autocomplete($string = '') {
       $matches[$user->mail] = check_plain($user->mail);
     }
   }
-
   drupal_json($matches);
 }
