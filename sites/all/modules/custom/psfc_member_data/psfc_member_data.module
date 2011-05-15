@@ -4,11 +4,11 @@
  */
 function psfc_member_data_block($op = 'list', $delta = 0, $edit = array()) {
   if ($op ==  'list') {
-      $blocks = array();
-      $blocks[0] = array(
-        'info' => t('Member status block'),
-        'cache' => BLOCK_CACHE_PER_PAGE
-      );
+    $blocks = array();
+    $blocks[0] = array(
+      'info' => t('Member status block'),
+      'cache' => BLOCK_CACHE_NO_CACHE,
+    );
     return $blocks;
   }
   elseif ($op == 'view') {
