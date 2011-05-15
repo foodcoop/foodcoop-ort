@@ -225,8 +225,7 @@ function psfc_orientation_cron() {
       $time = psfc_orientation_split_time_of_day($result['orid']);
       $next = psfc_orientation_determine_next_repeat($time);
       $date = date('Y-m-d', $next);
-      // The hour needs to be saved GMT so add 4
-      $hour = date('H', $next) + 4;
+      $hour = date('H', $next);
       $time = date(':i:s', $next);
       $time_value = $date .'T'. $hour . $time;
       if (!psfc_orientation_orientation_exists($time_value) && !psfc_orientation_orientation_blacked_out($date) &&  psfc_orientation_orientation_creation_window($next)) {
@@ -1124,17 +1123,23 @@ function psfc_orientation_get_all_attendee_nodes($oid) {
  *   The orientation node.
  */
 function theme_psfc_orientation_date_table($orientation) {
+  // Get our timezone offset. This should account for daylight savings. The
+  // offset is applied using format_date() below.
+  $offset = date_offset_get(new DateTime);
+  // Set runtime TZ to UTC.
+  date_default_timezone_set($orientation->field_date[0]['timezone_db']);
+  // Convert field date (stored in UTC) to unix time.
   $date = strtotime($orientation->field_date[0]['value']);
   $headers = array('Date', 'Day', 'Time', '');
   $rows[0] = array(
           array(
-            'data' => '<span class = "mon">'. format_date($date, 'custom', 'M') .'</span>' . ' <span class = "date">'. format_date($date, 'custom', 'j') .'</span>',
+            'data' => '<span class = "mon">'. format_date($date, 'custom', 'M', $offset) .'</span>' . ' <span class = "date">'. format_date($date, 'custom', 'j', $offset) .'</span>',
             'class' => 'first'
             ),
           array(
-            'data' => '<span class = "day">'. format_date($date, 'custom', 'l') .'</span>'),
+            'data' => '<span class = "day">'. format_date($date, 'custom', 'l', $offset) .'</span>'),
           array(
-            'data' => '<span class = "time">'. format_date($date, 'custom', 'g:i') .'</span>' . '<span class = "meridiem">'. format_date($date, 'custom', 'A') .'</span>'),
+            'data' => '<span class = "time">'. format_date($date, 'custom', 'g:i', $offset) .'</span>' . '<span class = "meridiem">'. format_date($date, 'custom', 'A', $offset) .'</span>'),
     );
 
   // Move the register me to the table if we're on the correct page.
@@ -1145,6 +1150,8 @@ function theme_psfc_orientation_date_table($orientation) {
           );
 
   }
+  // Set runtime back to America/New_York.
+  date_default_timezone_set('America/New_York');
   return theme('table', $headers, $rows, array('class' => 'odate-table'));
 }
 /**
