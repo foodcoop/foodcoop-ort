@@ -589,3 +589,10 @@ div#psfc_welcom_new .close {
   cursor: pointer;
   display:none;
 }
+
+div#message-section {
+  margin: 0 0 2em 0;
+  padding: 1em;
+  background: #F0E7D7;
+  border: 1px solid #334400;
+}
