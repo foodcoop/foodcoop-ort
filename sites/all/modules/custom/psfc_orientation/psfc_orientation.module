@@ -223,7 +223,7 @@ function psfc_orientation_cron() {
   while ($result = db_fetch_array($query)) {
     if ($result['day_of_week'] == date('l')) {
       $time = psfc_orientation_split_time_of_day($result['orid']);
-      $next = psfc_orientation_determine_next_repeat($time);
+      $next = psfc_orientation_determine_next_repeat($time) - date_offset_get(new DateTime); // subract the offset to convert to UTC.
       $date = date('Y-m-d', $next);
       $hour = date('H', $next);
       $time = date(':i:s', $next);
@@ -1209,6 +1209,7 @@ function theme_psfc_orientation_status() {
  * @return returns TRUE if it is okay to create the orientation
  */
 function psfc_orientation_orientation_creation_window($time, $range = 15) {
+  $time += date_offset_get(new DateTime); // Add the offset to conver $time back to local time ONLY to compare here.
   if (date('l') == date('l', $time) && date('G') == date('G', $time)) {
     $current_minute = date('i');
     $time_minute = date('i', $time);
