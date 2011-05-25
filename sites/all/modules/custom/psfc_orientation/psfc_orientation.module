@@ -1210,10 +1210,11 @@ function theme_psfc_orientation_status() {
  */
 function psfc_orientation_orientation_creation_window($time, $range = 15) {
   $time += date_offset_get(new DateTime); // Add the offset to conver $time back to local time ONLY to compare here.
+
   if (date('l') == date('l', $time) && date('G') == date('G', $time)) {
     $current_minute = date('i');
     $time_minute = date('i', $time);
-    if ($current_minute - $time_minute <= $range)  {
+    if ($time_minute <= $current_minute &&  $current_minute <= $time_minute + $range)  {
       return TRUE;
     }
   }
