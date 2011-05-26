@@ -374,7 +374,7 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
       if ($form['step']['#value'] == 1) {
         unset($form['select']['#title']);
       }
-      if ($form['step']['#value'] == 3) {
+      if ($form['step']['#value'] == 3 && $form_state['storage'][1]['operation'] == 'views_bulk_operations_delete_node_action') {
         drupal_set_title(t('Are you sure you want to remove selected attendees?'));
         $p = $form['description']['#value'];
         $pattern = '/<h3\b[^>]*>(.*?)<\/h3>/ims';
@@ -382,7 +382,18 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
         $content .= '<div><em>'. t('NOTE: This action cannot be undone, the user will need to be signed up again.') .'</em><br /><br /></div>';
         $form['description']['#value'] = preg_replace($pattern, $content, $p);
       }
-      if ($form['step']['#value'] == 2 && $form['operation']['#value']['key'] = 'system_send_email_action   | (Callback) system_send_email_action();') {
+      if ($form['step']['#value'] == 3 && $form_state['storage'][1]['operation'] == 'system_send_email_action') {
+        drupal_set_title(t('Are you sure you want to email these attendees?'));
+        $p = $form['description']['#value'];
+        $pattern = '/<h3\b[^>]*>(.*?)<\/h3>/ims';
+        $content = '<h2>'. t('You have selected the following attendees to receive your email:') .'</h2>';
+        $content .= '<div><em>'. t('NOTE: The email will be sent immediately when you click confirm.') .'</em><br /><br /></div>';
+        $form['description']['#value'] = preg_replace($pattern, $content, $p);
+      }
+      if ($form['step']['#value'] == 3 && $form_state['storage'][1]['operation'] == 'views_bulk_operations_fields_action') {
+        drupal_set_title(t('Are you sure you want to update the attendance status?'));
+      }
+      if ($form['step']['#value'] == 2 && $form['operation']['#value']['key'] == 'system_send_email_action') {
         drupal_set_title(t('Send Orientation Attendees an Email'));
       }
     break;
@@ -1214,7 +1225,7 @@ function psfc_orientation_orientation_creation_window($time, $range = 15) {
   if (date('l') == date('l', $time) && date('G') == date('G', $time)) {
     $current_minute = date('i');
     $time_minute = date('i', $time);
-    if ($time_minute <= $current_minute &&  $current_minute <= $time_minute + $range)  {
+    if ($time_minute <= $current_minute && $current_minute <= $time_minute + $range)  {
       return TRUE;
     }
   }
