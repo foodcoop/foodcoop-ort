@@ -79,10 +79,14 @@ $(document).ready(function(){
 });
 
 
-// Close the welcom bubble
-$(document).ready(function(){
-  $("div#psfc_welcom_new .close").show();
-  $("div#psfc_welcom_new .close").click(function() {
-    $("div#psfc_welcom_new").remove();
-  });
+// open/close the welcom bubble
+$(function(){
+	$("div#psfc_welcom_new .close").show();
+	$("div#psfc_welcom_new .close").click(function() {
+		// $("div#psfc_welcom_new").remove();
+		// animate the welcom bubble closed
+		$("div#psfc_welcom_new").animate({"margin-top":"-500px"}, 600, null, function(){$(this).remove();} );
+	});
+	// animate the welcom bubble open
+	$("div#psfc_welcom_new").css({"margin-top":"-500px"}).animate({"margin-top":"0px"},1000);
 });
