@@ -41,10 +41,14 @@ $(function() {
 		
 		function toggle(quick){
 			if (ap.isOpen){
-				ap.hide(quick?0:"medium");
+				if (quick) {
+					ap.hide();
+				} else  {
+					ap.slideUp("medium");
+				}
 				qp.css("list-style-image","url(/misc/menu-collapsed.png)");
 			} else {
-				ap.show("medium");
+				ap.slideDown("medium");
 				qp.css("list-style-image","url(/misc/menu-expanded.png)");
 			}
 			ap.isOpen = !ap.isOpen;
