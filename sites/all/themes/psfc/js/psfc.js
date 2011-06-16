@@ -86,11 +86,12 @@ $(document).ready(function(){
 // open/close the welcom bubble
 $(function(){
 	$("div#psfc_welcom_new .close").show();
+
 	$("div#psfc_welcom_new .close").click(function() {
 		// $("div#psfc_welcom_new").remove();
 		// animate the welcom bubble closed
-		$("div#psfc_welcom_new").animate({"margin-top":"-500px"}, 600, null, function(){$(this).remove();} );
+		$("div#psfc_welcom_new").animate({"top":"-500px"}, 600, null, function(){$(this).remove();} );
 	});
 	// animate the welcom bubble open
-	$("div#psfc_welcom_new").css({"margin-top":"-500px"}).animate({"margin-top":"0px"},1000);
+	$("div#psfc_welcom_new").css({"top":"-500px"}).animate({"top":"10px"},1000);
 });
