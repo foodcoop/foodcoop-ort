@@ -1343,3 +1343,46 @@ function theme_psfc_orientation_crumbs($path) {
   }
   return theme('item_list', $items, NULL, 'ul', array('id' => 'breadcrumbs'));
 }
+
+/*
+ * Implements hook_node_operations().
+ */
+
+function psfc_orientation_node_operations() {
+  $operations = array(
+    'confirm_attendee' => array(
+      'label' => t('Confirm attendees'), 
+      'callback' => 'psfc_orientation_mass_attendee_helper',
+      'callback arguments' => array('confirmed' => array('field_attendee_confirmed' => 1)),
+    ), 
+    'unconfirm_attendee' => array(
+      'label' => t('Unconfirm attendees'), 
+      'callback' => 'psfc_orientation_mass_attendee_helper',
+      'callback arguments' => array('unconfirmed' => array('field_attendee_confirmed' => 0)),
+    ), 
+  );
+  return $operations;
+}
+
+/*
+ * Mass operations on attendees. Used by VBO.
+ */
+function psfc_orientation_mass_attendee_helper($nodes, $context) {
+  foreach ($nodes as $nid) {
+    $node = node_load($nid);
+    if ($node->type == 'orientation_attendee') {
+      foreach ($context as $field => $value) {
+        $node->{$field}[0]['value'] = $value;
+        node_save($node);
+        switch ($value) {
+          case 0:
+            drupal_set_message(t('%name has been unconfirmed to attend.', array('%name' => $node->title)));
+          break;
+          case 1:
+            drupal_set_message(t('%name has been confirmed to attend.', array('%name' => $node->title)));
+          break;
+        }
+      }
+    }
+  }
+}

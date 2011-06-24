@@ -1825,6 +1825,8 @@ $handler->override_option('style_options', array(
     'field_firstname_value' => 'field_firstname_value',
     'field_lastname_value' => 'field_lastname_value',
     'field_email_email' => 'field_email_email',
+    'field_attendee_confirmed_value' => 'field_attendee_confirmed_value',
+    'field_attendee_attended_value' => 'field_attendee_attended_value',
   ),
   'info' => array(
     'field_firstname_value' => array(
@@ -1839,6 +1841,14 @@ $handler->override_option('style_options', array(
       'sortable' => 0,
       'separator' => ' | ',
     ),
+    'field_attendee_confirmed_value' => array(
+      'sortable' => 0,
+      'separator' => '',
+    ),
+    'field_attendee_attended_value' => array(
+      'sortable' => 0,
+      'separator' => '',
+    ),
   ),
   'default' => 'field_lastname_value',
   'execution_type' => '1',
@@ -1848,9 +1858,11 @@ $handler->override_option('style_options', array(
   'display_result' => 1,
   'merge_single_action' => 1,
   'selected_operations' => array(
+    'psfc_orientation_mass_attendee_helper:4fcda3b99e93133ba1dad2171b5d860f' => 'psfc_orientation_mass_attendee_helper:4fcda3b99e93133ba1dad2171b5d860f',
     'views_bulk_operations_delete_node_action' => 'views_bulk_operations_delete_node_action',
     'views_bulk_operations_fields_action' => 'views_bulk_operations_fields_action',
     'system_send_email_action' => 'system_send_email_action',
+    'psfc_orientation_mass_attendee_helper:2818a845396f77474e6b8bea31a26c4b' => 'psfc_orientation_mass_attendee_helper:2818a845396f77474e6b8bea31a26c4b',
     'node_assign_owner_action' => 0,
     'node_mass_update:a27b9efabcd054685a549378b174ad11' => 0,
     'system_message_action' => 0,
@@ -2001,6 +2013,7 @@ $handler->override_option('displays', array(
   'default' => 0,
   'page_1' => 0,
 ));
+
   $views[$view->name] = $view;
 
 /*
