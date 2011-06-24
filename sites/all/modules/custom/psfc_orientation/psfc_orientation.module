@@ -346,7 +346,7 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
         	'#required' => TRUE,
         	'#title' => t('Confirm e-mail address'),
         	'#size' => 30,
-        	'#maxlength' => 30,
+        	'#maxlength' => EMAIL_MAX_LENGTH,
           '#suffix' => '</div></div>',
         );
 
