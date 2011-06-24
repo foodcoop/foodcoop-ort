@@ -35,6 +35,10 @@ function _psfc_orientation_mail_text($key, $language = NULL, $variables = array(
         return t('Reminder: Your PSFC orientation has been cancelled.', $variables, $langcode);
       case 'registration_cancelled_body':
         return t("Dear !attendee_firstname !attendee_lastname\n\nYour scheduled PSFC new member orientation has been cancelled.\n\n Thank you,\nThe Park Slope Food Coop", $variables, $langcode);
+      case 'confirmation_window_missed_subject':
+        return t('You failed to confirm your PSFC orientation.', $variables, $langcode);
+      case 'confirmation_window_missed_body':           
+        return t("Dear !attendee_firstname !attendee_lastname\n\nYour PSFC new member orientation reservation has been cancelled because you did not confirm.\n\n Thank you,\nThe Park Slope Food Coop", $variables, $langcode);
       case 'registration_coop_cancelled_subject':
         return t('Notice: Your PSFC orientation has been cancelled.', $variables, $langcode);
       case 'registration_coop_cancelled_body':
@@ -131,6 +135,28 @@ function psfc_orientation_mail_settings() {
     '#default_value' => _psfc_orientation_mail_text('registration_cancelled_body'),
     '#rows' => 15,
   );
+
+  $form['email']['registration_unconfirmed'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Registration not confirmed'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#description' => t('Email to registrants who did not confirm their orientation') .' '. $email_token_help,
+  );
+  $form['email']['registration_unconfirmed']['psfc_orientation_mail_confirmation_window_missed_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subject'),
+    '#default_value' => _psfc_orientation_mail_text('confirmation_window_missed_subject'),
+    '#maxlength' => 180,
+  );
+  $form['email']['registration_unconfirmed']['psfc_orientation_mail_confirmation_window_missed_body'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Body'),
+    '#default_value' => _psfc_orientation_mail_text('confirmation_window_missed_body'),
+    '#rows' => 15,
+  );
+  
+  
   $form['email']['registration_coop_cancelled'] = array(
     '#type' => 'fieldset',
     '#title' => t('Registration cancelled by the coop'),

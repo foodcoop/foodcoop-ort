@@ -253,13 +253,28 @@ function psfc_orientation_cron() {
     $account = user_load($attendee['field_userid_uid']);
     // Make sure the account still exists.
     if (is_object($account)) {
-      // Record non-confirmation in orientation node and delete attendee node.
+      // Record non-confirmation in orientation node.
       $orientation = node_load($attendee['field_orientation_nid_nid']);
+      $node = node_load($attendee['nid']);
       $delete_message = $account->profile_firstname .' '. $account->profile_lastname .', '. $account->mail .' Username: '. $account->name .' Date removed: '. format_date(time(), 'large');
       $orientation->field_orientation_unconfirmed[]['value'] = $delete_message;
-
+      
+      // Send missed confirmation window mail.
+      $recipient = $node->field_email[0]['email'];
+      $params['node'] = $node;
+      drupal_mail('psfc_orientation', 'confirmation_window_missed', $recipient, language_default(), $params);      
+      
+      // Use node status as a flag that we've already sent an email. Node is about
+      // to be deleted anyway.      
+      db_query("UPDATE {node} SET status = 0 WHERE nid = %d", $attendee['nid']);
+      
+      //  Delete attendee node and update orientation node.
       node_delete($attendee['nid']);
       node_save($orientation);
+
+      // Update the orientation nodes open/closed status. This will reopen
+      // the orientation if it is closed.
+      psfc_orientation_capacity($orientation->nid, TRUE);
     }
   }
   $user = $original_user;
@@ -511,8 +526,12 @@ function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
           // Cancelled by coop admin.
           drupal_mail('psfc_orientation', 'registration_coop_cancelled', $recipient, language_default(), $params);
         }
-        else {
-          // Self-cancelled by registrant.
+        elseif ($node->status == 1) {
+          // Self-cancelled by registrant. $node->status == 0 will be a flag that
+          // we already emailed the registrant when we cancelled their reg
+          // because they did not confirm, and we don't need to mail again.
+          // @see psfc_orientation_cron().
+          
           drupal_mail('psfc_orientation', 'registration_cancelled', $recipient, language_default(), $params);
           // Update the orientation nodes open/closed status. This will reopen
           // the orientation if it is closed.
@@ -990,7 +1009,7 @@ function psfc_orientation_signup_session_register($onid) {
  * @param $hassed_pass
  *   md5 hash of the attendee's password.
  * @param $action
- *   Confirm or cance the orientation registration.
+ *   Confirm or cancel the orientation registration.
  *
  */
 
@@ -1052,7 +1071,7 @@ function psfc_orientation_cancel_confirm_submit($form, $form_state) {
  * @param $account
  *   Attendee's useraccount.
  * @param $action
- *   Confirm or cance the orientation registration.
+ *   Confirm or cancel the orientation registration.
  *
  * @return An absolute link.
  */
