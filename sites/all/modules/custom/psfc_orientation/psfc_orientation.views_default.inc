@@ -1576,7 +1576,26 @@ $handler->override_option('arguments', array(
     'validate_argument_php' => '',
   ),
 ));
-$handler->override_option('filters', array());
+$handler->override_option('filters', array(
+  'field_orientation_by_phone_value' => array(
+    'operator' => 'not empty',
+    'value' => '',
+    'group' => '0',
+    'exposed' => FALSE,
+    'expose' => array(
+      'operator' => FALSE,
+      'label' => '',
+    ),
+    'case' => 0,
+    'id' => 'field_orientation_by_phone_value',
+    'table' => 'node_data_field_orientation_by_phone',
+    'field' => 'field_orientation_by_phone_value',
+    'override' => array(
+      'button' => 'Use default',
+    ),
+    'relationship' => 'none',
+  ),
+));
 $handler->override_option('attachment_position', 'after');
 $handler->override_option('inherit_arguments', TRUE);
 $handler->override_option('inherit_exposed_filters', FALSE);
