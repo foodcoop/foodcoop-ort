@@ -1,5 +1,4 @@
 <?php
-// $Id: php.module,v 1.8.2.1 2008/02/05 09:29:50 goba Exp $
 
 /**
  * @file
@@ -84,3 +83,6 @@ function php_filter($op, $delta = 0, $format = -1, $text = '') {
       return $text;
   }
 }
+
+
+
