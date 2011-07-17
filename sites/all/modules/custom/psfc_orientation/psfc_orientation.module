@@ -272,9 +272,8 @@ function psfc_orientation_cron() {
       node_delete($attendee['nid']);
       node_save($orientation);
 
-      // Update the orientation nodes open/closed status. This will reopen
-      // the orientation if it is closed.
-      psfc_orientation_capacity($orientation->nid, TRUE);
+      // Orientation nodes open/closed status is checked and updated in 
+      // hook_nodeapi().
     }
   }
   $user = $original_user;
@@ -510,6 +509,8 @@ function psfc_orientation_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         else {
           drupal_mail('psfc_orientation', 'registration_not_confirmed', $recipient, language_default(), $params);
         }
+        // Check remaining capacity and close if necessary.
+        psfc_orientation_capacity($node->field_orientation_nid[0]['nid'], TRUE);
         break;
 
       case 'delete' :
