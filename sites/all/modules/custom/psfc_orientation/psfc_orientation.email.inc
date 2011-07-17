@@ -42,7 +42,7 @@ function _psfc_orientation_mail_text($key, $language = NULL, $variables = array(
       case 'registration_coop_cancelled_subject':
         return t('Notice: Your PSFC orientation has been cancelled.', $variables, $langcode);
       case 'registration_coop_cancelled_body':
-        return t("Dear !attendee_firstname !attendee_lastname\n\nYour scheduled PSFC new member orientation has been cancelled by the coop.\n\n Thank you,\nThe Park Slope Food Coop", $variables, $langcode);
+        return t("Dear !attendee_firstname !attendee_lastname\n\n\n\nUnfortunately, the Orientation that you were scheduled to attend on !orientation_date has been cancelled by the PSFC. We apologize for the inconvenience. Because the cancellation was at the Coop's request, we will expedite your placement in the earliest possible upcoming Orientation session that suits your schedule. For assistance re-registering, please contact the PSFC Membership Office at 718-622-0560.\n\n\n\nApologies,\n\nThe Park Slope Food Coop\n\n\n\n\n\nPlease DO NOT REPLY to this email. If you have any questions or need assistance contact the Coop Membership Office at 718-622-0560", $variables, $langcode);
     }
   }
 }
