@@ -346,7 +346,7 @@ function theme_psfc_orientation_login() {
   $output .= '</div>';
   $output .= '</div>';
   $output .= '<div class="orientation-register">';
-  $output .= '<h3>Create an Account</h3>';
+  $output .= '<h3>Create an account</h3>';
   $output .= $account_create_help_txt_view;
   $output .= drupal_get_form('user_register');
   $output .= '</div>';
