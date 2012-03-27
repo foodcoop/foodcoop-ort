@@ -1,9 +1,0 @@
-; $Id$
-name = "Produce Importer"
-description = "Imports details about today's produce from a raw text file in a specific format"
-core = 6.x
-php = 5.x
-package = Coop
-version = "1.0"
-dependencies[] = menu
-dependencies[] = path
