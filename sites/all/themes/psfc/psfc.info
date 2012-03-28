@@ -1,0 +1,29 @@
+name = Park Slope Food Coop Theme
+description = A custom theme for the coop.
+
+core   = 7.x
+engine = phptemplate
+
+stylesheets[all][]   = css/960.css
+stylesheets[all][]   = css/reset.css
+stylesheets[all][]   = css/fonts.css
+stylesheets[all][]   = css/styles.css
+stylesheets[all][]   = css/text.css
+
+
+
+scripts[]   = js/psfc.js
+
+regions[right] = right sidebar
+regions[contenttop] = contenttop
+regions[content] = content
+regions[footer] = footer
+regions[devel_area] = devel area
+regions[header_user] = header user blocks
+regions[help] = Help
+regions[page_top] = Page top
+regions[page_bottom] = Page bottom
+
+features[] = logo
+features[] = favicon
+features[] = main_menu
