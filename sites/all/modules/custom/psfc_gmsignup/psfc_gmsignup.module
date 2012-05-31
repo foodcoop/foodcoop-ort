@@ -14,9 +14,23 @@ function psfc_gmsignup_menu()
 
 function psfc_gmsignup_form($form, &$form_state)
 {
+	global $user;
+	if ($user->uid == 0) {drupal_goto('user');}
+	
+	$result = db_query('SELECT fgmd.field_gm_date_value, n.nid FROM {field_data_field_gm_date} fgmd JOIN node n ON fgmd.bundle=n.type AND fgmd.revision_id=n.vid WHERE fgmd.field_gm_date_value > UNIX_TIMESTAMP() ORDER BY fgmd.field_gm_date_value LIMIT 1');
+	$gm = $result->fetchAssoc();
+	
+	$gm_date = date('l F j, Y \a\t g:m a', $gm['field_gm_date_value']);
+	// dsm($gm_date);
+	
+	$form['gmid'] = array(
+	'#type' => 'value',
+	'#value' => $gm['nid']
+	);
+	
 	$form['text_top'] = array(
 	'#type' => 'markup',
-    '#markup' => '<div style="font-size: 14pt; font-weight: bold;">General Meeting on Friday April 27, 2012 at 8:15 pm</div><div style="margin-bottom: 20px;">Please provide the information below for the person who will actually be ATTENDING the GM:</div>'
+    '#markup' => '<div style="font-size: 14pt; font-weight: bold;">General Meeting on ' . $gm_date . '</div><div style="margin-bottom: 20px;">Please provide the information below for the person who will actually be ATTENDING the GM:</div>'
   	);
 	
 	$form['first_name'] = array(
@@ -35,6 +49,7 @@ function psfc_gmsignup_form($form, &$form_state)
     '#required' => TRUE
   	);
   	
+  	/*
   	$form['email'] = array(
     '#type' => 'textfield',
     '#title' => 'Email',
@@ -42,6 +57,7 @@ function psfc_gmsignup_form($form, &$form_state)
     '#maxlength' => 50,
     '#required' => TRUE
   	);
+  	*/
   	
   	$form['member_number'] = array(
     '#type' => 'textfield',
@@ -131,7 +147,7 @@ function psfc_gmsignup_form_validate($form, &$form_state)
 		if (strlen($form_state['values']['member_number_credit']) < 5) {form_set_error('member_number_credit', t('Invalid Member Number'));}
 	}
 	
-	// echo '<pre>'; print_r($form_state['complete form']); echo '</pre>';
+	// echo '<pre>'; print_r($form_state); echo '</pre>';
 }
 
 function psfc_gmsignup_form_submit($form, &$form_state)
