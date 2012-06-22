@@ -12,16 +12,51 @@ function psfc_gmsignup_menu()
 	return $items;
 }
 
+function psfc_gmsignup_form_user_login_alter(&$form, &$form_state, $form_id) {
+  if (isset($_GET['redirect']) && $_GET['redirect'] == 'gmsignup') {
+    $form['#submit'][] = 'psfc_gmsignup_post_login_redirect';
+  }
+}
+
+function psfc_gmsignup_post_login_redirect() {
+  drupal_goto('gmsignup');
+}
+
+
 function psfc_gmsignup_form($form, &$form_state)
 {
 	global $user;
-	if ($user->uid == 0) {drupal_goto('user');}
+	if ($user->uid == 0) {
+    drupal_goto('user', array('query' => array('redirect' => 'gmsignup')));
+  }
 	
 	$result = db_query('SELECT fgmd.field_gm_date_value, n.nid FROM {field_data_field_gm_date} fgmd JOIN node n ON fgmd.bundle=n.type AND fgmd.revision_id=n.vid WHERE fgmd.field_gm_date_value > UNIX_TIMESTAMP() ORDER BY fgmd.field_gm_date_value LIMIT 1');
-	$gm = $result->fetchAssoc();
-	
-	$gm_date = date('l F j, Y \a\t g:m a', $gm['field_gm_date_value']);
-	// dsm($gm_date);
+
+$no_upcoming_mtg_markup = array(
+	      '#type' => 'markup',
+        '#markup' => '<div style="font-size: 14pt; font-weight: bold;">'. t('The next General Meeting hasn\'t been scheduled. Please check back in a little while.') .'</div>',
+  	  );
+
+
+  if ($result->rowCount() == 0) {
+    $form['text_top'] = $no_upcoming_mtg_markup;
+
+    return $form;
+  }
+  elseif ($result->rowCount() == 1) {
+    $gm = $result->fetchAssoc();
+    if (date('H') > 17 && date('Y-m-d', $gm['field_gm_date_value']) == date('Y-m-d')) {
+      $form['text_top'] = array(
+	      '#type' => 'markup',
+        '#markup' => '<div style="font-size: 14pt; font-weight: bold;">'. t('GM Attendance signup closes at 5 pm on the day of the General Meeting. Sign up for next month\'s General Meeting will be available after midnight of the day of the meeting.') .'</div>',
+  	  );
+      return $form;
+    }
+    elseif (($gm['field_gm_date_value'] - time()) > (strtotime('+1 month') - time())) {
+      $form['text_top'] = $no_upcoming_mtg_markup;
+      return $form;
+    }
+    $gm_date = date('l F j, Y \a\t g:m a', $gm['field_gm_date_value']);
 	
 	$form['gmid'] = array(
 	'#type' => 'value',
@@ -112,6 +147,7 @@ function psfc_gmsignup_form($form, &$form_state)
   	);
  
   	return $form;
+  }
 }
 
 function psfc_gmsignup_form_validate($form, &$form_state)
