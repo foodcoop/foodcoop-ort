@@ -1,7 +1,7 @@
 name = Park Slope Food Coop Theme
 description = A custom theme for the coop.
 
-core   = 7.x
+core = 7.x
 engine = phptemplate
 
 stylesheets[all][]   = css/960.css
