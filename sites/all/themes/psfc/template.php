@@ -5,25 +5,8 @@
  */
 function psfc_preprocess_page(&$variables) {
   global $user;
-  if (module_exists('devel') && user_access('access devel information')) {
-    $variables['devel'] = '<div id="devel-area">'. $variables['devel_area'] .'</div>';
-  }
   $variables['primary_links'] = psfc_output_primary($variables['primary_links']);
   $variables['orientation_crumbs'] = theme('psfc_orientation_crumbs', $_GET['q']);
-
-  // Temporarily tell users about the new site via a popup
-  if ($_SESSION['psfc_seen_new'] != 1 && $user->uid == 0) {
-    $output = '<div id="psfc_welcom_new">';
-    $output .= '<div class="close">X</div>';
-    $output .= '<h2>'. t('Welcome!') .'</h2>';
-    $output .= t('This "Join the Coop" portion of the Coop website has been newly  developed, and will give you a sense of the expanded capabilities that  will be coming soon to the rest of the site. To return to the main Coop  website at any time, simply click the PSFC logo in the upper left corner.');
-    $output .= '</div>';
-
-    $variables['psfc_welcom_new'] = $output;
-    $_SESSION['psfc_seen_new'] = 1;
-  }
-
-
 }
 
 /**
