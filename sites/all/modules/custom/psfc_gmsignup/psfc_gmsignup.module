@@ -52,7 +52,7 @@ $no_upcoming_mtg_markup = array(
   	  );
       return $form;
     }
-    elseif (($gm['field_gm_date_value'] - time()) > (strtotime('+45 days') - time())) {
+    elseif (($gm['field_gm_date_value'] - time()) > (strtotime('+1 month') - time())) {
       $form['text_top'] = $no_upcoming_mtg_markup;
       return $form;
     }
@@ -165,8 +165,6 @@ function psfc_gmsignup_form_validate($form, &$form_state)
 	
 	// form_set_value($form['member_number'], $member_number, $form_state);
 	// $form_state['rebuild'] = TRUE;
-
-  // TODO clarify member number length with Jess
 		
 	if (!is_numeric($form_state['values']['member_number'])) {form_set_error('member_number', t('Member Number must be numeric'));}
 	if (strlen($form_state['values']['member_number']) < 5) {form_set_error('member_number', t('Invalid Member Number'));}
@@ -182,76 +180,15 @@ function psfc_gmsignup_form_validate($form, &$form_state)
 		if ($form_state['values']['member_number_credit'] == '') {form_set_error('member_number_credit', t('Member Number required'));}
 		
 		if (!is_numeric($form_state['values']['member_number_credit'])) {form_set_error('member_number_credit', t('Member Number must be numeric'));}
-  // TODO clarify member number length with Jess
-
 		if (strlen($form_state['values']['member_number_credit']) < 5) {form_set_error('member_number_credit', t('Invalid Member Number'));}
 	}
 	
 	// echo '<pre>'; print_r($form_state); echo '</pre>';
 }
 
-function psfc_gmsignup_form_submit($form, &$form_state) {
-  dsm($form_state);
-  $values = $form_state['values'];
-  global $user;
-
-  dsm($user);
-  // Create new node
-  $node = new stdClass;
-
-  $node->uid = $user->uid;
-  $node->type = 'general_meeting_attendee';
-  $node->status = 1;
-  $node->promote = 0;
-
-  $node->language = 'und';
-
-  $node->field_gm = array(
-    'und' => array(
-      '0' => array(
-        'nid' => $values['gmid'],
-      ),
-    ),
-  );
-
-  $node->field_gm_attendee_first_name = array(
-    'und' => array(
-      '0' => array(
-        'value' => $values['first_name'],
-      ),
-    ),
-  );
-  $node->field_gm_attendee_last_name = array(
-    'und' => array(
-      '0' => array(
-        'value' => $values['last_name'],
-      ),
-    ),
-  );
-  //TODO: Add in logic for member number fields.
-  $credit_first_val = ($values['credit'] == 'credit_other') ? $values['first_name_credit'] : $values['first_name'];
-  $credit_last_val = ($values['credit'] == 'credit_other') ? $values['last_name_credit'] : $values['last_name'];
-
-  $node->field_gm_creditee_first_name = array(
-    'und' => array(
-      '0' => array(
-        'value' => $credit_first_val,
-      ),
-    ),
-  );
-  $node->field_gm_creditee_last_name = array(
-    'und' => array(
-      '0' => array(
-        'value' => $credit_last_val,
-      ),
-    ),
-  );
-
-  $node->title = t('General Meeting (%gmid) - Attendee: %first %last', array('%gmid' => $values['gmid'], '%first' => $values['first_name'], '%last' => $values['last_name']));
-
-  node_object_prepare($node);
-  node_save($node);
-
+function psfc_gmsignup_form_submit($form, &$form_state)
+{
+	// echo '<pre>'; print_r($form_state); echo '</pre>';
 	drupal_set_message(t('We have received your request to attend the GM for credit. The Membership Office will review your request in order to confirm your eligibility to receive credit. If you are confirmed, we will send you an e-mail confirmation within 5 days of today.'));
 }
 
