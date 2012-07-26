@@ -1,0 +1,9 @@
+; $Id$
+
+name = PSFC Orientation
+description = Handles the Orientation scheduling for the coop site
+package = PSFC
+core = 7.x
+
+dependencies[] = date_api
+dependencies[] = views
