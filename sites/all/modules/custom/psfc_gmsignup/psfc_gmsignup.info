@@ -1,3 +1,7 @@
 name = "PSFC General Meeting Signup Form"
 description = "PSFC General Meeting Signup Form"
 core = "7.x"
+package = PSFC
+
+dependencies[] = psfc_gmsignup_features
+
