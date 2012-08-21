@@ -8,7 +8,7 @@ function psfc_gmsignup_menu()
 	'page arguments' => array('psfc_gmsignup_form'),
 	'access callback' => TRUE
 	);
-	
+
 	return $items;
 }
 
@@ -29,7 +29,7 @@ function psfc_gmsignup_form($form, &$form_state)
 	if ($user->uid == 0) {
     drupal_goto('user', array('query' => array('redirect' => 'gmsignup')));
   }
-	
+
 	$result = db_query('SELECT fgmd.field_gm_date_value, n.nid FROM {field_data_field_gm_date} fgmd JOIN node n ON fgmd.bundle=n.type AND fgmd.revision_id=n.vid WHERE fgmd.field_gm_date_value > UNIX_TIMESTAMP() ORDER BY fgmd.field_gm_date_value LIMIT 1');
 
 $no_upcoming_mtg_markup = array(
@@ -44,19 +44,38 @@ $no_upcoming_mtg_markup = array(
     return $form;
   }
   elseif ($result->rowCount() == 1) {
+    $time = time();
+    $days45 = strtotime('+45 days') - $time;
+    $days20 = strtotime('+20 days') - $time;
     $gm = $result->fetchAssoc();
-    if (date('H') > 17 && date('Y-m-d', $gm['field_gm_date_value']) == date('Y-m-d')) {
+    $gmdate = $gm['field_gm_date_value'];
+    $gm_date_formatted = date('l F j, Y \a\t g:i a', $gmdate);
+
+
+    // first check if the user has already signed up
+    $signed_up_result = db_query('SELECT COUNT(*) FROM {node} n JOIN {field_data_field_gm} gm ON gm.entity_id = n.nid AND gm.revision_id = n.vid WHERE gm.field_gm_nid = :nid and n.uid=:uid', array(':nid' => $gm['nid'], ':uid' => $user->uid))->fetchAssoc();
+    $signed_up_count = $signed_up_result['COUNT(*)'];
+    if ($signed_up_count > 0) {
+      $form['text_top'] = array(
+	      '#type' => 'markup',
+        '#markup' => '<div style="font-size: 14pt; font-weight: bold;">'. t('It appears that you have already signed up for the next upcoming  meeting scheduled for '. $gm_date_formatted) .'</div>',
+  	  );
+      return $form;
+
+    }
+    // check if it is after 5pm of the date of the metting
+    elseif (date('H') > 17 && date('Y-m-d', $gmdate) == date('Y-m-d')) {
       $form['text_top'] = array(
 	      '#type' => 'markup',
         '#markup' => '<div style="font-size: 14pt; font-weight: bold;">'. t('GM Attendance signup closes at 5 pm on the day of the General Meeting. Sign up for next month\'s General Meeting will be available after midnight of the day of the meeting.') .'</div>',
   	  );
       return $form;
     }
-    elseif (($gm['field_gm_date_value'] - time()) > (strtotime('+45 days') - time())) {
+    // check if it is more than 20 days away but less than 45.
+    elseif ((($gmdate - $time) > $days45) || (($gmdate - $time) < $days20)) {
       $form['text_top'] = $no_upcoming_mtg_markup;
       return $form;
     }
-    $gm_date = date('l F j, Y \a\t g:m a', $gm['field_gm_date_value']);
 
 	$form['gmid'] = array(
 	'#type' => 'value',
@@ -65,7 +84,7 @@ $no_upcoming_mtg_markup = array(
 
 	$form['text_top'] = array(
 	'#type' => 'markup',
-    '#markup' => '<div style="font-size: 14pt; font-weight: bold;">General Meeting on ' . $gm_date . '</div><div style="margin-bottom: 20px;">Please provide the information below for the person who will actually be ATTENDING the GM:</div>'
+    '#markup' => '<div style="font-size: 14pt; font-weight: bold;">General Meeting on ' . $gm_date_formatted . '</div><div style="margin-bottom: 20px;">Please provide the information below for the person who will actually be ATTENDING the GM:</div>'
   	);
 
 	$form['first_name'] = array(
@@ -116,7 +135,7 @@ $no_upcoming_mtg_markup = array(
     '#title' => t('Apply credit to this member:'),
     '#states' => array('visible' => array(':input[name="credit"]' => array('value' => 'credit_other')))
   	);
-  	
+
   	$form['other_member']['first_name_credit'] = array(
     '#type' => 'textfield',
     '#title' => 'First Name',
@@ -124,7 +143,7 @@ $no_upcoming_mtg_markup = array(
     '#maxlength' => 50,
     '#states' => array('required' => array(':input[name="credit"]' => array('value' => 'credit_other')), 'visible' => array(':input[name="credit"]' => array('value' => 'credit_other')))
   	);
-  	
+
   	$form['other_member']['last_name_credit'] = array(
     '#type' => 'textfield',
     '#title' => 'Last Name',
@@ -132,7 +151,7 @@ $no_upcoming_mtg_markup = array(
     '#maxlength' => 50,
     '#states' => array('required' => array(':input[name="credit"]' => array('value' => 'credit_other')), 'visible' => array(':input[name="credit"]' => array('value' => 'credit_other')))
   	);
-  	
+
   	$form['other_member']['member_number_credit'] = array(
     '#type' => 'textfield',
     '#title' => 'Member Number',
@@ -140,12 +159,12 @@ $no_upcoming_mtg_markup = array(
     '#maxlength' => 10,
     '#states' => array('required' => array(':input[name="credit"]' => array('value' => 'credit_other')), 'visible' => array(':input[name="credit"]' => array('value' => 'credit_other')))
   	);
-  	
+
   	$form['submit_button'] = array(
     '#type' => 'submit',
     '#value' => t('Sign Up for General Meeting')
   	);
- 
+
   	return $form;
   }
 }
@@ -153,49 +172,47 @@ $no_upcoming_mtg_markup = array(
 function psfc_gmsignup_form_validate($form, &$form_state)
 {
 	// echo '<pre>'; print_r($form_state); echo '</pre>';
-	
+
 	// if ($form_state['values']['first_name'] == '') {form_set_error('first_name', t('First Name required'));}
 	// if ($form_state['values']['last_name'] == '') {form_set_error('last_name', t('Last Name required'));}
 	// if ($form_state['values']['email'] == '') {form_set_error('email', t('Email required'));}
 	// if ($form_state['values']['member_number'] == '') {form_set_error('member_number', t('Member Number required'));}
-	
+
 	$member_number = preg_replace('/[^0-9]/i', '', $form_state['values']['member_number']);
 	$form_state['values']['member_number'] = $member_number;
 	$form_state['complete form']['member_number']['#value'] = $member_number;
-	
+
 	// form_set_value($form['member_number'], $member_number, $form_state);
 	// $form_state['rebuild'] = TRUE;
 
   // TODO clarify member number length with Jess
-		
+
 	if (!is_numeric($form_state['values']['member_number'])) {form_set_error('member_number', t('Member Number must be numeric'));}
 	if (strlen($form_state['values']['member_number']) < 5) {form_set_error('member_number', t('Invalid Member Number'));}
-	
+
 	if ($form_state['values']['credit'] == 'credit_other')
 	{
 		$member_number_credit = preg_replace('/[^0-9]/i', '', $form_state['values']['member_number_credit']);
 		$form_state['values']['member_number_credit'] = $member_number_credit;
 		$form_state['complete form']['other_member']['member_number_credit']['#value'] = $member_number_credit;
-		
+
 		if ($form_state['values']['first_name_credit'] == '') {form_set_error('first_name_credit', t('First Name required'));}
 		if ($form_state['values']['last_name_credit'] == '') {form_set_error('last_name_credit', t('Last Name required'));}
 		if ($form_state['values']['member_number_credit'] == '') {form_set_error('member_number_credit', t('Member Number required'));}
-		
+
 		if (!is_numeric($form_state['values']['member_number_credit'])) {form_set_error('member_number_credit', t('Member Number must be numeric'));}
   // TODO clarify member number length with Jess
 
 		if (strlen($form_state['values']['member_number_credit']) < 5) {form_set_error('member_number_credit', t('Invalid Member Number'));}
 	}
-	
+
 	// echo '<pre>'; print_r($form_state); echo '</pre>';
 }
 
 function psfc_gmsignup_form_submit($form, &$form_state) {
-  dsm($form_state);
   $values = $form_state['values'];
   global $user;
 
-  dsm($user);
   // Create new node
   $node = new stdClass;
 
