@@ -1,5 +1,5 @@
-name = Park Slope Food Coop Theme
-description = A custom theme for the coop.
+name = OLD - Park Slope Food Coop Theme
+description = The D6 theme ported to D7. Will be retired. For reference only.
 
 core = 7.x
 engine = phptemplate
