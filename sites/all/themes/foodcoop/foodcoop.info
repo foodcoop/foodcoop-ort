@@ -30,6 +30,7 @@ stylesheets[all][] = css/nodes.css
 stylesheets[all][] = css/comments.css
 stylesheets[all][] = css/forms.css
 stylesheets[all][] = css/fields.css
+stylesheets[all][] = css/_formalize.css
 stylesheets[all][] = css/print.css
 
 ; Built-in conditional stylesheet support has been removed.
@@ -43,7 +44,7 @@ stylesheets[all][] = css/print.css
 ; Javascript
 ; -----------------------------------------------------------------------------
 ;scripts[] = js/script.min.js
-
+scripts[] = js/jquery.formalize.min.js
 
 
 ; -----------------------------------------------------------------------------
