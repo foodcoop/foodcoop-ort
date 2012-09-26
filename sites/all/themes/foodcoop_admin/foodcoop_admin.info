@@ -3,10 +3,19 @@ description = The Seven theme, but better. Food Coop Administration fixes a few 
 core        = 7.x
 base theme  = seven
 
+
 ; -----------------------------------------------------------------------------
 ; CSS 
 ; -----------------------------------------------------------------------------
+stylesheets[all][] = css/_formalize.css
 stylesheets[all][] = css/foodcoopadmin.css
+
+
+; -----------------------------------------------------------------------------
+; Javascript
+; -----------------------------------------------------------------------------
+scripts[] = js/jquery.formalize.min.js
+
 
 ; -----------------------------------------------------------------------------
 ; SETTINGS
