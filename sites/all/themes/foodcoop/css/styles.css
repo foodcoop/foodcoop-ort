@@ -1,59 +1,2678 @@
-/*
-Syntax error: File to import not found or unreadable: page.
-              Load paths:
-                /Users/jensimmons/Sites/foodcoop/d7/WEBCOM/www.foodcoop.com/branches/drupal-7/sites/all/themes/foodcoop/sass
-                /Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets
-                /Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets
-                Compass::SpriteImporter
-        on line 13 of /Users/jensimmons/Sites/foodcoop/d7/WEBCOM/www.foodcoop.com/branches/drupal-7/sites/all/themes/foodcoop/sass/styles.scss
+/* line 7, ../sass/_zen.scss */
+.block {
+  /* Block wrapper */
+  margin-bottom: 1.5em;
+}
 
-Backtrace:
-/Users/jensimmons/Sites/foodcoop/d7/WEBCOM/www.foodcoop.com/branches/drupal-7/sites/all/themes/foodcoop/sass/styles.scss:13
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/import_node.rb:64:in `import'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/import_node.rb:25:in `imported_file'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/perform.rb:227:in `visit_import'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/base.rb:37:in `send'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/base.rb:37:in `visit'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/perform.rb:98:in `visit'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/base.rb:53:in `visit_children'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/base.rb:53:in `map'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/base.rb:53:in `visit_children'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/perform.rb:107:in `visit_children'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/perform.rb:119:in `with_environment'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/perform.rb:106:in `visit_children'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/base.rb:37:in `visit'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/perform.rb:126:in `visit_root'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/base.rb:37:in `send'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/base.rb:37:in `visit'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/perform.rb:98:in `visit'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/perform.rb:7:in `send'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/visitors/perform.rb:7:in `visit'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/tree/root_node.rb:20:in `render'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/engine.rb:315:in `_render'
-/Library/Ruby/Gems/1.8/gems/sass-3.2.1/lib/sass/../sass/engine.rb:262:in `render'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:140:in `compile'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:126:in `timed'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:139:in `compile'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/logger.rb:45:in `red'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:138:in `compile'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:118:in `compile_if_required'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:103:in `run'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:101:in `each'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:101:in `run'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:126:in `timed'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/compiler.rb:100:in `run'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/commands/update_project.rb:45:in `perform'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/commands/base.rb:18:in `execute'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/commands/project_base.rb:19:in `execute'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/lib/compass/exec/sub_command_ui.rb:15:in `run!'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/bin/compass:30
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/bin/compass:44:in `call'
-/Library/Ruby/Gems/1.8/gems/compass-0.12.2/bin/compass:44
-/usr/bin/compass:23:in `load'
-/usr/bin/compass:23
+/* line 16, ../sass/_zen.scss */
+.comments {
+  /* Wrapper for the list of comments and its title */
+  margin: 1.5em 0;
+}
+
+/* line 20, ../sass/_zen.scss */
+.comment {
+  /* Wrapper for a single comment */
+}
+/* line 21, ../sass/_zen.scss */
+.comment.comment-preview {
+  /* Preview of the comment before submitting new or updated comment */
+  background-color: #ffffea;
+  /* Drupal core will use a #ffffea background. See #1110842 */
+}
+/* line 24, ../sass/_zen.scss */
+.comment .new {
+  /* "New" marker for comments that are new for the current user */
+  color: #c00;
+}
+/* line 27, ../sass/_zen.scss */
+.comment .permalink {
+  /* Comment's permalink wrapper */
+  text-transform: uppercase;
+  font-size: 75%;
+}
+
+/* line 33, ../sass/_zen.scss */
+.indented {
+  /* Nested comments are indented */
+  margin-left: 30px;
+  /* Drupal core uses a 25px left margin */
+}
+
+/* line 37, ../sass/_zen.scss */
+.comment-unpublished {
+  /* Unpublished comments */
+  /* background-color: #fff4f4; */
+  /* Drupal core uses a #fff4f4 background */
+}
+/* line 40, ../sass/_zen.scss */
+.comment-unpublished p.unpublished {
+  /* The word "Unpublished" displayed underneath the content. */
+  height: 0;
+  overflow: visible;
+  color: #d8d8d8;
+  font-size: 75px;
+  line-height: 1;
+  font-family: Impact, "Arial Narrow", Helvetica, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+/* line 50, ../sass/_zen.scss */
+.form-item {
+  /* Wrapper for a form element (or group of form elements) and its label */
+  margin: 1.5em 0;
+}
+/* line 55, ../sass/_zen.scss */
+.form-item input.error,
+.form-item textarea.error,
+.form-item select.error {
+  /* Highlight the form elements that caused a form submission error */
+  border: 1px solid #c00;
+}
+/* line 59, ../sass/_zen.scss */
+.form-item label {
+  /* The label for a form element */
+  display: block;
+  font-weight: bold;
+}
+/* line 64, ../sass/_zen.scss */
+.form-item label.option {
+  /* The label for a radio button or checkbox */
+  display: inline;
+  font-weight: normal;
+}
+/* line 69, ../sass/_zen.scss */
+.form-item .form-required {
+  /* The part of the label that indicates a required field */
+  color: #c00;
+}
+/* line 73, ../sass/_zen.scss */
+.form-item .description {
+  /* The descriptive help text (separate from the label) */
+  font-size: 0.85em;
+}
+/* line 78, ../sass/_zen.scss */
+.form-checkboxes .form-item, .form-radios .form-item {
+  /* Pack groups of checkboxes and radio buttons closer together */
+  margin: 0;
+  /* Drupal core uses "0.4em 0" */
+}
+
+/* line 83, ../sass/_zen.scss */
+.form-submit {
+  /* The submit button */
+}
+
+/* line 88, ../sass/_zen.scss */
+.container-inline div,
+.container-inline label {
+  /* Inline labels and form divs */
+  display: inline;
+}
+
+/* line 93, ../sass/_zen.scss */
+.tips {
+  /* Tips for Drupal's input formats */
+}
+
+/* line 96, ../sass/_zen.scss */
+a.button {
+  /* Buttons used by contrib modules like Media */
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+}
+
+/*
+ * Password confirmation
+ */
+/* line 105, ../sass/_zen.scss */
+.password-parent,
+.confirm-parent {
+  margin: 0;
+}
+
+/*
+ * Search (search-block-form.tpl.php)
+ */
+/* line 113, ../sass/_zen.scss */
+#block-search-form {
+  /* Wrapper for the search form */
+}
+
+/*
+ * Drupal's default login form block
+ */
+/* line 120, ../sass/_zen.scss */
+#user-login-form {
+  text-align: left;
+  /* LTR */
+  /*
+   * OpenID
+   *
+   * The default styling for the OpenID login link seems to assume Garland's
+   * styling of list items.
+   */
+}
+/* line 130, ../sass/_zen.scss */
+#user-login-form ul {
+  /* OpenID creates a new ul above the login form's links. */
+  margin-bottom: 0;
+  /* Position OpenID's ul next to the rest of the links. */
+}
+/* line 135, ../sass/_zen.scss */
+html.js #user-login-form li.openid-link,
+#user-login-form li.openid-link {
+  /* The "Log in using OpenID" link. */
+  margin-top: 1.5em;
+  margin-left: -20px;
+  /* LTR */
+  /* Un-do some of the padding on the ul list. */
+}
+/* line 140, ../sass/_zen.scss */
+#user-login-form li.user-link {
+  /* The "Cancel OpenID login" link. */
+  margin-top: 1.5em;
+}
+
+/* line 145, ../sass/_zen.scss */
+#user-login ul {
+  margin: 1.5em 0;
+}
+
+/*
+ * Drupal admin tables
+ *
+ * We overrode these styles in normalize.css, but restore them for the admin
+ * section of the site.
+ */
+/* line 157, ../sass/_zen.scss */
+form th {
+  text-align: left;
+  /* LTR */
+  padding-right: 1em;
+  /* LTR */
+  border-bottom: 3px solid #ccc;
+}
+/* line 163, ../sass/_zen.scss */
+form tbody {
+  border-top: 1px solid #ccc;
+}
+/* line 167, ../sass/_zen.scss */
+form tr.even {
+  background-color: #fff;
+}
+/* line 171, ../sass/_zen.scss */
+form table .item-list ul {
+  margin: 0;
+}
+
+/*
+ * Drupal core wrongly puts this in system.menus.css. Since we override that, add it back.
+ */
+/* line 190, ../sass/_zen.scss */
+td.menu-disabled {
+  background: #ccc;
+}
+
+/*
+ * Markup generated by theme_menu_tree().
+ */
+/* line 203, ../sass/_zen.scss */
+ul li.expanded {
+  list-style-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHAQMAAAD+nMWQAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAABJJREFUeJxj+MdQw2DBIMAABgAUsAHD3c3BpwAAAABJRU5ErkJggg==');
+  list-style-type: circle;
+}
+
+/* line 210, ../sass/_zen.scss */
+ul li.collapsed {
+  list-style-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHAQMAAAD+nMWQAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAABFJREFUCB1jVmCGQClmEWYOAAZ8AMy3HPLXAAAAAElFTkSuQmCC');
+  /* LTR */
+  list-style-type: disc;
+}
+
+/* line 217, ../sass/_zen.scss */
+ul li.leaf {
+  list-style-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHBAMAAAA2fErgAAAAD1BMVEX///+/v7+Li4sAAADAwMBFvsw8AAAAAXRSTlMAQObYZgAAAB1JREFUCFtjYAADYwMGBmYVZSDhKAwkFJWhYiAAAB2+Aa/9ugeaAAAAAElFTkSuQmCC');
+  list-style-type: square;
+}
+
+/*
+ * The active item in a Drupal menu
+ */
+/* line 229, ../sass/_zen.scss */
+li a.active {
+  color: #000;
+}
+
+/*
+ * Navigation bar
+ */
+/* line 237, ../sass/_zen.scss */
+#navigation {
+  /* overflow: hidden; */
+  /* Sometimes you want to prevent overlapping with main div. */
+}
+/* line 240, ../sass/_zen.scss */
+#navigation .block {
+  margin-bottom: 0;
+}
+/* line 245, ../sass/_zen.scss */
+#navigation .block-menu .block-title,
+#navigation .block-menu-block .block-title {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+/* line 250, ../sass/_zen.scss */
+#navigation ul.links,
+#navigation ul.menu {
+  /* Menu block links */
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  /* LTR */
+}
+/* line 255, ../sass/_zen.scss */
+#navigation ul.links li,
+#navigation ul.menu li {
+  /* A simple method to get navigation links to appear in one line. */
+  float: left;
+  /* LTR */
+  padding: 0 10px 0 0;
+  /* LTR */
+  list-style-type: none;
+  list-style-image: none;
+}
+
+/*
+ * Main menu and Secondary menu links
+ */
+/* line 268, ../sass/_zen.scss */
+#secondary-menu {
+  float: right;
+  /* LTR */
+}
+
+/*
+ * Basic positioning styles shared by primary and secondary tabs.
+ */
+/* line 287, ../sass/_zen.scss */
+ul.primary,
+ul.secondary {
+  overflow: hidden;
+  border-bottom: 1px solid #bbbbbb;
+  list-style: none;
+  margin: 1em 0 1.5em;
+  padding: 0 2px;
+  white-space: nowrap;
+}
+/* line 295, ../sass/_zen.scss */
+ul.primary li,
+ul.secondary li {
+  float: left;
+  /* LTR */
+  margin: 0.5em 3px 0;
+}
+/* line 300, ../sass/_zen.scss */
+ul.primary a,
+ul.secondary a {
+  border: 1px solid #e9e9e9;
+  border-right: 0;
+  border-bottom: 0;
+  display: block;
+  line-height: 1.5em;
+  text-decoration: none;
+}
+
+/*
+ * Primary tabs
+ */
+/* line 315, ../sass/_zen.scss */
+ul.primary li {
+  -moz-border-radius-topleft: 4px;
+  -webkit-border-top-left-radius: 4px;
+  border-top-left-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  -webkit-border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
+  text-shadow: 1px 1px 0 white;
+  border: 1px solid #bbbbbb;
+  border-bottom: 0;
+  margin: 0.5em 0 0 3px;
+  /* LTR */
+}
+/* line 322, ../sass/_zen.scss */
+ul.primary li.active {
+  border-bottom: 1px solid white;
+  margin-bottom: -1px;
+  /* Overlap the ul's border. */
+}
+/* line 328, ../sass/_zen.scss */
+ul.primary a:link,
+ul.primary a:visited {
+  -moz-border-radius-topleft: 4px;
+  -webkit-border-top-left-radius: 4px;
+  border-top-left-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  -webkit-border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
+  -webkit-transition: background-color 0.3s;
+  -moz-transition: background-color 0.3s;
+  -o-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+  color: #333;
+  background-color: #dedede;
+  letter-spacing: 1px;
+  padding: 0 1em;
+  text-align: center;
+}
+/* line 338, ../sass/_zen.scss */
+ul.primary a:hover,
+ul.primary a:focus {
+  background-color: #e9e9e9;
+  border-color: #f2f2f2;
+}
+/* line 342, ../sass/_zen.scss */
+ul.primary a.active {
+  background-color: transparent;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFE9E9E9', endColorstr='#00E9E9E9');
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e9e9e9), color-stop(100%, rgba(233, 233, 233, 0)));
+  background-image: -webkit-linear-gradient(#e9e9e9, rgba(233, 233, 233, 0));
+  background-image: -moz-linear-gradient(#e9e9e9, rgba(233, 233, 233, 0));
+  background-image: -o-linear-gradient(#e9e9e9, rgba(233, 233, 233, 0));
+  background-image: linear-gradient(#e9e9e9, rgba(233, 233, 233, 0));
+  border-color: #fff;
+}
+
+/*
+ * Secondary tabs
+ */
+/* line 354, ../sass/_zen.scss */
+ul.secondary {
+  font-size: .9em;
+  margin-top: -1.5em;
+  /* Collapse bottom margin of ul.primary. */
+  padding-bottom: .5em;
+}
+/* line 360, ../sass/_zen.scss */
+ul.secondary a:link,
+ul.secondary a:visited {
+  -webkit-border-radius: 0.75em;
+  -moz-border-radius: 0.75em;
+  -ms-border-radius: 0.75em;
+  -o-border-radius: 0.75em;
+  border-radius: 0.75em;
+  -webkit-transition: background-color 0.3s;
+  -moz-transition: background-color 0.3s;
+  -o-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+  text-shadow: 1px 1px 0 white;
+  background-color: #f2f2f2;
+  color: #666;
+  padding: 0 .5em;
+}
+/* line 369, ../sass/_zen.scss */
+ul.secondary a:hover,
+ul.secondary a:focus {
+  background-color: #dedede;
+  border-color: #999;
+  color: #333;
+}
+/* line 375, ../sass/_zen.scss */
+ul.secondary a.active,
+ul.secondary a:active {
+  text-shadow: 1px 1px 0 #333333;
+  background-color: #666;
+  border-color: #000;
+  color: #fff;
+}
+
+/* normalize.css 2012-03-11T12:53 UTC - http://github.com/necolas/normalize.css */
+/* =============================================================================
+   Normalize.css is intended to be used as an alternative to CSS resets.
+
+   It is suggested that you read through the normalize.css file and customise it
+   to meet the design requirements of a project rather including it as a "black
+   box". @see http://nicolasgallagher.com/about-normalize-css/
+
+   Also: @see http://meiert.com/en/blog/20080419/reset-style-sheets-are-bad/
+         @see http://snook.ca/archives/html_and_css/no_css_reset/
+   ========================================================================== */
+/* =============================================================================
+   HTML5 display definitions
+   ========================================================================== */
+/*
+ * Corrects block display not defined in IE6/7/8/9 & FF3
+ */
+/* line 35, ../sass/_normalize.scss */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+
+/*
+ * Corrects inline-block display not defined in IE6/7/8/9 & FF3
+ */
+/* line 45, ../sass/_normalize.scss */
+audio,
+canvas,
+video {
+  display: inline-block;
+}
+
+/*
+ * Prevents modern browsers from displaying 'audio' without controls
+ * Remove excess height in iOS5 devices
+ */
+/* line 58, ../sass/_normalize.scss */
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+/*
+ * Addresses styling for 'hidden' attribute not present in IE7/8/9, FF3, S4
+ * Known issue: no IE6 support
+ */
+/* line 68, ../sass/_normalize.scss */
+[hidden] {
+  display: none;
+}
+
+/* =============================================================================
+   Base
+   ========================================================================== */
+/* Instead of relying on the fonts that are available on a user's computer, you
+   can use web fonts which, like images, are resources downloaded to the user's
+   browser. Because of the bandwidth and rendering resources required, web fonts
+   should be used with care.
+
+   Numerous resources for web fonts can be found on Google. Here are a few
+   websites where you can find Open Source fonts to download:
+   - http://www.fontsquirrel.com/fontface
+   - http://www.theleagueofmoveabletype.com
+
+   In order to use these fonts, you will need to convert them into formats
+   suitable for web fonts. We recommend the free-to-use Font Squirrel's
+   Font-Face Generator:
+     http://www.fontsquirrel.com/fontface/generator
+
+   The following is an example @font-face declaration. This font can then be
+   used in any ruleset using a property like this:  font-family: Example, serif;
+
+   Since we're using Sass, you'll need to declare your font faces here, then you
+   can add them to the font variables in the _base.scss partial.
 */
-body:before {
+/*
+@font-face {
+  font-family: 'Example';
+  src: url('../fonts/example.eot');
+  src: url('../fonts/example.eot?iefix') format('eot'),
+    url('../fonts/example.woff') format('woff'),
+    url('../fonts/example.ttf') format('truetype'),
+    url('../fonts/example.svg#webfontOkOndcij') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+*/
+/*
+ * 1. Corrects text resizing oddly in IE6/7 when body font-size is set using em units
+ *    http://clagnut.com/blog/348/#c790
+ * 2. Prevents iOS text size adjust after orientation change, without disabling user zoom
+ *    www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/
+ */
+/* line 119, ../sass/_normalize.scss */
+html {
+  font-size: 100%;
+  /* 1 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+  -ms-text-size-adjust: 100%;
+  /* 2 */
+  /* Establishes a vertical rhythm unit using $base-line-height. */
+  line-height: 1.5em;
+}
+
+/*
+ * Addresses font-family inconsistency between 'textarea' and other form elements.
+ */
+/* line 135, ../sass/_normalize.scss */
+html,
+button,
+input,
+select,
+textarea {
+  font-family: Verdana, Tahoma, "DejaVu Sans", sans-serif;
+}
+
+/*
+ * Addresses margins handled incorrectly in IE6/7
+ */
+/* line 143, ../sass/_normalize.scss */
+body {
+  margin: 0;
+}
+
+/* =============================================================================
+   Links
+   ========================================================================== */
+/*
+ * The order of link states are based on Eric Meyer's article:
+ * http://meyerweb.com/eric/thoughts/2007/06/11/who-ordered-the-link-states
+ */
+/*
+ * Addresses outline displayed oddly in Chrome
+ */
+/* line 174, ../sass/_normalize.scss */
+a:focus {
+  outline: thin dotted;
+}
+
+/*
+ * Improves readability when focused and also mouse hovered in all browsers
+ * people.opera.com/patrickl/experiments/keyboard/test
+ */
+/* line 184, ../sass/_normalize.scss */
+a:hover,
+a:active {
+  outline: 0;
+}
+
+/* =============================================================================
+   Typography
+
+   To achieve a pleasant vertical rhythm, we use Compass' Vertical Rhythm mixins
+   so that the line height of our base font becomes the basic unit of vertical
+   measurement. We use multiples of that unit to set the top and bottom margins
+   for our block level elements and to set the line heights of any fonts.
+   For more information, see http://24ways.org/2006/compose-to-a-vertical-rhythm
+   ========================================================================== */
+/*
+ * Addresses font sizes and margins set differently in IE6/7
+ * Addresses font sizes within 'section' and 'article' in FF4+, Chrome, S5
+ */
+/* line 204, ../sass/_normalize.scss */
+h1 {
+  /* Sets the font-size and line-height while keeping a proper vertical rhythm. */
+  font-size: 2em;
+  line-height: 1.5em;
+  /* Sets 1 unit of vertical rhythm on the top and bottom margins. */
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+}
+
+/* line 213, ../sass/_normalize.scss */
+h2 {
+  font-size: 1.5em;
+  line-height: 2em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+/* line 219, ../sass/_normalize.scss */
+h3 {
+  font-size: 1.17em;
+  line-height: 1.28205em;
+  margin-top: 1.28205em;
+  margin-bottom: 1.28205em;
+}
+
+/* line 225, ../sass/_normalize.scss */
+h4 {
+  font-size: 1em;
+  line-height: 1.5em;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+/* line 231, ../sass/_normalize.scss */
+h5 {
+  font-size: 0.83em;
+  line-height: 1.80723em;
+  margin-top: 1.80723em;
+  margin-bottom: 1.80723em;
+}
+
+/* line 237, ../sass/_normalize.scss */
+h6 {
+  font-size: 0.75em;
+  line-height: 2em;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+/* Thematic break */
+/* line 244, ../sass/_normalize.scss */
+hr {
+  height: 1px;
+  border: 1px solid #666;
+  padding-bottom: -1px;
+  margin: 1.5em 0;
+}
+
+/*
+ * Addresses styling not present in IE7/8/9, S5, Chrome
+ */
+/* line 255, ../sass/_normalize.scss */
+abbr[title] {
+  border-bottom: 1px dotted;
+  cursor: help;
+  white-space: nowrap;
+}
+
+/*
+ * Addresses style set to 'bolder' in FF3+, S4/5, Chrome
+*/
+/* line 266, ../sass/_normalize.scss */
+b,
+strong {
+  font-weight: bold;
+}
+
+/* line 270, ../sass/_normalize.scss */
+blockquote {
+  /* Sets 1 unit of vertical rhythm on the top and bottom margin. */
+  margin: 1.5em 30px;
+}
+
+/*
+ * Addresses styling not present in S5, Chrome
+ */
+/* line 279, ../sass/_normalize.scss */
+dfn {
+  font-style: italic;
+}
+
+/*
+ * Addresses styling not present in IE6/7/8/9
+ */
+/* line 287, ../sass/_normalize.scss */
+mark {
+  background: #ff0;
+  color: #000;
+}
+
+/*
+ * Addresses margins set differently in IE6/7
+ */
+/* line 297, ../sass/_normalize.scss */
+p,
+pre {
+  /* Sets 1 unit of vertical rhythm on the top and bottom margin. */
+  margin: 1.5em 0;
+}
+
+/*
+ * Corrects font family set oddly in IE6, S4/5, Chrome
+ * en.wikipedia.org/wiki/User:Davidgothberg/Test59
+ */
+/* line 312, ../sass/_normalize.scss */
+pre,
+code,
+kbd,
+samp,
+tt,
+var {
+  font-family: "Courier New", "DejaVu Sans Mono", monospace, sans-serif;
+  /* The $font-monospace value ends with ", serif". */
+  font-size: 1em;
+  line-height: 1.5em;
+}
+
+/*
+ * Improves readability of pre-formatted text in all browsers
+ */
+/* line 324, ../sass/_normalize.scss */
+pre {
   white-space: pre;
-  font-family: monospace;
-  content: "Syntax error: File to import not found or unreadable: page.\A               Load paths:\A                 /Users/jensimmons/Sites/foodcoop/d7/WEBCOM/www.foodcoop.com/branches/drupal-7/sites/all/themes/foodcoop/sass\A                 /Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets\A                 /Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets\A                 Compass::SpriteImporter\A         on line 13 of /Users/jensimmons/Sites/foodcoop/d7/WEBCOM/www.foodcoop.com/branches/drupal-7/sites/all/themes/foodcoop/sass/styles.scss"; }
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/*
+ * 1. Addresses CSS quotes not supported in IE6/7
+ * 2. Addresses quote property not supported in S4
+ */
+/* 1 */
+/* line 337, ../sass/_normalize.scss */
+q {
+  quotes: none;
+}
+
+/* 2 */
+/* line 344, ../sass/_normalize.scss */
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+/* @todo Determine how big element affects vertical rhythm. */
+/* line 350, ../sass/_normalize.scss */
+small {
+  font-size: 75%;
+}
+
+/*
+ * Prevents sub and sup affecting line-height in all browsers
+ * gist.github.com/413930
+ */
+/* line 360, ../sass/_normalize.scss */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+/* line 367, ../sass/_normalize.scss */
+sup {
+  top: -0.5em;
+}
+
+/* line 371, ../sass/_normalize.scss */
+sub {
+  bottom: -0.25em;
+}
+
+/* =============================================================================
+   Lists
+   ========================================================================== */
+/*
+ * Addresses margins set differently in IE6/7
+ */
+/* line 388, ../sass/_normalize.scss */
+dl,
+menu,
+ol,
+ul,
+.item-list ul {
+  /* Sets 1 unit of vertical rhythm on the top and bottom margin. */
+  margin: 1.5em 0;
+}
+
+/* line 393, ../sass/_normalize.scss */
+.item-list ul li {
+  /* Drupal override */
+  margin: 0;
+}
+
+/* line 397, ../sass/_normalize.scss */
+dd {
+  margin: 0 0 0 30px;
+  /* LTR */
+}
+
+/* line 402, ../sass/_normalize.scss */
+ul ul, ul ol, ol ul, ol ol, .item-list ul ul, .item-list ul ol, .item-list ol ul, .item-list ol ol {
+  margin: 0;
+  /* Turn off margins on nested lists. */
+}
+
+/*
+ * Addresses paddings set differently in IE6/7
+ */
+/* line 414, ../sass/_normalize.scss */
+menu,
+ol,
+ul,
+.item-list ul {
+  padding: 0 0 0 30px;
+  /* LTR */
+}
+
+/*
+ * Corrects list images handled incorrectly in IE7
+ */
+/* line 423, ../sass/_normalize.scss */
+nav ul,
+nav ol {
+  list-style: none;
+  list-style-image: none;
+}
+
+/* =============================================================================
+   Embedded content
+   ========================================================================== */
+/*
+ * 1. Removes border when inside 'a' element in IE6/7/8/9, FF3
+ * 2. Improves image quality when scaled in IE7
+ *    code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/
+ */
+/* line 439, ../sass/_normalize.scss */
+img {
+  border: 0;
+  /* 1 */
+  -ms-interpolation-mode: bicubic;
+  /* 2 */
+  /* vertical-align: bottom; */
+  /* Suppress the space beneath the baseline */
+  /* Responsive images */
+  /* @todo Add responsive embedded video. */
+  max-width: 100%;
+  height: auto;
+}
+
+/*
+ * Corrects overflow displayed oddly in IE9
+ */
+/* line 455, ../sass/_normalize.scss */
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/* =============================================================================
+   Figures
+   ========================================================================== */
+/*
+ * Addresses margin not present in IE6/7/8/9, S5, O11
+ */
+/* line 468, ../sass/_normalize.scss */
+figure {
+  margin: 0;
+}
+
+/* =============================================================================
+   Forms
+   ========================================================================== */
+/*
+ * Corrects margin displayed oddly in IE6/7
+ */
+/* line 481, ../sass/_normalize.scss */
+form {
+  margin: 0;
+}
+
+/*
+ * Define consistent border, margin, and padding
+ */
+/* line 489, ../sass/_normalize.scss */
+fieldset {
+  border-color: #c0c0c0;
+  margin: 0 2px;
+  /* Apply borders and padding that keep the vertical rhythm. */
+  border-top-style: solid;
+  border-top-width: 0.0625em;
+  padding-top: 0.4625em;
+  border-bottom-style: solid;
+  border-bottom-width: 0.0625em;
+  padding-bottom: 0.9125em;
+  border-left-style: solid;
+  border-left-width: 0.0625em;
+  padding-left: 0.9125em;
+  border-right-style: solid;
+  border-right-width: 0.0625em;
+  padding-right: 0.9125em;
+}
+
+/*
+ * 1. Corrects color not being inherited in IE6/7/8/9
+ * 2. Corrects text not wrapping in FF3
+ * 3. Corrects alignment displayed oddly in IE6/7
+ */
+/* line 505, ../sass/_normalize.scss */
+legend {
+  border: 0;
+  /* 1 */
+  padding: 0;
+  white-space: normal;
+  /* 2 */
+}
+
+/*
+ * 1. Corrects font size not being inherited in all browsers
+ * 2. Addresses margins set differently in IE6/7, FF3+, S5, Chrome
+ * 3. Improves appearance and consistency in all browsers
+ */
+/* line 523, ../sass/_normalize.scss */
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+  /* 1 */
+  margin: 0;
+  /* 2 */
+  vertical-align: baseline;
+  /* 3 */
+}
+
+/*
+ * Addresses FF3/4 setting line-height on 'input' using !important in the UA stylesheet
+ */
+/* line 537, ../sass/_normalize.scss */
+button,
+input {
+  line-height: normal;
+  /* 1 */
+}
+
+/*
+ * 1. Improves usability and consistency of cursor style between image-type 'input' and others
+ * 2. Corrects inability to style clickable 'input' types in iOS
+ * 3. Removes inner spacing in IE7 without affecting normal text inputs
+ *    Known issue: inner spacing remains in IE6
+ */
+/* line 551, ../sass/_normalize.scss */
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  cursor: pointer;
+  /* 1 */
+  -webkit-appearance: button;
+  /* 2 */
+}
+
+/*
+ * Re-set default cursor for disabled elements
+ */
+/* line 564, ../sass/_normalize.scss */
+button[disabled],
+input[disabled] {
+  cursor: default;
+}
+
+/*
+ * 1. Addresses box sizing set to content-box in IE8/9
+ * 2. Removes excess padding in IE8/9
+ * 3. Removes excess padding in IE7
+      Known issue: excess padding remains in IE6
+ */
+/* line 576, ../sass/_normalize.scss */
+input[type="checkbox"],
+input[type="radio"] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  /* 1 */
+  padding: 0;
+  /* 2 */
+}
+
+/*
+ * 1. Addresses appearance set to searchfield in S5, Chrome
+ * 2. Addresses box-sizing set to border-box in S5, Chrome (include -moz to future-proof)
+ */
+/* line 590, ../sass/_normalize.scss */
+input[type="search"] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  /* 2 */
+}
+
+/*
+ * Removes inner padding and search cancel button in S5, Chrome on OS X
+ */
+/* line 600, ../sass/_normalize.scss */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+/*
+ * Removes inner padding and border in FF3+
+ * www.sitepen.com/blog/2008/05/14/the-devils-in-the-details-fixing-dojos-toolbar-buttons/
+ */
+/* line 610, ../sass/_normalize.scss */
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/*
+ * 1. Removes default vertical scrollbar in IE6/7/8/9
+ * 2. Improves readability and alignment in all browsers
+ */
+/* line 620, ../sass/_normalize.scss */
+textarea {
+  overflow: auto;
+  /* 1 */
+  vertical-align: top;
+  /* 2 */
+}
+
+/* =============================================================================
+   Tables
+   ========================================================================== */
+/*
+ * Remove most spacing between table cells
+ */
+/* line 634, ../sass/_normalize.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  /* width: 100%; */
+  /* Prevent cramped-looking tables */
+  /* Add vertical rhythm margins. */
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+/*
+ * Drupal provides table styling which is only useful for its admin section
+ * forms, so we override this default CSS. (We set it back in forms.css.)
+ */
+/* line 648, ../sass/_normalize.scss */
+th {
+  text-align: left;
+  /* LTR */
+  padding: 0;
+  border-bottom: none;
+}
+
+/* line 654, ../sass/_normalize.scss */
+tbody {
+  border-top: none;
+}
+
+/* line 28, ../sass/_html.scss */
+* {
+  background-repeat: no-repeat;
+}
+
+/* line 36, ../sass/_html.scss */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* line 42, ../sass/_html.scss */
+.ie7 img,
+.iem7 img {
+  -ms-interpolation-mode: bicubic;
+}
+
+/* line 55, ../sass/_html.scss */
+.ir {
+  font: 0/0 serif;
+  text-shadow: none;
+  color: transparent;
+}
+
+/* line 64, ../sass/_html.scss */
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+/* line 71, ../sass/_html.scss */
+.visuallyhidden {
+  position: absolute;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  margin: -1px;
+  padding: 0;
+  height: 1px;
+  width: 1px;
+  border: 0;
+}
+
+/* line 85, ../sass/_html.scss */
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  position: static;
+  clip: auto;
+  overflow: visible;
+  height: auto;
+  margin: 0;
+  width: auto;
+}
+
+/* line 96, ../sass/_html.scss */
+.invisible {
+  visibility: hidden;
+}
+
+/* line 105, ../sass/_html.scss */
+html {
+  overflow-y: scroll;
+}
+
+/* line 111, ../sass/_html.scss */
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+/* line 116, ../sass/_html.scss */
+i,
+em {
+  font-style: italic;
+}
+
+/* line 120, ../sass/_html.scss */
+sup,
+sub {
+  position: relative;
+  font-size: 75%;
+  line-height: 0;
+}
+
+/* line 125, ../sass/_html.scss */
+sup {
+  top: -0.5em;
+}
+
+/* line 128, ../sass/_html.scss */
+sub {
+  bottom: -0.25em;
+}
+
+/* line 131, ../sass/_html.scss */
+address {
+  font-style: normal;
+}
+
+/* line 135, ../sass/_html.scss */
+pre,
+code {
+  font: .875em 'andale mono', 'lucida console', monospace;
+  line-height: 1.5;
+}
+
+/* line 139, ../sass/_html.scss */
+pre {
+  margin-bottom: 1.5em;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* line 145, ../sass/_html.scss */
+small {
+  font-size: 80%;
+}
+
+/* line 148, ../sass/_html.scss */
+menu {
+  display: block;
+}
+
+/* line 152, ../sass/_html.scss */
+abbr[title] {
+  cursor: help;
+}
+
+/* line 157, ../sass/_html.scss */
+dl,
+dd {
+  margin-bottom: 1.5em;
+}
+
+/* line 160, ../sass/_html.scss */
+dt {
+  font-weight: normal;
+}
+
+/* line 163, ../sass/_html.scss */
+figure {
+  margin-bottom: 1.5em;
+}
+
+/* line 168, ../sass/_html.scss */
+figure img,
+figure object,
+figure embed {
+  margin-bottom: .75em;
+  max-width: 100%;
+}
+
+/* line 172, ../sass/_html.scss */
+figcaption {
+  display: block;
+  font-weight: normal;
+}
+
+/* line 180, ../sass/_html.scss */
+table {
+  margin-bottom: 1.4em;
+  width: 100%;
+  font-size: .875em;
+}
+
+/* line 185, ../sass/_html.scss */
+th {
+  font-weight: bold;
+}
+
+/* line 188, ../sass/_html.scss */
+th, td, caption {
+  padding: .25em 10px .25em 5px;
+}
+
+/* line 191, ../sass/_html.scss */
+tfoot {
+  font-style: italic;
+}
+
+/* line 194, ../sass/_html.scss */
+caption {
+  background-color: transparent;
+}
+
+/* line 8, ../sass/_drupal.scss */
+.block {
+  overflow: hidden;
+}
+
+/* line 22, ../sass/_drupal.scss */
+.overlay-modal-background {
+  background-image: none;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* line 33, ../sass/_drupal.scss */
+ul.menu {
+  line-height: 1;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 39, ../sass/_drupal.scss */
+ul.menu li {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 43, ../sass/_drupal.scss */
+ul.menu a {
+  line-height: 1.4em;
+}
+
+/* line 55, ../sass/_drupal.scss */
+.item-list .pager li {
+  font-weight: normal;
+}
+
+/* line 65, ../sass/_drupal.scss */
+.tabs li {
+  list-style: none;
+  margin-left: 0;
+  text-indent: 0;
+  font-size: 14px;
+}
+
+/* line 72, ../sass/_drupal.scss */
+ul.primary,
+ul.secondary {
+  border-bottom: 1px solid #e0e0e0;
+  list-style: none;
+  padding: 0 2px;
+  white-space: nowrap;
+}
+
+/* line 79, ../sass/_drupal.scss */
+#content ul.primary,
+#content ul.secondary {
+  margin: 1em 0 1.5em;
+}
+
+/* line 83, ../sass/_drupal.scss */
+ul.primary:after,
+ul.secondary:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+/* line 91, ../sass/_drupal.scss */
+#content ul.primary li,
+#content ul.secondary li {
+  float: left;
+  margin: 0.5em 3px 0;
+}
+
+/* line 96, ../sass/_drupal.scss */
+ul.primary a,
+ul.secondary a {
+  border-right: 0;
+  border-bottom: 0;
+  display: block;
+  line-height: 1.5em;
+  text-decoration: none;
+}
+
+/* line 103, ../sass/_drupal.scss */
+ul.primary li {
+  border-bottom: 0;
+  margin: 0.5em 0 0 3px;
+}
+
+/* line 107, ../sass/_drupal.scss */
+ul.primary li.active {
+  margin-bottom: -1px;
+  border-bottom: 1px solid #FFFFFF;
+}
+
+/* line 112, ../sass/_drupal.scss */
+ul.primary a:link,
+ul.primary a:visited {
+  -moz-transition: background-color 0.3s;
+  -webkit-transition: background-color 0.3s;
+  -o-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+  color: #626262;
+  background-color: #f2f2f2;
+  letter-spacing: 1px;
+  padding: 0.2em 1em;
+  text-align: center;
+  font-size: 14px;
+  border: 1px solid #e0e0e0;
+  border-bottom: none;
+}
+
+/* line 127, ../sass/_drupal.scss */
+ul.primary a:hover,
+ul.primary a:focus {
+  background-color: #f8f8f8;
+  border-color: #e0e0e0;
+  font-size: 14px;
+}
+
+/* line 132, ../sass/_drupal.scss */
+ul.primary a.active {
+  background-color: #fff;
+  font-size: 14px;
+}
+
+/* line 136, ../sass/_drupal.scss */
+ul.secondary {
+  font-size: .9em;
+  margin-top: -1.5em;
+  padding-bottom: .5em;
+}
+
+/* line 142, ../sass/_drupal.scss */
+ul.secondary a:link,
+ul.secondary a:visited {
+  -moz-transition: background-color 0.3s;
+  -webkit-transition: background-color 0.3s;
+  -o-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+  text-shadow: white 1px 1px 0;
+  background-color: #f2f2f2;
+  color: #666;
+  padding: 0 .5em;
+}
+
+/* line 153, ../sass/_drupal.scss */
+ul.secondary a:hover,
+ul.secondary a:focus {
+  background-color: #dedede;
+  border-color: #999;
+  color: #333;
+}
+
+/* line 159, ../sass/_drupal.scss */
+ul.secondary a.active,
+ul.secondary a:active {
+  text-shadow: #333333 1px 1px 0;
+  background-color: #666;
+  border-color: #000;
+  color: #fff;
+}
+
+/* line 172, ../sass/_drupal.scss */
+ul.inline,
+ul.links.inline {
+  display: inline;
+  padding-left: 0;
+  margin: 0;
+}
+
+/* line 177, ../sass/_drupal.scss */
+ul.inline li {
+  display: inline;
+  list-style-type: none;
+  padding: 0 0.5em;
+}
+
+/* line 182, ../sass/_drupal.scss */
+ul.inline li.first {
+  padding-left: 0;
+  /* LTR */
+}
+
+/* line 191, ../sass/_drupal.scss */
+.breadcrumb {
+  padding-bottom: 0.5em;
+}
+
+/* line 200, ../sass/_drupal.scss */
+div.messages {
+  background-position: 8px 8px;
+  background-repeat: no-repeat;
+  border: 1px solid;
+  margin-bottom: 2em;
+  padding: 10px;
+}
+
+/* line 207, ../sass/_drupal.scss */
+div.status {
+  border-color: #be7;
+}
+
+/* line 211, ../sass/_drupal.scss */
+div.status,
+.ok {
+  color: #234600;
+}
+
+/* line 215, ../sass/_drupal.scss */
+div.status,
+table tr.ok {
+  background-color: #f8fff0;
+  background-image: none;
+}
+
+/* line 219, ../sass/_drupal.scss */
+div.warning {
+  border-color: #ed5;
+}
+
+/* line 223, ../sass/_drupal.scss */
+div.warning,
+.warning {
+  color: #840;
+}
+
+/* line 227, ../sass/_drupal.scss */
+div.warning,
+table tr.warning {
+  background-color: #fffce5;
+  background-image: none;
+}
+
+/* line 231, ../sass/_drupal.scss */
+div.error {
+  border-color: #ed541d;
+  background-image: none;
+}
+
+/* line 236, ../sass/_drupal.scss */
+div.error,
+.error {
+  color: #8c2e0b;
+}
+
+/* line 240, ../sass/_drupal.scss */
+div.error,
+table tr.error {
+  background-color: #fef5f1;
+  background-image: none;
+}
+
+/* line 244, ../sass/_drupal.scss */
+div.error p.error {
+  color: #333;
+}
+
+/* line 247, ../sass/_drupal.scss */
+div.messages ul {
+  margin: 0 0 0 1em;
+  /* LTR */
+  padding: 0;
+}
+
+/* line 251, ../sass/_drupal.scss */
+div.messages ul li {
+  list-style-image: none;
+}
+
+/* line 255, ../sass/_drupal.scss */
+div.workbench-info-block {
+  border: 1px solid;
+  margin-bottom: 2em;
+  padding: 10px;
+  background-color: #fffce5;
+  border-color: #ed5;
+}
+
+/* line 268, ../sass/_drupal.scss */
+html.js input.form-autocomplete {
+  background-image: url("../img/throbber-active.gif");
+  background-image: url("../img/throbber.gif");
+  /* in Drupal core this is one file, a sprite. But that file needs to be edited. And editing it is super hard. So I've made two files for now — Same as CTools module. Someday this could be redone into one file to save an http-request. Meanwhile I'm calling the throbber-active.gif when the form is loaded, so that it's preloaded for being used. */
+  background-position: 99% 0.7em;
+  background-repeat: no-repeat;
+}
+
+/* line 275, ../sass/_drupal.scss */
+html.js input.throbbing {
+  background-image: url("../img/throbber-active.gif");
+  background-position: 99% 0.7em;
+}
+
+/* line 286, ../sass/_drupal.scss */
+label,
+.field .field-label {
+  font-weight: normal;
+}
+
+/* line 297, ../sass/_drupal.scss */
+ul.views-view-grid {
+  padding-left: 0;
+  list-style: none;
+  list-style-image: none;
+}
+
+/* line 302, ../sass/_drupal.scss */
+ul.views-view-grid li {
+  float: left;
+  padding: 0 0.5em;
+}
+
+/* line 306, ../sass/_drupal.scss */
+ul.views-view-grid li.col-first {
+  padding-left: 0;
+}
+
+/* line 309, ../sass/_drupal.scss */
+ul.views-view-grid li.col-last {
+  padding-right: 0;
+}
+
+/* line 312, ../sass/_drupal.scss */
+.view ul.cols-2 li {
+  width: 50%;
+}
+
+/* line 315, ../sass/_drupal.scss */
+.view ul.cols-3 li {
+  width: 33.3333%;
+}
+
+/* line 318, ../sass/_drupal.scss */
+.view ul.cols-4 li {
+  width: 25%;
+}
+
+/* line 321, ../sass/_drupal.scss */
+.view ul.cols-5 li {
+  width: 20%;
+}
+
+/* line 324, ../sass/_drupal.scss */
+.view ul.cols-6 li {
+  width: 16.6666%;
+}
+
+/* line 327, ../sass/_drupal.scss */
+.view ul.cols-7 li {
+  width: 14.2857%;
+}
+
+/* line 330, ../sass/_drupal.scss */
+.view ul.cols-8 li {
+  width: 12.5%;
+}
+
+/* line 333, ../sass/_drupal.scss */
+.view ul.cols-9 li {
+  width: 11.1111%;
+}
+
+/* line 336, ../sass/_drupal.scss */
+.view ul.cols-10 li {
+  width: 10%;
+}
+
+/* line 1, ../sass/_layout.scss */
+#page {
+  width: 960px;
+  margin: 0 auto;
+}
+
+/* line 5, ../sass/_layout.scss */
+#main {
+  padding: 5px 15px;
+  overflow: hidden;
+}
+
+/* line 9, ../sass/_layout.scss */
+nav#main-menu {
+  display: none;
+}
+
+/* line 12, ../sass/_layout.scss */
+#content.column {
+  width: 700px;
+  float: left;
+}
+
+/* line 16, ../sass/_layout.scss */
+aside.sidebars {
+  width: 200px;
+  float: right;
+}
+
+/* line 21, ../sass/_layout.scss */
+aside.sidebars h2.block-title {
+  line-height: 125%;
+}
+
+/* line 24, ../sass/_layout.scss */
+aside.sidebars ul {
+  margin: 0px;
+}
+
+/**
+ * @file
+ * Page Styling
+ *
+ * Style the markup found in page.tpl.php. Also includes some styling of
+ * miscellaneous Drupal elements that appear in the $content variable, such as
+ * ul.links, .pager, .more-link, etc.
+ */
+/*
+ * Body
+ */
+/* line 17, ../sass/_page.scss */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * The skip-link link will be completely hidden until a user tabs to the link.
+ * See the element-focusable rule in system.base.css.
+ */
+/* line 30, ../sass/_page.scss */
+#skip-link {
+  margin: 0;
+}
+/* line 34, ../sass/_page.scss */
+#skip-link a,
+#skip-link a:visited {
+  display: block;
+  width: 100%;
+  padding: 2px 0 3px 0;
+  text-align: center;
+  background-color: #666;
+  color: #fff;
+}
+
+/*
+ * Header
+ */
+/* line 51, ../sass/_page.scss */
+#logo {
+  /* Wrapping link for logo */
+  float: left;
+  /* LTR */
+  margin: 0;
+  padding: 0;
+}
+/* line 56, ../sass/_page.scss */
+#logo img {
+  vertical-align: bottom;
+}
+
+/* line 61, ../sass/_page.scss */
+#name-and-slogan {
+  /* Wrapper for website name and slogan */
+  float: left;
+}
+
+/* line 65, ../sass/_page.scss */
+#site-name {
+  /* The name of the website */
+  margin: 0;
+  font-size: 2em;
+  line-height: 1.5em;
+}
+/* line 71, ../sass/_page.scss */
+#site-name a:link,
+#site-name a:visited {
+  color: #000;
+  text-decoration: none;
+}
+/* line 77, ../sass/_page.scss */
+#site-name a:hover,
+#site-name a:focus {
+  text-decoration: underline;
+}
+
+/* line 82, ../sass/_page.scss */
+#site-slogan {
+  /* The slogan (or tagline) of a website */
+  margin: 0;
+  font-size: 1em;
+}
+
+/* line 87, ../sass/_page.scss */
+.region-header {
+  /* Wrapper for any blocks placed in the header region */
+  clear: both;
+  /* Clear the logo */
+}
+
+/*
+ * Main (container for everything else)
+ */
+/*
+ * Content
+ */
+/* line 108, ../sass/_page.scss */
+.breadcrumb {
+  /* The path to the current page in the form of a list of links */
+}
+/* line 109, ../sass/_page.scss */
+.breadcrumb ol {
+  margin: 0;
+  padding: 0;
+}
+/* line 113, ../sass/_page.scss */
+.breadcrumb li {
+  display: inline;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 126, ../sass/_page.scss */
+h1.title,
+h2.node-title,
+h2.block-title,
+h2.title,
+h2.comment-form,
+h3.title {
+  /* Comment title */
+  margin: 0;
+}
+
+/* line 130, ../sass/_page.scss */
+tr.even {
+  /* Some tables have rows marked even or odd. */
+  /* background-color: #eee; */
+  /* Drupal core uses a #eee background */
+}
+
+/* line 134, ../sass/_page.scss */
+tr.odd {
+  /* background-color: #eee; */
+  /* Drupal core uses a #eee background */
+}
+
+/* line 138, ../sass/_page.scss */
+div.messages {
+  /* Important messages (status, warning, and error) for the user. See also the declarations in messages.css. */
+  margin: 1.5em 0;
+  /* Drupal core uses "6px 0" margin */
+}
+/* line 141, ../sass/_page.scss */
+div.messages ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* line 147, ../sass/_page.scss */
+div.status {
+  /* Normal priority messages */
+}
+
+/* line 151, ../sass/_page.scss */
+div.warning,
+tr.warning {
+  /* Medium priority messages */
+  /* border: 1px solid #f0c020; */
+  /* Drupal core uses: 1px solid #f0c020 */
+}
+
+/* line 156, ../sass/_page.scss */
+div.error,
+tr.error {
+  /* High priority messages. See also the .error declaration below. */
+}
+
+/* line 159, ../sass/_page.scss */
+.error {
+  /* Errors that are separate from div.messages status messages. */
+  /* color: #e55; */
+  /* Drupal core uses a #e55 background */
+}
+
+/* line 163, ../sass/_page.scss */
+.warning {
+  /* Warnings that are separate from div.messages status messages. */
+  /* color: #e09010; */
+  /* Drupal core uses a #e09010 background */
+}
+
+/* line 167, ../sass/_page.scss */
+.tabs {
+  /* See also the tabs.css file. */
+}
+
+/* line 170, ../sass/_page.scss */
+.region-help {
+  /* Help text on a page */
+}
+
+/* line 173, ../sass/_page.scss */
+.more-help-link {
+  /* Link to more help */
+}
+
+/* line 176, ../sass/_page.scss */
+.region-content {
+  /* Wrapper for the actual page content */
+}
+
+/* line 179, ../sass/_page.scss */
+ul.inline {
+  /* List of links generated by theme_links() */
+  display: inline;
+  padding: 0;
+}
+/* line 183, ../sass/_page.scss */
+ul.inline li {
+  display: inline;
+  list-style-type: none;
+  padding: 0 1em 0 0;
+  /* LTR */
+}
+
+/* line 189, ../sass/_page.scss */
+span.field-label {
+  /* The inline field label used by the Fences module */
+  padding: 0 1em 0 0;
+  /* LTR */
+}
+
+/* line 193, ../sass/_page.scss */
+.item-list .pager {
+  /* A list of page numbers when more than 1 page of content is available */
+  padding: 0;
+}
+/* line 196, ../sass/_page.scss */
+.item-list .pager li {
+  /* Each page number in the pager list */
+  padding: 0 0.5em;
+}
+
+/* line 201, ../sass/_page.scss */
+.feed-icon {
+  /* The link to the RSS or Atom feed for the current list of content */
+}
+
+/* line 204, ../sass/_page.scss */
+.more-link {
+  /* Aggregator, blog, and forum more link */
+}
+
+/*
+ * First sidebar (on left in LTR languages, on right in RTL)
+ *
+ * Remember to NOT add padding or margin to your .region-sidebar-first
+ * (see the layout.css file.)
+ */
+/*
+ * Second sidebar (on right in LTR languages, on left in RTL)
+ *
+ * Remember to NOT add padding or margin to your .region-sidebar-second
+ * (see the layout.css file.)
+ */
+/*
+ * Footer
+ */
+/*
+ * Page bottom
+ */
+/* line 238, ../sass/_page.scss */
+.region-bottom {
+  /* Wrapper for any blocks placed in the page bottom region */
+}
+
+/* John add this on 2012-09-26 */
+/* line 252, ../sass/_page.scss */
+body {
+  background: #340;
+  color: #333;
+}
+
+/* line 257, ../sass/_page.scss */
+#main {
+  background: #fbffe6;
+}
+
+/* line 261, ../sass/_page.scss */
+#content {
+  margin-top: 0px;
+}
+
+/* line 265, ../sass/_page.scss */
+#header {
+  overflow: hidden;
+  background: #577613;
+  background-image: url("../images/header-bg.jpg");
+  background-repeat: no-repeat;
+}
+
+/* line 272, ../sass/_page.scss */
+a {
+  color: #090;
+  text-decoration: none;
+}
+
+/* line 277, ../sass/_page.scss */
+a:hover {
+  text-decoration: underline;
+}
+
+/* line 281, ../sass/_page.scss */
+.container_12 {
+  /*  background: #fff url(../images/12_col.gif) repeat-y; */
+  background-color: #fbffe6;
+}
+
+@font-face {
+  font-family: 'DIN1451StdEngschrift';
+  src: url("../fonts/dinengschriftstd-webfont.eot");
+  src: local("☺"), url("../fonts/dinengschriftstd-webfont.woff") format("woff"), url("../fonts/dinengschriftstd-webfont.ttf") format("truetype"), url("../fonts/dinengschriftstd-webfont.svg#webfontjeP1lQbS") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* line 295, ../sass/_page.scss */
+.breadcrumb {
+  font-family: 'DIN1451StdEngschrift',Tahoma,'Liberation Sans',FreeSans,sans;
+  font-weight: normal;
+  font-size: 21px;
+  list-style: none;
+  text-decoration: none;
+}
+
+/* line 302, ../sass/_page.scss */
+h1, h2, h3, h4, .button-rounded, .date-display-single, table.odate-table span {
+  font-family: 'DIN1451StdEngschrift',Tahoma,'Liberation Sans',FreeSans,sans;
+  font-weight: normal;
+}
+
+/* Header */
+/* line 314, ../sass/_page.scss */
+#header #logo {
+  width: 140px;
+  height: 87px;
+  margin-bottom: 18px;
+}
+
+/* line 319, ../sass/_page.scss */
+#header #logo a {
+  display: block;
+  background-repeat: no-repeat;
+  width: 140px;
+  height: 87px;
+}
+
+/* line 325, ../sass/_page.scss */
+#header #name-and-slogan {
+  display: none;
+}
+
+/* line 332, ../sass/_page.scss */
+#header ul#nav li {
+  overflow: hidden;
+  padding: 0;
+}
+
+/* line 336, ../sass/_page.scss */
+#header ul#nav li a {
+  display: block;
+  border-left: 5px solid #aac500;
+  color: #900;
+  width: 155px;
+  height: 60px;
+  text-indent: -9999em;
+  background-repeat: no-repeat;
+}
+
+/* line 345, ../sass/_page.scss */
+#header ul#nav li a.about {
+  background-image: url("../images/nav-about.png");
+}
+
+/* line 348, ../sass/_page.scss */
+#header ul#nav li a.about {
+  background-image: url("../images/nav-about.png");
+}
+
+/* line 351, ../sass/_page.scss */
+#header ul#nav li a.members {
+  background-image: url("../images/nav-members.png");
+}
+
+/* line 354, ../sass/_page.scss */
+#header ul#nav li a.food {
+  background-image: url("../images/nav-food.png");
+}
+
+/* line 357, ../sass/_page.scss */
+#header ul#nav li a.events {
+  background-image: url("../images/nav-events.png");
+}
+
+/* line 360, ../sass/_page.scss */
+#header ul#nav li a.news {
+  background-image: url("../images/nav-news.png");
+}
+
+/* line 363, ../sass/_page.scss */
+#header ul#nav li a.join {
+  background-image: url("../images/nav-join.png");
+}
+
+/* line 368, ../sass/_page.scss */
+#section-header {
+  background-image: url("../images/header-bg-2.jpg");
+  padding: 10px;
+  height: 64px;
+}
+
+/* line 373, ../sass/_page.scss */
+#section-header h2, #section-header h1 {
+  color: #fff;
+  font-size: 48px;
+  margin-bottom: 0;
+  margin-top: 10px;
+}
+
+/* User login and status block */
+/* line 385, ../sass/_page.scss */
+#secondary-menu {
+  background-color: #560;
+  padding: 5px 0px 5px 10px;
+  color: #ffb;
+  text-align: right;
+  float: right;
+  font-size: 12px;
+}
+
+/* line 393, ../sass/_page.scss */
+#secondary-menu a {
+  color: #ac0;
+  border-bottom: 1px solid #780;
+}
+
+/* line 397, ../sass/_page.scss */
+#secondary-menu a:hover {
+  text-decoration: none;
+  border-bottom: 1px solid #ac0;
+}
+
+/* line 401, ../sass/_page.scss */
+#secondary-menu .current_city {
+  font-weight: bold;
+}
+
+/* line 404, ../sass/_page.scss */
+#secondary-menu .status {
+  padding: 0 10px 0 10px;
+  margin: 0 10px 0 10px;
+  border-left: 1px solid #780;
+  border-right: 1px solid #780;
+}
+
+/* line 410, ../sass/_page.scss */
+#secondary-menu .logout {
+  padding-right: 10px;
+}
+
+/* line 413, ../sass/_page.scss */
+#secondary-menu .login {
+  font-size: 15px;
+  padding: 0 4px 0 4px;
+}
+
+/* breadcrumbs */
+/* line 422, ../sass/_page.scss */
+ul#breadcrumbs li {
+  color: #dcbe76;
+  display: inline;
+  padding-right: 32px;
+  margin: 0 3px 0 0;
+  background: url("../images/bread-arrow.png") no-repeat right;
+}
+
+/* line 429, ../sass/_page.scss */
+ul#breadcrumbs li.last {
+  background: none;
+}
+
+/* line 432, ../sass/_page.scss */
+ul#breadcrumbs li.active {
+  color: #6f7c24;
+}
+
+/* Footer */
+/* line 440, ../sass/_page.scss */
+#footer {
+  background-color: #213d00;
+  color: #ffb;
+  padding: 10px 0 15px 0;
+  overflow: hidden;
+  font-size: .9em;
+}
+
+/* line 447, ../sass/_page.scss */
+#footer a {
+  color: #ad0;
+}
+
+/* line 449, ../sass/_page.scss */
+#footer h4 {
+  text-transform: uppercase;
+  color: #9c0;
+  font-size: 24px;
+  margin: 0;
+}
+
+/* line 455, ../sass/_page.scss */
+#footer ul.social-media {
+  list-style: none;
+  margin: 10px 0 0 0;
+}
+
+/* line 459, ../sass/_page.scss */
+#footer ul.social-media li {
+  margin: 0;
+}
+
+/* line 462, ../sass/_page.scss */
+#footer ul.social-media li a {
+  height: 35px;
+  display: block;
+  padding-left: 30px;
+  font-family: Verdana, Helvetica, sans;
+}
+
+/* line 468, ../sass/_page.scss */
+#footer ul.social-media .twitter {
+  background-image: url("../images/footer-twitter.png");
+  background-repeat: no-repeat;
+}
+
+/* line 472, ../sass/_page.scss */
+#footer ul.social-media .facebook {
+  background-image: url("../images/footer-facebook.png");
+  background-repeat: no-repeat;
+}
+
+/* line 476, ../sass/_page.scss */
+#footer ul.social-media .rss {
+  background-image: url("../images/footer-rss.png");
+  background-repeat: no-repeat;
+}
+
+/* line 480, ../sass/_page.scss */
+#footer ul.social-media .privacy {
+  background-image: url("../images/footer-privacy.png");
+  background-repeat: no-repeat;
+}
+
+/* Devel area */
+/* line 490, ../sass/_page.scss */
+#devel-area {
+  clear: both;
+  margin: 2em;
+  padding: 1em;
+  background: #FBFFE6;
+  float: left;
+}
+
+/* line 497, ../sass/_page.scss */
+#devel-area .block {
+  float: left;
+  margin: .5em 2em .5em 0;
+  padding: .5em;
+  border: 1px solid #333;
+}
+
+/* line 503, ../sass/_page.scss */
+#devel-area .block a {
+  color: #690;
+}
+
+/* Content */
+/* line 513, ../sass/_page.scss */
+h1, h2, h3 {
+  color: #796f26;
+}
+
+/* line 517, ../sass/_page.scss */
+#content a {
+  color: #272;
+}
+
+/* line 521, ../sass/_page.scss */
+#right-side {
+  float: right;
+  width: 225px;
+}
+
+/* line 527, ../sass/_page.scss */
+#right-side #block-block-7,
+#right-side .block-psfc_member_data {
+  background: #F0E7D7;
+  padding: 1em;
+  margin: 0 0 2em 0;
+}
+
+/* line 532, ../sass/_page.scss */
+#right-side #block-block-7 {
+  margin-bottom: 1em;
+}
+
+/* line 536, ../sass/_page.scss */
+#main-content {
+  margin-right: 250px;
+}
+
+/* user profile page */
+/* line 544, ../sass/_page.scss */
+.profile {
+  clear: none;
+}
+
+/* un-drupalism */
+/* line 554, ../sass/_page.scss */
+.node-form .standard {
+  clear: none;
+}
+
+/* line 555, ../sass/_page.scss */
+#main-content .fake-leaf {
+  display: none;
+}
+
+/* line 556, ../sass/_page.scss */
+div#main-content ul.menu {
+  margin-left: 4px;
+}
+
+/* line 557, ../sass/_page.scss */
+div#right-side ul.menu {
+  margin-left: 6px;
+}
+
+/* line 558, ../sass/_page.scss */
+#main-content ul.menu li {
+  margin-top: 5px;
+}
+
+/* line 559, ../sass/_page.scss */
+#main-content ul.menu li ul.menu li {
+  list-style: none;
+}
+
+/* line 560, ../sass/_page.scss */
+tr.even, tr.odd {
+  background-color: transparent;
+}
+
+/* line 561, ../sass/_page.scss */
+td {
+  padding: 2px 2.5em 0 0;
+}
+
+/* line 562, ../sass/_page.scss */
+td.views-field-phpcode-1, td.views-field-phpcode {
+  padding: 0px;
+}
+
+/* line 563, ../sass/_page.scss */
+td.views-field-phpcode {
+  vertical-align: middle;
+}
+
+/* line 567, ../sass/_page.scss */
+td.views-field-phpcode div.only-three,
+td.views-field-phpcode-1 div.must-login {
+  width: 100px;
+  padding-left: 10px;
+  color: #f00;
+  line-height: 1.2em;
+}
+
+/* line 573, ../sass/_page.scss */
+td.views-field-phpcode-1 div.must-login {
+  display: none;
+  float: right;
+  width: 160px;
+}
+
+/* line 578, ../sass/_page.scss */
+td.views-field-phpcode-1:hover div.must-login {
+  display: block;
+}
+
+/* line 581, ../sass/_page.scss */
+td.views-field-phpcode-1:hover {
+  border-top: none;
+}
+
+/* line 584, ../sass/_page.scss */
+td.views-field-phpcode-1 div.must-login a {
+  color: #000  !important;
+}
+
+/* line 587, ../sass/_page.scss */
+div.block-user h4 {
+  display: none;
+}
+
+/* large rounded button */
+/* line 593, ../sass/_page.scss */
+div.button-rounded {
+  border: 0 none;
+  cursor: pointer;
+  font-size: 21px;
+  font-weight: normal;
+  height: 44px;
+  line-height: 44px;
+  margin-left: -4px;
+  padding: 0 20px 0 0;
+  text-align: center;
+  display: -moz-inline-stack;
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+}
+
+/* line 609, ../sass/_page.scss */
+div.confirm-info-link .button-rounded {
+  float: left;
+  width: 260px;
+}
+
+/* line 614, ../sass/_page.scss */
+div.confirm-info-link {
+  clear: left;
+}
+
+/* line 618, ../sass/_page.scss */
+div.button-rounded a,
+div.button-rounded button {
+  position: relative;
+  top: -3px;
+  text-decoration: none !important;
+}
+
+/* line 624, ../sass/_page.scss */
+div.button-rounded {
+  background: transparent url("../images/btn_right.png") no-repeat scroll right top;
+  clear: left;
+}
+
+/* line 629, ../sass/_page.scss */
+div.button-rounded span {
+  display: block;
+  height: 44px;
+  line-height: 44px;
+  padding: 0 0 0 20px;
+  position: relative;
+  white-space: nowrap;
+}
+
+/* line 638, ../sass/_page.scss */
+div.button-rounded span {
+  background: transparent url("../images/btn_left.png") no-repeat scroll left top;
+  color: #7b9544;
+}
+
+/* line 643, ../sass/_page.scss */
+div.button-rounded:hover {
+  background-position: 100% -44px;
+}
+
+/* line 646, ../sass/_page.scss */
+div.button-rounded:hover span {
+  background-position: 0% -44px;
+}
+
+/* line 649, ../sass/_page.scss */
+div.button-rounded-off:hover {
+  background-position: right top;
+}
+
+/* line 652, ../sass/_page.scss */
+div.button-rounded-off:hover span {
+  background-position: left top;
+}
+
+/* line 655, ../sass/_page.scss */
+div.button-rounded:-moz-focus-inner {
+  border: none;
+}
+
+/* line 658, ../sass/_page.scss */
+div.button-rounded span button {
+  border: none;
+  color: #6d9900;
+  font-size: 22px;
+  background: transparent;
+}
+
+/* red rounded button */
+/* line 670, ../sass/_page.scss */
+div.button-rounded.red span {
+  background: transparent url("../images/btn_left_red.png") no-repeat scroll left top;
+}
+
+/* line 673, ../sass/_page.scss */
+div.button-rounded.red {
+  background: transparent url("../images/btn_right_red.png") no-repeat scroll right top;
+}
+
+/* line 676, ../sass/_page.scss */
+div.button-rounded.red span a {
+  color: #fff !important;
+}
+
+/* orientation sign-in */
+/* line 686, ../sass/_page.scss */
+div.orientation-login,
+div.orientation-register {
+  float: left;
+  width: 330px;
+}
+
+/* line 690, ../sass/_page.scss */
+div.orientation-register {
+  padding-left: 20px;
+  border-left: 2px solid #e9d8ac;
+}
+
+/* line 695, ../sass/_page.scss */
+div#node-37.node.clear-block,
+div#node-38.node.clear-block {
+  width: 330px;
+}
+
+/* line 699, ../sass/_page.scss */
+div.orientation-login input,
+div.orientation-register input {
+  width: 200px;
+}
+
+/* orientation time date table */
+/* line 708, ../sass/_page.scss */
+table {
+  margin-top: 1em;
+}
+
+/* line 711, ../sass/_page.scss */
+table th {
+  color: #888;
+}
+
+/* line 715, ../sass/_page.scss */
+table.odate-table span,
+span.date-display-single {
+  font-size: 28px;
+  color: #030;
+}
+
+/* line 724, ../sass/_page.scss */
+#user-login-form {
+  background: #F0E7D7;
+  text-align: left;
+  padding: 1px 15px 1px 15px;
+}
+
+/* line 729, ../sass/_page.scss */
+#user-login-form div.item-list {
+  padding-top: 10px;
+  margin-top: 15px;
+  border-top: 1px solid #c96;
+  border-color: #b7c03d;
+}
+
+/* line 735, ../sass/_page.scss */
+div.block-user {
+  background: #F0E7D7;
+  margin-bottom: 20px;
+  padding: 10px 0 10px 0;
+}
+
+/* line 740, ../sass/_page.scss */
+#user-login-form ul li {
+  margin-left: 0;
+}
+
+/* menu tabs */
+/* line 747, ../sass/_page.scss */
+div#main-content ul.primary {
+  padding: 0;
+}
+
+/* line 750, ../sass/_page.scss */
+div#main-content ul.primary a {
+  text-decoration: none;
+  background: #F0E7D7;
+}
+
+/* line 754, ../sass/_page.scss */
+div#main-content ul.primary li {
+  margin-left: 0;
+}
+
+/* line 757, ../sass/_page.scss */
+div#main-content ul.primary li.active a {
+  background: #FBFFE6;
+}
+
+/* line 760, ../sass/_page.scss */
+div#main-content ul.primary li:hover a {
+  background: #FBFFE6;
+}
+
+/* line 763, ../sass/_page.scss */
+ul.tabs {
+  white-space: normal;
+}
+
+/* join inter-sectional nav block */
+/* line 773, ../sass/_page.scss */
+div#block-block-6,
+div#secondary-links,
+div#block-menu-menu-psfc-admin {
+  background: #F0E7D7;
+  padding: 10px;
+  margin: 20px 0 20px 0;
+}
+
+/* line 778, ../sass/_page.scss */
+div#block-block-6 h3 {
+  margin: 0;
+}
+
+/* line 781, ../sass/_page.scss */
+div#block-block-6 h3 {
+  margin: 0;
+}
+
+/* line 784, ../sass/_page.scss */
+div#block-block-6 h3 a {
+  display: block;
+}
+
+/* line 787, ../sass/_page.scss */
+div#block-block-6 h3 a:hover {
+  background: #F5F5E0;
+}
+
+/* line 790, ../sass/_page.scss */
+div#secondary-links ul.links li {
+  margin: 0px;
+  display: block;
+  padding: 0px 0px 3px 0px;
+}
+
+/*  quick hack to show context sensitive secondary nav state */
+/* line 799, ../sass/_page.scss */
+div#secondary-links li.active-trail a {
+  font-weight: bold;
+  text-decoration: none;
+  color: #000;
+}
+
+/* admin page rules */
+/* line 806, ../sass/_page.scss */
+div#psfc-admin-form {
+  margin-bottom: 20px;
+}
+
+/* line 809, ../sass/_page.scss */
+form#psfc-orientation-add-blackout {
+  float: left;
+}
+
+/* line 812, ../sass/_page.scss */
+form#views-bulk-operations-form--1 .views-node-selector {
+  clear: left;
+}
+
+/* line 815, ../sass/_page.scss */
+form#views-bulk-operations-form--1 .views-node-selector td.active {
+  background: none;
+}
+
+/* line 818, ../sass/_page.scss */
+.view-id-orientation_admin td {
+  padding: .25em 5px;
+}
+
+/* line 822, ../sass/_page.scss */
+.view-id-orientation_admin td.views-field-field-capacity-value,
+.view-id-orientation_admin td.views-field-phpcode-2 {
+  text-align: center;
+}
