@@ -52,7 +52,6 @@ stylesheets[all][] = css/print.css
 
 regions[header]         = Header
 regions[navigation]     = Navigation bar
-regions[highlighted]    = Highlighted
 regions[help]           = Help
 regions[content]        = Content
 regions[sidebar_first]  = First sidebar
@@ -93,7 +92,7 @@ features[] = secondary_menu
 
 ; Set the default values of settings on the theme-settings.php form.
 
-settings[zen_breadcrumb]           = yes
+settings[zen_breadcrumb]           = no
 settings[zen_breadcrumb_separator] = ' › '
 settings[zen_breadcrumb_home]      = 1
 settings[zen_breadcrumb_trailing]  = 1
@@ -103,10 +102,6 @@ settings[zen_skip_link_text]       = Jump to navigation
 settings[zen_html5_respond_meta][] = respond
 settings[zen_html5_respond_meta][] = html5
 settings[zen_html5_respond_meta][] = meta
-settings[zen_rebuild_registry]     = 1
+settings[zen_rebuild_registry]     = 0
 settings[zen_wireframes]           = 0
 
-; To make this sub-theme an admin theme with shortcut links next to titles,
-; uncomment the line below.
-
-;settings[shortcut_module_link]    = 1
