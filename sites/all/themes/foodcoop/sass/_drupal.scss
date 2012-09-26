@@ -1,0 +1,339 @@
+@import "base";
+
+
+//-----------------------------------------------------------------------
+//  Don't Clearfix Class Everything Druplah
+//-----------------------------------------------------------------------
+
+.block {
+  @include clearfix;
+}
+
+
+//-----------------------------------------------------------------------
+// Drupal Overlay 
+//-----------------------------------------------------------------------
+
+// Adjust the background color for the Drupal administration overlay
+// You can replace the overlay-background.png, or set this to no image and use a background color.
+// Drupal core developers believe using an image instead of a CSS color makes the overlay faster.
+// I like using CSS to quickly decide which color to use. Perhaps to be replaced with an image later.
+
+.overlay-modal-background {
+  // background-image: url(../images/drupal/overlay-background.png);
+  background-image: none;
+  background: rgba(0,0,0,0.5);
+}
+
+
+//-----------------------------------------------------------------------
+//  Drupal Menu Links
+//-----------------------------------------------------------------------
+
+ul.menu {
+  line-height: 1;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+ul.menu li {
+  margin: 0;
+  padding: 0;
+}
+ul.menu a {
+  line-height: 1.4em;
+}
+
+
+//-----------------------------------------------------------------------
+//  Drupal Pagers
+//-----------------------------------------------------------------------
+
+.item-list .pager {
+
+}
+.item-list .pager li {
+  font-weight: normal;
+//  padding: 0.1em;
+}
+
+
+//-----------------------------------------------------------------------
+//  Drupal Tabs
+//-----------------------------------------------------------------------
+
+.tabs li {
+  list-style: none;
+  margin-left: 0;
+  text-indent: 0;
+  font-size: 14px;
+}
+ul.primary,
+ul.secondary {
+  border-bottom: 1px solid #e0e0e0;
+  list-style: none;
+  padding: 0 2px;
+  white-space: nowrap;
+}
+#content ul.primary, // this needs more weight in the CSS cascade for CERN Public
+#content ul.secondary {
+  margin: 1em 0 1.5em;
+}
+ul.primary:after,
+ul.secondary:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+#content ul.primary li,
+#content ul.secondary li { // this needs more weight in the CSS cascade for CERN Public
+  float: left;
+  margin: 0.5em 3px 0;
+}
+ul.primary a,
+ul.secondary a {
+  border-right: 0;
+  border-bottom: 0;
+  display: block;
+  line-height: 1.5em;
+  text-decoration: none;
+}
+ul.primary li {
+  border-bottom: 0;
+  margin: 0.5em 0 0 3px;
+}
+ul.primary li.active {
+  margin-bottom: -1px;
+  border-bottom: 1px solid #FFFFFF;
+}
+ul.primary a:link,
+ul.primary a:visited {
+  -moz-transition: background-color 0.3s;
+  -webkit-transition: background-color 0.3s;
+  -o-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+  color: #626262;
+  background-color: #f2f2f2;
+  letter-spacing: 1px;
+  padding: 0.2em 1em;
+  text-align: center;
+  font-size: 14px;
+  border: 1px solid #e0e0e0;
+  border-bottom: none;
+}
+ul.primary a:hover,
+ul.primary a:focus {
+  background-color: #f8f8f8;
+  border-color: #e0e0e0;
+  font-size: 14px;
+}
+ul.primary a.active {
+  background-color: #fff;
+  font-size: 14px;
+}
+ul.secondary {
+  font-size: .9em;
+  margin-top: -1.5em;
+  padding-bottom: .5em;
+}
+ul.secondary a:link,
+ul.secondary a:visited {
+  -moz-transition: background-color 0.3s;
+  -webkit-transition: background-color 0.3s;
+  -o-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+  text-shadow: white 1px 1px 0;
+  background-color: #f2f2f2;
+  color: #666;
+  padding: 0 .5em;
+}
+ul.secondary a:hover,
+ul.secondary a:focus {
+  background-color: #dedede;
+  border-color: #999;
+  color: #333;
+}
+ul.secondary a.active,
+ul.secondary a:active {
+  text-shadow: #333333 1px 1px 0;
+  background-color: #666;
+  border-color: #000;
+  color: #fff;
+}
+
+
+//-----------------------------------------------------------------------
+//  Drupal Action Links
+//-----------------------------------------------------------------------
+
+ul.inline, 
+ul.links.inline {
+  display: inline;
+  padding-left: 0;
+  margin: 0;
+}
+ul.inline li {
+  display: inline;
+  list-style-type: none;
+  padding: 0 0.5em;
+}
+ul.inline li.first {
+  padding-left: 0; /* LTR */
+}
+
+
+//-----------------------------------------------------------------------
+//  Drupal Breadcrumbs
+//-----------------------------------------------------------------------
+
+.breadcrumb {
+    padding-bottom: 0.5em;
+}
+
+
+//-----------------------------------------------------------------------
+//  Drupal Messages
+//-----------------------------------------------------------------------
+
+div.messages {
+  background-position: 8px 8px;
+  background-repeat: no-repeat;
+  border: 1px solid;
+  margin-bottom: 2em;
+  padding: 10px;
+}
+div.status {
+  border-color: #be7;
+}
+div.status, 
+.ok {
+  color: #234600;
+}
+div.status, 
+table tr.ok {
+  background-color: #f8fff0;
+  background-image: none;
+}
+div.warning {
+  border-color: #ed5;
+}
+div.warning, 
+.warning {
+  color: #840;
+}
+div.warning, 
+table tr.warning {
+  background-color: #fffce5;
+  background-image: none;
+}
+div.error {
+  border-color: #ed541d;
+  background-image: none;
+}
+div.error, 
+.error {
+  color: #8c2e0b;
+}
+div.error, 
+table tr.error {
+  background-color: #fef5f1;
+  background-image: none;
+}
+div.error p.error {
+  color: #333;
+}
+div.messages ul {
+  margin: 0 0 0 1em; /* LTR */
+  padding: 0;
+}
+div.messages ul li {
+  list-style-image: none;
+}
+// style Workbench messages to consistent with other Drupal messages
+div.workbench-info-block {
+  border: 1px solid;
+  margin-bottom: 2em;
+  padding: 10px;
+  background-color: #fffce5;
+  border-color: #ed5;
+} 
+
+
+//-----------------------------------------------------------------------
+//  Drupal Autocomplete Form Throbber
+//-----------------------------------------------------------------------
+
+html.js input.form-autocomplete {
+  background-image: url("../img/throbber-active.gif");
+  background-image: url("../img/throbber.gif"); 
+  /* in Drupal core this is one file, a sprite. But that file needs to be edited. And editing it is super hard. So I've made two files for now — Same as CTools module. Someday this could be redone into one file to save an http-request. Meanwhile I'm calling the throbber-active.gif when the form is loaded, so that it's preloaded for being used. */
+  background-position: 99% 0.7em;
+  background-repeat: no-repeat;
+}
+html.js input.throbbing {
+  background-image: url("../img/throbber-active.gif");
+  background-position: 99% 0.7em;
+}
+
+
+//-----------------------------------------------------------------------
+//  Other Drupal resets
+//-----------------------------------------------------------------------
+
+label,
+.field .field-label {
+  font-weight: normal;
+}
+
+
+//-----------------------------------------------------------------------
+// Overriding Views Grid table markup
+//-----------------------------------------------------------------------
+
+// This (along with the views-view-grid.tpl file) eliminates table-based layout of 
+// the "views grid" and replaces it with unordered list markup, with some layout CSS
+ul.views-view-grid {
+  padding-left: 0;
+  list-style: none;
+  list-style-image: none;
+}
+ul.views-view-grid li {
+  float: left;
+  padding: 0 0.5em;
+}
+ul.views-view-grid li.col-first {
+  padding-left: 0;
+}
+ul.views-view-grid li.col-last {
+  padding-right: 0;
+}
+.view ul.cols-2 li {
+  width: 50%;
+}
+.view ul.cols-3 li {
+  width: 33.3333%;
+}
+.view ul.cols-4 li {
+  width: 25%;
+}
+.view ul.cols-5 li {
+  width: 20%;
+}
+.view ul.cols-6 li {
+  width: 16.6666%;
+}
+.view ul.cols-7 li {
+  width: 14.2857%;
+}
+.view ul.cols-8 li {
+  width: 12.5%;
+}
+.view ul.cols-9 li {
+  width: 11.1111%;
+}
+.view ul.cols-10 li {
+  width: 10%;
+}
+
