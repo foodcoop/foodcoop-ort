@@ -29,6 +29,9 @@ javascripts_dir = "js"
 #require 'modular-scale'
 #require 'breakpoint'
 
+# JE: 2012-09-26, not compiling for me
+# require 'susy'
+
 # Assuming this theme is in sites/*/themes/THEMENAME, you can add the partials
 # included with a module by uncommenting and modifying one of the lines below:
 #add_import_path "../../../default/modules/FOO"

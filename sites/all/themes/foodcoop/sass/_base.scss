@@ -86,9 +86,26 @@ $font-monospace:   $courier;
 $indent-amount: 30px;
 
 
+
 //
 // Partials to be shared with all .scss files.
 //
 
 @import "compass";    // Add Compass
 @import "custom";     // Import our custom mixins last.
+// @import "susy";
+
+
+
+//
+// Susy config
+//
+
+$total-columns  : 12;
+$column-width   : 4em;
+$gutter-width   : 1em;
+$grid-padding   : $gutter-width;
+
+$show-grid-backgrounds  : true;
+
+
