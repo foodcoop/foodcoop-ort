@@ -1,12 +1,29 @@
 <?php
+function psfc_gmsignup_permission() {
+  return array(
+    'administer GM signup' => array(
+    'title' => t('Administer General Meeting Signup'),
+    'description' => t('Allow a user to change General Meeting information.'),
+    ),
+  );
+
+}
 function psfc_gmsignup_menu()
 {
 	$items['gmsignup'] = array(
 	'title' => 'General Meeting Signup Form',
-	'description' => 'PSFC General Signup Form',
+	'description' => 'PSFC General Meeting Signup Form',
 	'page callback' => 'drupal_get_form',
 	'page arguments' => array('psfc_gmsignup_form'),
 	'access callback' => TRUE
+	);
+	$items['admin/psfc/gmsignup'] = array(
+	'title' => 'General Meeting Signup Administration',
+	'description' => 'PSFC General Meeting Signup Admin page',
+	'page callback' => 'psfc_gmsignup_admin_page',
+	'access callback' => TRUE,
+  'accss arguments' => array('administer GM signup'),
+  'file' => 'psfc_gmsignup.admin.inc',
 	);
 
 	return $items;
@@ -45,8 +62,8 @@ $no_upcoming_mtg_markup = array(
   }
   elseif ($result->rowCount() == 1) {
     $time = time();
-    $days45 = strtotime('+45 days') - $time;
-    $days20 = strtotime('+20 days') - $time;
+    /* $days45 = strtotime('+45 days') - $time; */
+    /* $days20 = strtotime('+20 days') - $time; */
     $gm = $result->fetchAssoc();
     $gmdate = $gm['field_gm_date_value'];
     $gm_date_formatted = date('l F j, Y \a\t g:i a', $gmdate);
@@ -72,10 +89,11 @@ $no_upcoming_mtg_markup = array(
       return $form;
     }
     // check if it is more than 20 days away but less than 45.
-    elseif ((($gmdate - $time) > $days45) || (($gmdate - $time) < $days20)) {
-      $form['text_top'] = $no_upcoming_mtg_markup;
-      return $form;
-    }
+    //commen pending removal 10/1/12 nat
+    /* elseif ((($gmdate - $time) > $days45) || (($gmdate - $time) < $days20)) { */
+    /*   $form['text_top'] = $no_upcoming_mtg_markup; */
+    /*   return $form; */
+    /* } */
 
 	$form['gmid'] = array(
 	'#type' => 'value',
