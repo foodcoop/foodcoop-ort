@@ -247,10 +247,10 @@ span.field-label { /* The inline field label used by the Fences module */
 
 
 
-/* John add this on 2012-09-26 */
+/* John added this on 2012-09-26 */
 
 body {
-  background: #340;
+  background: #fec;
   color: #333;
 }
 
@@ -261,6 +261,18 @@ body {
 #content {
 	margin-top: 0px;
 }
+
+
+#page {
+	-moz-box-shadow: 1px 1px 20px #cc9;
+	-webkit-box-shadow: 1px 1px 20px #cc9;
+	box-shadow: 1px 1px 20px #cc9;
+	/* For IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=20, Direction=0, Color='#cccc99')";
+	/* For IE 5.5 - 7 */
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=20, Direction=0, Color='#cccc99');
+}
+
 
 #header {
   overflow: hidden;
