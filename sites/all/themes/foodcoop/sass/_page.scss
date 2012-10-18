@@ -250,35 +250,34 @@ span.field-label { /* The inline field label used by the Fences module */
 /* John added this on 2012-09-26 */
 
 body {
-  background: #fec;
-  color: #333;
-}
-
-#main {
   background: #fbffe6;
+  color: #333;
 }
 
 #content {
 	margin-top: 0px;
 }
 
-
-#page {
-	-moz-box-shadow: 1px 1px 20px #cc9;
-	-webkit-box-shadow: 1px 1px 20px #cc9;
-	box-shadow: 1px 1px 20px #cc9;
-	/* For IE 8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=20, Direction=0, Color='#cccc99')";
-	/* For IE 5.5 - 7 */
-	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=20, Direction=0, Color='#cccc99');
-}
-
-
 #header {
   overflow: hidden;
   background: #577613;
   background-image: url('../images/header-bg.jpg');
+  background-size: 100%;
   background-repeat: no-repeat;
+}
+
+#main { 
+	border-top: 1px solid #fff;
+	padding-top: 1em;
+
+/*
+	-moz-box-shadow: 0px -5px 30px #454;
+	-webkit-box-shadow: 0px -5px 30px #454;
+	box-shadow: 0px -5px 30px #454;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=0, Color='#445544')";
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=0, Color='#445544');
+*/
+
 }
 
 a {

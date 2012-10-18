@@ -1,21 +1,52 @@
+@import "singularitygs";
+
+$columns: 12;
+$gutter: .25;
+$padding: 1em;
+
+
+
+@media screen and (min-width: 320px) {
+}
+
+@media screen and (min-width: 480px) {
+}
+@media screen and (min-width: 600px) {
+}
+@media screen and (min-width: 800px) {
+}
+@media screen and (min-width: 950px) {
+	#main {
+		width: 940px;
+		padding: 0 10px;
+		margin: 0px auto;
+	}
+}
+@media screen and (min-width: 1200px) {
+}
+
+
+
+
+
+
+
+
 #page {
-	width: 960px;
-	margin: 0 auto;
 }
+
 #main {
-	padding: 5px 15px;
-	overflow: hidden;
+	padding: 0 10px;
 }
+
 nav#main-menu {
 	display: none;
 }
 #content.column {
-	width: 700px;
-	float:left;
+	@include grid-span(8, 1);
 }
 aside.sidebars {
-  width: 200px;
-  float: right;
+	@include grid-span(4, 9);
 }
 
 aside.sidebars h2.block-title {
