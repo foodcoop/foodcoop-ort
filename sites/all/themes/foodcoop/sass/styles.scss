@@ -1,13 +1,20 @@
-// CSS from Zen startkit theme. We should go through this, and move what we want to other places. Delete the rest. 
+// CSS from Zen startkit theme. We should go through this, and move what we want to other places. 
+// Delete the rest. 
 @import "zen";
+
+// Import our variables, settings, and custom mixins 
+@import "base";
+@import "custom";
+
 
 // Start with a foundation of resets and tools for best practices 
 @import "normalize";
+@import "formalize";
 @import "html";
 @import "drupal";
 
 
-// Styling for Foood Coop
+// Styling for Food Coop
 @import "layout";
 @import "typography";
 @import "page";
