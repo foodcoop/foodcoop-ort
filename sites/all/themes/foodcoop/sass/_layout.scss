@@ -12,6 +12,9 @@ $padding: 1em;
 nav#main-menu {
 	display: none;
 }
+#logo {
+	@include grid-span(8, 1);
+}
 
 
 //-----------------------------------------------------------------------
