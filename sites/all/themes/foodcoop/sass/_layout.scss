@@ -5,53 +5,63 @@ $gutter: .25;
 $padding: 1em;
 
 
+//-----------------------------------------------------------------------
+// Header
+//-----------------------------------------------------------------------
+
+nav#main-menu {
+	display: none;
+}
+
+
+//-----------------------------------------------------------------------
+// Main Content
+//-----------------------------------------------------------------------
+
+#main {
+	padding: 0 10px;
+	@include clearfix;
+}
+#content.column {
+	@include grid-span(8, 1);
+}
 
 @media screen and (min-width: 320px) {
-}
 
+}
 @media screen and (min-width: 480px) {
+
 }
 @media screen and (min-width: 600px) {
+
 }
 @media screen and (min-width: 800px) {
+
 }
 @media screen and (min-width: 950px) {
 	#main {
 		width: 940px;
 		padding: 0 10px;
 		margin: 0px auto;
+		@include clearfix;
 	}
 }
 @media screen and (min-width: 1200px) {
+
 }
 
 
+//-----------------------------------------------------------------------
+// Sidebar
+//-----------------------------------------------------------------------
 
-
-
-
-
-
-#page {
-}
-
-#main {
-	padding: 0 10px;
-}
-
-nav#main-menu {
-	display: none;
-}
-#content.column {
-	@include grid-span(8, 1);
-}
 aside.sidebars {
 	@include grid-span(4, 9);
+  h2.block-title {
+  	line-height: 125%;	
+  }
+  ul {
+  	margin: 0px;
+  }
 }
 
-aside.sidebars h2.block-title {
-	line-height: 125%;	
-}
-aside.sidebars ul {
-	margin: 0px;
-}
