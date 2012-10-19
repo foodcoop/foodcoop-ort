@@ -1087,67 +1087,65 @@ tbody {
   border-top: none;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\000034}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\000034}}
 .input_tiny {
   width: 50px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\000038}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\000038}}
 .input_small {
   width: 100px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\0000312}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\0000312}}
 .input_medium {
   width: 150px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\0000316}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\0000316}}
 .input_large {
   width: 200px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\0000320}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\0000320}}
 .input_xlarge {
   width: 250px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\0000324}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\0000324}}
 .input_xxlarge {
   width: 300px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\0000328}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\0000328}}
 .input_full {
   width: 100%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\0000334}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\0000334}}
 .input_full_wrap {
   display: block;
   padding-right: 8px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\0000343}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\0000343}}
 input[type="search"]::-webkit-search-decoration {
   display: none;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\0000352}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\0000351}}
 input:invalid,
 button:invalid,
 a.button:invalid,
-select:invalid,
 textarea:invalid {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\0000359}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\0000358}}
 input:focus,
 button:focus,
 a.button:focus,
-select:focus,
 textarea:focus {
   -webkit-box-shadow: #0066ff 0 0 5px 0;
   -moz-box-shadow: #0066ff 0 0 5px 0;
@@ -1155,7 +1153,7 @@ textarea:focus {
   z-index: 1;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\0000373}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\0000372}}
 input[type="file"]:focus, input[type="file"]:active,
 input[type="radio"]:focus,
 input[type="radio"]:active,
@@ -1166,7 +1164,7 @@ input[type="checkbox"]:active {
   box-shadow: none;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\0000383}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\0000382}}
 button,
 a.button,
 input[type="reset"],
@@ -1206,7 +1204,7 @@ input[type="button"] {
   *padding-bottom: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003124}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003123}}
 button:hover,
 a.button:hover,
 input[type="reset"]:hover,
@@ -1220,7 +1218,7 @@ input[type="button"]:hover {
   background-image: linear-gradient(#ffffff, #eeeeee 1px, #cccccc);
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003136}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003135}}
 button:active,
 a.button:active,
 input[type="reset"]:active,
@@ -1238,7 +1236,7 @@ input[type="button"]:active {
   border-color: #999999 #bbbbbb #dddddd;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003154}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003153}}
 button::-moz-focus-inner,
 a.button::-moz-focus-inner,
 input[type="reset"]::-moz-focus-inner,
@@ -1248,20 +1246,19 @@ input[type="button"]::-moz-focus-inner {
   padding: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003160}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003159}}
 a.button {
   *padding-bottom: 3px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003165}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003164}}
 button {
   *padding-top: 1px;
   *padding-bottom: 1px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003184}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003182}}
 textarea,
-select,
 input[type="date"],
 input[type="datetime"],
 input[type="datetime-local"],
@@ -1304,9 +1301,8 @@ input[type="week"] {
   *height: auto;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003230}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003227}}
 textarea[disabled],
-select[disabled],
 input[type="date"][disabled],
 input[type="datetime"][disabled],
 input[type="datetime-local"][disabled],
@@ -1323,12 +1319,9 @@ input[type="week"][disabled] {
   background-color: #eeeeee;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003240}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003234}}
 button[disabled],
 input[disabled],
-select[disabled],
-select[disabled] option,
-select[disabled] optgroup,
 textarea[disabled],
 a.button_disabled {
   -webkit-box-shadow: none;
@@ -1342,58 +1335,31 @@ a.button_disabled {
   cursor: default;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003256}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003250}}
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
   color: #888888;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003261}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003255}}
 input:-moz-placeholder,
 textarea:-moz-placeholder {
   color: #888888;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003266}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003260}}
 input.placeholder_text,
 textarea.placeholder_text {
   color: #888888;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003272}}
-textarea,
-select[size],
-select[multiple] {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003264}}
+textarea {
   height: auto;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003279}}
-select[size="0"],
-select[size="1"] {
-  height: 1.8em;
-  *height: auto;
-}
-
 @media (-webkit-min-device-pixel-ratio: 0) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003289}}
-  select[size],
-  select[multiple],
-  select[multiple][size] {
-    background-image: none;
-    padding-right: 3px;
-  }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003296}}
-  select,
-  select[size="0"],
-  select[size="1"] {
-    background-image: url(data:image/png;base64,R0lGODlhDQAEAIAAAAAAAP8A/yH5BAEHAAEALAAAAAANAAQAAAILhA+hG5jMDpxvhgIAOw==);
-    background-repeat: no-repeat;
-    background-position: right center;
-    padding-right: 20px;
-  }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003304}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003271}}
   ::-webkit-validation-bubble-message {
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -1408,7 +1374,7 @@ select[size="1"] {
     height: 16px;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003320}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003287}}
   ::-webkit-validation-bubble-arrow,
   ::-webkit-validation-bubble-top-outer-arrow,
   ::-webkit-validation-bubble-top-inner-arrow {
@@ -1418,7 +1384,7 @@ select[size="1"] {
     border: 0;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003327}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003294}}
 textarea {
   min-height: 40px;
   overflow: auto;
@@ -1426,20 +1392,20 @@ textarea {
   width: 100%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003334}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003301}}
 optgroup {
   color: black;
   font-style: normal;
   font-weight: normal;
   font-family: Arial, "Liberation Sans", FreeSans, sans-serif;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003342}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003309}}
 optgroup::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003374}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003341}}
 .ie6_button,
 * html button,
 * html a.button {
@@ -1456,23 +1422,22 @@ optgroup::-moz-focus-inner {
   width: auto;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003388}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003355}}
 * html a.button {
   position: relative;
   top: 3px;
   padding-bottom: 2px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003394}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003361}}
 * html button {
   padding-top: 1px;
   padding-bottom: 1px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003401}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003367}}
 .ie6_input,
-* html textarea,
-* html select {
+* html textarea {
   background: white;
   border: 1px solid;
   border-color: #848484 #c1c1c1 #e1e1e1;
@@ -1483,19 +1448,14 @@ optgroup::-moz-focus-inner {
   vertical-align: top;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003412}}
-* html select {
-  margin-top: 1px;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003418}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003380}}
 .placeholder_text,
 .ie6_input_disabled,
 .ie6_button_disabled {
   color: #888888;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_formalize\.scss}line{font-family:\00003422}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jensimmons\/Sites\/foodcoop\/d7\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_forms\.scss}line{font-family:\00003384}}
 .ie6_input_disabled {
   background: #eeeeee;
 }
