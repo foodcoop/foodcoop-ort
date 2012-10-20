@@ -73,6 +73,7 @@
 <div id="page">
 
   <header id="header" role="banner">
+	<div id="header-content">
 
     <?php if ($logo): ?>
       <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" /></a>
@@ -110,6 +111,7 @@
 
     <?php print render($page['header']); ?>
 
+	</div>
   </header>
 
   <div id="main">
@@ -175,10 +177,12 @@
 
   <?php if ($footer1 || $footer2 || $footer3 || $footer4): ?>
     <footer id="footer" class="<?php print $classes; ?>">
+    <div id="footer-content">
       <?php print render($page['footer1']); ?>
       <?php print render($page['footer2']); ?>
       <?php print render($page['footer3']); ?>
       <?php print render($page['footer4']); ?>
+    </div>
     </footer>
   <?php endif; ?>
 

@@ -29,6 +29,10 @@ nav#main-menu {
 	@include grid-span(8, 1);
 }
 
+
+
+
+
 @media screen and (min-width: 320px) {
 
 }
@@ -42,12 +46,24 @@ nav#main-menu {
 
 }
 @media screen and (min-width: 950px) {
-	#main {
+	#header-content, #footer-content, #main {
 		width: 940px;
-		padding: 0 10px;
 		margin: 0px auto;
+		padding: 0;
 		@include clearfix;
 	}
+
+	#header-content {
+		padding-left: 10px;
+	}
+	#footer-content .region {
+		width: 220px;
+		margin-left: 8px;
+		margin-right: 3px;
+		padding: 0;
+		float: left;
+	}
+
 }
 @media screen and (min-width: 1200px) {
 
