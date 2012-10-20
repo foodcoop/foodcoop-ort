@@ -53,3 +53,9 @@ div.description,
   min-height: 250px;
 } // Making the overlay always be at least a certain height.
 
+
+// CONTEXT MODULE
+//----------------------------------------------------------------
+#context-blockform .context-blockform-selector {
+    height: auto;
+} // WTF Context module? Why is the window set to be tiny? Cut that out.
