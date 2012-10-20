@@ -159,23 +159,29 @@
       <?php print render($page['navigation']); ?>
 
     </div><!-- /#navigation -->
-
-    <?php
-      // Render the sidebars to see if there's anything in them.
-      $sidebar_first  = render($page['sidebar_first']);
-      $sidebar_second = render($page['sidebar_second']);
-    ?>
-
-    <?php if ($sidebar_first || $sidebar_second): ?>
-      <aside class="sidebars">
-        <?php print $sidebar_first; ?>
-        <?php print $sidebar_second; ?>
-      </aside><!-- /.sidebars -->
-    <?php endif; ?>
+  
+    <?php print render($page['sidebar']); ?>
 
   </div><!-- /#main -->
 
-  <?php print render($page['footer']); ?>
+
+    <?php
+      // Render the footer regions to see if there's anything in them.
+      $footer1  = render($page['footer1']);
+      $footer2 = render($page['footer2']);
+      $footer3 = render($page['footer3']);
+      $footer4 = render($page['footer4']);
+    ?>
+
+  <?php if ($footer1 || $footer2 || $footer3 || $footer4): ?>
+    <footer id="footer" class="<?php print $classes; ?>">
+      <?php print render($page['footer1']); ?>
+      <?php print render($page['footer2']); ?>
+      <?php print render($page['footer3']); ?>
+      <?php print render($page['footer4']); ?>
+    </footer>
+  <?php endif; ?>
+
 
 </div><!-- /#page -->
 

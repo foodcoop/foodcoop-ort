@@ -42,9 +42,11 @@ regions[header]         = Header
 regions[navigation]     = Navigation bar
 regions[help]           = Help
 regions[content]        = Content
-regions[sidebar_first]  = First sidebar
-regions[sidebar_second] = Second sidebar
-regions[footer]         = Footer
+regions[sidebar]        = Sidebar
+regions[footer1]        = Footer One
+regions[footer2]        = Footer Two
+regions[footer3]        = Footer Three
+regions[footer4]        = Footer Four
 regions[bottom]         = Page bottom
 
 ; The page_top and page_bottom regions are hidden, which means they will not
