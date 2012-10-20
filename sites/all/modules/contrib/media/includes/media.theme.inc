@@ -7,23 +7,10 @@
  * Theming functions for the Media module.
  */
 
-/**
- * Display the media file browser.
- * @TODO this is depreciated I think
- * @param array $element
- *   The form element.
- * @return string
- */
-function theme_media_file_browser($element) {
-  // Add the CSS for our display.
-  $output = '<div class="media browser">' . $element . '</div>';
-
-  return $output;
-}
 
 /**
  * Display a media file list.
- * @TODO this is depreciated I think
+ *
  * @param array $element
  *   The form element.
  * @return string
@@ -34,37 +21,11 @@ function theme_media_file_list($element) {
 }
 
 /**
- * Display a browser pane.
- * @TODO this is depreciated I think
- *
- * @param array $form
- *   The form element.
- * @return string
- */
-function theme_media_browser_pane($form) {
-  return;
-  $output   = array();
-
-  // render the drawers
-  $output[] = '<div' . drupal_attributes($form['#attributes']) . '>';
-
-  // render the drawer list
-  $output[] = '  <div class="browser drawers">';
-  $output[] = drupal_render_form(null, $form['drawers']);
-  $output[] = ' </div>';
-
-  // render the drawer displays
-  $output[] = drupal_render_form(null, $form);
-  $output[] = '</div>';
-
-  return implode("\n", $output);
-}
-
-
-/**
  * Default theming function for creating the browser frame.
+ *
  * Assumes an array of file objects as $files and an
  * array of $parameters
+ *
  * @param $variables
  *   array of variables
  * @return unknown_type
@@ -96,8 +57,6 @@ function theme_media_browser_content_frame($variables) {
   }
   return implode("\n", $html);
 }
-
-
 
 /**
  * Display a item list of files as thumbnails. Implements
@@ -134,36 +93,24 @@ function theme_media_admin_thumbnail($variables) {
     return '';
   }
   $output = '';
-  if (module_exists('styles')) {
-    $thumbnail = theme('styles',
+  // Display a thumbnail for images.
+  if (strstr($file->filemime, 'image')) {
+    $thumbnail = theme('image_style',
       array(
-        'field_type' => 'file',
-        'style_name' => $style_name,
-        'uri' => $file->uri,
-        'description' => t('Thumbnail for !filename.', array('!filename' => $file->filename)),
-        'object' => $variables['file'],
-    ));
+        'style_name' => 'thumbnail',
+        'path' => $file->uri,
+        'alt' => t('Thumbnail for !filename.', array('!filename' => $file->filename)),
+      )
+    );
   }
+  // Display the 'unknown' icon for other file types.
   else {
-    // Display a thumbnail for images.
-    if (strstr($file->filemime, 'image')) {
-      $thumbnail = theme('image_style',
-        array(
-          'style_name' => 'thumbnail',
-          'path' => $file->uri,
-          'alt' => t('Thumbnail for !filename.', array('!filename' => $file->filename)),
-        )
-      );
-    }
-    // Display the 'unknown' icon for other file types.
-    else {
-      $thumbnail = theme('image',
-        array(
-          'path' => $path . '/images/file-unknown.png',
-          'alt' => t('Thumbnail for !filename.', array('!filename' => $file->filename)),
-          'attributes' => array('class' => 'file-unknown'),
-        ));
-    }
+    $thumbnail = theme('image',
+      array(
+        'path' => $path . '/images/file-unknown.png',
+        'alt' => t('Thumbnail for !filename.', array('!filename' => $file->filename)),
+        'attributes' => array('class' => 'file-unknown'),
+      ));
   }
   $output .= l($thumbnail,
     $file_url,
@@ -181,7 +128,7 @@ function theme_media_admin_thumbnail($variables) {
 function theme_media_admin_thumbnail_operations($variables) {
   $destination = drupal_get_destination();
   $file = $variables['file'];
-  $output = l(t('edit'), 'media/' . $file->fid . '/edit', array('query' => $destination));
+  $output = l(t('edit'), 'file/' . $file->fid . '/edit', array('query' => $destination));
   return $output;
 }
 
@@ -246,7 +193,7 @@ function theme_media_browser_control_result_limit($variables) {
 function theme_media_link($variables) {
   $file = $variables['file'];
 
-  $url = 'media/' . $file->fid;
+  $url = 'file/' . $file->fid;
   $icon = theme('file_icon', array('file' => $file));
 
   // Set options as per anchor format described at
@@ -285,7 +232,7 @@ function theme_media_thumbnail($variables) {
 
   // Arguments for the thumbnail link
   $thumb = $element['#children'];
-  $target = 'media/' . $element['#file']->fid . '/edit';
+  $target = 'file/' . $element['#file']->fid . '/edit';
   $options = array('query' => $destination, 'html' => TRUE, 'attributes' => array('title' => t('Click to edit details')));
 
   // Element should be a field renderable array... This is a little wonky - admitted.
