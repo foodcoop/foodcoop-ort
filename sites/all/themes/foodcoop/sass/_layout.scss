@@ -52,16 +52,38 @@ nav#main-menu {
 		padding: 0;
 		@include clearfix;
 	}
-
+	aside {
+		@include grid-span(4, 9);
+	}
 	#header-content {
 		padding-left: 10px;
 	}
 	#footer-content .region {
-		width: 220px;
-		margin-left: 8px;
-		margin-right: 3px;
-		padding: 0;
+		width: 225px;
 		float: left;
+	}
+	#footer .block-user {
+		display: none;
+	}
+	#footer-content .region .region {
+		width: 100%;
+	}
+
+
+	#header .region-header { 
+		margin-top: 65px;
+		@include grid-span(9, 1);		
+		margin-bottom: 0px;
+	}
+	#header h2 { display: inline; float: left; padding: 0; margin: 0; line-height: 100%;}
+	#header ul.menu li a {
+	 	font-family:  'DIN1451StdEngschrift';
+	 	font-size: 1.4em;
+	 	line-height: 100%;
+		display: inline;
+		padding-left: 20px;
+		float: left;
+		color: #fff;
 	}
 
 }
