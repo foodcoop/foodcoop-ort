@@ -93,19 +93,9 @@ $indent-amount: 30px;
 
 @import "compass";    // Add Compass
 @import "custom";     // Import our custom mixins last.
-// @import "susy";
+@import "singularitygs";
 
-
-
-//
-// Susy config
-//
-
-$total-columns  : 12;
-$column-width   : 4em;
-$gutter-width   : 1em;
-$grid-padding   : $gutter-width;
-
-$show-grid-backgrounds  : true;
-
+$columns: 12;
+$gutter: .25;
+$padding: 1em;
 

@@ -4,6 +4,7 @@
  *
  * We provide some sane print styling for Drupal using Zen's layout method.
  */
+/* SINGULARITY -- http://singularity.gs/ */
 @media print {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/print\.scss}line{font-family:\0000314}}
   a:link,

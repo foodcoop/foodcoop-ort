@@ -1,3 +1,4 @@
+/* SINGULARITY -- http://singularity.gs/ */
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_zen\.scss}line{font-family:\000037}}
 .block {
   /* Block wrapper */
@@ -433,6 +434,7 @@ ul.secondary a:active {
   color: #fff;
 }
 
+/* SINGULARITY -- http://singularity.gs/ */
 /* normalize.css 2012-03-11T12:53 UTC - http://github.com/necolas/normalize.css */
 /* =============================================================================
    Normalize.css is intended to be used as an alternative to CSS resets.
@@ -444,6 +446,7 @@ ul.secondary a:active {
    Also: @see http://meiert.com/en/blog/20080419/reset-style-sheets-are-bad/
          @see http://snook.ca/archives/html_and_css/no_css_reset/
    ========================================================================== */
+/* SINGULARITY -- http://singularity.gs/ */
 /* =============================================================================
    HTML5 display definitions
    ========================================================================== */
@@ -1460,6 +1463,7 @@ optgroup::-moz-focus-inner {
   background: #eeeeee;
 }
 
+/* SINGULARITY -- http://singularity.gs/ */
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_html\.scss}line{font-family:\0000314}}
 * {
   -webkit-box-sizing: border-box;
@@ -1656,6 +1660,7 @@ caption {
   background-color: transparent;
 }
 
+/* SINGULARITY -- http://singularity.gs/ */
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_drupal\.scss}line{font-family:\000038}}
 .block {
   overflow: hidden;
@@ -2180,6 +2185,7 @@ aside.sidebars ul {
  * miscellaneous Drupal elements that appear in the $content variable, such as
  * ul.links, .pager, .more-link, etc.
  */
+/* SINGULARITY -- http://singularity.gs/ */
 /*
  * Body
  */
