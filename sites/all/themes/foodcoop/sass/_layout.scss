@@ -1,8 +1,4 @@
-@import "singularitygs";
 
-$columns: 12;
-$gutter: .25;
-$padding: 1em;
 
 
 //-----------------------------------------------------------------------
@@ -28,7 +24,28 @@ nav#main-menu {
 #content.column {
 	@include grid-span(8, 1);
 }
+#content.contextual-links-region {
+	@include grid-span(12, 1);
+}
 
+
+
+/* shift swap list page */
+
+#content .view-shift-swap-lists th {
+	padding-left: 0;
+	padding-bottom: 10px;
+	border-bottom: 2px solid #ccc;
+}
+#content .view-shift-swap-lists td {
+	padding: 10px 14px 7px 0px;
+}
+#content .view-shift-swap-lists td span.date-display-single {
+	font-size: 24px;
+}
+#content .view-shift-swap-lists { 
+	padding-bottom: 48px;
+}
 
 
 
