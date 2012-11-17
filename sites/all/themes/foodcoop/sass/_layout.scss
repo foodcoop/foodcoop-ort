@@ -70,13 +70,8 @@ nav#main-menu {
 /* 800px */
 @media screen and (min-width: 50em) {
 
-}
-
-
-/* 950px */
-@media screen and (min-width: 60em) {
 	#header-content, #footer-content, #main {
-		width: 940px;
+		width: 50em;
 		margin: 0px auto;
 		padding: 0;
 		@include clearfix;
@@ -114,6 +109,19 @@ nav#main-menu {
 		padding: 0 1em;
 		float: left;
 		color: #fff;
+	}
+
+}
+
+
+/* 950px */
+@media screen and (min-width: 60em) {
+
+	#header-content, #footer-content, #main {
+		width: 60em;
+		margin: 0px auto;
+		padding: 0;
+		@include clearfix;
 	}
 
 }
