@@ -50,19 +50,31 @@ nav#main-menu {
 
 
 
-@media screen and (min-width: 320px) {
+/* BREAKPOINTS */
+
+/* 320px */
+@media screen and (min-width: 20em) { 
 
 }
-@media screen and (min-width: 480px) {
+
+/* 480px */
+@media screen and (min-width: 30px) {
 
 }
-@media screen and (min-width: 600px) {
+
+/* 600px */
+@media screen and (min-width: 40em) {
 
 }
-@media screen and (min-width: 800px) {
+
+/* 800px */
+@media screen and (min-width: 50em) {
 
 }
-@media screen and (min-width: 950px) {
+
+
+/* 950px */
+@media screen and (min-width: 60em) {
 	#header-content, #footer-content, #main {
 		width: 940px;
 		margin: 0px auto;
@@ -105,7 +117,10 @@ nav#main-menu {
 	}
 
 }
-@media screen and (min-width: 1200px) {
+
+
+/* 1200px */
+@media screen and (min-width: 75em) {
 
 }
 
