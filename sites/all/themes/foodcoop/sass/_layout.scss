@@ -68,6 +68,15 @@ nav#main-menu {
 	display: none;
 }
 
+.block-user h2.block-title {
+	margin-left: 15px;
+	line-height: 110%;
+}
+
+.form-item {
+	margin: 5px 0 5px 0;
+}
+
 
 
 /* BREAKPOINTS */
@@ -103,7 +112,7 @@ nav#main-menu {
 		padding-left: 10px;
 	}
 	#footer-content .region {
-		width: 10em;		
+		width: 14em;		
 		float: left;
 		padding-right: 1em;
 	}
