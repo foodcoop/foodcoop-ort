@@ -59,23 +59,34 @@ nav#main-menu {
 	color: #fff;
 }
 
-#footer-content .region .region {
-	width: 100%;
-}
+
 
 /* extra drupal login in the footer */
 #footer .block-user {
 	display: none;
 }
 
+
+
+
+
+/* user login block on home page */
+
 .block-user h2.block-title {
 	margin-left: 15px;
-	line-height: 110%;
+	line-height: 120%;
+}
+.form-item {
+	margin: 7px 0 7px 0;
+}
+.block-user ul {
+	margin-top: 0px;
+}
+.block-user .form-wrapper {
+	margin-top: 5px;
+	margin-bottom: 0px;
 }
 
-.form-item {
-	margin: 5px 0 5px 0;
-}
 
 
 
@@ -111,10 +122,22 @@ nav#main-menu {
 	#header-content {
 		padding-left: 10px;
 	}
+	#footer-content {
+		width: 65em;
+		margin: 0px auto;
+		padding: 0;
+		@include clearfix;
+	}
+
 	#footer-content .region {
-		width: 14em;		
+		width: 16em;		
 		float: left;
 		padding-right: 1em;
+	}
+	#footer-content .region .region {
+		width: 100%;
+		padding: 0;
+		margin: 0;
 	}
 
 	#header .region-header { 
@@ -129,12 +152,10 @@ nav#main-menu {
 /* 950px */
 @media screen and (min-width: 60em) {
 
-	#header-content, #footer-content, #main {
+	#header-content, #main {
 		width: 60em;
-		margin: 0px auto;
-		padding: 0;
-		@include clearfix;
 	}
+
 
 }
 
