@@ -47,6 +47,26 @@ nav#main-menu {
 	padding-bottom: 48px;
 }
 
+#header #block-system-main-menu h2 { display: none; }
+#header ul.menu li { list-style: none; }
+#header ul.menu li a {
+	font-family:  'DIN1451StdEngschrift';
+	font-size: 1.6em;
+	line-height: 100%;
+	display: inline;
+	padding: 0 1em;
+	float: left;
+	color: #fff;
+}
+
+#footer-content .region .region {
+	width: 100%;
+}
+
+/* extra drupal login in the footer */
+#footer .block-user {
+	display: none;
+}
 
 
 
@@ -70,7 +90,7 @@ nav#main-menu {
 /* 800px */
 @media screen and (min-width: 50em) {
 
-	#header-content, #footer-content, #main {
+	#header-content, #main {
 		width: 50em;
 		margin: 0px auto;
 		padding: 0;
@@ -83,32 +103,15 @@ nav#main-menu {
 		padding-left: 10px;
 	}
 	#footer-content .region {
-		width: 225px;
+		width: 10em;		
 		float: left;
+		padding-right: 1em;
 	}
-	#footer .block-user {
-		display: none;
-	}
-	#footer-content .region .region {
-		width: 100%;
-	}
-
 
 	#header .region-header { 
 		margin-top: 30px;
 		@include grid-span(9, 1);		
 		margin-bottom: 0px;
-	}
-	#header #block-system-main-menu h2 { display: none; }
-	#header ul.menu li { list-style: none; }
-	#header ul.menu li a {
-	 	font-family:  'DIN1451StdEngschrift';
-	 	font-size: 1.6em;
-	 	line-height: 100%;
-		display: inline;
-		padding: 0 1em;
-		float: left;
-		color: #fff;
 	}
 
 }

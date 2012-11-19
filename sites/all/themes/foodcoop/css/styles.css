@@ -2109,21 +2109,53 @@ nav#main-menu {
   padding-bottom: 48px;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\0000350}}
+#header #block-system-main-menu h2 {
+  display: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\0000351}}
+#header ul.menu li {
+  list-style: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\0000352}}
+#header ul.menu li a {
+  font-family: 'DIN1451StdEngschrift';
+  font-size: 1.6em;
+  line-height: 100%;
+  display: inline;
+  padding: 0 1em;
+  float: left;
+  color: #fff;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\0000362}}
+#footer-content .region .region {
+  width: 100%;
+}
+
+/* extra drupal login in the footer */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\0000367}}
+#footer .block-user {
+  display: none;
+}
+
 /* BREAKPOINTS */
 /* 320px */
 /* 480px */
 /* 600px */
 /* 800px */
 @media screen and (min-width: 50em) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\0000373}}
-  #header-content, #footer-content, #main {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\0000393}}
+  #header-content, #main {
     width: 50em;
     margin: 0px auto;
     padding: 0;
     overflow: hidden;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\0000379}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\0000399}}
   aside {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -2137,28 +2169,19 @@ nav#main-menu {
     padding: 0 1em;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\0000382}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\00003102}}
   #header-content {
     padding-left: 10px;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\0000385}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\00003105}}
   #footer-content .region {
-    width: 225px;
+    width: 10em;
     float: left;
+    padding-right: 1em;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\0000389}}
-  #footer .block-user {
-    display: none;
-  }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\0000392}}
-  #footer-content .region .region {
-    width: 100%;
-  }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\0000397}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\00003111}}
   #header .region-header {
     margin-top: 30px;
     -webkit-box-sizing: border-box;
@@ -2174,31 +2197,10 @@ nav#main-menu {
     padding: 0 1em;
     margin-bottom: 0px;
   }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\00003102}}
-  #header #block-system-main-menu h2 {
-    display: none;
-  }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\00003103}}
-  #header ul.menu li {
-    list-style: none;
-  }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\00003104}}
-  #header ul.menu li a {
-    font-family: 'DIN1451StdEngschrift';
-    font-size: 1.6em;
-    line-height: 100%;
-    display: inline;
-    padding: 0 1em;
-    float: left;
-    color: #fff;
-  }
 }
 /* 950px */
 @media screen and (min-width: 60em) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\00003120}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\00003123}}
   #header-content, #footer-content, #main {
     width: 60em;
     margin: 0px auto;
@@ -2207,7 +2209,7 @@ nav#main-menu {
   }
 }
 /* 1200px */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\00003140}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\00003143}}
 aside.sidebars {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -2220,11 +2222,11 @@ aside.sidebars {
   overflow: hidden;
   padding: 0 1em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\00003142}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\00003145}}
 aside.sidebars h2.block-title {
   line-height: 125%;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\00003145}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Files\%20from\%20Stuff\/Labor\/coop\/WEBCOM\/www\.foodcoop\.com\/branches\/drupal-7\/sites\/all\/themes\/foodcoop\/sass\/_layout\.scss}line{font-family:\00003148}}
 aside.sidebars ul {
   margin: 0px;
 }
