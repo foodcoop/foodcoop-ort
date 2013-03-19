@@ -1,0 +1,11 @@
+.psfc-admin-two-col {
+  display:block;
+}
+.psfc-admin-two-col .col-left,
+.psfc-admin-two-col .col-right {
+  width: 48%;
+  float: left;
+}
+.psfc-admin-two-col .col-left {
+  margin-right: 4%;
+}
