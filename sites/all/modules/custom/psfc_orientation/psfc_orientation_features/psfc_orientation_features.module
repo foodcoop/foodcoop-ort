@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the PSFC Orientation Features feature.
+ */
+
+include_once 'psfc_orientation_features.features.inc';

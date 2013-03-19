@@ -194,7 +194,7 @@ abstract class DatabaseConnection extends PDO {
 
   /**
    * The key representing this connection.
-   * 
+   *
    * The key is a unique string which identifies a database connection. A
    * connection can be a single server or a cluster of master and slaves (use
    * target to pick between master and slave).
