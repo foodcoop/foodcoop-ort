@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the PSFC GMSignup features feature.
- */
-
-include_once 'psfc_gmsignup_features.features.inc';
