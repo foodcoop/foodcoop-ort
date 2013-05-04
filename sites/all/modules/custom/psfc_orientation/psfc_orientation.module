@@ -935,7 +935,7 @@ function psfc_orientation_capacity($node, $close = FALSE) {
  *
  */
 function psfc_orientation_close_old() {
-  $old = REQUEST_TIME - 360;
+  $old = array(REQUEST_TIME - 360);
   // TODO: Change to reflect new open/ closed  field structure.
   $result = db_query("SELECT n.nid FROM {content_type_orientation} cto INNER JOIN {node} n ON cto.nid = n.nid AND cto.vid = n.vid AND cto.field_open_value = 0 AND UNIX_TIMESTAMP(cto.field_date_value) < %d", $old);
   while ($nid = $result->fetchField()) {
