@@ -12,7 +12,6 @@ function psfc_orientation_admin_page() {
 
   $output = '<div id="psfc-admin-form">';
   $output .= $upcoming_orientations;
-  $output .= l('Manually sign up a person for an orientation', 'admin/psfc/orientation/add-registrant');
   $output .= '<div class="psfc-admin-two-col">';
   if (user_access('administer psfc orientation')) {
     $output .= '<div class="col-left">';
