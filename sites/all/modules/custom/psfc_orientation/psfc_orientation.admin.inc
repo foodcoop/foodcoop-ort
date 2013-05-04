@@ -422,20 +422,20 @@ function theme_psfc_orientation_login() {
  * @see http://drupal.org/node/1354
  */
 function psfc_orientation_add_registrant($form, $form_state) {
-  // Get our timezone offset. This should account for daylight savings. The
-  // offset is applied using format_date() below.
-  /* $offset = date_offset_get(new DateTime); */
-  // Set runtime TZ to UTC.
-  /* date_default_timezone_set('UTC'); */
-
   // Build avaiable orientations list from a view.
-  $orientations = views_get_view_result('orientation_admin', 'panel_pane_1');
-  foreach ($orientations as $orientation) {
-    $date = date('l F j, Y -- g:h A', strtotime($orientation->field_field_orientation_date[0]['raw']['value'] .' '. $orientation->field_field_orientation_date[0]['raw']['timezone_db']));
-    $options[$orientation->nid] = $date;
+  $orientations = views_get_view_result('orientation_admin', 'default');
+  foreach ($orientations as $ort) {
+    $orientation = node_load($ort->nid);
+    $date = array_pop(field_get_items('node', $orientation, 'field_orientation_date'));
+    // For properly formatting with html:
+    // render($date);
+    // Won't work - We want the raw date. The raw date is in UTC, so
+    // we add the 'Z' to tell strotime that the original is in UTC.
+    $timestamp = strtotime($date['value'] . 'Z');
+    // Now format it according to the Drupal site default
+    // settings.
+    $options[$ort->nid] = format_date($timestamp);
   }
-  // Set runtime TZ back.
-  /* date_default_timezone_set('America/New_York'); */
 
   $form['instructions'] = array(
     '#value' => '<h2>' . t('Manually sign up a person for orientation') . '</h2>' . t('You may add one person at a time to an orientation. The person may be added by email address or by name and phone number.'),

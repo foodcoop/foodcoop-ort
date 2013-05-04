@@ -118,32 +118,6 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['filters']['field_orientation_date_value']['default_date'] = 'now -2 hours';
   $handler->display->display_options['filters']['field_orientation_date_value']['year_range'] = '-1:+3';
 
-  /* Display: options list */
-  $handler = $view->new_display('panel_pane', 'options list', 'panel_pane_1');
-  $handler->display->display_options['display_description'] = 'populates form select options of upcoming orientations';
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Nid */
-  $handler->display->display_options['fields']['nid']['id'] = 'nid';
-  $handler->display->display_options['fields']['nid']['table'] = 'node';
-  $handler->display->display_options['fields']['nid']['field'] = 'nid';
-  $handler->display->display_options['fields']['nid']['label'] = '';
-  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
-  /* Field: Content: Orientation date */
-  $handler->display->display_options['fields']['field_orientation_date']['id'] = 'field_orientation_date';
-  $handler->display->display_options['fields']['field_orientation_date']['table'] = 'field_data_field_orientation_date';
-  $handler->display->display_options['fields']['field_orientation_date']['field'] = 'field_orientation_date';
-  $handler->display->display_options['fields']['field_orientation_date']['label'] = '';
-  $handler->display->display_options['fields']['field_orientation_date']['alter']['strip_tags'] = TRUE;
-  $handler->display->display_options['fields']['field_orientation_date']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_orientation_date']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_orientation_date']['settings'] = array(
-    'format_type' => 'long',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
   $export['orientation_admin'] = $view;
 
   $view = new view();
