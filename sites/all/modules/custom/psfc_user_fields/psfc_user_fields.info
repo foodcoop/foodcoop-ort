@@ -1,0 +1,17 @@
+name = PSFC user fields
+description = extra fields collected on user registration
+core = 7.x
+package = PSFC
+version = 7.x-1.0
+project = psfc_user_fields
+dependencies[] = features
+dependencies[] = field_collection
+dependencies[] = field_sql_storage
+dependencies[] = html5_tools
+dependencies[] = number
+dependencies[] = text
+features[features_api][] = api:1
+features[field][] = field_collection_item-field_fullname-field_firstname
+features[field][] = field_collection_item-field_fullname-field_lastname
+features[field][] = user-user-field_fullname
+features[field][] = user-user-field_membernumber
