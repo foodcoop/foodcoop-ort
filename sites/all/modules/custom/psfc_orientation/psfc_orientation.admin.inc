@@ -533,8 +533,8 @@ function psfc_orientation_add_registrant_submit($form, &$form_state) {
   // Registrant has no internet access ever.
   else {
     $info = $form_state['values']['first_name'] . ' ' . $form_state['values']['middle_name'] . ' ' . $form_state['values']['last_name'] . t(' Phone: ') . $form_state['values']['phone'];
-    $orientation_wrapper = entity_metadata_wrapper('node', $orientation_wrapper);
-    $orientation_wrapper->field_orientation_by_phone->set($info);
+    $orientation_wrapper = entity_metadata_wrapper('node', $orientation);
+    $orientation_wrapper->field_orientation_phone_reg->set(array($info));
     $orientation_wrapper->save();
   }
   $email = isset($email) ? $email : NULL;
