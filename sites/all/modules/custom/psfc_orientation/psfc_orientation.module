@@ -818,84 +818,32 @@ function psfc_orientation_node_build($orientation_rule, $time_value) {
  *
  * @param $onid the node id for the orientation the attended will attend.
  * *
- * @return the node object of the new attendee.
+ * @return a node wrapper object for the new orientation attendee node.
  */
 function psfc_orientation_node_build_attendee($account, $onid) {
-  // declare a new node object
-  $node = new stdClass();
+  // Create a wrapper for the given user
+  $user_wrapper = entity_metadata_wrapper('user', $account);
 
-  // set some values that will not change.
-  $node->type = 'orientation_attendee';
-  $node->uid = $account->uid;
-  $node->name = $account->name;
-  $node->status = 1;
-  $node->created = REQUEST_TIME;
-  $node->changed = REQUEST_TIME;
-  $node->comment = 0;
-  $node->promote = 0;
-  $node->moderate = 0;
-  $node->sticky = 0;
-  $node->tnid = 0;
-  $node->translate = 0;
-  $node->revision_uid = 1;
-  $node->revision_timestamp = REQUEST_TIME;
-  $node->format = 1;
+  // Create a wrapper for the attendee node
+  $node = entity_create('node', array('type' => 'orientation_attendee'));
 
-  $user = user_load($account->uid);
-
-  $info = entity_get_info('user');
-  dsm($info);
-  if (empty($info['entity keys']['bundle'])) {
-    $entity_type = 'user';
-  }
-  else {
-    $entity_type = $user->{$info['entity keys']['bundle']};
-  }
-  dsm($entity_type);
-
-  // Fill in the values from the account
-  $node->field_firstname = array(
-    0 => array(
-      'value' => $account->field_user_first_name['und'][0]['safe_value'],
-    ),
-  );
-
-  $node->field_lastname = array(
-    0 => array(
-      'value' => $account->field_user_last_name['und'][0]['safe_value'],
-    ),
-  );
-
-  $node->field_email = array(
-    0 => array(
-      'email' => $account->mail,
-    ),
-  );
-
-  $node->field_orientation_nid = array(
-    0 => array(
-      'nid' => $onid,
-    ),
-  );
-
-  $node->field_userid = array(
-    0 => array(
-      'uid' => $account->uid,
-    ),
-  );
-
-  $node->field_attendee_confirmed = array(
-    0 => array(
-      'value' => 0,
-    ),
-  );
-
-  // validate and save the node
-  $arr = array();
-  /* node_validate($node, $arr, $arr); */
-  /* node_submit($node); */
-  /* node_save($node); */
-  return $node;
+  $node_wrapper = entity_metadata_wrapper('node', $node); 
+  // dpm($node_wrapper->getPropertyInfo());
+  $node_wrapper->field_user_id->set($account->uid);
+  $node_wrapper->title->set($account->name);
+  $node_wrapper->status->set(1);
+  $node_wrapper->comment->set(0);
+  $node_wrapper->promote->set(0);
+  $node_wrapper->sticky->set(0);
+  
+  // Add the user account details to the node
+  $node_wrapper->field_first_name->set($user_wrapper->field_fullname->field_firstname->value());
+  $node_wrapper->field_last_name->set($user_wrapper->field_fullname->field_lastname->value());
+  $node_wrapper->field_orientation_nid->set($onid);
+  $node_wrapper->field_user_id->set($account->uid);
+  $node_wrapper->field_confirmed_orientation->set(0);
+  $node_wrapper->save(); 
+  return $node_wrapper;
 }
 
 /**

@@ -526,15 +526,16 @@ function psfc_orientation_add_registrant_submit($form, &$form_state) {
   if (!empty($form_state['values']['mail'])) {
     $user = user_load_multiple(array(), array('mail' => $form_state['values']['mail']));
     $account = array_shift($user);
-    $attendee = psfc_orientation_node_build_attendee($account, $form_state['values']['onid']);
-    $info = $attendee->field_firstname[0]['value'] . ' ' . $attendee->field_lastname[0]['value'];
+    $attendee_wrapper = psfc_orientation_node_build_attendee($account, $form_state['values']['onid']);
+    $info = $attendee_wrapper->field_first_name->value() . ' ' . $attendee_wrapper->field_last_name->value();
     $email = t('Confimration has been requested by email. Confirmation is required within 48 hours.');
   }
   // Registrant has no internet access ever.
   else {
     $info = $form_state['values']['first_name'] . ' ' . $form_state['values']['middle_name'] . ' ' . $form_state['values']['last_name'] . t(' Phone: ') . $form_state['values']['phone'];
-    $orientation->field_orientation_by_phone['und'][0]['value'] = $info;
-    node_save($orientation);
+    $orientation_wrapper = entity_metadata_wrapper('node', $orientation_wrapper);
+    $orientation_wrapper->field_orientation_by_phone->set($info);
+    $orientation_wrapper->save();
   }
   $email = isset($email) ? $email : NULL;
   drupal_set_message(t('@info has been registed for orientation on @date. @email', array('@info' => $info, '@date' => $orientation->field_orientation_date['und'][0]['value'], '@email' => $email)));
