@@ -133,11 +133,6 @@ function psfc_orientation_admin_add_rule($form, $edit) {
   return $form;
 }
 
-function psfc_orientation_admin_add_rule_validate($form, &$form_state) {
-  $values = $form_state['values'];
-  form_set_error($form);
-}
-
 /**
  * @todo Please document this function.
  * @see http://drupal.org/node/1354
@@ -417,24 +412,31 @@ function theme_psfc_orientation_login() {
 }
 
 /**
+ * Return an array of upcoming orientations
+ *
+ * The array should
+ */
+function psfc_orientation_upcoming_orientations() {
+  $ret = array();
+  $sql = "SELECT n.nid AS nid, UNIX_TIMESTAMP(field_orientation_date_value) AS date ".
+    "FROM {node} n JOIN ".
+    "{field_revision_field_orientation_date} d ON n.nid = d.entity_id JOIN ".
+    "{field_revision_field_orientation_closed} c ON n.nid = c.entity_id ".
+    "WHERE n.type = 'orientation' AND d.field_orientation_date_value >= NOW() AND ".
+    "c.field_orientation_closed_value != 1;";
+  $result = db_query($sql);
+  foreach ($result as $ort) {
+    $ret[$ort->nid] = format_date($ort->date);
+  }
+  return $ret;
+}
+/**
  * @todo Please document this function.
  * @see http://drupal.org/node/1354
  */
 function psfc_orientation_add_registrant($form, $form_state) {
-  // Build avaiable orientations list from a view.
-  $orientations = views_get_view_result('orientation_admin', 'default');
-  foreach ($orientations as $ort) {
-    $orientation = node_load($ort->nid);
-    $date = array_pop(field_get_items('node', $orientation, 'field_orientation_date'));
-    // For properly formatting with html:
-    // render($date);
-    // Won't work - We want the raw date. The raw date is in UTC, so
-    // we add the 'Z' to tell strotime that the original is in UTC.
-    $timestamp = strtotime($date['value'] . 'Z');
-    // Now format it according to the Drupal site default
-    // settings.
-    $options[$ort->nid] = format_date($timestamp);
-  }
+  // Get available orientations 
+  $options = psfc_orientation_upcoming_orientations();
 
   $form['instructions'] = array(
     '#value' => '<h2>' . t('Manually sign up a person for orientation') . '</h2>' . t('You may add one person at a time to an orientation. The person may be added by email address or by name and phone number.'),
@@ -524,10 +526,18 @@ function psfc_orientation_add_registrant_submit($form, &$form_state) {
   // Registrant has a site account.
   $orientation = node_load($form_state['values']['onid']);
   if (!empty($form_state['values']['mail'])) {
-    $user = user_load_multiple(array(), array('mail' => $form_state['values']['mail']));
+    $mail = $form_state['values']['mail'];
+    $user = user_load_multiple(array(), array('mail' => $mail));
     $account = array_shift($user);
+    if(empty($account->uid)) {
+      drupal_set_message(t("Failed to find that user."));
+      return;
+    }
     $attendee_wrapper = psfc_orientation_node_build_attendee($account, $form_state['values']['onid']);
     $info = $attendee_wrapper->field_first_name->value() . ' ' . $attendee_wrapper->field_last_name->value();
+    $params['node'] = node_load($attendee_wrapper->nid->value());
+    global $language;
+    drupal_mail('psfc_orientation','registration_not_confirmed', $mail, $language, $params);
     $email = t('Confimration has been requested by email. Confirmation is required within 48 hours.');
   }
   // Registrant has no internet access ever.

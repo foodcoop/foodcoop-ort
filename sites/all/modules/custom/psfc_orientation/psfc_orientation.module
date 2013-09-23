@@ -1060,7 +1060,9 @@ function psfc_orientation_signup_session_register($onid) {
  */
 function psfc_orientation_confirm($uid, $timestamp, $hashed_pass, $action) {
   // Check for active user and confirm hashed pass.
-  if (is_numeric($uid) && $account = array_shift(user_load_multiple(array($uid), array('status' => 1)))) {
+  $accounts = user_load_multiple(array($uid), array('status' => 1));
+  $account = array_shift($accounts);
+  if (is_numeric($uid) && $account) {
     if ($hashed_pass == psfc_orientation_confirm_rehash($account->pass, $timestamp, $account->login)) {
       // Load the attendee node.
       if ($node = psfc_orientation_get_attendee_node($account)) {

@@ -186,32 +186,29 @@ function psfc_orientation_mail_settings() {
 
 function psfc_orientation_mail_tokens($node, $language) {
   global $base_url;
-  $orientation = node_load($node->field_orientation_nid[0]['nid']);
-  // Get our timezone offset. This should account for daylight savings. The
-  // offset is applied using format_date() below.
-  $offset = psf_orientation_get_tz_offset(strtotime($orientation->field_date[0]['value']));
-  // Set runtime TZ to UTC.
-  date_default_timezone_set($orientation->field_date[0]['timezone_db']);
+
+  $attendance_wrapper = entity_metadata_wrapper('node', $node);
+  $orientation_node = $attendance_wrapper->field_orientation_nid->value();
+  $orientation_wrapper= entity_metadata_wrapper('node', $orientation_node);
+  $account =  $attendance_wrapper->field_user_id->value();
   $tokens = array(
-    '!attendee_firstname' => $node->field_firstname[0]['value'],
-    '!attendee_lastname' => $node->field_lastname[0]['value'],
-    '!attendee_email' => $node->field_email[0]['email'],
-    '!attendee_confirmed_status' => $node->field_attendee_confirmed[0]['value'] ? t('Confirmed') : t('Not confirmed'),
-    '!orientation_description' => $orientation->body,
-    '!orientation_date' => format_date(strtotime($orientation->field_date[0]['value']), 'large', '', $offset),
-    '!orientation_date_short' => format_date(strtotime($orientation->field_date[0]['value']), 'small', '', $offset),
-    '!orientation_link' => l($orientation->title, $orientation->path),
-    '!registered_on_date' => format_date($node->timestamp, 'medium', '', $offset, $language->language),
-    '!registerer' => $node->name,
-    '!confirm_link' => $node->confirm,
-    '!cancel_link' => $node->cancel,
+    '!attendee_firstname' => $attendance_wrapper->field_first_name->value(),
+    '!attendee_lastname' => $attendance_wrapper->field_last_name->value(),
+    '!attendee_email' => $attendance_wrapper->field_email->value(),
+    '!attendee_confirmed_status' => $attendance_wrapper->field_confirmed_orientation->value() ? t('Confirmed') : t('Not confirmed'),
+    '!orientation_description' => $orientation_wrapper->body->value(),
+    '!orientation_date' => $orientation_wrapper->field_orientation_date->value(),
+    '!orientation_date_short' => $orientation_wrapper->field_orientation_date->value(),
+    '!orientation_link' => l($orientation_wrapper->title->value(), $orientation_wrapper->url->value()),
+    '!registered_on_date' => $attendance_wrapper->created->value(),
+    '!registerer' => $attendance_wrapper->title->value(),
     '!site' => variable_get('site_name', 'Drupal'),
+    '!confirm_link' => psfc_orientation_confirm_url($account, 'confirm', '', FALSE),
+    '!cancel_link' => psfc_orientation_confirm_url($account, 'cancel', '', FALSE),
     '!uri' => $base_url,
     '!uri_brief' => preg_replace('!^https?://!', '', $base_url),
     '!login_uri' => url('user', array('absolute' => TRUE, 'language' => $language)),
   );
-// Set runtime TZ back to NY.
-  date_default_timezone_set('America/New_York');
   return $tokens;
 }
 
@@ -229,14 +226,15 @@ function psfc_orientation_send_reminders() {
   while ($oid = db_result($result)) {
     // Load orienation node.
     $node = node_load($oid);
-
+    $node_wrapper= entity_metadata_wrapper('node', $node);
     //Send emails
-    $attendees = psfc_orientation_get_all_attendee_nodes($node->nid);
+    $attendees = psfc_orientation_get_all_attendee_nodes($oid);
     if (count($attendees)) {
       foreach ($attendees as $attendee) {
-        $confirmed = $attendee->field_attendee_confirmed;
-        if ($confirmed[0]['value'] == 1) {
-          $account = user_load($attendee->field_userid[0]['uid']);
+        $attendee_wrapper = entity_metadata_wrapper('node', $attendee);
+        $confirmed = $attendee_wrapper->field_attendee_confirmed->value();
+        if ($confirmed == 1) {
+          $account = user_load($attendee_wrapper->field_user_id->value());
           $recipient = $account->mail;
 
           // We only need the node params. The confirm and cancel links are added
@@ -250,8 +248,8 @@ function psfc_orientation_send_reminders() {
         }
       }
       // Mark as emails sent only if we actually sent any.
-      $node->field_reminders[0]['value'] = 1;
-      node_save($node);
+      $node_wrapper->field_reminders->set(1);
+      $node_wrapper->save();
       watchdog('psfc_orientation', 'Email reminders sent for: @title', array('@title' => $node->title), WATCHDOG_NOTICE);
     }
   }

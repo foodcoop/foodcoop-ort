@@ -119,7 +119,7 @@ abstract class EntityMetadataWrapper {
    */
   public function set($value) {
     if (!$this->validate($value)) {
-      throw new EntityMetadataWrapperException('Invalid data value given. Be sure it matches the required data type and format.');
+      throw new EntityMetadataWrapperException('Invalid data value given. Be sure it matches the required data type and format.' . print_r($value, TRUE) . $this->type);
     }
     $this->clear();
     $this->data = $value;

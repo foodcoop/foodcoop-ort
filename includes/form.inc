@@ -1571,6 +1571,7 @@ function form_set_error($name = NULL, $message = '', $limit_validation_errors = 
     $sections = $limit_validation_errors;
   }
 
+  if(is_array($name)) dsm($name);
   if (isset($name) && !isset($form[$name])) {
     $record = TRUE;
     if (isset($sections)) {
