@@ -1067,9 +1067,11 @@ function psfc_orientation_confirm($uid, $timestamp, $hashed_pass, $action) {
       // Load the attendee node.
       if ($node = psfc_orientation_get_attendee_node($account)) {
         if ($action == 'confirm') {
-          $node->field_attendee_confirmed[0]['value'] = 1;
-          node_save($node);
-          drupal_goto('join/orientation/thank-you-confirming-your-orientation-registration');
+          $node_wrapper = entity_metadata_wrapper('node', $node); 
+          $node_wrapper->field_confirmed_orientation->set(1);
+          $node_wrapper->save();
+          drupal_set_message("You have been confirmed!");
+          drupal_goto('<front>');
         }
         elseif ($action == 'cancel') {
           // show confirm form.
@@ -1080,24 +1082,25 @@ function psfc_orientation_confirm($uid, $timestamp, $hashed_pass, $action) {
       // redirect and not a message.
       else {
         drupal_set_message(t('You have not registered for orientation, or your registration has expired or been cancelled.'));
-        drupal_goto('join/orientation');
+        drupal_goto('<front>');
       }
     }
   }
   //No account or bad link. An attendee will get here if trying to confirm too
   // late. This should probably be a page redirect and not a message.
   drupal_set_message(t('There is no user for the operation you requested.'));
-  drupal_goto('join/orientation');
+  //drupal_goto('join/orientation');
 }
 
 /**
  * Confirm registration cancellation.
  */
 function psfc_orientation_cancel_confirm($form, $form_state, $node) {
-  $form['#orientation_attendee_uid'] = $node->field_userid[0]['uid'];
-  $form['#orientation_attendee_nid'] = $node->nid;
+  $node_wrapper = entity_metadata_wrapper('node', $node); 
+  $form['#orientation_attendee_uid'] = $node_wrapper->field_user_id->value()->uid;
+  $form['#orientation_attendee_nid'] = $node_wrapper->getIdentifier();
   $question = t('Confirm Your Cancellation');
-  $path = 'join/orientation';
+  $path = '<front>';
   $description = 'Are you sure you want to cancel your registration for new member orientation?<br /><br />';
   $yes = t('Yes, I Want to Cancel My Registration');
   $no = t('No, Please Do Not Cancel');
@@ -1109,7 +1112,8 @@ function psfc_orientation_cancel_confirm($form, $form_state, $node) {
  */
 function psfc_orientation_cancel_confirm_submit($form, $form_state) {
   node_delete($form['#orientation_attendee_nid']);
-  drupal_goto('node/' . variable_get('psfc_orientation_registrant_removed', ''));
+  drupal_set_message(t("Your registration has been cancelled."));
+  drupal_goto('<front>');
 }
 
 /**
@@ -1158,13 +1162,13 @@ function psfc_orientation_confirm_rehash($password, $timestamp, $login) {
  * @return Node object.
  */
 function psfc_orientation_get_attendee_node($account) {
-  /* $result = db_query("SELECT fnid.entity_id FROM {field_data_field_orientation_nid} fnid JOIN {field_data_field_user_id} fuid ON fnid.revision_id = fuid.revision_id AND fnid.entity_id = fuid.entity_id AND fnid.bundle = fuid.bundle WHERE fuid.field_user_id_uid = :field_userid_uid", array(':field_userid_uid' => $account->uid)); */
-  /* if ($result->rowCount() > 0) { */
-  /*   while ($nid = $result->fetchField()) { */
-  /*     $node = (is_numeric($nid)) ? node_load($nid) : FALSE; */
-  /*     return $node; */
-  /*   } */
-  /* } */
+  $result = db_query("SELECT fnid.entity_id FROM {field_data_field_orientation_nid} fnid JOIN {field_data_field_user_id} fuid ON fnid.revision_id = fuid.revision_id AND fnid.entity_id = fuid.entity_id AND fnid.bundle = fuid.bundle WHERE fuid.field_user_id_uid = :field_userid_uid", array(':field_userid_uid' => $account->uid)); 
+  if ($result->rowCount() > 0) { 
+    while ($nid = $result->fetchField()) { 
+      $node = (is_numeric($nid)) ? node_load($nid) : FALSE; 
+      return $node; 
+    } 
+  } 
   return FALSE;
 }
 
