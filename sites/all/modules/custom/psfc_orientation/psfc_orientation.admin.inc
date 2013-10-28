@@ -535,10 +535,6 @@ function psfc_orientation_add_registrant_submit($form, &$form_state) {
     }
     $attendee_wrapper = psfc_orientation_node_build_attendee($account, $form_state['values']['onid']);
     $info = $attendee_wrapper->field_first_name->value() . ' ' . $attendee_wrapper->field_last_name->value();
-    $params['node'] = node_load($attendee_wrapper->nid->value());
-    global $language;
-    drupal_mail('psfc_orientation','registration_not_confirmed', $mail, $language, $params);
-    $email = t('Confimration has been requested by email. Confirmation is required within 48 hours.');
   }
   // Registrant has no internet access ever.
   else {
@@ -550,7 +546,7 @@ function psfc_orientation_add_registrant_submit($form, &$form_state) {
     $orientation_wrapper->save();
   }
   $email = isset($email) ? $email : NULL;
-  drupal_set_message(t('@info has been registed for orientation on @date. @email', array('@info' => $info, '@date' => $orientation->field_orientation_date['und'][0]['value'], '@email' => $email)));
+  drupal_set_message(t('@info has been registed for orientation on @date.', array('@info' => $info, '@date' => $orientation->field_orientation_date['und'][0]['value'])));
 
 }
 

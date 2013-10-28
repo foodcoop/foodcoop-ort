@@ -527,89 +527,60 @@ function psfc_orientation_obid_load($obid) {
 }
 
 /**
- * Implements hook_nodeapi().
+ * Implements hook_entity_insert.
+ *
  */
-function psfc_orientation_nodeapi_OLD(&$node, $op, $a3 = NULL, $a4 = NULL) {
-  // TODO Remaining code in this function needs to be moved to the appropriate new hook function.
-  if ($node->type == 'orientation_attendee') {
-    $recipient = $node->field_email[0]['email'];
-    // This is the attendee node.
-    switch ($op) {
-      case 'insert':
-        // TODO Convert "user_load" to "user_load_multiple" if "$node->field_userid[0]['uid']" is other than a uid.
-        // To return a single user object, wrap "user_load_multiple" with "array_shift" or equivalent.
-        // Example: array_shift(user_load_multiple(array(), $node->field_userid[0]['uid']))
-        $account = user_load($node->field_userid[0]['uid']);
-        $params['node'] = $node;
-        $params['node']->confirm = psfc_orientation_confirm_url($account, 'confirm', NULL, FALSE);
-        $params['node']->cancel = psfc_orientation_confirm_url($account, 'cancel', NULL, FALSE);
-        // A new attendee as been created for an orientation and is confirmed.
-        // This would have to have been created by an admin
-        if ($node->field_attendee_confirmed[0]['value'] == TRUE) {
-          drupal_mail('psfc_orientation', 'registration_confirmed', $recipient, language_default(), $params);
-        }
-        // Attendee was signed up by someone else, must confirm.
-        // @TODO make sure we don't email an admin who created the attendee.
-        else {
-          drupal_mail('psfc_orientation', 'registration_not_confirmed', $recipient, language_default(), $params);
-        }
-        // Check remaining capacity and close if necessary.
-        psfc_orientation_capacity($node->field_orientation_nid[0]['nid'], TRUE);
-        break;
+function psfc_orientation_entity_insert($entity, $type) {
+  if($type == 'node' && $entity->type == 'orientation_attendee') {
+    $node_wrapper = entity_metadata_wrapper('node', $entity); 
+    // Send out confirmation email.
+    $params['node'] = $entity;
+    global $language;
+    $recipient = $node_wrapper->field_email->value();
+    $account = $node_wrapper->field_user_id->value();
+    if(empty($recipient)) {
+      $recipient = $account->mail;
+    }
+    drupal_mail('psfc_orientation','registration_not_confirmed', $recipient, $language, $params);
+    drupal_set_message(t('Confimration has been requested by email. Confirmation is required within 48 hours.'));
+    // Check remaining capacity and close if necessary.
+    psfc_orientation_capacity($node_wrapper->field_orientation_nid->value(), TRUE);
+  }
+}
 
-      case 'delete':
-        // TODO Convert "user_load" to "user_load_multiple" if "$node->field_userid[0]['uid']" is other than a uid.
-        // To return a single user object, wrap "user_load_multiple" with "array_shift" or equivalent.
-        // Example: array_shift(user_load_multiple(array(), $node->field_userid[0]['uid']))
-        $account = user_load($node->field_userid[0]['uid']);
-        // Does the orientation node still exist? If not, it was cancelled by
-        // the coop.
-        $coop_cancelled = !node_load($node->field_orientation_nid[0]['nid']);
-        $params['node'] = $node;
-        $params['node']->confirm = psfc_orientation_confirm_url($account, 'confirm', NULL, FALSE);
-        $params['node']->cancel = psfc_orientation_confirm_url($account, 'cancel', NULL, FALSE);
-        // Email the attendee.
-
-        if ($coop_cancelled) {
-          // Cancelled by coop admin.
-          drupal_mail('psfc_orientation', 'registration_coop_cancelled', $recipient, language_default(), $params);
-        }
-        elseif ($node->status == 1) {
-          // Self-cancelled by registrant. $node->status == 0 will be a flag that
-          // we already emailed the registrant when we cancelled their reg
-          // because they did not confirm, and we don't need to mail again.
-          // @see psfc_orientation_cron().
-
-          drupal_mail('psfc_orientation', 'registration_cancelled', $recipient, language_default(), $params);
-          // Update the orientation nodes open/closed status. This will reopen
-          // the orientation if it is closed.
-          psfc_orientation_capacity($node->field_orientation_nid[0]['nid'], TRUE);
-        }
-        break;
-      case 'view':
-        // A bit of a hack to protect attendee nodes from the public.
-        if (!user_access('administer psfc orientation')) {
-          drupal_goto();
-        }
-        break;
+/**
+ * Implements hook_entity_delete.
+ *
+ */
+function psfc_orientation_entity_delete($entity, $type) {
+  if($type == 'node' && $entity->type == 'orientation_attendee') {
+    $node_wrapper = entity_metadata_wrapper('node', $entity); 
+    $offset = 1;
+    $orientation_node = $node_wrapper->field_orientation_nid->value();
+    // If the orientation still exists, check remaining capacity and open if necessary.
+    // (since a new spot is opening up).
+    if($orientation_node) {
+      psfc_orientation_capacity($orientation_node, TRUE, $offset);
     }
   }
-  if ($node->type == 'orientation') {
-    switch ($op) {
-      case 'delete':
-        // Delete all attendee nodes.
-        $attendees = psfc_orientation_get_all_attendee_nodes($node->nid);
-        foreach ($attendees as $attendee) {
-          node_delete($attendee->nid);
-        }
-        break;
-    }
-  }
-  if ($node->type == 'page') {
-    switch ($op) {
-      case 'alter':
-        $node->body = token_replace($node->body);
-        break;
+  if ($type == 'node' && $entity->type == 'orientation') {
+    // When deleting an orientation, delete all attendee nodes.
+    $attendees = psfc_orientation_get_all_attendee_nodes($entity->nid);
+    foreach ($attendees as $attendee) {
+      // Warn the attendee that the orientation is cancelled.
+      $node_wrapper = entity_metadata_wrapper('node', $attendee); 
+      $recipient = $node_wrapper->field_email->value();
+      $account = $node_wrapper->field_user_id->value();
+      if(empty($recipient)) {
+        $recipient = $account->mail;
+      }
+      $params['node'] = $attendee;
+      $params['node']->confirm = psfc_orientation_confirm_url($account, 'confirm', NULL, FALSE);
+      $params['node']->cancel = psfc_orientation_confirm_url($account, 'cancel', NULL, FALSE);
+      drupal_mail('psfc_orientation', 'registration_coop_cancelled', $recipient, language_default(), $params);
+
+      // Delete the attendee node.
+      node_delete($attendee->nid);
     }
   }
 }
@@ -852,28 +823,49 @@ function psfc_orientation_node_build_attendee($account, $onid) {
  * @param $node
  *   Either an orientation node object or node ID.
  * @param $close
- *   If TRUE the orientation node should be closed.
+ *   If TRUE the orientation node should be closed or opened.
+ * @param $offset
+ *   The number to modify the count by. When called by hook_entity_delete
+ *   one must be added to the count to account for the registrant
+ *   that is about to be deleted but has not yet been deleted.
  * @return The number of open spaces remaining for the orientation.
  */
-function psfc_orientation_capacity($node, $close = FALSE) {
+function psfc_orientation_capacity($node, $close = FALSE, $offset = 0) {
   if (!is_object($node)) {
     // We have to reset the node cache to get the latest count.
     $node = node_load($node, NULL, TRUE);
   }
-  $count = isset($node->field_orientation_phone_reg['und'][0]) ? ($node->field_orientation_capacity['und'][0]['value'] - count($node->field_orientation_phone_reg['und'])) : $node->field_orientation_capacity['und'][0]['value'];
+  $node_wrapper = entity_metadata_wrapper('node', $node); 
+  $capacity = $node_wrapper->field_orientation_capacity->value();
 
-  // TODO: Change to reflect new open/ closed  field structure.
+  // Get count of people registered with phone number.
+  $phone_reg_count = 0;
+  foreach($node_wrapper->field_orientation_phone_reg->getIterator() as $delta) {
+    $phone_reg_count++;
+  }
+  // Get count of users on the system registered.
+  $result = db_query("SELECT COUNT(DISTINCT fuid.field_user_id_uid) FROM {field_data_field_orientation_nid} fnid JOIN {field_data_field_user_id} fuid ON fnid.revision_id = fuid.revision_id AND fnid.entity_id = fuid.entity_id AND fnid.bundle = fuid.bundle WHERE fnid.field_orientation_nid_nid = :nid", array(':nid' => $node->nid)); 
+  if ($result->rowCount() == 0) {
+    $user_reg_count = 0;
+  }
+  else {
+    $user_reg_count = $result->fetchField();
+  }
+
+  // Get count of remaining slots
+  $count = $capacity - $phone_reg_count - $user_reg_count + $offset;
+
   // It's full. Close it if it's not already closed.
-  if ($close && $count <= 0 && $node->field_orientation_closed['und'][0]['value'] == 0) {
-    $node->field_orientation_closed['und'][0]['value'] = 1; // 0 is open, 1 is closed.
-    node_save($node);
+  if ($close && $count <= 0 && $node_wrapper->field_orientation_closed->value() == 0) {
+    $node_wrapper->field_orientation_closed->set(1); // 0 is open, 1 is closed.
+    $node_wrapper->save();
   }
 
   // TODO: Change to reflect new open/ closed  field structure.
   // It's not full, reopen it if it's not already open.
-  if ($close && $count > 0 && $node->field_orientation_closed['und'][0]['value'] == 1) {
-    $node->field_orientation_closed['und'][0]['value'] = 0; // 0 is open, 1 is closed.
-    node_save($node);
+  if ($close && $count > 0 && $node_wrapper->field_orientation_closed->value() == 1) {
+    $node_wrapper->field_orientation_closed->set(0); // 0 is open, 1 is closed.
+    $node_wrapper->save();
   }
   return $count;
 }
@@ -1173,21 +1165,16 @@ function psfc_orientation_get_attendee_node($account) {
 }
 
 /**
- * Helper function to load attendee node.
+ * Get list of attendees for given orientation nid
  *
- * @param $oid
- *   The orientation node id.
- *
- * @return Array of node objects.
- */
-
-/**
- * @todo Please document this function.
- * @see http://drupal.org/node/1354
+ * @param $oid 
+ *   The nid of the orientation node
+ * @return
+ *   An array of attendee node objects.
  */
 function psfc_orientation_get_all_attendee_nodes($oid) {
   $attendees = array();
-  $result = db_query("SELECT nid FROM {content_type_orientation_attendee} WHERE field_orientation_nid_nid = :field_orientation_nid_nid", array(':field_orientation_nid_nid' => $oid));
+  $result = db_query("SELECT entity_id FROM {field_data_field_orientation_nid} WHERE field_orientation_nid_nid = :nid", array(':nid' => $oid)); 
   while ($nid = $result->fetchField()) {
     $attendees[] = node_load($nid);
   }

@@ -68,7 +68,7 @@ EOT;
         $ret = <<<EOT
 Dear !attendee_firstname !attendee_lastname
 
-This is a reminder that you are registered for a Park Slope Food Coop New Member Orientation on !orientation_date. 
+This is a reminder that you are registered for a Park Slope Food Coop New Member Orientation on !orientation_date.
 
 There are four things we REALLY want you to know:
 
@@ -90,9 +90,9 @@ Please DO NOT REPLY to this email. If you have any questions or need assistance,
 EOT;
         return strtr($ret, $variables);
       case 'registration_cancelled_subject':
-        return t('Reminder: Your PSFC orientation has been cancelled.', $variables, $options);
+        return t('Your PSFC orientation has been cancelled.', $variables, $options);
       case 'registration_cancelled_body':
-        return t("Dear !attendee_firstname !attendee_lastname\n\nYour scheduled PSFC new member orientation has been cancelled.\n\n Thank you,\nThe Park Slope Food Coop", $variables, $options);
+        return t("Dear !attendee_firstname !attendee_lastname\n\nYou have successfully cancelled your new member orientation on !orientation_date.\n\n Thank you,\nThe Park Slope Food Coop", $variables, $options);
       case 'confirmation_window_missed_subject':
         return t('You failed to confirm your PSFC orientation.', $variables, $options);
       case 'confirmation_window_missed_body':
@@ -232,8 +232,8 @@ function psfc_orientation_mail_tokens($node, $language) {
     '!attendee_email' => $attendance_wrapper->field_email->value(),
     '!attendee_confirmed_status' => $attendance_wrapper->field_confirmed_orientation->value() ? t('Confirmed') : t('Not confirmed'),
     '!orientation_description' => $orientation_wrapper->body->value(),
-    '!orientation_date' => $orientation_wrapper->field_orientation_date->value(),
-    '!orientation_date_short' => $orientation_wrapper->field_orientation_date->value(),
+    '!orientation_date' => format_date($orientation_wrapper->field_orientation_date->value(), 'medium'),
+    '!orientation_date_short' => format_date($orientation_wrapper->field_orientation_date->value(), 'short'),
     '!orientation_link' => l($orientation_wrapper->title->value(), $orientation_wrapper->url->value()),
     '!registered_on_date' => $attendance_wrapper->created->value(),
     '!registerer' => $attendance_wrapper->title->value(),
