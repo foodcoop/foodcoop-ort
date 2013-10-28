@@ -469,7 +469,7 @@ function psfc_orientation_add_registrant($form, $form_state) {
     '#title' => t('Sign up a person using name and phone numbe'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
-    '#description' => t('You will need to have the person\'s email address.'),
+    '#description' => t('You will not need to have the person\'s email address.'),
   );
   $form['no_account']['first_name'] = array(
     '#type' => 'textfield',
