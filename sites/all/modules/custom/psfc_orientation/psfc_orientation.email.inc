@@ -23,18 +23,72 @@ function _psfc_orientation_mail_text($key, $language = NULL, $variables = array(
   else {
     // No override, return default string.
     switch ($key) {
-      case 'registration_confirmed_subject':
-        return t('Orientation confirmation from !site', $variables, $options);
-      case 'registration_confirmed_body':
-        return t("Dear !username\n\nYou have registered for orientation.", $variables, $options);
       case 'registration_not_confirmed_subject':
-        return t('Please confirm your orientation !site', $variables, $options);
+        return t('Please confirm: Park Slope Food Coop New Member Orientation', $variables, $options);
       case 'registration_not_confirmed_body':
-        return t("Dear !username\n\nYou have been registered for you for orientation. Please confirm.", $variables, $options);
+        $ret = <<<EOT
+Dear !attendee_firstname !attendee_lastname,
+
+Thank you for interest in attending a New Member Orientation at the Park Slope Food Coop. You have selected the following Session:
+
+!orientation_date
+
+In order to complete your registration and secure your seat, please click on the "confirm" link below within 48 hours. After 48 hours, any un-confirmed registrations will be cancelled and those seats will be released.
+
+CLICK TO CONFIRM:
+!confirm_link
+
+CLICK TO CANCEL:
+!cancel_link
+
+Please also take a moment to read the following important information:
+
+ * In order to join the Coop you (and all housemates) will first need to present in person two forms of ID -- one photo ID and one proof of address. (Acceptable forms of proof are listed in the "Provide Proof of ID and Address" section of the website.)
+
+ * You will be asked to present your proof of ID while checking into the Orientation room.
+
+ * If you live with other adults who have not yet attended an Orientation, they are welcome to attend this orientation with you. Remember that they will need to present their own proof of ID and Address to complete the joining process.
+
+ * Your shopping privileges being the day after your household completes the joining process.
+
+ * Arrive on time. The Orientation begins promptly and lasts approximately two hours. Latecomers will not be admitted.
+
+ * If you will be unable to attend the Orientation, please log in to your "Orientation Status" page and cancel your registration, even if it’s only an hour or two before the Session. Seats are sought after, and someone will appreciate the opening.
+
+Click on the link above to complete your registration. We look forward to seeing you soon!
+
+- The Park Slope Food Coop
+
+Please DO NOT REPLY to this email. If you have any questions or need assistance, contact the Coop Membership Office at 718-622-0560.
+EOT;
+        return strtr($ret, $variables);
       case 'registration_reminder_subject':
-        return t('Reminder: Your PSFC orientation is coming up.', $variables, $options);
+        return t('Park Slope Food Coop New Member Orientation', $variables, $options);
       case 'registration_reminder_body':
-        return t("Dear !username\n\nYou are registered to attend a PSFC new member orientation.", $variables, $options);
+        $ret = <<<EOT
+Dear !attendee_firstname !attendee_lastname
+
+This is a reminder that you are registered for a Park Slope Food Coop New Member Orientation on !orientation_date. 
+
+There are four things we REALLY want you to know:
+
+    * You will be asked to present proof of ID while checking into the Orientation room.
+
+    * To join the Coop you, and all your housemates, must present photo ID and proof of address in person. (Acceptable forms of proof are listed on foodcoop.com in the “Join the Coop” section.)
+
+    * If you live with other adults who have not yet attended an Orientation, they are welcome to attend this orientation with you. Remember that they will need to present their own proof of ID and Address to complete the joining process.
+
+    * Your shopping privileges will begin the day after your household completes the joining process.
+
+If you will be unable to attend please <strong> !cancel_link cancel your registration</strong>, so that someone else can attend in your place.
+
+Thank you. We look forward to seeing you soon!
+
+- The Park Slope Food Coop
+
+Please DO NOT REPLY to this email. If you have any questions or need assistance, contact the Coop Membership Office at 718-622-0560.
+EOT;
+        return strtr($ret, $variables);
       case 'registration_cancelled_subject':
         return t('Reminder: Your PSFC orientation has been cancelled.', $variables, $options);
       case 'registration_cancelled_body':
@@ -63,25 +117,6 @@ function psfc_orientation_mail_settings() {
   // the list once to help ensure they stay in sync.
   $email_token_help = t('Available variables are: ') .'!attendee_firstname, !attendee_lastname, !attendee_email, !attendee_confirmed_status, !orientation_description, !orientation_date, !orientation_date_short, !orientation_link, !confirm_link, !cancel_link, !registered_on_date, !registerer, !site, !uri, !uri_brief, !login_uri';
 
-  $form['email']['registration_confirmed'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Registration confirmed'),
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-    '#description' => t('When self-registering, or when a Coop admin registers someone for an orientation, it is not necessary to confirm.') .' '. $email_token_help,
-  );
-  $form['email']['registration_confirmed']['psfc_orientation_mail_registration_confirmed_subject'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Subject'),
-    '#default_value' => _psfc_orientation_mail_text('registration_confirmed_subject'),
-    '#maxlength' => 180,
-  );
-  $form['email']['registration_confirmed']['psfc_orientation_mail_registration_confirmed_body'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Body'),
-    '#default_value' => _psfc_orientation_mail_text('registration_confirmed_body'),
-    '#rows' => 15,
-  );
   $form['email']['registration_not_confirmed'] = array(
     '#type' => 'fieldset',
     '#title' => t('Registration not confirmed'),
