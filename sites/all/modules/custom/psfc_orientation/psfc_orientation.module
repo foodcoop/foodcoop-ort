@@ -148,6 +148,7 @@ function psfc_orientation_menu() {
     'page arguments' => array('psfc_orientation_nodemap_settings'),
     'access arguments' => array('administer psfc orientation'),
     'file' => 'psfc_orientation.nodemap.inc',
+    'type' => MENU_LOCAL_TASK,
     'weight' => 13,
   );
 
