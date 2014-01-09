@@ -14,6 +14,43 @@ function psfc_orientation_uninstall() {
   }
 }
 
+/**
+ * Implements hook_install().
+ */
+function psfc_orientation_install() {
+  // Ensure default nodes are created.
+  $dir = DRUPAL_ROOT . '/' . drupal_get_path('module', 'psfc_orientation') . '/default-content';
+  $files = scandir($dir);
+  while(list(,$file) = each($files)) {
+
+    // This directory contains three files for each node we want to import
+    // (title, body and alias). The files are named after the variable 
+    // name their nid will be saved as (minus the psfc_orientation prefix), 
+    // e.g. no_orientation.title, no_orientation.body, no_orientation.alias). 
+    // We want to only scan for xxx.title and we'll find the rest of the file 
+    // after we get the variable name.
+    if(preg_match("/^([a-z_]+)\.title$/", $file, $matches)) {
+      $variable_name = $matches[1];
+      $title = file_get_contents("${dir}/${variable_name}.title");
+      $body = file_get_contents("${dir}/${variable_name}.body");
+      $alias = file_get_contents("${dir}/${variable_name}.alias");
+      $node = entity_create('node', array('type' => 'page'));
+      $node_wrapper = entity_metadata_wrapper('node', $node);
+      $node_wrapper->author->set(0);
+      $node_wrapper->status->set(1);
+      $node_wrapper->comment->set(0);
+      $node_wrapper->promote->set(0);
+      $node_wrapper->sticky->set(0);
+      $node_wrapper->title->set($title);
+      $node_wrapper->body->set(array('value' => $body));
+      // $node_wrapper->alias->set($alias);
+      $node_wrapper->save();
+      $nid = $node_wrapper->nid->value();
+      variable_get('psfc_orientation_' . $variable_name, $nid);
+    }
+  }
+}
+
 
 /**
  * Implements hook_schema().
