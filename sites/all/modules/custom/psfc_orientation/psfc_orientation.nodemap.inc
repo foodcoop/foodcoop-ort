@@ -22,17 +22,17 @@ function psfc_orientation_nodemap_settings($form, &$form_state) {
   );
 
   // Text below list of available orientations
-  $form['below_available'] = array(
+  $form['upcoming_orientations'] = array(
     '#type' => 'fieldset',
     '#title' => t('Text below list of available orientations'),
   );
-  $form['below_available']['psfc_orientation_upcoming_orientations'] = array(
+  $form['upcoming_orientations']['psfc_orientation_upcoming_orientations'] = array(
     '#type' => 'textfield',
     '#title' => t('Node ID'),
     '#default_value' => variable_get('psfc_orientation_upcoming_orientations', 36),
     '#size' => 5,
   );
-  $form['below_available']['psfc_orientation_upcoming_orientations_links'] = array(
+  $form['upcoming_orientations']['psfc_orientation_upcoming_orientations_links'] = array(
     '#markup' => l('Edit this node', 'node/' . variable_get('psfc_orientation_upcoming_orientations') .'/edit'),
   );
 
@@ -51,22 +51,6 @@ function psfc_orientation_nodemap_settings($form, &$form_state) {
   );
   $form['why_account']['psfc_orientation_why_account_links'] = array(
     '#markup' => l('Edit this node', 'node/' . variable_get('psfc_orientation_why_account') .'/edit'),
-  );
-
-
-  /* // Account creation instructions (login page right) */
-  $form['below_available'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Text below list of available orientations'),
-  );
-  $form['below_available']['psfc_orientation_upcoming_orientations'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Node ID'),
-    '#default_value' => variable_get('psfc_orientation_upcoming_orientations', 36),
-    '#size' => 5,
-  );
-  $form['below_available']['psfc_orientation_upcoming_orientations_links'] = array(
-    '#markup' => l('Edit this node', 'node/' . variable_get('psfc_orientation_upcoming_orientations') .'/edit'),
   );
 
 

@@ -7,6 +7,21 @@
  * Implements hook_uninstall().
  */
 function psfc_orientation_uninstall() {
+  // Remove all nodes.
+  psfc_orientation_delete_default_content();
+
+  // Restore front page
+  $site_frontpage = variable_get('psfc_orientation_old_site_frontpage', NULL);
+  if(!is_null($site_frontpage)) {
+    // We set the old front page to an empty string if it didn't previously exist
+    // (which is the Drupal default).
+    if($site_frontpage == '') {
+      variable_delete('site_frontpage');
+    } 
+    else {
+      variable_set('site_frontpage', $site_frontpage);
+    }
+  }
   // Remove site variables.
   $query = db_query('SELECT name FROM variable WHERE name LIKE :varname', array(':varname' => db_like('psfc_orientation_') .'%'));
   foreach ($query as $result) {
@@ -21,6 +36,7 @@ function psfc_orientation_install() {
   // Ensure default nodes are created.
   $dir = DRUPAL_ROOT . '/' . drupal_get_path('module', 'psfc_orientation') . '/default-content';
   $files = scandir($dir);
+  $new_front_page = NULL;
   while(list(,$file) = each($files)) {
 
     // This directory contains three files for each node we want to import
@@ -31,26 +47,81 @@ function psfc_orientation_install() {
     // after we get the variable name.
     if(preg_match("/^([a-z_]+)\.title$/", $file, $matches)) {
       $variable_name = $matches[1];
+      $nid = variable_get('psfc_orientation_' . $variable_name, NULL);
+      if(!is_null($nid)) {
+        if(psfc_orientation_nid_exists($nid)) {
+          // Don't re-import
+          continue;
+        }
+      }
       $title = file_get_contents("${dir}/${variable_name}.title");
       $body = file_get_contents("${dir}/${variable_name}.body");
       $alias = file_get_contents("${dir}/${variable_name}.alias");
       $node = entity_create('node', array('type' => 'page'));
+      $node->path['pathauto'] = FALSE;
+      $node->path['alias'] = $alias;
       $node_wrapper = entity_metadata_wrapper('node', $node);
+      // print_r($node_wrapper->getPropertyInfo());
       $node_wrapper->author->set(0);
       $node_wrapper->status->set(1);
       $node_wrapper->comment->set(0);
       $node_wrapper->promote->set(0);
       $node_wrapper->sticky->set(0);
       $node_wrapper->title->set($title);
-      $node_wrapper->body->set(array('value' => $body));
+      $node_wrapper->body->set(array('value' => $body, 'format' => 'psfc_html_filter'));
       // $node_wrapper->alias->set($alias);
       $node_wrapper->save();
       $nid = $node_wrapper->nid->value();
-      variable_get('psfc_orientation_' . $variable_name, $nid);
+      variable_set('psfc_orientation_' . $variable_name, $nid);
+      if($variable_name == 'join_overview') {
+        $new_front_page = $alias;
+      }
     }
+  }
+  if(!is_null($new_front_page)) {
+    $old_frontpage = variable_get('site_frontpage', '');
+    variable_set('psfc_orientation_old_site_frontpage', $old_frontpage);
+    variable_set('site_frontpage', 'join/overview');
   }
 }
 
+
+/**
+ * Delete all created content. Should be run on uninstall.
+ */
+function psfc_orientation_delete_default_content() {
+  $dir = DRUPAL_ROOT . '/' . drupal_get_path('module', 'psfc_orientation') . '/default-content';
+  $files = scandir($dir);
+  while(list(,$file) = each($files)) {
+    // This directory contains three files for each node we  imported
+    // (title, body and alias). The files are named after the variable 
+    // name their nid will be saved as (minus the psfc_orientation prefix), 
+    // e.g. no_orientation.title, no_orientation.body, no_orientation.alias). 
+    // We want to only scan for xxx.title.
+    if(preg_match("/^([a-z_]+)\.title$/", $file, $matches)) {
+      $variable_name = $matches[1];
+      $nid = variable_get('psfc_orientation_' . $variable_name, NULL);
+      if(!is_null($nid)) {
+        if(psfc_orientation_nid_exists($nid)) {
+          node_delete($nid);
+        }
+      }
+    }
+  }
+}
+/**
+ * Helper function to determine if node with given
+ * nid exists.
+ *
+ * @param - integer, nid - the nid to check
+ * @return - boolean, whether it exists or not
+ */
+function psfc_orientation_nid_exists($nid) {
+  $node = node_load($nid);
+  $result = db_query("SELECT count(nid) FROM {node} WHERE nid = :nid", array(':nid' => $nid));
+  if($result->fetchField(0) == 0) return FALSE;
+  return TRUE;
+}
 
 /**
  * Implements hook_schema().
