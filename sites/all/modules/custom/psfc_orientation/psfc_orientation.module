@@ -1508,3 +1508,18 @@ function psf_orientation_get_tz_offset($timestamp) {
   }
   return $offset;
 }
+
+/**
+ * Implementation of hook_node_view_alter 
+ **/
+function psfc_orientation_node_view_alter(&$build) {
+  $build['#post_render'][] = 'psfc_orientation_node_post_render';
+}
+
+/**
+ * Convert any of our tokens in the node
+ *
+ **/
+function psfc_orientation_node_post_render($markup, $element) {
+  return token_replace($markup);
+}
