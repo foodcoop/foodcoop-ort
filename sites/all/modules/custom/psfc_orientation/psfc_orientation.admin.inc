@@ -382,31 +382,30 @@ function psfc_orientation_login() {
  */
 function theme_psfc_orientation_login() {
   $why_account_help_txt = node_load(variable_get('psfc_orientation_why_account', 37));
-  unset($why_account_help_txt->title);
   $why_account_help_txt_view = node_view($why_account_help_txt);
   if (user_access('administer psfc orientation') && user_access('administer nodes')) {
     $why_account_help_txt_view .= l('edit', "node/" . variable_get('psfc_orientation_why_account', 37) . "/edit");
   }
   $account_create_help_txt = node_load(variable_get('psfc_orientation_account_create', 38));
-  unset($account_create_help_txt->title);
   $account_create_help_txt_view = node_view($account_create_help_txt);
   if (user_access('administer psfc orientation') && user_access('administer nodes')) {
     $account_create_help_txt_view .= l('edit', "node/" . variable_get('psfc_orientation_account_create', 38) . "/edit");
   }
 
-  _user_password_dynamic_validation();
   $output = '<div class="orientation-login">';
   $output .= '<h3>If you already have an account, please log in</h3>';
-  $output .= drupal_get_form('user_login');
+  $user_login = drupal_get_form('user_login');
+  $output .= render($user_login);
   $output .= '<br />' . l(t('Request new password'), 'user/password');
   $output .= '<div class="orientation-what">';
-  $output .= $why_account_help_txt_view;
+  $output .= render($why_account_help_txt_view);
   $output .= '</div>';
   $output .= '</div>';
   $output .= '<div class="orientation-register">';
   $output .= '<h3>Create an account</h3>';
-  $output .= $account_create_help_txt_view;
-  $output .= drupal_get_form('user_register');
+  $output .= render($account_create_help_txt_view);
+  $user_register = drupal_get_form('user_register_form');
+  $output .= render($user_register);
   $output .= '</div>';
   return $output;
 }

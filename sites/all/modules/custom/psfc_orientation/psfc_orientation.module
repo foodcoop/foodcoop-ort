@@ -376,19 +376,13 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
         unset($form[$field]['#description']);
       }
       break;
-    case 'user_register':
+    case 'user_register_form':
       // We need to redirect sometime so we need our own submit.
       $form['#submit'][] = 'psfc_orientation_user_register_submit';
       // Only alter reg form on our custom signup page.
       if ($_GET['q'] == 'login') {
         $form['submit']['#value'] = t('Sign Up'); // Change button value.
 
-        // Move name category to account.
-        $form['profile_firstname'] = $form['Name']['profile_firstname'];
-        $form['profile_lastname'] = $form['Name']['profile_lastname'];
-        unset($form['profile_firstname']['#description']);
-        unset($form['profile_lastname']['#description']);
-        // Unset description and move all to $form.
         foreach (element_children($form['account']) as $field) {
           unset($form['account'][$field]['#description']);
           $form[$field] = $form['account'][$field];
@@ -406,17 +400,6 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
         );
 
         $form['submit']['#attributes'] = array('onClick' => 'return verifyEmail();');
-
-        // Lose the fieldsets.
-        unset($form['Name']);
-        unset($form['account']);
-        //Put fields in order.
-        $form['profile_firstname']['#weight'] = 1;
-        $form['profile_lastname']['#weight'] = 2;
-        $form['mail']['#weight'] = 3;
-        $form['mail2']['#weight'] = 4;
-        $form['name']['#weight'] = 5;
-        $form['pass']['#weight'] = 6;
       }
       $form['#validate'][] = 'psfc_orientation_user_register_validate';
 
