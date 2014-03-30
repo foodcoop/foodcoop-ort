@@ -134,22 +134,6 @@ function psfc_orientation_nodemap_settings($form, &$form_state) {
   );
 
 
-  // Thank you for confirming your orientation
-  $form['thank_you'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Thank you for confirming your orientation'),
-  );
-  $form['thank_you']['psfc_orientation_confirmation_thank_you'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Node ID'),
-    '#default_value' => variable_get('psfc_orientation_confirmation_thank_you', 43),
-    '#size' => 5,
-  );
-  $form['thank_you']['psfc_orientation_confirmation_thank_you_links'] = array(
-    '#markup' => l('Edit this node', 'node/' . variable_get('psfc_orientation_confirmation_thank_you') .'/edit'),
-  );
-
-
   // Cancellation completion
   $form['reg_removed'] = array(
     '#type' => 'fieldset',

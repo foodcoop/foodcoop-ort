@@ -189,12 +189,6 @@ function psfc_orientation_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
-  $items['join/orientation/confirmed'] = array(
-    'title' => 'Thank you for Confirming your Orientation Registration',
-    'page callback' => 'psfc_orientation_confirmed',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-  );
   $items['join/orientation/confirm/%/%/%/%'] = array(
     'title' => 'Set registration status',
     'page callback' => 'psfc_orientation_confirm',
@@ -609,40 +603,6 @@ function psfc_orientation_split_time_of_day($orid) {
  */
 function psfc_orientation_status() {
   return theme('psfc_orientation_status');
-}
-
-/**
- * Menu callback for registration confirmed page.
- *
- */
-function psfc_orientation_confirmed() {
-  global $user;
-  // Not logged in.
-  if (!$user->uid) {
-    drupal_goto();
-  }
-
-  $attendee = psfc_orientation_get_attendee_node($user);
-
-  // User has not registered or is not confirmed.
-  if (!$attendee || !$attendee->field_attendee_confirmed[0]['value']) {
-    drupal_goto();
-  }
-
-  $orientation = node_load($attendee->field_orientation_nid[0]['nid']);
-
-  $output = '<p>' . t('We will see you on:') . '</p>';
-  $output .= theme_psfc_orientation_date_table($orientation);
-  $text = node_load(variable_get('psfc_orientation_confirmation_thank_you', FALSE));
-  if (is_object($text)) {
-    drupal_set_title(t($text->title));
-    unset($text->title);
-    $output .= node_view($text);
-    if (user_access('administer psfc orientation') && user_access('administer nodes')) {
-      $output .= l('edit', "node/" . variable_get('psfc_orientation_confirmation_thank_you', FALSE) . "/edit");
-    }
-  }
-  return $output;
 }
 
 /**
