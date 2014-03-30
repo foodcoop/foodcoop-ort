@@ -199,6 +199,36 @@ function psfc_orientation_menu() {
 }
 
 /**
+ * Implements hook_block_info().
+ **/
+function psfc_orientation_block_info() {
+  $items = array(
+    'login_or_create_account' => array(
+      'info' => t("Login or Create an Account"),
+     ),
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_block_info().
+ **/
+function psfc_orientation_block_view($delta = '') {
+  switch($delta) {
+    case "login_or_create_account":
+      global $user;
+      if(empty($user->uid)) {
+        $text = t("Login or Create an Account");
+        return array(
+          'subject' => '',
+          'content' => l($text, 'login')
+        );
+      }
+      break;
+  }
+}
+
+/**
  * User access function for admin pages intended for multiple roles.
  */
 function psfc_orientation_access_admin() {
