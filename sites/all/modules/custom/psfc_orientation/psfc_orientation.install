@@ -83,8 +83,22 @@ function psfc_orientation_install() {
     variable_set('psfc_orientation_old_site_frontpage', $old_frontpage);
     variable_set('site_frontpage', 'join/overview');
   }
+  psfs_orientation_init_logintoboggan_settings();
 }
 
+
+/**
+ * Initialize our default settings for the logintoboggan module
+ **/
+function psfs_orientation_init_logintoboggan_settings() {
+  $settings = array(
+    'logintoboggan_confirm_email_at_registration' => '1',
+    'logintoboggan_immediate_login_on_register' =>  '1'
+  );
+  while(list($k, $v) = each($settings)) {
+    variable_set($k, $v);
+  }
+}
 
 /**
  * Delete all created content. Should be run on uninstall.
