@@ -114,10 +114,6 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['filters']['field_orientation_date_value']['table'] = 'field_data_field_orientation_date';
   $handler->display->display_options['filters']['field_orientation_date_value']['field'] = 'field_orientation_date_value';
   $handler->display->display_options['filters']['field_orientation_date_value']['operator'] = '>=';
-  $handler->display->display_options['filters']['field_orientation_date_value']['granularity'] = 'minute';
-  $handler->display->display_options['filters']['field_orientation_date_value']['default_date'] = 'now -2 hours';
-  $handler->display->display_options['filters']['field_orientation_date_value']['year_range'] = '-1:+3';
-
   $export['orientation_admin'] = $view;
 
   $view = new view();
@@ -541,6 +537,15 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'orientation' => 'orientation',
   );
+  /* Filter criterion: Content: Closed (field_orientation_closed) */
+  $handler->display->display_options['filters']['field_orientation_closed_value']['id'] = 'field_orientation_closed_value';
+  $handler->display->display_options['filters']['field_orientation_closed_value']['table'] = 'field_data_field_orientation_closed';
+  $handler->display->display_options['filters']['field_orientation_closed_value']['field'] = 'field_orientation_closed_value';
+  $handler->display->display_options['filters']['field_orientation_closed_value']['operator'] = 'empty';
+  $handler->display->display_options['filters']['field_orientation_closed_value']['value'] = array(
+    1 => '1',
+  );
+  $handler->display->display_options['filters']['field_orientation_closed_value']['reduce_duplicates'] = TRUE;
   $export['orientations'] = $view;
 
   return $export;

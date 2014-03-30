@@ -413,13 +413,15 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
       if ($_GET['q'] == 'login') {
         $form['submit']['#value'] = t('Sign Up'); // Change button value.
 
+        /*
         foreach (element_children($form['account']) as $field) {
           unset($form['account'][$field]['#description']);
           $form[$field] = $form['account'][$field];
         }
-
+         */
         // For email matching
-        $form['mail']['#prefix'] = '<div id="emails"><div class="fields">';
+        //$form['mail']['#prefix'] = '<div id="emails"><div class="fields">';
+        /*
         $form['mail2'] = array(
           '#type' => 'textfield',
           '#required' => TRUE,
@@ -428,7 +430,7 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
           '#maxlength' => EMAIL_MAX_LENGTH,
           '#suffix' => '</div></div>',
         );
-
+         */
         $form['submit']['#attributes'] = array('onClick' => 'return verifyEmail();');
       }
       $form['#validate'][] = 'psfc_orientation_user_register_validate';
