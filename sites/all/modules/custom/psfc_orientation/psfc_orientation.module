@@ -387,11 +387,6 @@ function psfc_orientation_user_login(&$edit, $account) {
 }
 
 /**
- * Implements hook_user().
- */
-function psfc_orientation_user_OLD($op, &$edit, &$account) { }
-
-/**
  * Implements hook_form_alter().
  */
 function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
@@ -407,33 +402,10 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
       }
       break;
     case 'user_register_form':
-      // We need to redirect sometime so we need our own submit.
-      $form['#submit'][] = 'psfc_orientation_user_register_submit';
       // Only alter reg form on our custom signup page.
       if ($_GET['q'] == 'login') {
-        $form['submit']['#value'] = t('Sign Up'); // Change button value.
-
-        /*
-        foreach (element_children($form['account']) as $field) {
-          unset($form['account'][$field]['#description']);
-          $form[$field] = $form['account'][$field];
-        }
-         */
-        // For email matching
-        //$form['mail']['#prefix'] = '<div id="emails"><div class="fields">';
-        /*
-        $form['mail2'] = array(
-          '#type' => 'textfield',
-          '#required' => TRUE,
-          '#title' => t('Confirm e-mail address'),
-          '#size' => 30,
-          '#maxlength' => EMAIL_MAX_LENGTH,
-          '#suffix' => '</div></div>',
-        );
-         */
-        $form['submit']['#attributes'] = array('onClick' => 'return verifyEmail();');
+        $form['actions']['submit']['#value'] = t('Sign Up'); // Change button value.
       }
-      $form['#validate'][] = 'psfc_orientation_user_register_validate';
 
       break;
     case 'views_bulk_operations_form__1':
@@ -467,34 +439,6 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
         drupal_set_title(t('Send Orientation Attendees an Email'));
       }
       break;
-  }
-}
-
-/**
- * Extra validation function for user account creation
- */
-function psfc_orientation_user_register_validate($form, &$form_state) {
-//  print '<pre>';        print_r($form['submit']); print '</pre>';
-  if ($form['submit']['#post']['mail'] != $form['submit']['#post']['mail2']) {
-    form_set_error('mail', t('Email addresses do not match.'));
-  }
-}
-
-/**
- * Extra submit function for user account creation
- */
-function psfc_orientation_user_register_submit($form, &$form_state) {
-  $admin = user_access('administer users');
-  if ($_GET['q'] == 'login' && !$admin) {
-    // TODO: Remove the this riderict, in favor of more check/ diff redirect --ncm
-    // User signed self up during orientation process and unset messages.
-    $form_state['redirect'] = 'node/' . variable_get('psfc_orientation_new_user_from_orientation', '');
-    drupal_get_messages();
-  }
-  elseif (!$admin) {
-    // User signed self up outside of registration workflow and unset messages.
-    $form_state['redirect'] = 'node/' . variable_get('psfc_orientation_new_user', '');
-    drupal_get_messages();
   }
 }
 
