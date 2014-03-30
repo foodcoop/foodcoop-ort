@@ -109,11 +109,7 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'orientation' => 'orientation',
   );
-  /* Filter criterion: Content: Orientation date (field_orientation_date) */
-  $handler->display->display_options['filters']['field_orientation_date_value']['id'] = 'field_orientation_date_value';
-  $handler->display->display_options['filters']['field_orientation_date_value']['table'] = 'field_data_field_orientation_date';
-  $handler->display->display_options['filters']['field_orientation_date_value']['field'] = 'field_orientation_date_value';
-  $handler->display->display_options['filters']['field_orientation_date_value']['operator'] = '>=';
+  $handler->display->display_options['filters']['type']['group'] = 1;
   $export['orientation_admin'] = $view;
 
   $view = new view();
@@ -497,32 +493,14 @@ function psfc_orientation_features_views_default_views() {
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  /* Field: Content: Orientation date */
-  $handler->display->display_options['fields']['field_orientation_date_1']['id'] = 'field_orientation_date_1';
-  $handler->display->display_options['fields']['field_orientation_date_1']['table'] = 'field_data_field_orientation_date';
-  $handler->display->display_options['fields']['field_orientation_date_1']['field'] = 'field_orientation_date';
-  $handler->display->display_options['fields']['field_orientation_date_1']['label'] = 'Day';
-  $handler->display->display_options['fields']['field_orientation_date_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_orientation_date_1']['settings'] = array(
-    'format_type' => 'day_of_week',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
-  /* Field: Content: Orientation date */
-  $handler->display->display_options['fields']['field_orientation_date_2']['id'] = 'field_orientation_date_2';
-  $handler->display->display_options['fields']['field_orientation_date_2']['table'] = 'field_data_field_orientation_date';
-  $handler->display->display_options['fields']['field_orientation_date_2']['field'] = 'field_orientation_date';
-  $handler->display->display_options['fields']['field_orientation_date_2']['label'] = 'Time';
-  $handler->display->display_options['fields']['field_orientation_date_2']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_orientation_date_2']['settings'] = array(
-    'format_type' => 'time_of_day',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['nid']['alter']['text'] = '<a href="/join/orientation/signup/session/[nid]">I want this one</a>';
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -541,9 +519,9 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['filters']['field_orientation_closed_value']['id'] = 'field_orientation_closed_value';
   $handler->display->display_options['filters']['field_orientation_closed_value']['table'] = 'field_data_field_orientation_closed';
   $handler->display->display_options['filters']['field_orientation_closed_value']['field'] = 'field_orientation_closed_value';
-  $handler->display->display_options['filters']['field_orientation_closed_value']['operator'] = 'empty';
+  $handler->display->display_options['filters']['field_orientation_closed_value']['operator'] = 'and';
   $handler->display->display_options['filters']['field_orientation_closed_value']['value'] = array(
-    1 => '1',
+    0 => '0',
   );
   $handler->display->display_options['filters']['field_orientation_closed_value']['reduce_duplicates'] = TRUE;
   $export['orientations'] = $view;

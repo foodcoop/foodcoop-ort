@@ -175,6 +175,13 @@ function psfc_orientation_menu() {
     'file' => 'psfc_orientation.admin.inc',
     'type' => MENU_CALLBACK,
   );
+  $items['join/orientation'] = array(
+    'title' => 'Join an orientation',
+    'description' => 'Register for an orientation.',
+    'page callback' => 'psfc_orientation_join_orientation',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
   $items['join/orientation/status'] = array(
     'title' => 'Your Orientation Status',
     'description' => 'Are you signed up for orientation.',
@@ -1193,8 +1200,16 @@ function theme_psfc_orientation_status() {
   }
 
   if (!$attendee = psfc_orientation_get_attendee_node($user)) {
-    return t('You have created a user account, but are not registered for any upcoming Orientations.<br /><br />
-    <div class="button-rounded"><span><a href="node/120">Register for Orientation</a></span></div>');
+    $nid = variable_get('psfc_orientation_register', NULL);
+    if(is_null($nid)) {
+      drupal_message("Sorry! We hit a big when trying to show you the reigstration page.");
+      drupal_goto('<front>');
+      exit;
+    }
+    $text = t('You have created a user account, but are not registered for any upcoming Orientations.');
+    $link_text = t("Register for Orientation");
+    $link = l($link_text, "node/$nid");
+    return $text . '<br /><br /><div class="button-rounded"><span>' . $link . '</span></div>';
   }
 
   $orientation = node_load($attendee->field_orientation_nid[0]['nid']);
@@ -1479,4 +1494,17 @@ function psfc_orientation_node_view_alter(&$build) {
  **/
 function psfc_orientation_node_post_render($markup, $element) {
   return token_replace($markup);
+}
+
+/**
+ * Display page of upcoming orientations. Menu Call back.
+ **/
+function psfc_orientation_join_orientation() {
+  $display_id = 'default';
+  $view_name = 'orientations';
+  $views = views_embed_view($view_name, $display_id);
+  if(trim(strip_tags($views)) == '') {
+    drupal_goto('content/sorry-there-are-no-orientation-sessions-available-time');
+  }
+  return $views;
 }
