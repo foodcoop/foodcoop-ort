@@ -1203,37 +1203,31 @@ function theme_psfc_orientation_status() {
     $link = l($link_text, "node/$nid");
     return $text . '<br /><br /><div class="button-rounded"><span>' . $link . '</span></div>';
   }
-
-  $orientation = node_load($attendee->field_orientation_nid[0]['nid']);
+  $attendee_node_wrapper = entity_metadata_wrapper('node', $attendee);
+  $nid = $attendee_node_wrapper->field_orientation_nid->value()->nid;
+  $orientation = node_load($nid);
 
   $output = '<div class="status-info-text">';
-  //
-  // JM 2010-12-14 removed per Steve, ticket #126
-  //
-//   if (arg(2) == 'registered') {
-//     $output .= '<p>'. t('You are already registered for an oriententation session. Here are the details:'). '</p>';
-//   }
   $output .= '<p>' . t('You have signed up for the following Orientation Session:') . '</p>';
   $output .= '</div>';
 
   $output .= '<div class="status-info-date">';
-  // TODO Please change this theme call to use an associative array for the $variables parameter.
-  $output .= theme(psfc_orientation_date_table, $orientation);
+  $orientation_node_wrapper = entity_metadata_wrapper('node', $orientation);
+  $date = $orientation_node_wrapper->field_orientation_date->value();
+  $table = array('date' => $date);
+  $output .= theme('psfc_orientation_date_table', $table);
   $output .= '</div>';
-
-  if (!$attendee->field_attendee_confirmed[0]['value']) {
+  if (!$attendee_node_wrapper->field_confirmed_orientation->value()) {
     $output .= '<p>' . t('You are not yet confirmed. You should have received an email with confirmation instructions. You must confirm within 48 hours of registering or you will lose your reserved place.') . '</p>';
   }
   else {
     $output .= '<p>' . t('Your orientation registration is confirmed. ') . '</p>';
   }
-
   $output .= '<p>' . t('If this is not correct, please cancel and sign up again.');
-
   $output .= '<div class="button-rounded"><span>' . psfc_orientation_confirm_url($user, 'cancel', 'Cancel Registration') . '</span></div>';
-
   return $output;
 }
+
 /**
  * Helper function to determine if now is the time window to create
  * an orientation
@@ -1492,11 +1486,18 @@ function psfc_orientation_node_post_render($markup, $element) {
  * Display page of upcoming orientations. Menu Call back.
  **/
 function psfc_orientation_join_orientation() {
-  $display_id = 'default';
-  $view_name = 'orientations';
-  $views = views_embed_view($view_name, $display_id);
-  if(trim(strip_tags($views)) == '') {
-    drupal_goto('content/sorry-there-are-no-orientation-sessions-available-time');
+  // Check to see if they have already registered for an orientation
+  global $user;
+  if (!$attendee = psfc_orientation_get_attendee_node($user)) {
+    $display_id = 'default';
+    $view_name = 'orientations';
+    $views = views_embed_view($view_name, $display_id);
+    if(trim(strip_tags($views)) == '') {
+      drupal_goto('content/sorry-there-are-no-orientation-sessions-available-time');
+    }
+    return $views;
   }
-  return $views;
+  else {
+    return psfc_orientation_status();
+  }
 }
