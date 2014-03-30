@@ -9,18 +9,6 @@ module_load_include('inc', 'psfc_orientation', 'psfc_orientation.token');
 
 
 /**
- * Implements hook_init().
- */
-function psfc_orientation_init() {
-  global $user;
-  // Don't cache nodes with dynamic content for anon users. Node 120 has a
-  // token that gets replaced.
-  if (arg(0) == 'node' && in_array(arg(1), array(120))) {
-    $GLOBALS['conf']['cache'] = FALSE;
-  }
-}
-
-/**
  * Implements hook_permission().
  */
 function psfc_orientation_permission() {
