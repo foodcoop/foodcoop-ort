@@ -63,8 +63,13 @@ function psfc_orientation_tokens($type, $tokens, $data = array(), $options = arr
     // no less.
     if ($user && psfc_orientation_user_orientation_status($user->uid) == 1) {
       $attendee = psfc_orientation_get_attendee_node($user);
-      $orientation = node_load($attendee->field_orientation_nid[0]['nid']);
-      $values['[psfc:orientation-date]'] = theme_psfc_orientation_date_table($orientation);
+      $node_wrapper = entity_metadata_wrapper('node', $attendee);
+      $nid = $node_wrapper->field_orientation_nid->value()->nid;
+      $orientation = node_load($nid);
+      $node_wrapper = entity_metadata_wrapper('node', $orientation);
+      $date = $node_wrapper->field_orientation_date->value();
+      $table = array('date' => $date);
+      $values['[psfc:orientation-date]'] = theme_psfc_orientation_date_table($table);
     }
     else {
       $values['[psfc:orientation-date]'] = '';

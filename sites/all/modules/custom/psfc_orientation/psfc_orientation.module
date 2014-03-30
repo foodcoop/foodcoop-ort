@@ -1155,25 +1155,18 @@ function psfc_orientation_get_all_attendee_nodes($oid) {
  *   The orientation node.
  */
 function theme_psfc_orientation_date_table($variables) {
-  $orientation = $variables['date'];
-  // Get our timezone offset. This should account for daylight savings. The
-  // offset is applied using format_date() below.
-  $offset = psf_orientation_get_tz_offset(strtotime($orientation->field_date[0]['value']));
-  // Set runtime TZ to UTC.
-  date_default_timezone_set($orientation->field_date[0]['timezone_db']);
-  // Convert field date (stored in UTC) to unix time.
-  $date = strtotime($orientation->field_date[0]['value']);
+  $date = $variables['date'];
   $headers = array('Date', 'Day', 'Time', '');
   $rows[0] = array(
     array(
-      'data' => '<span class = "mon">' . format_date($date, 'custom', 'M', $offset) . '</span>' . ' <span class = "date">' . format_date($date, 'custom', 'j', $offset) . '</span>',
+      'data' => '<span class = "mon">' . format_date($date, 'custom', 'M') . '</span>' . ' <span class = "date">' . format_date($date, 'custom', 'j') . '</span>',
       'class' => 'first',
     ),
     array(
-      'data' => '<span class = "day">' . format_date($date, 'custom', 'l', $offset) . '</span>',
+      'data' => '<span class = "day">' . format_date($date, 'custom', 'l') . '</span>',
     ),
     array(
-      'data' => '<span class = "time">' . format_date($date, 'custom', 'g:i', $offset) . '</span>' . '<span class = "meridiem">' . format_date($date, 'custom', 'A', $offset) . '</span>',
+      'data' => '<span class = "time">' . format_date($date, 'custom', 'g:i') . '</span>' . '<span class = "meridiem">' . format_date($date, 'custom', 'A') . '</span>',
     ),
   );
 
@@ -1186,8 +1179,7 @@ function theme_psfc_orientation_date_table($variables) {
 
   }
   // Set runtime back to America/New_York.
-  date_default_timezone_set('America/New_York');
-  return theme('table', array('header' => $headers, 'rows' => $rows, 'attributes' => array('class' => 'odate-table')));
+  return theme('table', array('header' => $headers, 'rows' => $rows, 'attributes' => array('class' => array('odate-table'))));
 }
 /**
  * Theme a the user's orientation status page.
