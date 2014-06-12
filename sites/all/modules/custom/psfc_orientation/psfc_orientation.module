@@ -260,15 +260,9 @@ function psfc_orientation_cron() {
     if ($result['day_of_week'] == date('l')) {
       $time = psfc_orientation_split_time_of_day($result['orid']);
       $next_ort = psfc_orientation_determine_next_repeat($time);
-      $offset = psf_orientation_get_tz_offset($next_ort);
-      $next = $next_ort - $offset;
-      $date = date('Y-m-d', $next);
-      $hour = date('H', $next);
-      $time = date(':i:s', $next);
-      $time_value = $date . 'T' . $hour . $time;
-      if (!psfc_orientation_orientation_exists($time_value) && !psfc_orientation_orientation_blacked_out($date) &&  psfc_orientation_orientation_creation_window($next, 15, $offset)) {
-        $node = psfc_orientation_node_build($result, $time_value);
-        if ($node->nid) {
+      if (!psfc_orientation_orientation_exists($next_ort) && !psfc_orientation_orientation_blacked_out($next_ort) &&  psfc_orientation_orientation_creation_window($next_ort, 15)) {
+        $node_wrapper = psfc_orientation_node_build($result, $next_ort);
+        if ($node_wrapper->nid->value()) {
           watchdog('psfc_orientation', 'Added an orientation for: @date', array('@date' => $time_value), WATCHDOG_NOTICE);
         }
       }
@@ -280,11 +274,6 @@ function psfc_orientation_cron() {
   // capacity and open/closed status.
   $expires = REQUEST_TIME - (2 * 24 * 60 * 60);
   $result = db_query("SELECT n.nid, n.uid, o.field_orientation_nid_nid FROM {node} n LEFT JOIN {field_data_field_orientation_nid} o ON n.nid = o.entity_id AND n.vid = o.revision_id JOIN {field_data_field_confirmed_orientation} con ON n.nid = con.entity_id AND n.vid = con.revision_id  WHERE n.type = :type AND n.created < :created AND con.field_confirmed_orientation_value = :confirmed", array(':type' => 'orientation_attendee', ':created' => $expires, ':confirmed' => 0));
-
-  global $user;
-  $original_user = $user;
-  drupal_save_session(FALSE);
-  $user = user_load(1);
 
   while ($attendee = $result->fetchAssoc()) {
     // Let's not delete any key users.
@@ -310,13 +299,13 @@ function psfc_orientation_cron() {
       // TODO Please review the conversion of this statement to the D7 database API syntax.
       /* db_query("UPDATE {node} SET status = 0 WHERE nid = %d", $attendee['nid']) */
       db_update('node')
-  ->fields(array(
-        'status' => 0,
-      ))
-  ->condition('nid', $attendee['nid'])
-  ->execute();
+        ->fields(array(
+          'status' => 0,
+        ))
+        ->condition('nid', $attendee['nid'])
+        ->execute();
 
-//  Delete attendee node and update orientation node.
+      //  Delete attendee node and update orientation node.
       node_delete($attendee['nid']);
       node_save($orientation);
 
@@ -324,9 +313,6 @@ function psfc_orientation_cron() {
       // hook_nodeapi().
     }
   }
-  $user = $original_user;
-  drupal_save_session(TRUE);
-
   // Close old orientations.
   psfc_orientation_close_old();
 
@@ -597,15 +583,17 @@ function psfc_orientation_status() {
  * Helper function to determine if there is already an orientation scheduled
  * for a time slot
  *
- * @param $time
+ * @param $time timestamp
  *
  * @return blooean TRUE if there there is an already scheduled orientation
  */
 function psfc_orientation_orientation_exists($time) {
   //cleanup time for pdo
-  $time = date('Y-m-d H:i:s', strtotime($time));
-  $query = db_query('SELECT ort.field_orientation_date_value FROM {field_data_field_orientation_date} ort INNER JOIN {node} n ON ort.entity_id = n.nid AND ort.revision_id = n.vid WHERE n.status = :status AND ort.field_orientation_date_value = :date', array(':status' => 1, ':date' => $time));
-  if ($query->fetchField() == $time) {
+  $date = new DateTime("@$time");
+  $time = $date->format("Y-m-d H:i:s");
+  $sql = 'SELECT COUNT(*) AS count FROM {field_data_field_orientation_date} ort INNER JOIN {node} n ON ort.entity_id = n.nid AND ort.revision_id = n.vid WHERE n.status = 1 AND ort.field_orientation_date_value = :date';
+  $query = db_query($sql, array(':date' => $time));
+  if ($query->fetchField() > 0) {
     return TRUE;
   }
   return FALSE;
@@ -640,60 +628,27 @@ function psfc_orientation_orientation_blacked_out($date) {
  * @return the node object of the new orientation.
  */
 function psfc_orientation_node_build($orientation_rule, $time_value) {
-  // declare a new node object
-  $node = new stdClass();
+  // Create a wrapper 
+  $node = entity_create('node', array('type' => 'orientation'));
 
-  // set some values that will not change.
-  $node->type = 'orientation';
-  $node->uid = 1;
-  $node->name = 'Admin User';
-  $node->status = 1;
-  $node->created = REQUEST_TIME;
-  $node->changed = REQUEST_TIME;
-  $node->comment = 0;
-  $node->promote = 0;
-  $node->moderate = 0;
-  $node->sticky = 0;
-  $node->tnid = 0;
-  $node->translate = 0;
-  $node->revision_uid = 1;
-  $node->revision_timestamp = REQUEST_TIME;
-  $node->body = variable_get('psfc_orientation_default_description', t('PSFC Orientations are blah blah blah'));
-  $node->format = 1;
+  $date_object = new DateTime("@$time_value");
 
-  // Fill in the values from the orientation rule
-  $node->field_capacity = array(
-    0 => array(
-      'value' => $orientation_rule['capacity'],
-    ),
-  );
-
-  $node->field_date = array(
-    0 => array(
-      'value' => $time_value,
-      'timezone' => 'America/New_York',
-      'timezone_db' => 'UTC',
-      'date_type' => 'date',
-    ),
-  );
-  // TODO: Change to reflect new open/ closed  field structure.
-  $node->field_open = array(
-    0 => array(
-      'value' => 0,
-    ),
-  );
-
-  $node->field_reminders = array(
-    0 => array(
-      'value' => 0,
-    ),
-  );
-
-  // validate and save the node
-  node_validate($node);
-  node_submit($node);
-  node_save($node);
-  return $node;
+  $node_wrapper = entity_metadata_wrapper('node', $node); 
+  // dpm($node_wrapper->getPropertyInfo());
+  $node_wrapper->title->set($date_object->format('l, F j'));
+  $node_wrapper->status->set(1);
+  $node_wrapper->comment->set(0);
+  $node_wrapper->promote->set(0);
+  $node_wrapper->sticky->set(0);
+  $body = variable_get('psfc_orientation_default_description', t('PSFC Orientations are blah blah blah'));
+  $node_wrapper->body->set(array('value' => $body, 'format' => 'psfc_html_filter'));
+  $node_wrapper->field_orientation_capacity->set($orientation_rule['capacity']);
+  $node_wrapper->field_orientation_date->set($date_object->getTimestamp());
+  $node_wrapper->field_orientation_closed->set(0);
+  $node_wrapper->field_orientation_reminder->set(0);
+  
+  $node_wrapper->save(); 
+  return $node_wrapper;
 }
 
 
@@ -790,9 +745,10 @@ function psfc_orientation_capacity($node, $close = FALSE, $offset = 0) {
  *
  */
 function psfc_orientation_close_old() {
-  $old = array(REQUEST_TIME - 360);
+  $old = date('Y-m-d H:i:s', REQUEST_TIME - 3600);
   // TODO: Change to reflect new open/ closed  field structure.
-  $result = db_query("SELECT n.nid FROM {content_type_orientation} cto INNER JOIN {node} n ON cto.nid = n.nid AND cto.vid = n.vid AND cto.field_open_value = 0 AND UNIX_TIMESTAMP(cto.field_date_value) < %d", $old);
+  $sql = "SELECT n.nid FROM node n JOIN field_data_field_orientation_closed oc ON n.nid = oc.entity_id JOIN field_data_field_orientation_date od USING(entity_id) WHERE field_orientation_closed_value = 0 AND field_orientation_date_value < :time";
+  $result = db_query($sql, array(':time' => $old));
   while ($nid = $result->fetchField()) {
     $node = node_load($nid);
     // TODO: Change to reflect new open/ closed  field structure.
@@ -1183,16 +1139,11 @@ function theme_psfc_orientation_status() {
  * @param $time The unix timestamp of an orientation you are looking to create.
  * @param $range Optional The number of minutes after a time that an
  *  orientation should still get created.
- 8 @param $offset Optional the offset of the time zone calc
  *
  * @return returns TRUE if it is okay to create the orientation
  */
-function psfc_orientation_orientation_creation_window($time, $range = 15, $offset) {
-  if (!$offset) {
-    $offset  = date_offset_get(new DateTime);
-  }
-  $time += $offset; // Add the offset to conver $time back to local time ONLY to compare here.
-
+function psfc_orientation_orientation_creation_window($time, $range = 15) {
+  // 'l' is day of week, 'G' is 24 hour format of Hour
   if (date('l') == date('l', $time) && date('G') == date('G', $time)) {
     $current_minute = date('i');
     $time_minute = date('i', $time);
@@ -1219,8 +1170,8 @@ function psfc_orientation_past_blackout_delete() {
     // TODO Please review the conversion of this statement to the D7 database API syntax.
     /* db_query("DELETE FROM {psfc_orientation_blackout_days} WHERE obid = %d", $obid) */
     db_delete('psfc_orientation_blackout_days')
-  ->condition('obid', $obid)
-  ->execute();
+      ->condition('obid', $obid)
+      ->execute();
   }
 }
 
@@ -1378,41 +1329,6 @@ function psfc_orientation_mass_attendee_helper($nodes, $context) {
       }
     }
   }
-}
-
-/**
- * @function Helper function to get correct UTC offset
- *
- * Dates are saved as UTC, so using the correct offset is vital for not sending
- * out emails with the wrong times in the two weeks prior to a DST change.
- * For example, confirmation email needs to use the offset for two weeks from
- * now; and if that is after a DST transition, the offset will be off by an
- * hour. This function takes a timestamp, and returns and appropriate offset.
- *
- * @param $timestamp A unix timestamp that you need an offset for
- *
- * @return The tz offset needed for the date.
- */
-function psf_orientation_get_tz_offset($timestamp) {
-  // Get information about the next timezone change
-  $timezone = new DateTimeZone(date_default_timezone_get());
-  $transitions = $timezone->getTransitions();
-  $now = REQUEST_TIME;
-  foreach ($transitions as $transition) {
-    if ($transition['ts'] > $now) {
-      $next_transition = $transition;
-      break;
-    }
-  }
-  // if the orientation happens after a DST transition, use
-  // the offset from the transition.
-  if ($timestamp > $next_transition['ts']) {
-    $offset = $next_transition['offset'];
-  }
-  else {
-    $offset = date_offset_get(new DateTime);
-  }
-  return $offset;
 }
 
 /**
