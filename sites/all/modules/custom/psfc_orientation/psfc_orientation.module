@@ -608,8 +608,9 @@ function psfc_orientation_orientation_exists($time) {
  * @return boolean TRUE if $date is blacked out
  */
 function psfc_orientation_orientation_blacked_out($date) {
-  $date = $date . ' 00:00:00';
-  $query = db_query('SELECT blackout_date FROM {psfc_orientation_blackout_days} WHERE blackout_date = :blackout_date', array(':blackout_date' => $date));
+  $date = date("Y-m-d", $date) . ' 00:00:00';
+  $sql = 'SELECT blackout_date FROM {psfc_orientation_blackout_days} WHERE blackout_date = :blackout_date';
+  $query = db_query($sql, array(':blackout_date' => $date));
   if ($query->fetchField() == $date) {
     return TRUE;
   }
