@@ -1169,8 +1169,6 @@ function psfc_orientation_past_blackout_delete() {
     }
   }
   foreach ($obids as $key => $obid) {
-    // TODO Please review the conversion of this statement to the D7 database API syntax.
-    /* db_query("DELETE FROM {psfc_orientation_blackout_days} WHERE obid = %d", $obid) */
     db_delete('psfc_orientation_blackout_days')
       ->condition('obid', $obid)
       ->execute();
