@@ -753,9 +753,9 @@ function psfc_orientation_close_old() {
   $result = db_query($sql, array(':time' => $old));
   while ($nid = $result->fetchField()) {
     $node = node_load($nid);
-    // TODO: Change to reflect new open/ closed  field structure.
-    $node->field_open[0]['value'] = 1; // 0 is open, 1 is closed.
-    node_save($node);
+    $node_wrapper = entity_metadata_wrapper('node', $node); 
+    $node_wrapper->field_orientation_closed->set(1);
+    $node_wrapper->save();
   }
 }
 
