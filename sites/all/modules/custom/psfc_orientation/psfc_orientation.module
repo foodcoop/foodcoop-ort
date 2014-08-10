@@ -251,9 +251,12 @@ function psfc_orientation_theme() {
 }
 
 /**
- * Implemetation of hook_cron().
- */
-function psfc_orientation_cron() {
+ * Create orientations based on repeat rule.s
+ * 
+ * This function should be called from the cron
+ * job.
+ **/
+function psfc_orientation_create_based_on_repeat_rules() {
   // Create orientation based on repeat rules.
   $query = db_query("SELECT * FROM {psfc_orientation_repeat_rules}");
   while ($result = $query->fetchAssoc()) {
@@ -268,7 +271,13 @@ function psfc_orientation_cron() {
       }
     }
   }
+}
 
+
+/**
+ * Delete unconfirmed registrations.
+ */
+function psfc_orientation_delete_unconfirmed() {
   // Delete unconfirmed registrations after 48 hours. 
   $expires = REQUEST_TIME - (2 * 24 * 60 * 60);
   $sql = "SELECT n.nid AS attendee_nid, u.field_user_id_uid AS uid, ".
@@ -314,12 +323,20 @@ function psfc_orientation_cron() {
       $orientation_wrapper->save();
     }
   }
+}
+/**
+ * Implemetation of hook_cron().
+ */
+function psfc_orientation_cron() {
+  psfc_orientation_create_based_on_repeat_rules();  
+
+  psfc_orientation_delete_unconfimred();
+
   // Close old orientations.
-  psfc_orientation_close_old();
+
 
   // Send reminder emails
   // psfc_orientation_send_reminders();
-
   // Delete old blackout dates
   psfc_orientation_past_blackout_delete();
 }
