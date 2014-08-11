@@ -266,7 +266,7 @@ function psfc_orientation_create_based_on_repeat_rules() {
       if (!psfc_orientation_orientation_exists($next_ort) && !psfc_orientation_orientation_blacked_out($next_ort) &&  psfc_orientation_orientation_creation_window($next_ort, 15)) {
         $node_wrapper = psfc_orientation_node_build($result, $next_ort);
         if ($node_wrapper->nid->value()) {
-          watchdog('psfc_orientation', 'Added an orientation for: @date', array('@date' => $time_value), WATCHDOG_NOTICE);
+          watchdog('psfc_orientation', 'Added an orientation for: @date', array('@date' => date('Y-m-d H:i:s', $next_ort)), WATCHDOG_NOTICE);
         }
       }
     }
@@ -1153,7 +1153,11 @@ function theme_psfc_orientation_status() {
 
 /**
  * Helper function to determine if now is the time window to create
- * an orientation
+ * an orientation. If the current time is less than $range minutes
+ * after the passed in time, then return TRUE because it's ok to create
+ * the orientation. In other words, if the orientation is set for 8:00 pm
+ * and it's between 8:00 and 8:15 pm, then we respond TRUE, otherwise we
+ * respond FALSE.
  *
  * @param $time The unix timestamp of an orientation you are looking to create.
  * @param $range Optional The number of minutes after a time that an
