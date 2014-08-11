@@ -1,8 +1,17 @@
 <?php
 
+/**
+ * @file node maps
+ *
+ * This file handles the user interface for assigning a nid to a content page.
+ *
+ * All the default content is automatically loaded when you enable this module
+ * (see psfc_orientation.install and the default-content directory).
+ */
+
 function psfc_orientation_nodemap_settings($form, &$form_state) {
   $form['psfc_orientation_nodemap_help'] = array(
-    '#markup' => '<p>' . t('There are parts of the orientation system that have multiple little pages placed onto one page, or entirely surrounded by code complexitiy. To make it easier we\'ve abstracted that text into nodes. Here is a map for each piece of content.') . '</p><p>' . t('To change any one mapping, just change the node id in the form, and save it.') . '</p><p>' . t('NOTE: The convenience links below each form field will not update until you save the page.') . '</p>',
+    '#markup' => '<p>' . t('There are parts of the orientation system that have explanations for users. They are listed here so you can easily edit them.. ') . '</p><p>' ,
   );
 
 

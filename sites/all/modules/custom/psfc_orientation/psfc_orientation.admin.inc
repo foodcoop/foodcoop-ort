@@ -141,19 +141,17 @@ function psfc_orientation_admin_add_rule_submit($form, &$form_state) {
   $values = $form_state['values'];
   $time = $values['hour'] . ':' . $values['min'] . ' ' . $values['ampm'];
   if ($values['submit'] == 'Add') {
-    // TODO Please review the conversion of this statement to the D7 database API syntax.
-    /* db_query('INSERT INTO {psfc_orientation_repeat_rules} (day_of_week, time_of_day, capacity) VALUES ("%s","%s", "%d")', $values['day_of_week'], $time, $values['capacity']) */
     $id = db_insert('psfc_orientation_repeat_rules')
-  ->fields(array(
-      'day_of_week' => $values['day_of_week'],
-      'time_of_day' => $time,
-      'capacity' => $values['capacity'],
-    ))
-  ->execute();
+      ->fields(
+        array(
+         'day_of_week' => $values['day_of_week'],
+         'time_of_day' => $time,
+         'capacity' => $values['capacity'],
+         ))
+       ->execute();
     $form_state['values']['orid'] = $id;
-    //db_last_insert_id('psfc_orientation_repeat_rules', 'orid');
-
-    drupal_set_message(t('A new orientation time has been created for %day at %time with room for %capacity people', array('%day' => $values['day_of_week'] . 's', '%time' => $time, '%capacity' => $values['capacity'])));
+    drupal_set_message(t('A new orientation time has been created for %day at %time with room for %capacity people',
+      array('%day' => $values['day_of_week'] . 's', '%time' => $time, '%capacity' => $values['capacity'])));
   }
   drupal_goto( 'admin/psfc/orientation');
 }
@@ -246,14 +244,9 @@ function psfc_orientation_add_blackout_submit($form, &$form_state) {
   $values = $form_state['values'];
 
   if ($values['submit'] == 'Add') {
-    // TODO Please review the conversion of this statement to the D7 database API syntax.
-    /* db_query('INSERT INTO {psfc_orientation_blackout_days} (blackout_date) VALUES ("%s")', $values['date']) */
     $id = db_insert('psfc_orientation_blackout_days')
-  ->fields(array(
-      'blackout_date' => $values['date'],
-    ))
-  ->execute();
-    //    $form_state['values']['orid'] = db_last_insert_id('psfc_orientation_repeat_rules', 'orid');
+      ->fields(array('blackout_date' => $values['date']))
+      ->execute();
     drupal_set_message(t('A new orientation blackout time has been created for %day', array('%day' => $values['date'])));
   }
   drupal_goto( 'admin/psfc/orientation');
@@ -271,7 +264,9 @@ function psfc_orientation_delete_blackout($form, $form_state, $obid = NULL) {
       '#value' => $blackout_id,
     );
     if ($blackout_id) {
-      return confirm_form($form, t('Are you sure you want to delete the blackout date set for %day?', array('%day' => $blackout_day->blackout_date)), 'admin/psfc/orientation', t('Orientations will once again be automatically scheduled at this time.'), t('Delete'), t('Cancel'));
+      return confirm_form($form, t('Are you sure you want to delete the blackout date set for %day?',
+        array('%day' => $blackout_day->blackout_date)), 'admin/psfc/orientation',
+        t('Orientations will once again be automatically scheduled at this time.'), t('Delete'), t('Cancel'));
     }
     else {
       drupal_set_message(t('Orientation blackout date not found.'), 'error');
@@ -305,7 +300,9 @@ function psfc_orientation_admin_delete_rule($form, $form_state, $orid = NULL) {
       '#type' => 'value',
       '#value' => $info['orid'],
     );
-    return confirm_form($form, t('Are you sure you want to delete the orientation on %day at %time?', array('%day' => $info['day_of_week'], '%time' => $info['time_of_day'])), 'admin/psfc/orientation', t('Orientations will no longer be automatically scheduled at this time.'), t('Delete'), t('Cancel'));
+    return confirm_form($form, t('Are you sure you want to delete the orientation on %day at %time?',
+      array('%day' => $info['day_of_week'], '%time' => $info['time_of_day'])), 'admin/psfc/orientation',
+      t('Orientations will no longer be automatically scheduled at this time.'), t('Delete'), t('Cancel'));
   }
   else {
     drupal_set_message(t('Orientation rule not found.'), 'error');
@@ -318,13 +315,13 @@ function psfc_orientation_admin_delete_rule($form, $form_state, $orid = NULL) {
  */
 function psfc_orientation_admin_delete_rule_submit($form, &$form_state) {
   $info = psfc_orientation_get_repeat_rule_info($form_state['values']['orid']);
-  // TODO Please review the conversion of this statement to the D7 database API syntax.
-  /* db_query("DELETE FROM {psfc_orientation_repeat_rules} WHERE orid = %d", $info['orid']) */
   db_delete('psfc_orientation_repeat_rules')
   ->condition('orid', $info['orid'])
   ->execute();
-  drupal_set_message(t('The orientation rule for  %day_of_week at %time_of_day has been deleted.', array('%day_of_week' => $info['day_of_week'], '%time_of_day' => $info['time_of_day'])));
-  watchdog('psfc', 'Orientation rule for  %day_of_week at %time_of_day was deleted.', array('%day_of_week' => $info['day_of_week'], '%time_of_day' => $info['time_of_day']), WATCHDOG_NOTICE);
+  drupal_set_message(t('The orientation rule for  %day_of_week at %time_of_day has been deleted.',
+    array('%day_of_week' => $info['day_of_week'], '%time_of_day' => $info['time_of_day'])));
+  watchdog('psfc', 'Orientation rule for  %day_of_week at %time_of_day was deleted.',
+    array('%day_of_week' => $info['day_of_week'], '%time_of_day' => $info['time_of_day']), WATCHDOG_NOTICE);
 
   $form_state['redirect'] = 'admin/psfc/orientation';
 }
@@ -348,17 +345,16 @@ function psfc_orientation_admin_edit_rule($form, $orid) {
 function psfc_orientation_admin_edit_rule_submit($form, &$form_state) {
   $values = $form_state['values'];
   $time = $values['hour'] . ':' . $values['min'] . ' ' . $values['ampm'];
-  // TODO Please review the conversion of this statement to the D7 database API syntax.
-  /* db_query('UPDATE {psfc_orientation_repeat_rules} SET day_of_week = "%s", time_of_day = "%s", capacity = %d WHERE orid = %d', $values['day_of_week'], $time, $values['capacity'], $values['orid']) */
   db_update('psfc_orientation_repeat_rules')
-  ->fields(array(
-    'day_of_week' => $values['day_of_week'],
-    'time_of_day' => $time,
-    'capacity' => $values['capacity'],
-  ))
-  ->condition('orid', $values['orid'])
-  ->execute();
-  drupal_set_message(t('The orientation rule for  %day_of_week at %time_of_day has been updated.', array('%day_of_week' => $values['day_of_week'], '%time_of_day' => $time)));
+    ->fields(array(
+      'day_of_week' => $values['day_of_week'],
+      'time_of_day' => $time,
+      'capacity' => $values['capacity'],
+    ))
+    ->condition('orid', $values['orid'])
+    ->execute();
+  drupal_set_message(t('The orientation rule for  %day_of_week at %time_of_day has been updated.',
+    array('%day_of_week' => $values['day_of_week'], '%time_of_day' => $time)));
   $form_state['redirect'] = 'admin/psfc/orientation';
 }
 
@@ -372,7 +368,6 @@ function psfc_orientation_admin_edit_rule_submit($form, &$form_state) {
  */
 function psfc_orientation_login() {
   return theme('psfc_orientation_login');
-
 }
 
 
@@ -438,7 +433,8 @@ function psfc_orientation_add_registrant($form, $form_state) {
   $options = psfc_orientation_upcoming_orientations();
 
   $form['instructions'] = array(
-    '#value' => '<h2>' . t('Manually sign up a person for orientation') . '</h2>' . t('You may add one person at a time to an orientation. The person may be added by email address or by name and phone number.'),
+    '#value' => '<h2>' . t('Manually sign up a person for orientation') . '</h2>' .
+    t('You may add one person at a time to an orientation. The person may be added by email address or by name and phone number.'),
   );
   $form['onid'] = array(
     '#type' => 'select',
@@ -537,7 +533,9 @@ function psfc_orientation_add_registrant_submit($form, &$form_state) {
   }
   // Registrant has no internet access ever.
   else {
-    $info = $form_state['values']['first_name'] . ' ' . $form_state['values']['middle_name'] . ' ' . $form_state['values']['last_name'] . t(' Phone: ') . $form_state['values']['phone'];
+    $info = $form_state['values']['first_name'] . ' ' .
+      $form_state['values']['middle_name'] . ' ' . $form_state['values']['last_name'] .
+      t(' Phone: ') . $form_state['values']['phone'];
     $orientation_wrapper = entity_metadata_wrapper('node', $orientation);
     $phone_people = $orientation_wrapper->field_orientation_phone_reg->value();
     $phone_people[] = $info;
@@ -545,7 +543,8 @@ function psfc_orientation_add_registrant_submit($form, &$form_state) {
     $orientation_wrapper->save();
   }
   $email = isset($email) ? $email : NULL;
-  drupal_set_message(t('@info has been registed for orientation on @date.', array('@info' => $info, '@date' => $orientation->field_orientation_date['und'][0]['value'])));
+  drupal_set_message(t('@info has been registed for orientation on @date.',
+    array('@info' => $info, '@date' => $orientation->field_orientation_date['und'][0]['value'])));
 
 }
 
@@ -556,7 +555,6 @@ function psfc_orientation_add_registrant_submit($form, &$form_state) {
 function psfc_orientation_email_autocomplete($string = '') {
   $matches = array();
   if ($string) {
-    // TODO Please convert this statement to the D7 database API syntax.
     $result = db_query('SELECT mail FROM {users} WHERE mail LIKE :string', array(':string' => db_like($string) . '%'));
     foreach ($result as $user) {
       $matches[$user->mail] = check_plain($user->mail);

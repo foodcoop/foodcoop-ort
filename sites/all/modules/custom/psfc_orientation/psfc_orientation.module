@@ -263,10 +263,14 @@ function psfc_orientation_create_based_on_repeat_rules() {
     if ($result['day_of_week'] == date('l')) {
       $time = psfc_orientation_split_time_of_day($result['orid']);
       $next_ort = psfc_orientation_determine_next_repeat($time);
-      if (!psfc_orientation_orientation_exists($next_ort) && !psfc_orientation_orientation_blacked_out($next_ort) &&  psfc_orientation_orientation_creation_window($next_ort, 15)) {
+      if (!psfc_orientation_orientation_exists($next_ort) &&
+        !psfc_orientation_orientation_blacked_out($next_ort) &&
+        psfc_orientation_orientation_creation_window($next_ort, 15)) {
+
         $node_wrapper = psfc_orientation_node_build($result, $next_ort);
         if ($node_wrapper->nid->value()) {
-          watchdog('psfc_orientation', 'Added an orientation for: @date', array('@date' => date('Y-m-d H:i:s', $next_ort)), WATCHDOG_NOTICE);
+          watchdog('psfc_orientation', 'Added an orientation for: @date',
+            array('@date' => date('Y-m-d H:i:s', $next_ort)), WATCHDOG_NOTICE);
         }
       }
     }
@@ -329,15 +333,8 @@ function psfc_orientation_delete_unconfirmed() {
  */
 function psfc_orientation_cron() {
   psfc_orientation_create_based_on_repeat_rules();  
-
   psfc_orientation_delete_unconfimred();
-
-  // Close old orientations.
-
-
-  // Send reminder emails
-  // psfc_orientation_send_reminders();
-  // Delete old blackout dates
+  psfc_orientation_send_reminders();
   psfc_orientation_past_blackout_delete();
 }
 
@@ -363,7 +360,8 @@ function psfc_orientation_user_load($users) {
  */
 function psfc_orientation_user_cancel($edit, $account, $method) {
   // When users are deleted, we delete their attendee nodes if they have any.
-  $result = db_query("SELECT nid from {content_type_orientation_attendee} WHERE field_userid_uid = :field_userid_uid", array(':field_userid_uid' => $account->uid));
+  $result = db_query("SELECT nid from {content_type_orientation_attendee} WHERE field_userid_uid = :field_userid_uid",
+    array(':field_userid_uid' => $account->uid));
   while ($nid = $result->fetchField()) {
     node_delete($nid);
   }
