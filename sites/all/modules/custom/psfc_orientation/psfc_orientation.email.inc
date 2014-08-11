@@ -255,10 +255,13 @@ function psfc_orientation_send_reminders() {
 
 	// Get all orientation nodes where email reminders haven't been sent and
   // orientation date within 2 days.
-  $result = db_query("SELECT o.nid from {node} n LEFT JOIN {content_type_orientation} o ON n.nid = o.nid
-    WHERE n.type = 'orientation' AND o.field_reminders_value = 0 AND (UNIX_TIMESTAMP(o.field_date_value) - UNIX_TIMESTAMP()) < %d", $time);
+  $result = db_query("SELECT DISTINCT date.entity_id FROM field_data_field_orientation_date date
+    JOIN field_data_field_orientation_reminder reminder USING(entity_id)
+    WHERE date.bundle = 'orientation' AND reminder.field_orientation_reminder_value = 0
+    AND (UNIX_TIMESTAMP(date.field_orientation_date_value) - UNIX_TIMESTAMP()) < :date 
+    AND UNIX_TIMESTAMP(date.field_orientation_date_value) > UNIX_TIMESTAMP();", array(':date' => $time));
 
-  while ($oid = db_result($result)) {
+  while($oid = $result->fetchField()) {
     // Load orienation node.
     $node = node_load($oid);
     $node_wrapper= entity_metadata_wrapper('node', $node);
@@ -267,11 +270,11 @@ function psfc_orientation_send_reminders() {
     if (count($attendees)) {
       foreach ($attendees as $attendee) {
         $attendee_wrapper = entity_metadata_wrapper('node', $attendee);
-        $confirmed = $attendee_wrapper->field_attendee_confirmed->value();
+        $confirmed = $attendee_wrapper->field_confirmed_orientation->value();
         if ($confirmed == 1) {
-          $account = user_load($attendee_wrapper->field_user_id->value());
+          $uid = $attendee_wrapper->field_user_id->value()->uid;
+          $account = user_load($uid);
           $recipient = $account->mail;
-
           // We only need the node params. The confirm and cancel links are added
           // in nodeapi.
           $params['node'] = $attendee;
@@ -283,7 +286,7 @@ function psfc_orientation_send_reminders() {
         }
       }
       // Mark as emails sent only if we actually sent any.
-      $node_wrapper->field_reminders->set(1);
+      $node_wrapper->field_orientation_reminder->set(1);
       $node_wrapper->save();
       watchdog('psfc_orientation', 'Email reminders sent for: @title', array('@title' => $node->title), WATCHDOG_NOTICE);
     }
