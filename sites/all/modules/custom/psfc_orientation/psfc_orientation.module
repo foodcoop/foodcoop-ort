@@ -687,6 +687,7 @@ function psfc_orientation_node_build_attendee($account, $onid) {
 
   $node_wrapper = entity_metadata_wrapper('node', $node); 
   // dpm($node_wrapper->getPropertyInfo());
+
   $node_wrapper->field_user_id->set($account->uid);
   $node_wrapper->title->set($account->name);
   $node_wrapper->status->set(1);
