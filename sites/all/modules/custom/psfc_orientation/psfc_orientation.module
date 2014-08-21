@@ -333,7 +333,7 @@ function psfc_orientation_delete_unconfirmed() {
  */
 function psfc_orientation_cron() {
   psfc_orientation_create_based_on_repeat_rules();  
-  psfc_orientation_delete_unconfimred();
+  psfc_orientation_delete_unconfirmed();
   psfc_orientation_send_reminders();
   psfc_orientation_past_blackout_delete();
 }
