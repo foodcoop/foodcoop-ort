@@ -93,7 +93,13 @@ function psfc_orientation_install() {
 function psfs_orientation_init_logintoboggan_settings() {
   $settings = array(
     'logintoboggan_confirm_email_at_registration' => '1',
-    'logintoboggan_immediate_login_on_register' =>  '1'
+    'logintoboggan_immediate_login_on_register' =>  '1', 
+    // role 5 should be pre-auth role
+    'logintoboggan_pre_auth_role' => 5, 
+    // user register should allow visitors to register without
+    // approval
+    'user_register' => 1,
+    'user_email_verification' => FALSE
   );
   while(list($k, $v) = each($settings)) {
     variable_set($k, $v);
