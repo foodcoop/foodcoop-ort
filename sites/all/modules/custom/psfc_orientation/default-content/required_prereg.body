@@ -13,7 +13,7 @@
 <h2>Questions? Click Below</h2>
 
 <div class="QA">
-  <a class="Q" href="#">I used to be a Coop member, so I don't need to attend Orientation. How do I rejoin?</a>
+  <div class="Q" href="#">I used to be a Coop member, so I don't need to attend Orientation. How do I rejoin?</div>
   <div class="A">
     <p>Former members are not required to attend an Orientation again. The Orientation never "expires", no matter how long you've been gone. Nor will you be required to pay the Joining Fee again if you have already done so. If your Member Investment was refunded when you left the Coop, you will have to pay it again, and can request a payment plan if you need one.</p>
     
@@ -26,11 +26,11 @@
 </div>
 
 <div class="QA">
-  <a class="Q" href="#">I live with someone who is a current Coop member. How do I attend Orientation? How do I join the Coop?</a>
+  <div class="Q" href="#">I live with someone who is a current Coop member. How do I attend Orientation? How do I join the Coop?</div>
   <p class="A">If you share a household with an active Coop member, you do not need to attend an Orientation Session <i>before</i> joining the Coop. To join please come to the Membership Office in person during office hours with appropriate <a href="/node/121">proof of identity and address</a>. Your membership will be active the following day, and you will have three months to attend an Orientation Session for which you will <b>not</b> be required to Pre-Register. </p>
 </div>
 
 <div class="QA">
-  <a class="Q" href="#">I am a returning Coop member and now share a household with non-Coop members. What should my household do?</a>
+  <div class="Q" href="#">I am a returning Coop member and now share a household with non-Coop members. What should my household do?</div>
   <p class="A">Former members are not required to attend an Orientation again. The Orientation never "expires", no matter how long you've been gone. Since you are now sharing a household with other non-member adults, they will need to join in order for you to re-join. Your housemates must come to the Membership Office in person during office hours with appropriate <a href="/node/121">proof of identity and address</a> and select a workslot before your membership will be reactivated. The members of your household who are new Coop members will then have three months to attend an Orientation Session for which they will <b>not</b> be required to Pre-Register. </p>
 </div>
