@@ -449,8 +449,8 @@ function psfc_orientation_features_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          0 => '',
-          1 => '',
+          0 => 'Did not attend',
+          1 => 'Attended',
         ),
         'allowed_values_function' => '',
       ),
@@ -518,8 +518,8 @@ function psfc_orientation_features_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          0 => '',
-          1 => '',
+          0 => 'Has not confirmed',
+          1 => 'Has confirmed',
         ),
         'allowed_values_function' => '',
       ),
