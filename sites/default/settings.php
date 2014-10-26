@@ -1,10 +1,5 @@
 <?php
 
-// include instance-specific drupal configuration information from
-// settings.inc.php (which is ignored by svn)
-require_once('settings.inc.php');
-
-
 /**
  * @file
  * Drupal site-specific configuration file.
@@ -205,9 +200,21 @@ require_once('settings.inc.php');
  *   );
  * @endcode
  */
- 
- 
-
+$databases = array (
+  'default' => 
+  array (
+    'default' => 
+    array (
+      'database' => 'ort7alpha',
+      'username' => 'ort7alpha',
+      'password' => 'kBfnURHE40HQj2x',
+      'host' => 'mysql.hobo',
+      'port' => '',
+      'driver' => 'mysql',
+      'prefix' => '',
+    ),
+  ),
+);
 
 /**
  * Access control for update.php script.
@@ -239,7 +246,7 @@ $update_free_access = FALSE;
  *   $drupal_hash_salt = file_get_contents('/home/example/salt.txt');
  *
  */
-$drupal_hash_salt = 'SLa_5UNffYgwdSJXlDE88ve9UlmtHPqqwmSf0bCHNN0';
+$drupal_hash_salt = 'RuvpocBL0kRUEyFH64qK41zijIiLmFC4o4vWNTgl5Ds';
 
 /**
  * Base URL (optional).
