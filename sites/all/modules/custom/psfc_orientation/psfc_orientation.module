@@ -4,7 +4,6 @@
  */
 
 module_load_include('inc', 'psfc_orientation', 'psfc_orientation.email');
-module_load_include('inc', 'psfc_orientation', 'psfc_orientation.nodemap');
 module_load_include('inc', 'psfc_orientation', 'psfc_orientation.token');
 
 
@@ -129,17 +128,6 @@ function psfc_orientation_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 12,
   );
-  $items['admin/psfc/orientation/nodemap'] = array(
-    'title' => 'Map content pieces',
-    'description' => 'Change where various pieces of Orientation content come from.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('psfc_orientation_nodemap_settings'),
-    'access arguments' => array('administer psfc orientation'),
-    'file' => 'psfc_orientation.nodemap.inc',
-    'type' => MENU_LOCAL_TASK,
-    'weight' => 13,
-  );
-
   $items['join/orientation/signup/session/%'] = array(
     'title' => 'Review your selection',
     'description' => 'Let the user check the date',
