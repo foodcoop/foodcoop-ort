@@ -238,16 +238,13 @@ function psfc_orientation_get_overview_block() {
   $links = array(
     l(t("Are You Required to Pre-Register?"), 'overview/are-you-required-pre-register'),
     l(t("Households at the Coop"), 'overview/households-coop'),
+    l(t("Register for an Orientation"), 'join/register'), 
+    l(t("Provide Proof of Identity & Address"), 'overview/provide-proof-identity-address'),
+    l(t("Select a Coop Workslot"), 'overview/select-coop-workslot'),
+    l(t("Have a Photo Taken"), 'overview/have-photo-taken'),
+    l(t("Make Your Member Payments"), 'overview/make-your-member-payments'),
   );
   return implode("<br />\n", $links);
-  /**
-    Register for an Orientation
-    Provide Proof of Identity & Address
-    Select a Coop Workslot
-    Have a Photo Taken
-    Make Your Member Payments
-  **/
-
 }
 
 /**

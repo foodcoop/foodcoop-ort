@@ -36,6 +36,38 @@ function psfc_orientation_install() {
   psfc_orientation_install_default_content();
   psfc_orientation_init_logintoboggan_settings();
   psfc_orientation_setup_blocks();
+  psfc_orientation_setup_repeating_orientation_rules();
+}
+
+/**
+ * Setup orientation rules
+ */
+function psfc_orientation_setup_repeating_orientation_rules() {
+  require_once(drupal_get_path('module', 'psfc_orientation') . '/psfc_orientation.admin.inc');
+  $values = array(
+    'day_of_week' => 'Monday',
+    'hour' => 7,
+    'min' => 30,
+    'ampm' => 'pm',
+    'capacity' => 20
+  );
+  psfc_orientation_add_rule($values);
+  $values = array(
+    'day_of_week' => 'Wednesday',
+    'hour' => 10,
+    'min' => '00',
+    'ampm' => 'am',
+    'capacity' => 20
+  );
+  psfc_orientation_add_rule($values);
+  $values = array(
+    'day_of_week' => 'Sunday',
+    'hour' => 4,
+    'min' => '00',
+    'ampm' => 'pm',
+    'capacity' => 20
+  );
+  psfc_orientation_add_rule($values);
 }
 
 /**

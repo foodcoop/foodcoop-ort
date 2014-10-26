@@ -134,21 +134,32 @@ function psfc_orientation_admin_add_rule($form, $edit) {
 }
 
 /**
- * @todo Please document this function.
- * @see http://drupal.org/node/1354
+ * Helper function for creating orientation rules
+ *
+ * These are not formal drupal entites - they are simply stored in the
+ * database. They provide the basis for the auto-creation of orientations
+ * by the cron job. 
  */
+function psfc_orientation_add_rule($values) {
+  $time = $values['hour'] . ':' . $values['min'] . ' ' . $values['ampm'];
+  $id = db_insert('psfc_orientation_repeat_rules')
+    ->fields(
+      array(
+       'day_of_week' => $values['day_of_week'],
+       'time_of_day' => $time,
+       'capacity' => $values['capacity'],
+       ))
+     ->execute();
+  return $id;
+}
+
+/**
+ * Submit function when admin submits new orientation rule
+ **/
 function psfc_orientation_admin_add_rule_submit($form, &$form_state) {
   $values = $form_state['values'];
-  $time = $values['hour'] . ':' . $values['min'] . ' ' . $values['ampm'];
   if ($values['submit'] == 'Add') {
-    $id = db_insert('psfc_orientation_repeat_rules')
-      ->fields(
-        array(
-         'day_of_week' => $values['day_of_week'],
-         'time_of_day' => $time,
-         'capacity' => $values['capacity'],
-         ))
-       ->execute();
+    $id = psfc_orientation_add_rule($values); 
     $form_state['values']['orid'] = $id;
     drupal_set_message(t('A new orientation time has been created for %day at %time with room for %capacity people',
       array('%day' => $values['day_of_week'] . 's', '%time' => $time, '%capacity' => $values['capacity'])));
