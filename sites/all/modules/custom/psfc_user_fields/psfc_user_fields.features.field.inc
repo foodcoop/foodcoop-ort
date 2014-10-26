@@ -147,7 +147,11 @@ function psfc_user_fields_field_default_fields() {
       'entity_types' => array(),
       'field_name' => 'field_fullname',
       'foreign keys' => array(),
-      'indexes' => array(),
+      'indexes' => array(
+        'revision_id' => array(
+          0 => 'revision_id',
+        ),
+      ),
       'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
@@ -240,9 +244,9 @@ function psfc_user_fields_field_default_fields() {
       ),
       'widget' => array(
         'active' => 0,
-        'module' => 'html5_tools',
+        'module' => 'number',
         'settings' => array(),
-        'type' => 'numberfield',
+        'type' => 'number',
         'weight' => '2',
       ),
     ),
