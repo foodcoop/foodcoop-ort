@@ -518,7 +518,7 @@ function psfc_orientation_entity_insert($entity, $type) {
     $params['node'] = $entity;
     global $language;
     $recipient = $node_wrapper->field_email->value();
-    $account = $node_wrapper->field_user_id->value();
+    $account = $node_wrapper->author->value();
     if(empty($recipient)) {
       $recipient = $account->mail;
     }
@@ -718,7 +718,6 @@ function psfc_orientation_node_build_attendee($account, $onid) {
   $node_wrapper = entity_metadata_wrapper('node', $node); 
   // dpm($node_wrapper->getPropertyInfo());
 
-  $node_wrapper->field_user_id->set($account->uid);
   $node_wrapper->title->set($account->name);
   $node_wrapper->status->set(1);
   $node_wrapper->comment->set(0);
@@ -729,7 +728,7 @@ function psfc_orientation_node_build_attendee($account, $onid) {
   $node_wrapper->field_first_name->set($user_wrapper->field_fullname->field_firstname->value());
   $node_wrapper->field_last_name->set($user_wrapper->field_fullname->field_lastname->value());
   $node_wrapper->field_orientation_nid->set($onid);
-  $node_wrapper->field_user_id->set($account->uid);
+  $node_wrapper->author->set($account->uid);
   $node_wrapper->field_confirmed_orientation->set(0);
   $node_wrapper->save(); 
   return $node_wrapper;
@@ -930,7 +929,6 @@ function psfc_orientation_signup_session($onid) {
  */
 function psfc_orientation_signup_session_register($onid) {
   global $user;
-
   // Is user already signed up?
   if (psfc_orientation_registered($user->uid) ) {
     drupal_goto('join/orientation/status');
@@ -938,7 +936,6 @@ function psfc_orientation_signup_session_register($onid) {
   // Create the attendee node for the logged in user, if not already registered
   // and there is space.
   if (psfc_orientation_capacity($onid, TRUE) >= 1) {
-    global $user;
     psfc_orientation_node_build_attendee($user, $onid);
   }
 
@@ -971,8 +968,7 @@ function psfc_orientation_signup_session_register($onid) {
  */
 function psfc_orientation_confirm($uid, $timestamp, $hashed_pass, $action) {
   // Check for active user and confirm hashed pass.
-  $accounts = user_load_multiple(array($uid), array('status' => 1));
-  $account = array_shift($accounts);
+  $account = user_load($uid);
   if (is_numeric($uid) && $account) {
     if ($hashed_pass == psfc_orientation_confirm_rehash($account->pass, $timestamp, $account->login)) {
       // Load the attendee node.
@@ -1000,7 +996,7 @@ function psfc_orientation_confirm($uid, $timestamp, $hashed_pass, $action) {
   //No account or bad link. An attendee will get here if trying to confirm too
   // late. This should probably be a page redirect and not a message.
   drupal_set_message(t('There is no user for the operation you requested.'));
-  //drupal_goto('join/orientation');
+  drupal_goto('join/orientation');
 }
 
 /**
@@ -1037,7 +1033,7 @@ function psfc_orientation_cancel_confirm_submit($form, $form_state) {
  *
  * @return An absolute link.
  */
-function psfc_orientation_confirm_url($account, $action,     $text = 'Click here to @action your orientation.', $l = TRUE) {
+function psfc_orientation_confirm_url($account, $action, $text = 'Click here to @action your orientation.', $l = TRUE) {
   $timestamp = REQUEST_TIME;
   if ($l) {
     return l(t($text, array('@action' => $action)), 'join/orientation/confirm/' . $account->uid . '/' . $timestamp . '/' . psfc_orientation_confirm_rehash($account->pass, $timestamp, $account->login) . '/' . $action, array('absolute' => TRUE));

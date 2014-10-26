@@ -225,7 +225,7 @@ function psfc_orientation_mail_tokens($node, $language) {
   $attendance_wrapper = entity_metadata_wrapper('node', $node);
   $orientation_node = $attendance_wrapper->field_orientation_nid->value();
   $orientation_wrapper= entity_metadata_wrapper('node', $orientation_node);
-  $account =  $attendance_wrapper->field_user_id->value();
+  $account =  $attendance_wrapper->author->value();
   $tokens = array(
     '!attendee_firstname' => $attendance_wrapper->field_first_name->value(),
     '!attendee_lastname' => $attendance_wrapper->field_last_name->value(),
