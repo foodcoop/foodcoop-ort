@@ -159,7 +159,8 @@ function psfc_orientation_add_rule($values) {
 function psfc_orientation_admin_add_rule_submit($form, &$form_state) {
   $values = $form_state['values'];
   if ($values['submit'] == 'Add') {
-    $id = psfc_orientation_add_rule($values); 
+    $id = psfc_orientation_add_rule($values);
+    $time = $values['hour'] . ':' . $values['min'] . ' ' . $values['ampm'];
     $form_state['values']['orid'] = $id;
     drupal_set_message(t('A new orientation time has been created for %day at %time with room for %capacity people',
       array('%day' => $values['day_of_week'] . 's', '%time' => $time, '%capacity' => $values['capacity'])));
