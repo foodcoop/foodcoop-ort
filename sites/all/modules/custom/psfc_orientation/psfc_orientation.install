@@ -33,12 +33,47 @@ function psfc_orientation_uninstall() {
  * Implements hook_install().
  */
 function psfc_orientation_install() {
+  psfc_orientation_install_default_content();
+  psfc_orientation_init_logintoboggan_settings();
+  psfc_orientation_setup_blocks();
+}
+
+/**
+ * Setup our default blocks
+ */
+function psfc_orientation_setup_blocks() {
+  // Enable our two blocks
+  db_update('block')
+    ->fields(array(
+      'status' => 1,
+      'region' => 'sidebar_first',
+    ))
+    ->condition('module', 'psfc_orientation')
+    ->condition(db_or()->condition('delta', 'overview')->condition('delta', 'login_or_create_account'))
+    ->condition('theme', 'bartik')
+    ->execute();
+  // Disable the default user login one
+  db_update('block')
+    ->fields(array(
+      'status' => 0,
+    ))
+    ->condition('module', 'user')
+    ->condition('delta', 'login')
+    ->condition('theme', 'bartik')
+    ->execute();
+
+  // Flush cache
+  cache_clear_all();
+}
+/**
+ * Install default content
+ */
+function psfc_orientation_install_default_content() {
   // Ensure default nodes are created.
   $dir = DRUPAL_ROOT . '/' . drupal_get_path('module', 'psfc_orientation') . '/default-content';
   $files = scandir($dir);
   $new_front_page = NULL;
   while(list(,$file) = each($files)) {
-
     // This directory contains three files for each node we want to import
     // (title, body and alias). The files are named after the variable 
     // name their nid will be saved as (minus the psfc_orientation prefix), 
@@ -83,14 +118,13 @@ function psfc_orientation_install() {
     variable_set('psfc_orientation_old_site_frontpage', $old_frontpage);
     variable_set('site_frontpage', 'join/overview');
   }
-  psfs_orientation_init_logintoboggan_settings();
 }
 
 
 /**
  * Initialize our default settings for the logintoboggan module
  **/
-function psfs_orientation_init_logintoboggan_settings() {
+function psfc_orientation_init_logintoboggan_settings() {
   $settings = array(
     'logintoboggan_confirm_email_at_registration' => '1',
     'logintoboggan_immediate_login_on_register' =>  '1', 
