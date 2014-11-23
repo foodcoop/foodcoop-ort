@@ -1,0 +1,17 @@
+name = Park Slope Food Coop Orientation Theme. 
+description = This is a sub-theme of theme responsive
+core = 7.x
+base theme = responsive
+regions[sidebar_first]  = First Sidebar
+regions[header]         = Header
+regions[front_welcome]  = Front Welcome
+regions[content]        = Content
+regions[content_top]    = Content Top
+regions[help]           = Help
+regions[footer]         = Footer
+regions[footer_first]   = First Bottom
+regions[footer_second]  = Second Bottom
+regions[footer_third]   = Third Bottom
+regions[footer_fourth]  = Fourth Bottom
+
+stylesheets[all][]   = local.css

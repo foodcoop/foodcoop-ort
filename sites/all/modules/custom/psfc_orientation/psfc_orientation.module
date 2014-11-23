@@ -201,7 +201,7 @@ function psfc_orientation_block_view($delta = '') {
   switch($delta) {
     case "login_or_create_account":
       global $user;
-      if(empty($user->uid)) {
+      if(empty($user->uid) && $_GET['q'] != 'login') {
         $text = t("Login or Create an Account");
         return array(
           'subject' => '',

@@ -1,0 +1,33 @@
+/* Put our custom css settings here */
+
+body {
+  background-color: #560;
+}
+
+.container, #head {
+  background-image: url("/sites/all/themes/coop/images/header-greens.jpg");
+}
+
+#sidebar-first {
+  background-color: #f0e7d7;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-top: 0px;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.orientation-login {
+  float: left;
+  width: 48%;
+}
+
+.orientation-register {
+  float: right;
+  width: 48%;
+}
+
+#edit-name, .username, #edit-pass, #edit-mail, #edit-conf-mail, #edit-field-fullname-und-0-field-firstname-und-0-value, #edit-field-fullname-und-0-field-lastname-und-0-value {
+  width: 300px;
+}

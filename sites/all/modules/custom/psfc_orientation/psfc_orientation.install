@@ -35,6 +35,7 @@ function psfc_orientation_uninstall() {
 function psfc_orientation_install() {
   psfc_orientation_install_default_content();
   psfc_orientation_init_logintoboggan_settings();
+  psfc_orientation_set_themes();
   psfc_orientation_setup_blocks();
   psfc_orientation_setup_repeating_orientation_rules();
 }
@@ -71,6 +72,55 @@ function psfc_orientation_setup_repeating_orientation_rules() {
 }
 
 /**
+ * Enable our theme and the one it depends on.
+ */
+function psfc_orientation_set_themes() {
+  theme_enable(array('coop'));
+  $theme_coop_settings = array (
+    ['toggle_logo'] => 1,
+    ['toggle_name'] => 1,
+    ['toggle_slogan'] => 1,
+    ['toggle_node_user_picture'] => 1,
+    ['toggle_comment_user_picture'] => 1,
+    ['toggle_comment_user_verification'] => 1,
+    ['toggle_favicon'] => 1,
+    ['toggle_main_menu'] => 1,
+    ['toggle_secondary_menu'] => 1,
+    ['default_logo'] => 0,
+    ['logo_path'] => 'sites/all/themes/coop/images/logo-join.png',
+    ['logo_upload'] => NULL,
+    ['default_favicon'] => 0,
+    ['favicon_path'] => 'sites/all/themes/coop/images/favicon.ico',
+    ['favicon_upload'] => NULL,
+    ['breadcrumbs'] => 1,
+    ['slideshow_display'] => 0,
+    ['slide1_desc'] => NULL,
+    ['slide1_url'] => NULL ,
+    ['slide2_desc'] => NULL ,
+    ['slide2_url'] => NULL ,
+    ['slide3_desc'] => NULL ,
+    ['slide3_url'] => NULL ,
+    ['socialicon_display'] => 0,
+    ['twitter_url'] => NULL ,
+    ['facebook_url'] => NULL ,
+    ['googleplus_url'] => NULL ,
+    ['linkedin_url'] => NULL ,
+    ['favicon_mimetype'] => 'image/vnd.microsoft.icon'
+  );
+  variable_set('theme_coop_settings', $theme_coop_settings); 
+
+  // Seems like a bug - Drupal follows the parent theme settings
+  // when deciding whether to show the slide show and social network
+  // settings.
+  $theme_responsive_settings = array(
+    'slideshow_display' => 0, 
+    'socialicon_display' => 0, 
+  );
+  variable_set('theme_responsive_settings', $theme_coop_settings); 
+  variable_set('theme_default', 'coop');
+
+}
+/**
  * Setup our default blocks
  */
 function psfc_orientation_setup_blocks() {
@@ -82,7 +132,7 @@ function psfc_orientation_setup_blocks() {
     ))
     ->condition('module', 'psfc_orientation')
     ->condition(db_or()->condition('delta', 'overview')->condition('delta', 'login_or_create_account'))
-    ->condition('theme', 'bartik')
+    ->condition('theme', 'coop')
     ->execute();
   // Disable the default user login one
   db_update('block')
@@ -91,7 +141,7 @@ function psfc_orientation_setup_blocks() {
     ))
     ->condition('module', 'user')
     ->condition('delta', 'login')
-    ->condition('theme', 'bartik')
+    ->condition('theme', 'coop')
     ->execute();
 
   // Flush cache
