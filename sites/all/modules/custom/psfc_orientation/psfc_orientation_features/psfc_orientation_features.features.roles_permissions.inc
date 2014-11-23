@@ -40,7 +40,6 @@ function psfc_orientation_features_default_roles_permissions() {
       'administer modules' => TRUE,
       'administer nodes' => TRUE,
       'administer orientation attendance' => TRUE,
-      'administer pathauto' => TRUE,
       'administer permissions' => TRUE,
       'administer psfc orientation' => TRUE,
       'administer search' => TRUE,
@@ -84,7 +83,6 @@ function psfc_orientation_features_default_roles_permissions() {
       'edit terms in 1' => TRUE,
       'execute php code' => TRUE,
       'manage features' => TRUE,
-      'notify of path changes' => TRUE,
       'post comments' => TRUE,
       'revert revisions' => TRUE,
       'search content' => TRUE,
@@ -121,6 +119,7 @@ function psfc_orientation_features_default_roles_permissions() {
     'weight' => '4',
     'permissions' => array(
       'access content' => TRUE,
+      'access devel information' => TRUE,
       'use text format filtered_html' => TRUE,
     ),
   );

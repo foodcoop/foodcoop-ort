@@ -132,17 +132,11 @@ function psfc_orientation_menu() {
     'title' => 'Review your selection',
     'description' => 'Let the user check the date',
     'access arguments' => array('access content'),
-    'page callback' => 'psfc_orientation_signup_session',
+    'page callback' => 'psfc_orientation_signup_session_register',
     'page arguments' => array(4),
     'type' => MENU_CALLBACK,
   );
-  $items['join/orientation/signup/session/register/%'] = array(
-    'title' => 'Do the registration',
-    'access arguments' => array('access content'),
-    'page callback' => 'psfc_orientation_signup_session_register',
-    'page arguments' => array(5),
-    'type' => MENU_CALLBACK,
-  );
+  
   $items['login'] = array(
     'title' => 'Sign in',
     'description' => 'Log in or create an account.',
@@ -867,47 +861,6 @@ function psfc_orientation_signup_link($nid) {
   return '<div class="button-rounded"><span>' . l(t('Log in to select'), 'login') . '</span></div>';
 }
 
-/**
- * Callback function for the signup link.
- *
- * Let the user review the session details before we save.
- *
- * @param $nid
- *   The nid of the orientation node.
- */
-
-/**
- * @todo Please document this function.
- * @see http://drupal.org/node/1354
- */
-function psfc_orientation_signup_session($onid) {
-  global $user;
-  // Is user already signed up?
-  if (psfc_orientation_registered($user->uid) ) {
-    drupal_goto('join/orientation/status/registered');
-  }
-  $orientation = node_load($onid);
-  $date = strtotime($orientation->field_orientation_date['und'][0]['value']);
-  $pdate = date('M j', $date);
-  $dow = date('l', $date);
-  $time = date('g:iA', $date);
-  $tbl = array();
-  $tbl['header'] = array('Date', 'Day', 'Time');
-  $tbl['rows'] = array(array($pdate, $dow, $time, l('Yes, Register Me', 'join/orientation/signup/session/register/' . $onid)));
-  $output = '<div class="confirm-info-text">';
-  $output .= t('You have selected the following Orientation Session:');
-  $output .= '</div>';
-
-  $output .= '<div class="confirm-info-date">';
-  // TODO Please change this theme call to use an associative array for the $variables parameter.
-  $output .= theme('table', $tbl);
-  $output .= '</div>';
-
-  $output .= '<div class="button-rounded red"><span>';
-  $output .= l(t('No, Select Another Date'), 'join/orientation');
-  $output .= '</span></div>';
-  return $output;
-}
 
 /**
  * Callback function for the signup link.
@@ -979,7 +932,6 @@ function psfc_orientation_confirm($uid, $timestamp, $hashed_pass, $action) {
       // Account exists, but no attendee node. This should probably be a page
       // redirect and not a message.
       else {
-        drupal_set_message(t('You have not registered for orientation, or your registration has expired or been cancelled.'));
         drupal_goto('<front>');
       }
     }
@@ -1060,7 +1012,8 @@ function psfc_orientation_confirm_rehash($password, $timestamp, $login) {
  * @return Node object.
  */
 function psfc_orientation_get_attendee_node($account) {
-  $result = db_query("SELECT fnid.entity_id FROM {field_data_field_orientation_nid} fnid JOIN {field_data_field_user_id} fuid ON fnid.revision_id = fuid.revision_id AND fnid.entity_id = fuid.entity_id AND fnid.bundle = fuid.bundle WHERE fuid.field_user_id_uid = :field_userid_uid", array(':field_userid_uid' => $account->uid)); 
+  $sql = "SELECT nid FROM node WHERE type = 'orientation_attendee' AND uid = :uid ORDER BY created DESC LIMIT 1";
+  $result = db_query($sql, array(':uid' => $account->uid));
   if ($result->rowCount() > 0) { 
     while ($nid = $result->fetchField()) { 
       $node = (is_numeric($nid)) ? node_load($nid) : FALSE; 

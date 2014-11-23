@@ -477,7 +477,7 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['fields']['field_orientation_date']['label'] = 'Date';
   $handler->display->display_options['fields']['field_orientation_date']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_orientation_date']['settings'] = array(
-    'format_type' => 'short_date',
+    'format_type' => 'long',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
