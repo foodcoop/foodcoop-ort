@@ -299,14 +299,12 @@ function psfc_orientation_create_based_on_repeat_rules() {
 function psfc_orientation_delete_unconfirmed() {
   // Delete unconfirmed registrations after 48 hours. 
   $expires = REQUEST_TIME - (2 * 24 * 60 * 60);
-  $sql = "SELECT n.nid AS attendee_nid, u.field_user_id_uid AS uid, ".
+  $sql = "SELECT n.nid AS attendee_nid, n.uid AS uid, ".
     "o.field_orientation_nid_nid AS orientation_nid ".
     "FROM {node} n JOIN {field_data_field_orientation_nid} o " .
     "ON n.nid = o.entity_id AND n.vid = o.revision_id JOIN ".
     "{field_data_field_confirmed_orientation} con ".
-    "ON n.nid = con.entity_id AND n.vid = con.revision_id JOIN ".
-    "{field_data_field_user_id} u ".
-    "ON n.nid = u.entity_id AND n.vid = u.revision_id ".
+    "ON n.nid = con.entity_id AND n.vid = con.revision_id ".
     "WHERE n.type = 'orientation_attendee' AND ".
     "n.created < :created AND con.field_confirmed_orientation_value = 0";
   $result = db_query($sql, array(':created' => $expires));
@@ -536,7 +534,7 @@ function psfc_orientation_entity_delete($entity, $type) {
       // Warn the attendee that the orientation is cancelled.
       $node_wrapper = entity_metadata_wrapper('node', $attendee); 
       $recipient = $node_wrapper->field_email->value();
-      $account = $node_wrapper->field_user_id->value();
+      $account = $node_wrapper->author->value();
       if(empty($recipient)) {
         $recipient = $account->mail;
       }
@@ -746,7 +744,7 @@ function psfc_orientation_capacity($node, $close = FALSE, $offset = 0) {
     $phone_reg_count++;
   }
   // Get count of users on the system registered.
-  $result = db_query("SELECT COUNT(DISTINCT fuid.field_user_id_uid) FROM {field_data_field_orientation_nid} fnid JOIN {field_data_field_user_id} fuid ON fnid.revision_id = fuid.revision_id AND fnid.entity_id = fuid.entity_id AND fnid.bundle = fuid.bundle WHERE fnid.field_orientation_nid_nid = :nid", array(':nid' => $node->nid)); 
+  $result = db_query("SELECT COUNT(*) FROM {field_data_field_orientation_nid} fnid WHERE fnid.field_orientation_nid_nid = :nid", array(':nid' => $node->nid)); 
   if ($result->rowCount() == 0) {
     $user_reg_count = 0;
   }
@@ -947,7 +945,7 @@ function psfc_orientation_confirm($uid, $timestamp, $hashed_pass, $action) {
  */
 function psfc_orientation_cancel_confirm($form, $form_state, $node) {
   $node_wrapper = entity_metadata_wrapper('node', $node); 
-  $form['#orientation_attendee_uid'] = $node_wrapper->field_user_id->value()->uid;
+  $form['#orientation_attendee_uid'] = $node_wrapper->author->value()->uid;
   $form['#orientation_attendee_nid'] = $node_wrapper->getIdentifier();
   $question = t('Confirm Your Cancellation');
   $path = '<front>';
