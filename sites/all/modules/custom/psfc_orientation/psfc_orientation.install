@@ -39,6 +39,21 @@ function psfc_orientation_install() {
   psfc_orientation_setup_blocks();
   psfc_orientation_setup_menus();
   psfc_orientation_setup_repeating_orientation_rules();
+  psfc_orientation_setup_date_formats();
+}
+
+/**
+ * Set our date defaults.
+ */
+function psfc_orientation_setup_date_formats() {
+  variable_set('date_format_long', "l, F j, Y - g:ia");
+  variable_set('date_format_medium', "D, m/d/Y - g:ia");
+  variable_set('date_format_short', "m/d/Y - g:ia");
+  variable_set('date_default_timezone', "America/New_York");
+  variable_set('configurable_timezones', 0);
+  variable_set('empty_timezone_message', 0);
+  variable_set('user_default_timezone', 0);
+  variable_set('site_default_country', "US");
 }
 
 /**
