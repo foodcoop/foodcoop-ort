@@ -269,27 +269,30 @@ function psfc_orientation_theme() {
 }
 
 /**
- * Create orientations based on repeat rule.s
+ * Create orientations based on repeat rules
  * 
- * This function should be called from the cron
- * job.
+ * This function should be called from the cron job. It will ensure that
+ * there is an orientation scheduled for two weeks from the last day of week
+ * that is part of each orientation rule. In other words, if the orientation 
+ * rule is Mondays at 7:30 pm, it will ensure that there is an orientation
+ * created two weeks from last Monday, unless it is blackout date or it has
+ * already been created.
+ *
  **/
 function psfc_orientation_create_based_on_repeat_rules() {
   // Create orientation based on repeat rules.
   $query = db_query("SELECT * FROM {psfc_orientation_repeat_rules}");
   while ($result = $query->fetchAssoc()) {
-    if ($result['day_of_week'] == date('l')) {
-      $time = psfc_orientation_split_time_of_day($result['orid']);
-      $next_ort = psfc_orientation_determine_next_repeat($time);
-      if (!psfc_orientation_orientation_exists($next_ort) &&
-        !psfc_orientation_orientation_blacked_out($next_ort) &&
-        psfc_orientation_orientation_creation_window($next_ort, 15)) {
-
-        $node_wrapper = psfc_orientation_node_build($result, $next_ort);
-        if ($node_wrapper->nid->value()) {
-          watchdog('psfc_orientation', 'Added an orientation for: @date',
-            array('@date' => date('Y-m-d H:i:s', $next_ort)), WATCHDOG_NOTICE);
-        }
+    $day_of_week = $result['day_of_week'];
+    $from = strtotime("Last $day_of_week");
+    $time = psfc_orientation_split_out_time_of_day($result['orid']);
+    $next_ort = psfc_orientation_determine_next_repeat($time, $from);
+    if (!psfc_orientation_orientation_exists($next_ort) &&
+      !psfc_orientation_orientation_blacked_out($next_ort)) {
+      $node_wrapper = psfc_orientation_node_build($result, $next_ort);
+      if ($node_wrapper->nid->value()) {
+        watchdog('psfc_orientation', 'Added an orientation for: @date',
+          array('@date' => date('Y-m-d H:i:s', $next_ort)), WATCHDOG_NOTICE);
       }
     }
   }
@@ -581,8 +584,8 @@ function psfc_orientation_get_repeat_rule_info($orid) {
  *  Helper function to determine next repeated orienation
  *
  */
-function psfc_orientation_determine_next_repeat($time) {
-  $two_weeks = strtotime('+ 2 weeks');
+function psfc_orientation_determine_next_repeat($time, $from) {
+  $two_weeks = strtotime('+ 2 weeks', $from);
   $date = date('Y-m-d', $two_weeks);
   $string = $date . ' ' . $time['hour'] . ':' . $time['minute'] . ' ' . $time['ampm'];
   $next_orientation = strtotime($string);
@@ -592,7 +595,7 @@ function psfc_orientation_determine_next_repeat($time) {
 /**
  * Helper function to split apart the time_of_day saved in orienation_rule
  */
-function psfc_orientation_split_time_of_day($orid) {
+function psfc_orientation_split_out_time_of_day($orid) {
   $info = psfc_orientation_get_repeat_rule_info($orid);
   $split0 = explode(':', $info['time_of_day']);
   $split1 = explode(' ', $split0[1]);
@@ -1164,31 +1167,6 @@ function theme_psfc_orientation_status() {
   return $output;
 }
 
-/**
- * Helper function to determine if now is the time window to create
- * an orientation. If the current time is less than $range minutes
- * after the passed in time, then return TRUE because it's ok to create
- * the orientation. In other words, if the orientation is set for 8:00 pm
- * and it's between 8:00 and 8:15 pm, then we respond TRUE, otherwise we
- * respond FALSE.
- *
- * @param $time The unix timestamp of an orientation you are looking to create.
- * @param $range Optional The number of minutes after a time that an
- *  orientation should still get created.
- *
- * @return returns TRUE if it is okay to create the orientation
- */
-function psfc_orientation_orientation_creation_window($time, $range = 15) {
-  // 'l' is day of week, 'G' is 24 hour format of Hour
-  if (date('l') == date('l', $time) && date('G') == date('G', $time)) {
-    $current_minute = date('i');
-    $time_minute = date('i', $time);
-    if ($time_minute <= $current_minute && $current_minute <= $time_minute + $range) {
-      return TRUE;
-    }
-  }
-  return FALSE;
-}
 /**
  * Helper function to delete past blackout days via cron
  */
