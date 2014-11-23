@@ -35,8 +35,9 @@ function psfc_orientation_uninstall() {
 function psfc_orientation_install() {
   psfc_orientation_install_default_content();
   psfc_orientation_init_logintoboggan_settings();
-  psfc_orientation_set_themes();
+  psfc_orientation_setup_themes();
   psfc_orientation_setup_blocks();
+  psfc_orientation_setup_menus();
   psfc_orientation_setup_repeating_orientation_rules();
 }
 
@@ -72,9 +73,18 @@ function psfc_orientation_setup_repeating_orientation_rules() {
 }
 
 /**
+ * Kill the home menu link.
+ */
+function psfc_orientation_setup_menus() {
+  db_delete('menu_links')
+    ->condition('menu_name', 'main-menu')
+    ->execute();
+  menu_cache_clear_all();
+}
+/**
  * Enable our theme and the one it depends on.
  */
-function psfc_orientation_set_themes() {
+function psfc_orientation_setup_themes() {
   theme_enable(array('coop'));
   $theme_coop_settings = array (
     'toggle_logo' => 1,
