@@ -27,5 +27,5 @@ drush en psfc_orientation_features psfc_user_fields
 ```
  * You won't be able to really test until you have some orientations scheduled. This usually happens when the cron job runs, so you may want to trigger that manually:
 ```
-drupal core-cron
+drush core-cron
 ```
