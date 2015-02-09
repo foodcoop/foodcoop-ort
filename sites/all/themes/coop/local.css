@@ -31,3 +31,7 @@ body {
 #edit-name, .username, #edit-pass, #edit-mail, #edit-conf-mail, #edit-field-fullname-und-0-field-firstname-und-0-value, #edit-field-fullname-und-0-field-lastname-und-0-value {
   width: 300px;
 }
+
+.Q {
+  font-weight: bold;
+}
