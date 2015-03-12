@@ -7,7 +7,7 @@
 /**
  * PsfcOrientationCase tests orientation functions.
  */
-class PsfcOrientationCase extends DrupalUnitTestCase {
+class PsfcOrientationCase extends DrupalWebTestCase {
   private $nids_to_delete = array();
   public static function getInfo() {
     return array(
@@ -17,7 +17,7 @@ class PsfcOrientationCase extends DrupalUnitTestCase {
   }
 
   function setUp() {
-    parent::setUp();
+    parent::setUp(array('psfc_orientation_features', 'psfc_user_fields'));
   }
 
   function tearDown() {
