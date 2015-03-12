@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * @file tests for psfc_orientation module
+ */
+
+/**
+ * PsfcOrientationCase tests orientation functions.
+ */
+class PsfcOrientationCase extends DrupalUnitTestCase {
+  private $nids_to_delete = array();
+  public static function getInfo() {
+    return array(
+      'name' => 'PSFC Orientation module tests',
+      'description' => 'Tests the proper functioning of the orientation module.'
+    );
+  }
+
+  function setUp() {
+    parent::setUp();
+  }
+
+  function tearDown() {
+    while(list(, $nid) = each($this->nids_to_delete)) {
+      node_delete($nid);
+    }
+    parent::tearDown();
+  }
+
+  function testCreateOrientation() {
+    // Make up an arbitrary repeat rule
+    $rule = array('day_of_week' => 'Thursday', 'time_of_day' => '5:30 am');
+    $day_of_week = $rule['day_of_week'];
+    $time = psfc_orientation_split_out_time_of_day($rule['time_of_day']);
+    $from = strtotime("Last $day_of_week");
+    $next_ort = psfc_orientation_determine_next_repeat($time, $from);
+    $exists = psfc_orientation_orientation_exists($next_ort);
+    $this->assertFalse($exists, "There shouldn't be an orientation scheduled for 5:30 am.");
+    return;
+    $node_wrapper = psfc_orientation_node_build($row, $next_ort);
+    $node_created = empty($node_wrapper->nid->value()) ? FALSE : TRUE;
+    $this->assertTrue($node_created, "Failed to create orientation.");
+  }
+}

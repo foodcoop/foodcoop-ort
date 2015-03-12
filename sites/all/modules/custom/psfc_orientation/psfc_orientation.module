@@ -279,7 +279,7 @@ function psfc_orientation_create_based_on_repeat_rules() {
   while ($result = $query->fetchAssoc()) {
     $day_of_week = $result['day_of_week'];
     $from = strtotime("Last $day_of_week");
-    $time = psfc_orientation_split_out_time_of_day($result['orid']);
+    $time = psfc_orientation_split_out_time_of_day($result['time_of_day']);
     $next_ort = psfc_orientation_determine_next_repeat($time, $from);
     if (!psfc_orientation_orientation_exists($next_ort) &&
       !psfc_orientation_orientation_blacked_out($next_ort)) {
@@ -585,11 +585,10 @@ function psfc_orientation_determine_next_repeat($time, $from) {
 }
 
 /**
- * Helper function to split apart the time_of_day saved in orienation_rule
+ * Helper function to split apart the time_of_day saved in orientation_rule
  */
-function psfc_orientation_split_out_time_of_day($orid) {
-  $info = psfc_orientation_get_repeat_rule_info($orid);
-  $split0 = explode(':', $info['time_of_day']);
+function psfc_orientation_split_out_time_of_day($time_of_day) {
+  $split0 = explode(':', $time_of_day);
   $split1 = explode(' ', $split0[1]);
 
   $time = array();
