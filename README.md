@@ -7,9 +7,9 @@ You can install it by following these directions:
  * Ensure you have a recent version of drush installed (5.10 should work)
  * Create a MySQL database and username/password combination
  * Create an apache (or any web server) configuration
- * Check out the drupal-7 branch:
+ * Clone this repo: 
 ```
-git checkout drupal-7 
+git clone https://github.com/jmcclelland/ort.git 
 ```
  * Install drupal (replace the items in capital with appropriate values from your developer instance)
 ```
