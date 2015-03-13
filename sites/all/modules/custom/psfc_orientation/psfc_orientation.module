@@ -277,21 +277,27 @@ function psfc_orientation_create_based_on_repeat_rules() {
   // Create orientation based on repeat rules.
   $query = db_query("SELECT * FROM {psfc_orientation_repeat_rules}");
   while ($result = $query->fetchAssoc()) {
-    $day_of_week = $result['day_of_week'];
-    $from = strtotime("Last $day_of_week");
-    $time = psfc_orientation_split_out_time_of_day($result['time_of_day']);
-    $next_ort = psfc_orientation_determine_next_repeat($time, $from);
-    if (!psfc_orientation_orientation_exists($next_ort) &&
-      !psfc_orientation_orientation_blacked_out($next_ort)) {
-      $node_wrapper = psfc_orientation_node_build($result, $next_ort);
-      if ($node_wrapper->nid->value()) {
-        watchdog('psfc_orientation', 'Added an orientation for: @date',
-          array('@date' => date('Y-m-d H:i:s', $next_ort)), WATCHDOG_NOTICE);
-      }
-    }
+    psfc_orientation_create_based_on_repeat_rule($result);
   }
 }
 
+/**
+ * Create orientation rule for a given rule.
+ */
+function psfc_orientation_create_based_on_repeat_rule($result) {
+  $day_of_week = $result['day_of_week'];
+  $from = strtotime("Last $day_of_week");
+  $time = psfc_orientation_split_out_time_of_day($result['time_of_day']);
+  $next_ort = psfc_orientation_determine_next_repeat($time, $from);
+  if (!psfc_orientation_orientation_exists($next_ort) &&
+    !psfc_orientation_orientation_blacked_out($next_ort)) {
+    $node_wrapper = psfc_orientation_node_build($result, $next_ort);
+    if ($node_wrapper->nid->value()) {
+      watchdog('psfc_orientation', 'Added an orientation for: @date',
+        array('@date' => date('Y-m-d H:i:s', $next_ort)), WATCHDOG_NOTICE);
+    }
+  }
+}
 
 /**
  * Delete unconfirmed registrations.

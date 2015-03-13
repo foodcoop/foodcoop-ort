@@ -256,12 +256,24 @@ function psfc_orientation_add_blackout_submit($form, &$form_state) {
   $values = $form_state['values'];
 
   if ($values['submit'] == 'Add') {
-    $id = db_insert('psfc_orientation_blackout_days')
-      ->fields(array('blackout_date' => $values['date']))
-      ->execute();
-    drupal_set_message(t('A new orientation blackout time has been created for %day', array('%day' => $values['date'])));
+    if(psfc_orientation_insert_blackout_date($values['date'])) {
+      drupal_set_message(t('A new orientation blackout time has been created for %day', array('%day' => $values['date'])));
+    }
+    else {
+      drupal_set_message(t('Failed to create a blackout time for %day', array('%day' => $values['date'])));
+    }
   }
   drupal_goto( 'admin/psfc/orientation');
+}
+
+/**
+ * Insert a blackout date record for the given date
+ */
+function psfc_orientation_insert_blackout_date($date) {
+  $id = db_insert('psfc_orientation_blackout_days')
+    ->fields(array('blackout_date' => $date))
+    ->execute();
+  return $id;
 }
 
 /**
