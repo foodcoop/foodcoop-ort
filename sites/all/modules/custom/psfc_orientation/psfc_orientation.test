@@ -3,9 +3,9 @@
 /**
  * @file tests for psfc_orientation module
  *
- * Running tests via drush doesn't seem to work properly.
- * Instead try running via: 
- *  php scripts/run-tests.sh --verbose --url http://ort7.hobo PSFC 
+ * Running tests via drush and scripts/run-tests.sh doesn't seem to work properly.
+ * It doesn't get the node via drupalGet. Running via the web interface works 
+ * though: Configuration -> Testing.
  */
 
 /**
