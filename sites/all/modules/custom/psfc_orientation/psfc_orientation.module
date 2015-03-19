@@ -292,11 +292,14 @@ function psfc_orientation_create_based_on_repeat_rule($result) {
   if (!psfc_orientation_orientation_exists($next_ort) &&
     !psfc_orientation_orientation_blacked_out($next_ort)) {
     $node_wrapper = psfc_orientation_node_build($result, $next_ort);
-    if ($node_wrapper->nid->value()) {
-      watchdog('psfc_orientation', 'Added an orientation for: @date',
-        array('@date' => date('Y-m-d H:i:s', $next_ort)), WATCHDOG_NOTICE);
+    $nid = $node_wrapper->nid->value();
+    if ($nid) {
+      watchdog('psfc_orientation', 'Added an orientation for: @date, with nid @nid',
+        array('@date' => date('Y-m-d H:i:s', $next_ort), '@nid' => $nid), WATCHDOG_NOTICE);
+      return $nid;
     }
   }
+  return FALSE;
 }
 
 /**

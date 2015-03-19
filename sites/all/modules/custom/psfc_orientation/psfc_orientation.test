@@ -2,6 +2,9 @@
 
 /**
  * @file tests for psfc_orientation module
+ *
+ * Run tests via drush - but be sure to pass the --uri option, e.g.:
+ * drush test-run PsfcOrientationCase --uri=ort7.hobo
  */
 
 /**
@@ -36,42 +39,33 @@ class PsfcOrientationCase extends DrupalWebTestCase {
     // Make up an arbitrary repeat rule and test to ensure it gets created
     // using the functions used by the cron job.
     $rule = array('day_of_week' => 'Thursday', 'time_of_day' => '5:30 am', 'capacity' => 10);
-    psfc_orientation_create_based_on_repeat_rule($rule);
+    $nid = psfc_orientation_create_based_on_repeat_rule($rule);
 
     // See if an orientation node was created for the right date.
     $from = strtotime("Last Thursday");
     $time = array('hour' => 5, 'minute' => 30, 'ampm' => 'am');
     $next_ort = psfc_orientation_determine_next_repeat($time, $from);
-    $node_created = $this->orientationExists($next_ort);
-    $this->assertTrue($node_created, "Failed to create orientation.");
+    // Convert $next_ort from timestamp to value that should be displayed
+    // on the page.
+    $date_string =  date("l, F j, Y - g:ia", $next_ort);
+    // Go to the page that should exist.
+    $this->drupalGet("node/$nid");
+    $this->assertResponse(200, 'Orientation was created and is accessible.');
+    $this->assertText($date_string, "Orientation was created with the proper date." );
 
     // Now, ensure that we don't create orientations on black out dates.
-    $rule = array('day_of_week' => 'Friday', 'time_of_day' => '9:30 am', 'capacity' => 10);
     $from = strtotime("Last Friday");
     $time = array('hour' => 9, 'minute' => 30, 'ampm' => 'am');
     $next_ort = psfc_orientation_determine_next_repeat($time, $from);
     // Create a blackout date
     $id = psfc_orientation_insert_blackout_date(date('Y-m-d', $next_ort));
-    // Try to create a repeat rule
-    psfc_orientation_create_based_on_repeat_rule($rule);
-    $node_created = $this->orientationExists($next_ort);
-    $this->assertFalse($node_created, "Created orientation during black out time..");
+    // Try to create a repeat rule for this date.
+    $rule = array('day_of_week' => 'Friday', 'time_of_day' => '9:30 am', 'capacity' => 10);
+    $nid = psfc_orientation_create_based_on_repeat_rule($rule);
+    $this->assertFalse($nid, "Orientation not created during black out time.");
 
   }
 
-  /**
-   * Helper function - check if orientation exists for the given date.
-   */
-  function orientationExists($timestamp) {
-    $next_ort = date('Y-m-d H:i:s', $timestamp);
-    // Short cut sql statement to make sure the record exists.
-    $sql = "SELECT COUNT(*) AS count FROM {field_data_field_orientation_date} WHERE " .
-      "entity_type = 'node' AND bundle = 'orientation' AND field_orientation_date_value ".
-      "= :ort_date";
-    $result = db_query($sql, array(':ort_date' => $next_ort));
-    echo "checking: $next_ort\n";
-    return $result->fetchField() == 1 ? TRUE : FALSE;
-  }
 }
 
 
