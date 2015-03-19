@@ -49,7 +49,7 @@ class PsfcOrientationCase extends DrupalWebTestCase {
     // on the page.
     $date_string =  date("l, F j, Y - g:ia", $next_ort);
     // Go to the page that should exist.
-    $this->drupalGet("node/$nid");
+    echo $this->drupalGet("node/$nid");
     $this->assertResponse(200, 'Orientation was created and is accessible.');
     $this->assertText($date_string, "Orientation was created with the proper date." );
 
