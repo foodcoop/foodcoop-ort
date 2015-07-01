@@ -35,3 +35,7 @@ body {
 .Q {
   font-weight: bold;
 }
+
+.credit {
+  display: none;
+}
