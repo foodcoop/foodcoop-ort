@@ -168,6 +168,15 @@ function psfc_orientation_setup_blocks() {
     ->condition('delta', 'login')
     ->condition('theme', 'coop')
     ->execute();
+  // And disable the powered by drupal block in the footer
+  db_update('block')
+    ->fields(array(
+      'status' => 0,
+    ))
+    ->condition('module', 'system')
+    ->condition('delta', 'powered-by')
+    ->condition('theme', 'coop')
+    ->execute();
 
   // Flush cache
   cache_clear_all();
