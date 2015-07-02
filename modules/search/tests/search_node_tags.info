@@ -1,6 +1,7 @@
-name = "Trigger Test"
-description = "Support module for Trigger tests."
+name = "Test search node tags"
+description = "Support module for Node search tags testing."
 package = Testing
+version = VERSION
 core = 7.x
 hidden = TRUE
 
