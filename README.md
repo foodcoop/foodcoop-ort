@@ -2,6 +2,8 @@
 
 This repo contains the code that runs the Park Slope Food Coop's orientation site.
 
+##Installation
+
 You can install it by following these directions:
 
  * Ensure you have a recent version of drush installed (5.10 should work)
@@ -29,3 +31,14 @@ drush en psfc_orientation_features psfc_user_fields
 ```
 drush core-cron
 ```
+
+##Testing
+
+This project comes with some unit tests.
+
+To run tests, take the following steps:
+
+ * Enable the simpletest module
+ * Go to: /admin/config/development/testing
+ * Put a check in the PSFC checkbox and click "Run Tests"
+ * Get a cup of coffee and wait.
