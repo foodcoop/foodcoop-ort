@@ -138,7 +138,7 @@ function psfc_orientation_admin_add_rule($form, $edit) {
  *
  * These are not formal drupal entites - they are simply stored in the
  * database. They provide the basis for the auto-creation of orientations
- * by the cron job. 
+ * by the cron job.
  */
 function psfc_orientation_add_rule($values) {
   $time = $values['hour'] . ':' . $values['min'] . ' ' . $values['ampm'];
@@ -453,7 +453,7 @@ function psfc_orientation_upcoming_orientations() {
  * @see http://drupal.org/node/1354
  */
 function psfc_orientation_add_registrant($form, $form_state) {
-  // Get available orientations 
+  // Get available orientations
   $options = psfc_orientation_upcoming_orientations();
 
   $form['instructions'] = array(
@@ -485,7 +485,7 @@ function psfc_orientation_add_registrant($form, $form_state) {
   );
   $form['no_account'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Sign up a person using name and phone numbe'),
+    '#title' => t('Sign up a person using name and phone number'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
     '#description' => t('You will not need to have the person\'s email address.'),
