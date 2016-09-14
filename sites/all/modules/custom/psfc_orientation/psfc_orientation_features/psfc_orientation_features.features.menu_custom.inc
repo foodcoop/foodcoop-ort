@@ -21,6 +21,5 @@ function psfc_orientation_features_menu_default_menu_custom() {
   t('Menu guiding users through the process of becoming a member.');
   t('PSFC Orientation');
 
-
   return $menus;
 }

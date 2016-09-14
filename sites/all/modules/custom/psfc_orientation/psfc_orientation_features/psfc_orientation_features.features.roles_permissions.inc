@@ -13,7 +13,7 @@ function psfc_orientation_features_default_roles_permissions() {
   // Exported role: administrator
   $roles['administrator'] = array(
     'name' => 'administrator',
-    'weight' => '2',
+    'weight' => 2,
     'permissions' => array(
       'access administration pages' => TRUE,
       'access all views' => TRUE,
@@ -22,7 +22,6 @@ function psfc_orientation_features_default_roles_permissions() {
       'access content overview' => TRUE,
       'access contextual links' => TRUE,
       'access dashboard' => TRUE,
-      'access devel information' => TRUE,
       'access overlay' => TRUE,
       'access site in maintenance mode' => TRUE,
       'access site reports' => TRUE,
@@ -48,6 +47,7 @@ function psfc_orientation_features_default_roles_permissions() {
       'administer software updates' => TRUE,
       'administer taxonomy' => TRUE,
       'administer themes' => TRUE,
+      'administer unit tests' => TRUE,
       'administer url aliases' => TRUE,
       'administer users' => TRUE,
       'administer views' => TRUE,
@@ -81,7 +81,6 @@ function psfc_orientation_features_default_roles_permissions() {
       'edit own orientation_attendee content' => TRUE,
       'edit own page content' => TRUE,
       'edit terms in 1' => TRUE,
-      'execute php code' => TRUE,
       'manage features' => TRUE,
       'post comments' => TRUE,
       'revert revisions' => TRUE,
@@ -90,7 +89,6 @@ function psfc_orientation_features_default_roles_permissions() {
       'sign up for psfc orientation' => TRUE,
       'skip comment approval' => TRUE,
       'switch shortcut sets' => TRUE,
-      'switch users' => TRUE,
       'use advanced search' => TRUE,
       'use text format filtered_html' => TRUE,
       'use text format full_html' => TRUE,
@@ -103,7 +101,7 @@ function psfc_orientation_features_default_roles_permissions() {
   // Exported role: orientation admin
   $roles['orientation admin'] = array(
     'name' => 'orientation admin',
-    'weight' => '3',
+    'weight' => 3,
     'permissions' => array(
       'administer orientation attendance' => TRUE,
       'administer psfc orientation' => TRUE,
@@ -116,10 +114,9 @@ function psfc_orientation_features_default_roles_permissions() {
   // Exported role: pre-authorized
   $roles['pre-authorized'] = array(
     'name' => 'pre-authorized',
-    'weight' => '4',
+    'weight' => 4,
     'permissions' => array(
       'access content' => TRUE,
-      'access devel information' => TRUE,
       'use text format filtered_html' => TRUE,
     ),
   );
