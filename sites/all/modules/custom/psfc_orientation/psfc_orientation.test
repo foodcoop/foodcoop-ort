@@ -22,7 +22,7 @@ class PsfcOrientationTestCase extends DrupalWebTestCase {
   }
 
   function setUp() {
-    parent::setUp(array('psfc_orientation_features', 'psfc_user_fields'));
+    parent::setUp(array('psfc_orientation_features', 'psfc_user_fields', 'views_bulk_operations'));
   }
 
   function tearDown() {
