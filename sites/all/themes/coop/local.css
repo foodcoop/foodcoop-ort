@@ -39,3 +39,7 @@ body {
 .credit {
   display: none;
 }
+
+.submitted {
+  display: none;
+}
