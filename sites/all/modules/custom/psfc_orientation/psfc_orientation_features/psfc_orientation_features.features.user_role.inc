@@ -10,12 +10,6 @@
 function psfc_orientation_features_user_default_roles() {
   $roles = array();
 
-  // Exported role: administrator.
-  $roles['administrator'] = array(
-    'name' => 'administrator',
-    'weight' => 2,
-  );
-
   // Exported role: orientation admin.
   $roles['orientation admin'] = array(
     'name' => 'orientation admin',

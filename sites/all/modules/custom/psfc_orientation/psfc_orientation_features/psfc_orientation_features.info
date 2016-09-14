@@ -72,7 +72,6 @@ features[node][] = orientation_attendee
 features[node][] = page
 features[roles_permissions][] = orientation admin
 features[roles_permissions][] = pre-authorized
-features[user_role][] = administrator
 features[user_role][] = orientation admin
 features[user_role][] = pre-authorized
 features[views_view][] = orientation_admin
