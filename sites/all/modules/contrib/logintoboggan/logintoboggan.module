@@ -521,6 +521,7 @@ function logintoboggan_user_register_submit($form, &$form_state) {
   }
 
   // Mail the user.
+  if(empty($account->login)) $account->login = REQUEST_TIME;
   _user_mail_notify($mailkey, $account);
 
   drupal_set_message($message);
