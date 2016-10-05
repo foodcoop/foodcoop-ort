@@ -17,7 +17,7 @@ function psfc_orientation_uninstall() {
     // (which is the Drupal default).
     if($site_frontpage == '') {
       variable_delete('site_frontpage');
-    } 
+    }
     else {
       variable_set('site_frontpage', $site_frontpage);
     }
@@ -40,6 +40,14 @@ function psfc_orientation_install() {
   psfc_orientation_setup_menus();
   psfc_orientation_setup_repeating_orientation_rules();
   psfc_orientation_setup_date_formats();
+  psfc_orientation_set_site_name();
+}
+
+/**
+ * Set site name so it doesn't say "Site-Install" in the title
+ */
+function psfc_orientation_set_site_name() {
+  variable_set('site_name', 'Park Slope Food Coop Orientation');
 }
 
 /**
@@ -132,16 +140,16 @@ function psfc_orientation_setup_themes() {
     'linkedin_url' => NULL ,
     'favicon_mimetype' => 'image/vnd.microsoft.icon'
   );
-  variable_set('theme_coop_settings', $theme_coop_settings); 
+  variable_set('theme_coop_settings', $theme_coop_settings);
 
   // Seems like a bug - Drupal follows the parent theme settings
   // when deciding whether to show the slide show and social network
   // settings.
   $theme_responsive_settings = array(
-    'slideshow_display' => 0, 
-    'socialicon_display' => 0, 
+    'slideshow_display' => 0,
+    'socialicon_display' => 0,
   );
-  variable_set('theme_responsive_settings', $theme_coop_settings); 
+  variable_set('theme_responsive_settings', $theme_coop_settings);
   variable_set('theme_default', 'coop');
 
 }
@@ -191,10 +199,10 @@ function psfc_orientation_install_default_content() {
   $new_front_page = NULL;
   while(list(,$file) = each($files)) {
     // This directory contains three files for each node we want to import
-    // (title, body and alias). The files are named after the variable 
-    // name their nid will be saved as (minus the psfc_orientation prefix), 
-    // e.g. no_orientation.title, no_orientation.body, no_orientation.alias). 
-    // We want to only scan for xxx.title and we'll find the rest of the file 
+    // (title, body and alias). The files are named after the variable
+    // name their nid will be saved as (minus the psfc_orientation prefix),
+    // e.g. no_orientation.title, no_orientation.body, no_orientation.alias).
+    // We want to only scan for xxx.title and we'll find the rest of the file
     // after we get the variable name.
     if(preg_match("/^([a-z_]+)\.title$/", $file, $matches)) {
       $variable_name = $matches[1];
@@ -243,9 +251,9 @@ function psfc_orientation_install_default_content() {
 function psfc_orientation_init_logintoboggan_settings() {
   $settings = array(
     'logintoboggan_confirm_email_at_registration' => '1',
-    'logintoboggan_immediate_login_on_register' =>  '1', 
+    'logintoboggan_immediate_login_on_register' =>  '1',
     // role 5 should be pre-auth role
-    'logintoboggan_pre_auth_role' => 5, 
+    'logintoboggan_pre_auth_role' => 5,
     // user register should allow visitors to register without
     // approval
     'user_register' => 1,
@@ -264,9 +272,9 @@ function psfc_orientation_delete_default_content() {
   $files = scandir($dir);
   while(list(,$file) = each($files)) {
     // This directory contains three files for each node we  imported
-    // (title, body and alias). The files are named after the variable 
-    // name their nid will be saved as (minus the psfc_orientation prefix), 
-    // e.g. no_orientation.title, no_orientation.body, no_orientation.alias). 
+    // (title, body and alias). The files are named after the variable
+    // name their nid will be saved as (minus the psfc_orientation prefix),
+    // e.g. no_orientation.title, no_orientation.body, no_orientation.alias).
     // We want to only scan for xxx.title.
     if(preg_match("/^([a-z_]+)\.title$/", $file, $matches)) {
       $variable_name = $matches[1];
