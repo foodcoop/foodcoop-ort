@@ -73,6 +73,59 @@ class PsfcOrientationTestCase extends DrupalWebTestCase {
   }
 
   /**
+   * Ensure orientation status opens if cancelation happens.
+   *
+   */
+  function testReOpenOrientationOnCancellation() {
+    $orientation_rule = array('capacity' => 1);
+    // Schedule it.
+    $time = time();
+    $orientation_wrapper = psfc_orientation_node_build($orientation_rule, $time);
+    $node_created = FALSE;
+    $orientation_nid = $orientation_wrapper->nid->value();
+    if (intval($orientation_nid) > 0) {
+      $node_created = TRUE;
+    }
+    $this->assertTrue($node_created, "Orientation node to test cancellation was created.");
+
+    // Now add an attendee. Since the capacity is one, this should cause it to be closed.
+    // Create the user.
+    $this->privileged_user = $this->drupalCreateUser();
+
+    $account_wrapper = entity_metadata_wrapper('user', $this->privileged_user);
+    $field_collection = entity_create('field_collection_item', array('field_name' => 'field_fullname'));
+    $field_collection->setHostEntity('user', $this->privileged_user);
+
+    $cwrapper = entity_metadata_wrapper('field_collection_item', $field_collection);
+    $cwrapper->field_firstname->set("Joe");
+    $cwrapper->field_lastname->set("Washere");
+    $cwrapper->save();
+
+    $attendee_wrapper = psfc_orientation_node_build_attendee($this->privileged_user, $orientation_nid);
+    $attendee_nid = $attendee_wrapper->nid->value();
+
+    // Reload the orientation node.
+    unset($orientation_wrapper);
+    $orientation_wrapper = $this->orientationNodeLoader($orientation_nid);
+
+    // Ensure orientation is now closed.
+    $closed = $orientation_wrapper->field_orientation_closed->value();
+    $this->assertEqual($closed, 1, "Orientation node was closed when last attendee registered.");
+
+    // Now cancel.
+    psfc_orientation_cancel_registration($attendee_nid);
+
+    // Again reload orientation 
+    unset($orientation_wrapper);
+    $orientation_wrapper = $this->orientationNodeLoader($orientation_nid);
+
+    // Ensure orientation is now closed.
+    $closed = $orientation_wrapper->field_orientation_closed->value();
+    $this->assertEqual($closed, 0, "Orientation node was re-opened when last attendee cancelled.");
+
+  }
+
+  /**
    * Helper for testing auto close of orientations.
    *
    */
@@ -97,13 +150,29 @@ class PsfcOrientationTestCase extends DrupalWebTestCase {
     psfc_orientation_close_orientations_starting_in_two_hours();
  
     # Re-load the newly updated node and ensure it is closed.
+    unset($node_wrapper);
+    $node_wrapper = $this->orientationNodeLoader($nid);
+    
+    $closed = $node_wrapper->field_orientation_closed->value();
+    if($status == TRUE) {
+      $this->assertEqual($closed, 1, "Orientation node was auto closed because it is happening in less than 2 hours.");
+    }
+    else {
+      $this->assertEqual($closed, 0, "Orientation node was not auto closed because it is happening in more than 2 hours.");
+    }
+  }
+
+  /**
+   * Helper file to load a node wrapper
+   */
+  function orientationNodeLoader($nid) {
     $vid = NULL;
     $reset = TRUE;
     $node = node_load($nid, $vid, $reset);
-    unset($node_wrapper);
     $node_wrapper = entity_metadata_wrapper('node', $node);
 
     // Make sure we were properly re-loaded
+    $node_created = FALSE;
     $reloaded_nid = $node_wrapper->nid->value();
     if (intval($reloaded_nid) > 0) {
       $node_created = TRUE;
@@ -117,13 +186,7 @@ class PsfcOrientationTestCase extends DrupalWebTestCase {
     }
     $this->assertTrue($reloaded_nid_is_same, "Orientation node to test 2 hour closure reloaded is the same nid as original.");
 
-    $closed = $node_wrapper->field_orientation_closed->value();
-    if($status == TRUE) {
-      $this->assertEqual($closed, 1, "Orientation node was auto closed because it is happening in less than 2 hours.");
-    }
-    else {
-      $this->assertEqual($closed, 0, "Orientation node was not auto closed because it is happening in more than 2 hours.");
-    }
+    return $node_wrapper;
   }
 }
 
