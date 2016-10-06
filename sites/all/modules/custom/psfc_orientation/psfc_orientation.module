@@ -378,6 +378,35 @@ function psfc_orientation_cron() {
   psfc_orientation_delete_unconfirmed();
   psfc_orientation_send_reminders();
   psfc_orientation_past_blackout_delete();
+  psfc_orientation_close_orientations_starting_in_two_hours();
+}
+
+/**
+ * Find and close any orientation starting in less than 2 hours
+ *
+ * Avoids people signing up at the last minute and then being late.
+ */
+function psfc_orientation_close_orientations_starting_in_two_hours() {
+  // Find orientations starting in less than two hours.
+  $sql = "SELECT n.nid AS nid FROM {node} n JOIN
+    {field_data_field_orientation_closed} c
+    ON n.nid = c.entity_id AND n.vid = c.revision_id JOIN
+    {field_data_field_orientation_date} d
+    ON n.nid = d.entity_id AND n.vid = d.revision_id
+    WHERE
+    field_orientation_closed_value = 0 AND
+    field_orientation_date_value BETWEEN :start_date AND :end_date";
+  // Now (keeping in mind that times are stored in UTC in the database).
+  $start_date = gmdate('Y-m-d H:i:s');
+  // Two hours from now.
+  $end_date = gmdate('Y-m-d H:i:s', time() + (60 * 120));
+  $result = db_query($sql, array(':start_date' => $start_date, ':end_date' => $end_date));
+  while ($nid = $result->fetchField()) {
+    $node = node_load($nid);
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+    $node_wrapper->field_orientation_closed->set(1);
+    $node_wrapper->save();
+  }
 }
 
 /**
@@ -680,7 +709,7 @@ function psfc_orientation_orientation_blacked_out($date) {
  * @param $orientation_rule an orientation rule as built by
  *    psfc_orientation_get_repeat_rule_info().
  *
- * @param $time_value the tiime of the desired orientation in the format:
+ * @param $time_value the time of the desired orientation in the format:
  *    YYYY-MM-DDTHH:MM:SS
  *
  * @return the node object of the new orientation.
