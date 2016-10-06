@@ -8,6 +8,18 @@ module_load_include('inc', 'psfc_orientation', 'psfc_orientation.token');
 
 
 /**
+ * Implements hook_menu_alter().
+ *
+ * Remove /user/login and /user/register because we have our own custom
+ * /login page.
+ */
+
+function psfc_orientation_menu_alter(&$items) {
+  unset($items['user/login']);
+  unset($items['user/register']);
+}
+
+/**
  * Implements hook_permission().
  */
 function psfc_orientation_permission() {
@@ -136,8 +148,16 @@ function psfc_orientation_menu() {
     'page arguments' => array(4),
     'type' => MENU_CALLBACK,
   );
-  
+
   $items['login'] = array(
+    'title' => 'Sign in',
+    'description' => 'Log in or create an account.',
+    'page callback' => 'psfc_orientation_login',
+    'access arguments' => array('access content'),
+    'file' => 'psfc_orientation.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['user/register'] = array(
     'title' => 'Sign in',
     'description' => 'Log in or create an account.',
     'page callback' => 'psfc_orientation_login',
@@ -200,7 +220,7 @@ function psfc_orientation_block_view($delta = '') {
         return array(
           'subject' => '',
           'content' => l($text, 'login'),
-          
+
         );
       }
       break;
@@ -220,7 +240,7 @@ function psfc_orientation_get_overview_block() {
   $links = array(
     l(t("Are You Required to Pre-Register?"), 'overview/are-you-required-pre-register'),
     l(t("Households at the Coop"), 'overview/households-coop'),
-    l(t("Register for an Orientation"), 'join/register'), 
+    l(t("Register for an Orientation"), 'join/register'),
     l(t("Provide Proof of Identity & Address"), 'overview/provide-proof-identity-address'),
     l(t("Select a Coop Workslot"), 'overview/select-coop-workslot'),
     l(t("Have a Photo Taken"), 'overview/have-photo-taken'),
@@ -264,10 +284,10 @@ function psfc_orientation_theme() {
 
 /**
  * Create orientations based on repeat rules
- * 
+ *
  * This function should be called from the cron job. It will ensure that
  * there is an orientation scheduled for two weeks from the last day of week
- * that is part of each orientation rule. In other words, if the orientation 
+ * that is part of each orientation rule. In other words, if the orientation
  * rule is Mondays at 7:30 pm, it will ensure that there is an orientation
  * created two weeks from last Monday, unless it is blackout date or it has
  * already been created.
@@ -306,7 +326,7 @@ function psfc_orientation_create_based_on_repeat_rule($result) {
  * Delete unconfirmed registrations.
  */
 function psfc_orientation_delete_unconfirmed() {
-  // Delete unconfirmed registrations after 48 hours. 
+  // Delete unconfirmed registrations after 48 hours.
   $expires = REQUEST_TIME - (2 * 24 * 60 * 60);
   $sql = "SELECT n.nid AS attendee_nid, n.uid AS uid, ".
     "o.field_orientation_nid_nid AS orientation_nid ".
@@ -324,7 +344,7 @@ function psfc_orientation_delete_unconfirmed() {
     if (is_object($account)) {
       // Record non-confirmation in orientation node.
       $orientation_node = node_load($attendee['orientation_nid']);
-      $orientation_wrapper = entity_metadata_wrapper('node', $orientation_node); 
+      $orientation_wrapper = entity_metadata_wrapper('node', $orientation_node);
 
       $attendee_node = node_load($attendee['attendee_nid']);
       $attendee_wrapper = entity_metadata_wrapper('node', $attendee_node);
@@ -332,9 +352,9 @@ function psfc_orientation_delete_unconfirmed() {
       // Merge the existing unconfirmed field with the new value to reflect this deleted
       // user.
       $existing_message = $orientation_wrapper->field_orientation_unconfirmed->value();
-      $cur_message = array($account_wrapper->field_fullname->field_firstname->value() . ' ' . 
-        $account_wrapper->field_fullname->field_lastname->value() . ', ' . 
-        $account->mail . ', Username: ' . $account->name . ', Date removed: ' . 
+      $cur_message = array($account_wrapper->field_fullname->field_firstname->value() . ' ' .
+        $account_wrapper->field_fullname->field_lastname->value() . ', ' .
+        $account->mail . ', Username: ' . $account->name . ', Date removed: ' .
         format_date(REQUEST_TIME, 'long'));
       $delete_message = array_merge($existing_message, $cur_message);
       $orientation_wrapper->field_orientation_unconfirmed->set($delete_message);
@@ -354,7 +374,7 @@ function psfc_orientation_delete_unconfirmed() {
  * Implemetation of hook_cron().
  */
 function psfc_orientation_cron() {
-  psfc_orientation_create_based_on_repeat_rules();  
+  psfc_orientation_create_based_on_repeat_rules();
   psfc_orientation_delete_unconfirmed();
   psfc_orientation_send_reminders();
   psfc_orientation_past_blackout_delete();
@@ -505,7 +525,7 @@ function psfc_orientation_obid_load($obid) {
  */
 function psfc_orientation_entity_insert($entity, $type) {
   if($type == 'node' && $entity->type == 'orientation_attendee') {
-    $node_wrapper = entity_metadata_wrapper('node', $entity); 
+    $node_wrapper = entity_metadata_wrapper('node', $entity);
     // Send out confirmation email.
     $params['node'] = $entity;
     global $language;
@@ -527,7 +547,7 @@ function psfc_orientation_entity_insert($entity, $type) {
  */
 function psfc_orientation_entity_delete($entity, $type) {
   if($type == 'node' && $entity->type == 'orientation_attendee') {
-    $node_wrapper = entity_metadata_wrapper('node', $entity); 
+    $node_wrapper = entity_metadata_wrapper('node', $entity);
     $offset = 1;
     $orientation_node = $node_wrapper->field_orientation_nid->value();
     // If the orientation still exists, check remaining capacity and open if necessary.
@@ -541,7 +561,7 @@ function psfc_orientation_entity_delete($entity, $type) {
     $attendees = psfc_orientation_get_all_attendee_nodes($entity->nid);
     foreach ($attendees as $attendee) {
       // Warn the attendee that the orientation is cancelled.
-      $node_wrapper = entity_metadata_wrapper('node', $attendee); 
+      $node_wrapper = entity_metadata_wrapper('node', $attendee);
       $recipient = $node_wrapper->field_email->value();
       $account = $node_wrapper->author->value();
       if(empty($recipient)) {
@@ -666,12 +686,12 @@ function psfc_orientation_orientation_blacked_out($date) {
  * @return the node object of the new orientation.
  */
 function psfc_orientation_node_build($orientation_rule, $time_value) {
-  // Create a wrapper 
+  // Create a wrapper
   $node = entity_create('node', array('type' => 'orientation'));
 
   $date_object = new DateTime("@$time_value");
 
-  $node_wrapper = entity_metadata_wrapper('node', $node); 
+  $node_wrapper = entity_metadata_wrapper('node', $node);
   // dpm($node_wrapper->getPropertyInfo());
   $node_wrapper->title->set($date_object->format('l, F j'));
   $node_wrapper->status->set(1);
@@ -684,8 +704,8 @@ function psfc_orientation_node_build($orientation_rule, $time_value) {
   $node_wrapper->field_orientation_date->set($date_object->getTimestamp());
   $node_wrapper->field_orientation_closed->set(0);
   $node_wrapper->field_orientation_reminder->set(0);
-  
-  $node_wrapper->save(); 
+
+  $node_wrapper->save();
   return $node_wrapper;
 }
 
@@ -706,7 +726,7 @@ function psfc_orientation_node_build_attendee($account, $onid) {
   // Create a wrapper for the attendee node
   $node = entity_create('node', array('type' => 'orientation_attendee'));
 
-  $node_wrapper = entity_metadata_wrapper('node', $node); 
+  $node_wrapper = entity_metadata_wrapper('node', $node);
   // dpm($node_wrapper->getPropertyInfo());
 
   $node_wrapper->title->set($account->name);
@@ -714,14 +734,14 @@ function psfc_orientation_node_build_attendee($account, $onid) {
   $node_wrapper->comment->set(0);
   $node_wrapper->promote->set(0);
   $node_wrapper->sticky->set(0);
-  
+
   // Add the user account details to the node
   $node_wrapper->field_first_name->set($user_wrapper->field_fullname->field_firstname->value());
   $node_wrapper->field_last_name->set($user_wrapper->field_fullname->field_lastname->value());
   $node_wrapper->field_orientation_nid->set($onid);
   $node_wrapper->author->set($account->uid);
   $node_wrapper->field_confirmed_orientation->set(0);
-  $node_wrapper->save(); 
+  $node_wrapper->save();
   return $node_wrapper;
 }
 
@@ -743,7 +763,7 @@ function psfc_orientation_capacity($node, $close = FALSE, $offset = 0) {
     // We have to reset the node cache to get the latest count.
     $node = node_load($node, NULL, TRUE);
   }
-  $node_wrapper = entity_metadata_wrapper('node', $node); 
+  $node_wrapper = entity_metadata_wrapper('node', $node);
   $capacity = $node_wrapper->field_orientation_capacity->value();
 
   // Get count of people registered with phone number.
@@ -752,7 +772,7 @@ function psfc_orientation_capacity($node, $close = FALSE, $offset = 0) {
     $phone_reg_count++;
   }
   // Get count of users on the system registered.
-  $result = db_query("SELECT COUNT(*) FROM {field_data_field_orientation_nid} fnid WHERE fnid.field_orientation_nid_nid = :nid", array(':nid' => $node->nid)); 
+  $result = db_query("SELECT COUNT(*) FROM {field_data_field_orientation_nid} fnid WHERE fnid.field_orientation_nid_nid = :nid", array(':nid' => $node->nid));
   if ($result->rowCount() == 0) {
     $user_reg_count = 0;
   }
@@ -789,7 +809,7 @@ function psfc_orientation_close_old() {
   $result = db_query($sql, array(':time' => $old));
   while ($nid = $result->fetchField()) {
     $node = node_load($nid);
-    $node_wrapper = entity_metadata_wrapper('node', $node); 
+    $node_wrapper = entity_metadata_wrapper('node', $node);
     $node_wrapper->field_orientation_closed->set(1);
     $node_wrapper->save();
   }
@@ -924,7 +944,7 @@ function psfc_orientation_confirm($uid, $timestamp, $hashed_pass, $action) {
       // Load the attendee node.
       if ($node = psfc_orientation_get_attendee_node($account)) {
         if ($action == 'confirm') {
-          $node_wrapper = entity_metadata_wrapper('node', $node); 
+          $node_wrapper = entity_metadata_wrapper('node', $node);
           $node_wrapper->field_confirmed_orientation->set(1);
           $node_wrapper->save();
           drupal_set_message("You have been confirmed!");
@@ -952,7 +972,7 @@ function psfc_orientation_confirm($uid, $timestamp, $hashed_pass, $action) {
  * Confirm registration cancellation.
  */
 function psfc_orientation_cancel_confirm($form, $form_state, $node) {
-  $node_wrapper = entity_metadata_wrapper('node', $node); 
+  $node_wrapper = entity_metadata_wrapper('node', $node);
   $form['#orientation_attendee_uid'] = $node_wrapper->author->value()->uid;
   $form['#orientation_attendee_nid'] = $node_wrapper->getIdentifier();
   $question = t('Confirm Your Cancellation');
@@ -1020,26 +1040,26 @@ function psfc_orientation_confirm_rehash($password, $timestamp, $login) {
 function psfc_orientation_get_attendee_node($account) {
   $sql = "SELECT nid FROM node WHERE type = 'orientation_attendee' AND uid = :uid ORDER BY created DESC LIMIT 1";
   $result = db_query($sql, array(':uid' => $account->uid));
-  if ($result->rowCount() > 0) { 
-    while ($nid = $result->fetchField()) { 
-      $node = (is_numeric($nid)) ? node_load($nid) : FALSE; 
-      return $node; 
-    } 
-  } 
+  if ($result->rowCount() > 0) {
+    while ($nid = $result->fetchField()) {
+      $node = (is_numeric($nid)) ? node_load($nid) : FALSE;
+      return $node;
+    }
+  }
   return FALSE;
 }
 
 /**
  * Get list of attendees for given orientation nid
  *
- * @param $oid 
+ * @param $oid
  *   The nid of the orientation node
  * @return
  *   An array of attendee node objects.
  */
 function psfc_orientation_get_all_attendee_nodes($oid) {
   $attendees = array();
-  $result = db_query("SELECT entity_id FROM {field_data_field_orientation_nid} WHERE field_orientation_nid_nid = :nid", array(':nid' => $oid)); 
+  $result = db_query("SELECT entity_id FROM {field_data_field_orientation_nid} WHERE field_orientation_nid_nid = :nid", array(':nid' => $oid));
   while ($nid = $result->fetchField()) {
     $attendees[] = node_load($nid);
   }
@@ -1180,13 +1200,13 @@ function psfc_orientation_user_orientation_status($uid) {
 
 /**
  * Helper function returns number of future orientations that have openings.
- * 
+ *
  **/
 function psfc_orientation_check_openings() {
   $sql = "SELECT count(nid) FROM {node} n JOIN {field_data_field_orientation_closed} c ON " .
     "n.nid = c.entity_id WHERE c.entity_type = 'node' AND c.bundle = 'orientation' AND ".
     "(field_orientation_closed_value = 0 OR field_orientation_closed_value IS NULL) AND ".
-    "n.status = 1"; 
+    "n.status = 1";
   $result = db_query($sql);
   return $result->fetchField();
 }
@@ -1303,7 +1323,7 @@ function psfc_orientation_mass_attendee_helper($nodes, $context) {
 }
 
 /**
- * Implementation of hook_node_view_alter 
+ * Implementation of hook_node_view_alter
  **/
 function psfc_orientation_node_view_alter(&$build) {
   $build['#post_render'][] = 'psfc_orientation_node_post_render';
