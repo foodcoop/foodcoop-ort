@@ -101,7 +101,7 @@ class PsfcOrientationTestCase extends DrupalWebTestCase {
     $cwrapper->field_lastname->set("Washere");
     $cwrapper->save();
 
-    $attendee_wrapper = psfc_orientation_node_build_attendee($this->privileged_user, $orientation_nid);
+    $attendee_wrapper = psfc_orientation_node_build_attendee_from_account($this->privileged_user, $orientation_nid);
     $attendee_nid = $attendee_wrapper->nid->value();
 
     // Reload the orientation node.
