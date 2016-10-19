@@ -13,6 +13,10 @@ function psfc_orientation_token_info() {
     'name' => t("Register Button"),
     'description' => t('Contextual button: Register for an Orientation, or Create Account / Log in to Register for an Orientation, or No Orientations available. '),
   );
+  $psfc['mail'] = array(
+    'name' => t("Attendee E-mail"),
+    'description' => t('Email from attendee record.'),
+  );
   return array(
     'types' => array('psfc' => $type),
     'tokens' => array('psfc' => $psfc),
@@ -25,6 +29,12 @@ function psfc_orientation_token_info() {
 function psfc_orientation_tokens($type, $tokens, $data = array(), $options = array()) {
   $values = array();
   if($type == 'psfc') {
+    if(array_key_exists('node', $data)) {
+      if($data['node']->type == 'orientation_attendee') {
+        $attendee_node_wrapper = entity_metadata_wrapper('node', $data['node']);
+        $values['[psfc:mail]'] = $attendee_node_wrapper->field_email->value();
+      }
+    }
     global $user;
     // Not logged in.
     if (!$user->uid && psfc_orientation_check_openings()) {
@@ -46,12 +56,12 @@ function psfc_orientation_tokens($type, $tokens, $data = array(), $options = arr
     }
     // Logged in, there are openings.
     elseif ($user->uid && !psfc_orientation_check_openings()) {
-      $values['[psfc:register-button]'] = 
+      $values['[psfc:register-button]'] =
       '<h1> Sorry, there are no sessions available at this time.</h1>
        <p>All of the Sessions that have been opened for registration at this time are full and no more seats are available. <strong>
-       If you have not yet created an PSFC user account, we encourage you to do so now</strong> 
-       to expedite the registration process when you return to the site at a later date, and to 
-       better your chances of getting an Orientation seat in time. Please also feel free to explore our 
+       If you have not yet created an PSFC user account, we encourage you to do so now</strong>
+       to expedite the registration process when you return to the site at a later date, and to
+       better your chances of getting an Orientation seat in time. Please also feel free to explore our
        website to learn more about the Coop and Coop Membership.</p>';
     }
   }
