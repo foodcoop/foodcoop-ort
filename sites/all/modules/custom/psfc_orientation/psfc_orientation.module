@@ -218,9 +218,17 @@ function psfc_orientation_block_view($delta = '') {
       if(empty($user->uid) && $_GET['q'] != 'login') {
         $text = t("Login or Create an Account");
         return array(
-          'subject' => '',
+          'subject' => t('Account'),
           'content' => l($text, 'login'),
 
+        );
+      }
+      else {
+        $change_text = t("Change password or edit account details");
+        $logout_text = t("Logout");
+        return array(
+          'subject' => t('Account'),
+          'content' => l($change_text, 'user/' . $user->uid . '/edit') . "<br />" . l($logout_text, "user/logout"),
         );
       }
       break;
