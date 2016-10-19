@@ -203,13 +203,7 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'orientation_attendee' => 'orientation_attendee',
   );
-  /* Filter criterion: Content: Confirmed (field_confirmed_orientation) */
-  $handler->display->display_options['filters']['field_confirmed_orientation_value']['id'] = 'field_confirmed_orientation_value';
-  $handler->display->display_options['filters']['field_confirmed_orientation_value']['table'] = 'field_data_field_confirmed_orientation';
-  $handler->display->display_options['filters']['field_confirmed_orientation_value']['field'] = 'field_confirmed_orientation_value';
-  $handler->display->display_options['filters']['field_confirmed_orientation_value']['value'] = array(
-    1 => '1',
-  );
+  $handler->display->display_options['filters']['type']['group'] = 1;
 
   /* Display: Roster */
   $handler = $view->new_display('page', 'Roster', 'page');
@@ -231,11 +225,10 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Registered by phone */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_orientation_phone_reg']['id'] = 'field_orientation_phone_reg';
   $handler->display->display_options['fields']['field_orientation_phone_reg']['table'] = 'field_data_field_orientation_phone_reg';
   $handler->display->display_options['fields']['field_orientation_phone_reg']['field'] = 'field_orientation_phone_reg';
-  $handler->display->display_options['fields']['field_orientation_phone_reg']['delta_offset'] = '0';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
@@ -298,6 +291,12 @@ function psfc_orientation_features_views_default_views() {
       'label' => '',
     ),
   );
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['nid']['alter']['path'] = 'node/[nid]';
   /* Field: Content: First Name */
   $handler->display->display_options['fields']['field_first_name']['id'] = 'field_first_name';
   $handler->display->display_options['fields']['field_first_name']['table'] = 'field_data_field_first_name';
@@ -310,6 +309,22 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['fields']['field_last_name']['field'] = 'field_last_name';
   $handler->display->display_options['fields']['field_last_name']['label'] = '';
   $handler->display->display_options['fields']['field_last_name']['element_label_colon'] = FALSE;
+  /* Field: Content: Email Address */
+  $handler->display->display_options['fields']['field_email']['id'] = 'field_email';
+  $handler->display->display_options['fields']['field_email']['table'] = 'field_data_field_email';
+  $handler->display->display_options['fields']['field_email']['field'] = 'field_email';
+  /* Field: Content: Phone */
+  $handler->display->display_options['fields']['field_phone']['id'] = 'field_phone';
+  $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
+  $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
+  /* Field: Content: Attended */
+  $handler->display->display_options['fields']['field_attended_orientation']['id'] = 'field_attended_orientation';
+  $handler->display->display_options['fields']['field_attended_orientation']['table'] = 'field_data_field_attended_orientation';
+  $handler->display->display_options['fields']['field_attended_orientation']['field'] = 'field_attended_orientation';
+  /* Field: Content: Confirmed */
+  $handler->display->display_options['fields']['field_confirmed_orientation']['id'] = 'field_confirmed_orientation';
+  $handler->display->display_options['fields']['field_confirmed_orientation']['table'] = 'field_data_field_confirmed_orientation';
+  $handler->display->display_options['fields']['field_confirmed_orientation']['field'] = 'field_confirmed_orientation';
   $handler->display->display_options['path'] = 'admin/psfc/orientation/attendee-manage/%';
 
   /* Display: Missed confirmation Attachment */

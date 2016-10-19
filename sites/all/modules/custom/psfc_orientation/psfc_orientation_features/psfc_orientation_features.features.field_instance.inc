@@ -153,46 +153,6 @@ function psfc_orientation_features_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-orientation-field_orientation_phone_reg'.
-  $field_instances['node-orientation-field_orientation_phone_reg'] = array(
-    'bundle' => 'orientation',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 3,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_orientation_phone_reg',
-    'label' => 'Registered by phone',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 6,
-    ),
-  );
-
   // Exported field_instance: 'node-orientation-field_orientation_reminder'.
   $field_instances['node-orientation-field_orientation_reminder'] = array(
     'bundle' => 'orientation',
@@ -316,7 +276,7 @@ function psfc_orientation_features_field_default_field_instances() {
         'display_label' => 1,
       ),
       'type' => 'options_onoff',
-      'weight' => 35,
+      'weight' => 5,
     ),
   );
 
@@ -360,7 +320,7 @@ function psfc_orientation_features_field_default_field_instances() {
         'display_label' => 1,
       ),
       'type' => 'options_onoff',
-      'weight' => 36,
+      'weight' => 6,
     ),
   );
 
@@ -399,7 +359,7 @@ function psfc_orientation_features_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'email_textfield',
-      'weight' => 33,
+      'weight' => 3,
     ),
   );
 
@@ -439,7 +399,7 @@ function psfc_orientation_features_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 31,
+      'weight' => 1,
     ),
   );
 
@@ -479,7 +439,7 @@ function psfc_orientation_features_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 32,
+      'weight' => 2,
     ),
   );
 
@@ -520,7 +480,47 @@ function psfc_orientation_features_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'node_reference_autocomplete',
-      'weight' => 37,
+      'weight' => 7,
+    ),
+  );
+
+  // Exported field_instance: 'node-orientation_attendee-field_phone'.
+  $field_instances['node-orientation_attendee-field_phone'] = array(
+    'bundle' => 'orientation_attendee',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_phone',
+    'label' => 'Phone',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 15,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 4,
     ),
   );
 
@@ -581,7 +581,7 @@ function psfc_orientation_features_field_default_field_instances() {
   t('Number of people (max) allowed to attend this orientation.');
   t('Orientation date');
   t('Orientation nid');
-  t('Registered by phone');
+  t('Phone');
   t('Reminders have been emailed');
   t('Unconfirmed');
 

@@ -497,13 +497,6 @@ function psfc_orientation_add_registrant($form, $form_state) {
     '#size' => 30,
     '#maxlength' => 30,
   );
-  $form['no_account']['middle_name'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Middle initial'),
-    '#default_value' => isset($form_state['values']['middle_name']) ? $form_state['values']['middle_name'] : NULL,
-    '#size' => 3,
-    '#maxlength' => 3,
-  );
   $form['no_account']['last_name'] = array(
     '#type' => 'textfield',
     '#title' => t('Last name'),
@@ -544,6 +537,7 @@ function psfc_orientation_add_registrant_validate(&$form, &$form_state) {
 function psfc_orientation_add_registrant_submit($form, &$form_state) {
   // Registrant has a site account.
   $orientation = node_load($form_state['values']['onid']);
+  $confirmed = 1;
   if (!empty($form_state['values']['mail'])) {
     $mail = $form_state['values']['mail'];
     $user = user_load_multiple(array(), array('mail' => $mail));
@@ -552,21 +546,24 @@ function psfc_orientation_add_registrant_submit($form, &$form_state) {
       drupal_set_message(t("Failed to find that user."));
       return;
     }
-    $attendee_wrapper = psfc_orientation_node_build_attendee($account, $form_state['values']['onid']);
-    $info = $attendee_wrapper->field_first_name->value() . ' ' . $attendee_wrapper->field_last_name->value();
+    $attendee_wrapper = psfc_orientation_node_build_attendee_from_account($account, $form_state['values']['onid'], $confirmed);
   }
   // Registrant has no internet access ever.
   else {
-    $info = $form_state['values']['first_name'] . ' ' .
-      $form_state['values']['middle_name'] . ' ' . $form_state['values']['last_name'] .
-      t(' Phone: ') . $form_state['values']['phone'];
-    $orientation_wrapper = entity_metadata_wrapper('node', $orientation);
-    $phone_people = $orientation_wrapper->field_orientation_phone_reg->value();
-    $phone_people[] = $info;
-    $orientation_wrapper->field_orientation_phone_reg->set($phone_people);
-    $orientation_wrapper->save();
+    $email = NULL;
+    global $user;
+    $uid = $user->uid;
+    $attendee_wrapper = psfc_orientation_node_build_attendee(
+      $form_state['values']['onid'],
+      $form_state['values']['first_name'],
+      $form_state['values']['last_name'],
+      $email,
+      $form_state['values']['phone'],
+      $uid,
+      $confirmed
+    );
   }
-  $email = isset($email) ? $email : NULL;
+  $info = $attendee_wrapper->field_first_name->value() . ' ' . $attendee_wrapper->field_last_name->value();
   drupal_set_message(t('@info has been registed for orientation on @date.',
     array('@info' => $info, '@date' => $orientation->field_orientation_date['und'][0]['value'])));
 
