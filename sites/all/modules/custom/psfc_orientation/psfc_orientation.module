@@ -758,6 +758,7 @@ function psfc_orientation_node_build_attendee($account, $onid) {
   $node_wrapper->field_first_name->set($user_wrapper->field_fullname->field_firstname->value());
   $node_wrapper->field_last_name->set($user_wrapper->field_fullname->field_lastname->value());
   $node_wrapper->field_orientation_nid->set($onid);
+  $node_wrapper->field_email->set($account->mail);
   $node_wrapper->author->set($account->uid);
   $node_wrapper->field_confirmed_orientation->set(0);
   $node_wrapper->save();
