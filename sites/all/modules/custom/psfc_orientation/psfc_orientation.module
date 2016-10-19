@@ -45,16 +45,8 @@ function psfc_orientation_permission() {
 function psfc_orientation_menu() {
   $items = array();
 
-  // this should probably live in a generic helper module.
-  // it lives here because this module got here first --nat
-  $items['admin/psfc'] = array(
-    'title' => 'PSFC Admin Page',
-    'description' => 'An Admin landing page for psfc pages',
-    'access callback' => 'psfc_orientation_access_admin',
-    'page callback' => 'psfc_orientation_temp_admin_land',
-  );
   $items['admin/psfc/orientation'] = array(
-    'title' => 'Orientation',
+    'title' => 'PSFC Orientation Administration',
     'description' => 'Allow coop workers to change orientation settings.',
     'page callback' => 'psfc_orientation_admin_page',
     'access callback' => 'psfc_orientation_access_admin',
@@ -613,16 +605,6 @@ function psfc_orientation_entity_delete($entity, $type) {
       node_delete($attendee->nid);
     }
   }
-}
-
-/**
- *  Temporary PSFC admin landing page
- *
- *  TODO: Move this functionality to a better place
- */
-function psfc_orientation_temp_admin_land() {
-  $output = l('Administer Orientation', 'admin/psfc/orientation');
-  return $output;
 }
 
 /**
