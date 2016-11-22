@@ -272,9 +272,12 @@ function psfc_orientation_send_reminders() {
         $attendee_wrapper = entity_metadata_wrapper('node', $attendee);
         $confirmed = $attendee_wrapper->field_confirmed_orientation->value();
         if ($confirmed == 1) {
-          $uid = $attendee_wrapper->field_user_id->value()->uid;
-          $account = user_load($uid);
-          $recipient = $account->mail;
+          $recipient = $attendee_wrapper->field_email->value();
+          // Some attendees are registered via the phone.
+          if(empty($recipient)) {
+            continue;
+          }
+
           // We only need the node params. The confirm and cancel links are added
           // in nodeapi.
           $params['node'] = $attendee;
