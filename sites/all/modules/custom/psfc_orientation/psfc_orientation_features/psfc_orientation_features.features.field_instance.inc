@@ -232,46 +232,6 @@ function psfc_orientation_features_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-orientation-field_orientation_unconfirmed'.
-  $field_instances['node-orientation-field_orientation_unconfirmed'] = array(
-    'bundle' => 'orientation',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 2,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_orientation_unconfirmed',
-    'label' => 'Unconfirmed',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 5,
-    ),
-  );
-
   // Exported field_instance:
   // 'node-orientation_attendee-field_attended_orientation'.
   $field_instances['node-orientation_attendee-field_attended_orientation'] = array(
@@ -620,7 +580,6 @@ function psfc_orientation_features_field_default_field_instances() {
   t('Orientation nid');
   t('Phone');
   t('Reminders have been emailed');
-  t('Unconfirmed');
 
   return $field_instances;
 }

@@ -21,7 +21,6 @@ function psfc_orientation_features_default_roles_permissions() {
       'administer psfc orientation' => TRUE,
       'administer users' => TRUE,
       'bypass node access' => TRUE,
-      'use text format psfc_html_filter' => TRUE,
     ),
   );
 
