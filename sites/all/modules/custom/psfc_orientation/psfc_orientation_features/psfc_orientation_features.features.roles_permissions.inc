@@ -15,11 +15,13 @@ function psfc_orientation_features_default_roles_permissions() {
     'name' => 'orientation admin',
     'weight' => 3,
     'permissions' => array(
+      'access content overview' => TRUE,
+      'access print' => TRUE,
       'administer orientation attendance' => TRUE,
       'administer psfc orientation' => TRUE,
       'administer users' => TRUE,
       'bypass node access' => TRUE,
-      'sign up for psfc orientation' => TRUE,
+      'use text format psfc_html_filter' => TRUE,
     ),
   );
 
@@ -28,7 +30,10 @@ function psfc_orientation_features_default_roles_permissions() {
     'name' => 'orientation staff',
     'weight' => 5,
     'permissions' => array(
+      'access content' => TRUE,
+      'access content overview' => TRUE,
       'access overlay' => TRUE,
+      'access print' => TRUE,
       'administer orientation attendance' => TRUE,
       'create orientation content' => TRUE,
       'create orientation_attendee content' => TRUE,
@@ -40,6 +45,8 @@ function psfc_orientation_features_default_roles_permissions() {
       'edit any orientation_attendee content' => TRUE,
       'edit own orientation content' => TRUE,
       'edit own orientation_attendee content' => TRUE,
+      'use text format filtered_html' => TRUE,
+      'view own unpublished content' => TRUE,
     ),
   );
 

@@ -682,7 +682,6 @@ function psfc_orientation_node_build($orientation_rule, $time_value) {
   // dpm($node_wrapper->getPropertyInfo());
   $node_wrapper->title->set($date_object->format('l, F j'));
   $node_wrapper->status->set(1);
-  $node_wrapper->comment->set(0);
   $node_wrapper->promote->set(0);
   $node_wrapper->sticky->set(0);
   $body = variable_get('psfc_orientation_default_description', t('PSFC Orientations are blah blah blah'));
@@ -744,7 +743,6 @@ function psfc_orientation_node_build_attendee($onid, $first_name, $last_name, $e
 
   $node_wrapper->title->set($first_name . " " . $last_name);
   $node_wrapper->status->set(1);
-  $node_wrapper->comment->set(0);
   $node_wrapper->promote->set(0);
   $node_wrapper->sticky->set(0);
 

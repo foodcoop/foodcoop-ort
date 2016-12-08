@@ -237,7 +237,6 @@ function psfc_orientation_install_default_content() {
       // print_r($node_wrapper->getPropertyInfo());
       $node_wrapper->author->set(0);
       $node_wrapper->status->set(1);
-      $node_wrapper->comment->set(0);
       $node_wrapper->promote->set(0);
       $node_wrapper->sticky->set(0);
       $node_wrapper->title->set($title);
