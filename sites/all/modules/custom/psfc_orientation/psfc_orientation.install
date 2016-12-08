@@ -42,8 +42,17 @@ function psfc_orientation_install() {
   psfc_orientation_setup_date_formats();
   psfc_orientation_set_site_name();
   psfc_orientation_configure_printer_friendly_module();
+  psfc_orientation_disable_modules();
 }
 
+/**
+ * Disable modules we don't need
+ */
+function psfc_orientation_disable_modules() {
+
+  $modules = array('comment');
+  module_disable($modules);
+}
 /**
  * Set custom settings for printer friendly module.
  */
