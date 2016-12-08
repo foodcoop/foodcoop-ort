@@ -475,17 +475,6 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Implements hook_views_api().
- */
-function psfc_orientation_views_api() {
-  return array(
-    'api' => 2,
-    'path' => drupal_get_path('module', 'psfc_orientation'),
-    //'path' => drupal_get_path('module', 'psfc_orientation') . '/includes',
-  );
-}
-
-/**
  *  Wildcard loader function for hook_menu orientation id
  */
 function psfc_orientation_orid_load($orid) {
@@ -1363,4 +1352,14 @@ function psfc_orientation_join_orientation() {
   else {
     return psfc_orientation_status();
   }
+}
+
+
+function computed_field_field_confirmed_attendees_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items) {
+  $sql = "SELECT COUNT(*) FROM field_data_field_confirmed_orientation JOIN field_data_field_orientation_nid USING(entity_id) WHERE field_orientation_nid_nid = :nid";
+
+  $result = db_query($sql, array(':nid' => $entity->nid));
+  $count = $result->fetchField();
+  $entity_field[0]['value'] = intval($count);
+
 }

@@ -10,6 +10,42 @@
 function psfc_orientation_features_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'node-orientation-field_confirmed_attendees'.
+  $field_instances['node-orientation-field_confirmed_attendees'] = array(
+    'bundle' => 'orientation',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'computed_field',
+        'settings' => array(),
+        'type' => 'computed_field_plain',
+        'weight' => 6,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_confirmed_attendees',
+    'label' => 'Confirmed Attendees',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'computed_field',
+      'settings' => array(),
+      'type' => 'computed',
+      'weight' => 8,
+    ),
+  );
+
   // Exported field_instance: 'node-orientation-field_orientation_capacity'.
   $field_instances['node-orientation-field_orientation_capacity'] = array(
     'bundle' => 'orientation',
@@ -575,6 +611,7 @@ function psfc_orientation_features_field_default_field_instances() {
   t('Capacity');
   t('Closed');
   t('Confirmed');
+  t('Confirmed Attendees');
   t('Email Address');
   t('First Name');
   t('Last Name');

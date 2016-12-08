@@ -57,6 +57,8 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Content: Capacity */
   $handler->display->display_options['fields']['field_orientation_capacity']['id'] = 'field_orientation_capacity';
   $handler->display->display_options['fields']['field_orientation_capacity']['table'] = 'field_data_field_orientation_capacity';
@@ -66,6 +68,10 @@ function psfc_orientation_features_views_default_views() {
     'thousand_separator' => ',',
     'prefix_suffix' => 1,
   );
+  /* Field: Content: Confirmed Attendees */
+  $handler->display->display_options['fields']['field_confirmed_attendees']['id'] = 'field_confirmed_attendees';
+  $handler->display->display_options['fields']['field_confirmed_attendees']['table'] = 'field_data_field_confirmed_attendees';
+  $handler->display->display_options['fields']['field_confirmed_attendees']['field'] = 'field_confirmed_attendees';
   /* Field: Content: Closed */
   $handler->display->display_options['fields']['field_orientation_closed']['id'] = 'field_orientation_closed';
   $handler->display->display_options['fields']['field_orientation_closed']['table'] = 'field_data_field_orientation_closed';
