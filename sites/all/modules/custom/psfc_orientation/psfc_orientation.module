@@ -1356,7 +1356,10 @@ function psfc_orientation_join_orientation() {
 
 
 function computed_field_field_confirmed_attendees_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items) {
-  $sql = "SELECT COUNT(*) FROM field_data_field_confirmed_orientation JOIN field_data_field_orientation_nid USING(entity_id) WHERE field_orientation_nid_nid = :nid";
+  $sql = "SELECT COUNT(*) FROM field_data_field_confirmed_orientation 
+    JOIN field_data_field_orientation_nid USING(entity_id)
+    WHERE field_confirmed_orientation_value =1 AND
+    field_orientation_nid_nid = :nid";
 
   $result = db_query($sql, array(':nid' => $entity->nid));
   $count = $result->fetchField();
