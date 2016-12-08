@@ -23,6 +23,26 @@ function psfc_orientation_features_default_roles_permissions() {
     ),
   );
 
+  // Exported role: orientation staff
+  $roles['orientation staff'] = array(
+    'name' => 'orientation staff',
+    'weight' => 5,
+    'permissions' => array(
+      'access overlay' => TRUE,
+      'administer orientation attendance' => TRUE,
+      'create orientation content' => TRUE,
+      'create orientation_attendee content' => TRUE,
+      'delete any orientation content' => TRUE,
+      'delete any orientation_attendee content' => TRUE,
+      'delete own orientation content' => TRUE,
+      'delete own orientation_attendee content' => TRUE,
+      'edit any orientation content' => TRUE,
+      'edit any orientation_attendee content' => TRUE,
+      'edit own orientation content' => TRUE,
+      'edit own orientation_attendee content' => TRUE,
+    ),
+  );
+
   // Exported role: pre-authorized
   $roles['pre-authorized'] = array(
     'name' => 'pre-authorized',

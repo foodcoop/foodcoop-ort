@@ -32,10 +32,6 @@ function psfc_orientation_permission() {
       'title' => t('administer orientation attendance'),
       'description' => t('Allow user to change attendance at orientations.'),
     ),
-    'sign up for psfc orientation' => array(
-      'title' => t('sign up for psfc orientation'),
-      'description' => t('Allow a user to sign up for Orientation.'),
-    ),
   );
 }
 

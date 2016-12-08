@@ -16,6 +16,12 @@ function psfc_orientation_features_user_default_roles() {
     'weight' => 3,
   );
 
+  // Exported role: orientation staff.
+  $roles['orientation staff'] = array(
+    'name' => 'orientation staff',
+    'weight' => 5,
+  );
+
   // Exported role: pre-authorized.
   $roles['pre-authorized'] = array(
     'name' => 'pre-authorized',
