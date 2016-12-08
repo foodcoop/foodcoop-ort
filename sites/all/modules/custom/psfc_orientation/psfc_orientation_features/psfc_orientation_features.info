@@ -25,6 +25,7 @@ dependencies[] = number
 dependencies[] = options
 dependencies[] = overlay
 dependencies[] = path
+dependencies[] = print
 dependencies[] = psfc_orientation
 dependencies[] = references
 dependencies[] = search

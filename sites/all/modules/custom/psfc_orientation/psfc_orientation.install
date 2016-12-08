@@ -41,6 +41,20 @@ function psfc_orientation_install() {
   psfc_orientation_setup_repeating_orientation_rules();
   psfc_orientation_setup_date_formats();
   psfc_orientation_set_site_name();
+  psfc_orientation_configure_printer_friendly_module();
+}
+
+/**
+ * Set custom settings for printer friendly module.
+ */
+function psfc_orientation_configure_printer_friendly_module() {
+  $settings = array(
+    'print_logo_options' => 2,
+    'print_logo_url' => 'sites/all/themes/coop/images/logo-print.png'
+  );
+  foreach($settings as $k => $v) {
+    variable_set($k, $v);
+  }
 }
 
 /**
