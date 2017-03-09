@@ -439,7 +439,13 @@ function psfc_orientation_user_cancel($edit, $account, $method) {
  */
 function psfc_orientation_user_login(&$edit, $account) {
   $ort_status = psfc_orientation_user_orientation_status($account->uid);
-  if ($ort_status > 0) {
+  $resetting_password = FALSE;
+  if(isset($_REQUEST['form_id']) && $_REQUEST['form_id'] == 'user_pass_reset') {
+    $resetting_password = TRUE;
+  }
+  // If the user is resetting their password don't redirect them, other
+  // wise they won't make it to the password reset page.
+  if ($ort_status > 0 && !$resetting_password) {
     drupal_goto('join/orientation/status');
   }
 }
@@ -471,6 +477,23 @@ function psfc_orientation_form_alter(&$form, &$form_state, $form_id) {
         $form['recipient']['#default_value'] = '[psfc:mail]';
       }
       break;
+    case 'user_profile_form':
+      array_push($form['#submit'], 'psfc_orientation_user_profile_submit');
+      break;
+  }
+}
+
+/**
+ * Redirect user when they save their profile.
+ *
+ * The first thing a new user should do is reset their password. After they 
+ * do that we want them redirected to choose an orientation.
+ */
+function psfc_orientation_user_profile_submit(&$form, &$form_state) {
+  global $user;
+  $ort_status = psfc_orientation_user_orientation_status($user->uid);
+  if ($ort_status > 0)  {
+    $form_state['redirect'] = 'join/orientation/status';
   }
 }
 
