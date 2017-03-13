@@ -426,11 +426,14 @@ function psfc_orientation_user_load($users) {
  * Implements hook_user_cancel().
  */
 function psfc_orientation_user_cancel($edit, $account, $method) {
-  // When users are deleted, we delete their attendee nodes if they have any.
-  $result = db_query("SELECT nid from {content_type_orientation_attendee} WHERE field_userid_uid = :field_userid_uid",
-    array(':field_userid_uid' => $account->uid));
-  while ($nid = $result->fetchField()) {
-    node_delete($nid);
+  // The table won't exist if no reccords have been created.
+  if(db_table_exists('content_type_orientation_attendee')) {
+    // When users are deleted, we delete their attendee nodes if they have any.
+    $result = db_query("SELECT nid from {content_type_orientation_attendee} WHERE field_userid_uid = :field_userid_uid",
+      array(':field_userid_uid' => $account->uid));
+    while ($nid = $result->fetchField()) {
+      node_delete($nid);
+    }
   }
 }
 
