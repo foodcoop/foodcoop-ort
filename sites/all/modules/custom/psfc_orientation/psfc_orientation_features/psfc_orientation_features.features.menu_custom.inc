@@ -10,16 +10,16 @@
 function psfc_orientation_features_menu_default_menu_custom() {
   $menus = array();
 
-  // Exported menu: menu-psfc-orientation.
-  $menus['menu-psfc-orientation'] = array(
-    'menu_name' => 'menu-psfc-orientation',
-    'title' => 'PSFC Orientation',
-    'description' => 'Menu guiding users through the process of becoming a member.',
+  // Exported menu: navigation.
+  $menus['navigation'] = array(
+    'menu_name' => 'navigation',
+    'title' => 'Navigation',
+    'description' => 'The <em>Navigation</em> menu contains links intended for site visitors. Links are added to the <em>Navigation</em> menu automatically by some modules.',
   );
   // Translatables
   // Included for use with string extractors like potx.
-  t('Menu guiding users through the process of becoming a member.');
-  t('PSFC Orientation');
+  t('Navigation');
+  t('The <em>Navigation</em> menu contains links intended for site visitors. Links are added to the <em>Navigation</em> menu automatically by some modules.');
 
   return $menus;
 }
