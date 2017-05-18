@@ -27,6 +27,10 @@ mbstring.http_output = pass
 ```
 drush en psfc_orientation_features psfc_user_fields
 ```
+ * Disable comments. Disabling them as part of our setup causes a bug when running simple test. Sigh.
+```
+drush dis comment
+```
  * You won't be able to really test until you have some orientations scheduled. This usually happens when the cron job runs, so you may want to trigger that manually:
 ```
 drush core-cron

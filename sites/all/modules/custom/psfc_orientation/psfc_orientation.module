@@ -391,12 +391,10 @@ function psfc_orientation_close_orientations_starting_in_two_hours() {
     ON n.nid = d.entity_id AND n.vid = d.revision_id
     WHERE
     field_orientation_closed_value = 0 AND
-    field_orientation_date_value BETWEEN :start_date AND :end_date";
-  // Now (keeping in mind that times are stored in UTC in the database).
-  $start_date = gmdate('Y-m-d H:i:s');
-  // Two hours from now.
+    field_orientation_date_value < :end_date";
+  // Two hours from now (keeping in mind that times are stored in UTC in the database).
   $end_date = gmdate('Y-m-d H:i:s', time() + (60 * 120));
-  $result = db_query($sql, array(':start_date' => $start_date, ':end_date' => $end_date));
+  $result = db_query($sql, array(':end_date' => $end_date));
   while ($nid = $result->fetchField()) {
     $node = node_load($nid);
     $node_wrapper = entity_metadata_wrapper('node', $node);
@@ -1010,9 +1008,16 @@ function psfc_orientation_cancel_confirm($form, $form_state, $node) {
  * Confirm registration cancellation form submit.
  */
 function psfc_orientation_cancel_confirm_submit($form, $form_state) {
-  node_delete($form['#orientation_attendee_nid']);
-  drupal_set_message(t("Your registration has been cancelled."));
+  psfc_orientation_cancel_registration($form['#orientation_attendee_nid']);
   drupal_goto('<front>');
+}
+
+/**
+ * Cancel orientation
+ */
+function psfc_orientation_cancel_registration($nid) {
+  node_delete($nid);
+  drupal_set_message(t("Your registration has been cancelled."));
 }
 
 /**
@@ -1379,7 +1384,6 @@ function psfc_orientation_join_orientation() {
     return psfc_orientation_status();
   }
 }
-
 
 function computed_field_field_confirmed_attendees_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items) {
   $sql = "SELECT COUNT(*) FROM field_data_field_confirmed_orientation 

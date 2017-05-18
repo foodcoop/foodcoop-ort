@@ -50,8 +50,11 @@ function psfc_orientation_install() {
  */
 function psfc_orientation_disable_modules() {
 
-  $modules = array('comment');
-  module_disable($modules);
+  // Enabling comments causes simpletest to fail because it tries to set comment
+  // permissions that don't exist. So, the comment module should be disabled
+  // as part of the deployment process.
+  // $modules = array('comment');
+  // module_disable($modules);
 }
 /**
  * Set custom settings for printer friendly module.
