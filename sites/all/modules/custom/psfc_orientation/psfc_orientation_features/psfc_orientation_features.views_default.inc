@@ -72,14 +72,6 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['fields']['field_confirmed_attendees']['id'] = 'field_confirmed_attendees';
   $handler->display->display_options['fields']['field_confirmed_attendees']['table'] = 'field_data_field_confirmed_attendees';
   $handler->display->display_options['fields']['field_confirmed_attendees']['field'] = 'field_confirmed_attendees';
-  /* Field: Content: Closed */
-  $handler->display->display_options['fields']['field_orientation_closed']['id'] = 'field_orientation_closed';
-  $handler->display->display_options['fields']['field_orientation_closed']['table'] = 'field_data_field_orientation_closed';
-  $handler->display->display_options['fields']['field_orientation_closed']['field'] = 'field_orientation_closed';
-  $handler->display->display_options['fields']['field_orientation_closed']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_orientation_closed']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_orientation_closed']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_orientation_closed']['field_api_classes'] = TRUE;
   /* Field: Manage attendees link */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
@@ -119,6 +111,13 @@ function psfc_orientation_features_views_default_views() {
     'orientation' => 'orientation',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Content: Closed (field_orientation_closed) */
+  $handler->display->display_options['filters']['field_orientation_closed_value']['id'] = 'field_orientation_closed_value';
+  $handler->display->display_options['filters']['field_orientation_closed_value']['table'] = 'field_data_field_orientation_closed';
+  $handler->display->display_options['filters']['field_orientation_closed_value']['field'] = 'field_orientation_closed_value';
+  $handler->display->display_options['filters']['field_orientation_closed_value']['value'] = array(
+    0 => '0',
+  );
   $export['orientation_admin'] = $view;
 
   $view = new view();
