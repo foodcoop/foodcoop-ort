@@ -10,8 +10,8 @@
 function psfc_orientation_features_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: navigation_administer-psfc-orientation:admin/psfc/orientation.
-  $menu_links['navigation_administer-psfc-orientation:admin/psfc/orientation'] = array(
+  // Exported menu link: navigation_psfc-orientation-administration:admin/psfc/orientation.
+  $menu_links['navigation_psfc-orientation-administration:admin/psfc/orientation'] = array(
     'menu_name' => 'navigation',
     'link_path' => 'admin/psfc/orientation',
     'router_path' => 'admin/psfc/orientation',
@@ -20,7 +20,7 @@ function psfc_orientation_features_menu_default_menu_links() {
       'attributes' => array(
         'title' => 'Manage users who want to attend an orientation',
       ),
-      'identifier' => 'navigation_administer-psfc-orientation:admin/psfc/orientation',
+      'identifier' => 'navigation_psfc-orientation-administration:admin/psfc/orientation',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -33,7 +33,7 @@ function psfc_orientation_features_menu_default_menu_links() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Administer PSFC Orientation');
+  t('PSFC Orientation Administration');
 
   return $menu_links;
 }
