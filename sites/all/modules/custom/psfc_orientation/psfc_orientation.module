@@ -212,11 +212,19 @@ function psfc_orientation_block_view($delta = '') {
         );
       }
       else {
+        $links = array();
         $change_text = t("Change password or edit account details");
+        $links[] = l($change_text, 'user/' . $user->uid . '/edit'); 
         $logout_text = t("Logout");
+        $links[] = l($logout_text, "user/logout");
+        if($node = psfc_orientation_user_has_upcoming_orientation($user)) {
+          // They are registered for an orientation. Give them a quick link.
+          $your_orts_text = t("See your orientation details");
+          $links[] = l($your_orts_text, "join/orientation/status");
+        }
         return array(
           'subject' => t('Account'),
-          'content' => l($change_text, 'user/' . $user->uid . '/edit') . "<br />" . l($logout_text, "user/logout"),
+          'content' => implode("<br />", $links)
         );
       }
       break;
@@ -1073,6 +1081,27 @@ function psfc_orientation_get_attendee_node($account) {
       $node = (is_numeric($nid)) ? node_load($nid) : FALSE;
       return $node;
     }
+  }
+  return FALSE;
+}
+
+/**
+ * Helper function to determine if user has any up-coming orientations.
+ *
+ * @param $account
+ *   The attende.
+ *
+ * @return boolean 
+ */
+function psfc_orientation_user_has_upcoming_orientation($account) {
+  $sql = "SELECT n.nid AS count FROM {node} n JOIN {field_data_field_orientation_nid} o 
+    ON n.nid = o.entity_id JOIN {field_data_field_orientation_date} d 
+    ON o.field_orientation_nid_nid = d.entity_id WHERE uid = :uid AND 
+    field_orientation_date_value > :date";
+
+  $result = db_query($sql, array(':uid' => $account->uid, ':date' => date('Y-m-d H:i:s')));
+  if ($result->rowCount() > 0) {
+    return TRUE;
   }
   return FALSE;
 }
