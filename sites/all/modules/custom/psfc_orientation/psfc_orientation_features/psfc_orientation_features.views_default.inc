@@ -48,7 +48,7 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = 'TODO: Add in number of open seats as a table field';
+  $handler->display->display_options['header']['area']['content'] = 'Upcoming orientations';
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
