@@ -821,8 +821,14 @@ function psfc_orientation_capacity($node, $close = FALSE, $offset = 0) {
   // TODO: Change to reflect new open/ closed  field structure.
   // It's not full, reopen it if it's not already open.
   if ($close && $count > 0 && $node_wrapper->field_orientation_closed->value() == 1) {
-    $node_wrapper->field_orientation_closed->set(0); // 0 is open, 1 is closed.
-    $node_wrapper->save();
+    $date = strtotime($node_wrapper->field_orientation_date->value());
+    $now = time();
+
+    // Don't re-open a orientation less than 2 hours prior to it's start.
+    if($now + (60* 60 * 2) < $date) {
+      $node_wrapper->field_orientation_closed->set(0); // 0 is open, 1 is closed.
+      $node_wrapper->save();
+    }
   }
   return $count;
 }
