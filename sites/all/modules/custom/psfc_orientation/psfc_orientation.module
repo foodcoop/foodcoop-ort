@@ -347,21 +347,7 @@ function psfc_orientation_delete_unconfirmed() {
     // Make sure the account still exists.
     if (is_object($account)) {
       // Record non-confirmation in orientation node.
-      $orientation_node = node_load($attendee['orientation_nid']);
-      $orientation_wrapper = entity_metadata_wrapper('node', $orientation_node);
-
       $attendee_node = node_load($attendee['attendee_nid']);
-      $attendee_wrapper = entity_metadata_wrapper('node', $attendee_node);
-
-      // Merge the existing unconfirmed field with the new value to reflect this deleted
-      // user.
-      $existing_message = $orientation_wrapper->field_orientation_unconfirmed->value();
-      $cur_message = array($account_wrapper->field_fullname->field_firstname->value() . ' ' .
-        $account_wrapper->field_fullname->field_lastname->value() . ', ' .
-        $account->mail . ', Username: ' . $account->name . ', Date removed: ' .
-        format_date(REQUEST_TIME, 'long'));
-      $delete_message = array_merge($existing_message, $cur_message);
-      $orientation_wrapper->field_orientation_unconfirmed->set($delete_message);
 
       // Send missed confirmation window mail.
       $recipient = $account->mail;
@@ -370,7 +356,6 @@ function psfc_orientation_delete_unconfirmed() {
 
       //  Delete attendee node and update orientation node.
       node_delete($attendee['attendee_nid']);
-      $orientation_wrapper->save();
     }
   }
 }
