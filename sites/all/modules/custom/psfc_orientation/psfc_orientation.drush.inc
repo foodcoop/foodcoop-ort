@@ -19,7 +19,7 @@ function psfc_orientation_drush_command() {
 function psfc_orientation_create_ort() {
   $query = db_query("SELECT * FROM {psfc_orientation_repeat_rules}");
   while($result = $query->fetchAssoc()) {
-    $time = psfc_orientation_split_time_of_day($result['orid']);
+    $time = psfc_orientation_split_out_time_of_day($result['orid']);
     $next_ort = psfc_orientation_determine_next_repeat($time);
     if (!psfc_orientation_orientation_exists($next_ort) &&
       !psfc_orientation_orientation_blacked_out($next_ort)) {

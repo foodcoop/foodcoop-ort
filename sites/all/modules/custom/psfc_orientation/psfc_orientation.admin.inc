@@ -40,7 +40,7 @@ function psfc_orientation_admin_rule_form_skel($op, $orid = NULL) {
     case 'edit':
       if (is_numeric($orid)) {
         $info = psfc_orientation_get_repeat_rule_info($orid);
-        $time = psfc_orientation_split_time_of_day($orid);
+        $time = psfc_orientation_split_out_time_of_day($info['time_of_day']); 
       }
       break;
   }
@@ -67,15 +67,15 @@ function psfc_orientation_admin_rule_form_skel($op, $orid = NULL) {
     '#type' => 'select',
     '#title' => 'Hour',
     '#options' => array(
-      '01' => 1,
-      '02' => 2,
-      '03' => 3,
-      '04' => 4,
-      '05' => 5,
-      '06' => 6,
-      '07' => 7,
-      '08' => 8,
-      '09' => 9,
+      '1' => 1,
+      '2' => 2,
+      '3' => 3,
+      '4' => 4,
+      '5' => 5,
+      '6' => 6,
+      '7' => 7,
+      '8' => 8,
+      '9' => 9,
       '10' => 10,
       '11' => 11,
       '12' => 12,
@@ -99,8 +99,8 @@ function psfc_orientation_admin_rule_form_skel($op, $orid = NULL) {
     '#type' => 'select',
     '#title' => 'AM / PM',
     '#options' => array(
-      'AM' => 'AM',
-      'PM' => 'PM',
+      'am' => 'AM',
+      'pm' => 'PM',
     ),
     '#required' => TRUE,
     '#default_value' => (isset($time)) ? $time['ampm'] : NULL,

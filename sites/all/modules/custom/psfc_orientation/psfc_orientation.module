@@ -617,7 +617,6 @@ function psfc_orientation_split_out_time_of_day($time_of_day) {
   $time['hour'] = $split0[0];
   $time['minute'] = $split1[0];
   $time['ampm'] = $split1[1];
-
   return $time;
 }
 
