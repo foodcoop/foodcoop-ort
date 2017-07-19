@@ -49,8 +49,8 @@ function psfc_user_fields_field_default_field_bases() {
     'locked' => 0,
     'module' => 'field_collection',
     'settings' => array(
-      'hide_blank_items' => TRUE,
-      'hide_initial_item' => FALSE,
+      'hide_blank_items' => 1,
+      'hide_initial_item' => 0,
       'path' => '',
     ),
     'translatable' => 0,

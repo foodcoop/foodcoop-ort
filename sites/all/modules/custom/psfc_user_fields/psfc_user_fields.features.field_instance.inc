@@ -30,7 +30,7 @@ function psfc_user_fields_field_default_field_instances() {
     'fences_wrapper' => 'no_wrapper',
     'field_name' => 'field_firstname',
     'label' => 'First Name',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'text_processing' => 0,
       'user_register_form' => FALSE,
@@ -66,7 +66,7 @@ function psfc_user_fields_field_default_field_instances() {
     'fences_wrapper' => 'no_wrapper',
     'field_name' => 'field_lastname',
     'label' => 'Last Name',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'text_processing' => 0,
       'user_register_form' => FALSE,
@@ -103,7 +103,7 @@ function psfc_user_fields_field_default_field_instances() {
     'fences_wrapper' => 'div',
     'field_name' => 'field_fullname',
     'label' => 'Name',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'user_register_form' => 1,
     ),
