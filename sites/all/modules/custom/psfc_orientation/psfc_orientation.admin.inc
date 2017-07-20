@@ -436,20 +436,16 @@ function theme_psfc_orientation_login() {
  */
 function psfc_orientation_upcoming_orientations() {
   $ret = array();
-  $sql = "SELECT n.nid AS nid, field_orientation_date_value AS date ".
-    "FROM {node} n JOIN ".
+  $sql = "SELECT n.nid AS nid FROM {node} n JOIN ".
     "{field_revision_field_orientation_date} d ON n.nid = d.entity_id JOIN ".
     "{field_revision_field_orientation_closed} c ON n.nid = c.entity_id ".
     "WHERE n.type = 'orientation' AND d.field_orientation_date_value >= NOW() AND ".
     "c.field_orientation_closed_value != 1;";
   $result = db_query($sql);
   foreach ($result as $ort) {
-    // This is a bit hokey. Drupal stores the date/time in the database in UTC AND in ISO format.
-    // Since Drupal and PHP know we are in America/New_York, any attempt to convert to a UTC timestamp
-    // will expect this date to be in America/New_York, not UTC.
-    // So... convert it from 2017-07-02 23:30:00 to 2017-07-02T23:30:00Z - the Z means UTC.
-    $timestamp = strtotime(str_replace(' ', 'T', $ort->date) . 'Z');
-    $ret[$ort->nid] = format_date($timestamp);
+    $orientation = node_load($ort->nid);
+    $orientation_wrapper = entity_metadata_wrapper('node', $orientation);
+    $ret[$ort->nid] = format_date($orientation_wrapper->field_orientation_date->value());
   }
   return $ret;
 }
@@ -542,6 +538,7 @@ function psfc_orientation_add_registrant_validate(&$form, &$form_state) {
 function psfc_orientation_add_registrant_submit($form, &$form_state) {
   // Registrant has a site account.
   $orientation = node_load($form_state['values']['onid']);
+  $orientation_wrapper = entity_metadata_wrapper('node', $orientation);
   $confirmed = 1;
   if (!empty($form_state['values']['mail'])) {
     $mail = $form_state['values']['mail'];
@@ -570,7 +567,7 @@ function psfc_orientation_add_registrant_submit($form, &$form_state) {
   }
   $info = $attendee_wrapper->field_first_name->value() . ' ' . $attendee_wrapper->field_last_name->value();
   drupal_set_message(t('@info has been registed for orientation on @date.',
-    array('@info' => $info, '@date' => $orientation->field_orientation_date['und'][0]['value'])));
+    array('@info' => $info, '@date' => format_date($orientation_wrapper->field_orientation_date->value()))));
 
 }
 
