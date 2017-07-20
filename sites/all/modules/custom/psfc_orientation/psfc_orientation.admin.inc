@@ -436,7 +436,7 @@ function theme_psfc_orientation_login() {
  */
 function psfc_orientation_upcoming_orientations() {
   $ret = array();
-  $sql = "SELECT n.nid AS nid, UNIX_TIMESTAMP(field_orientation_date_value) AS date ".
+  $sql = "SELECT n.nid AS nid, field_orientation_date_value AS date ".
     "FROM {node} n JOIN ".
     "{field_revision_field_orientation_date} d ON n.nid = d.entity_id JOIN ".
     "{field_revision_field_orientation_closed} c ON n.nid = c.entity_id ".
@@ -444,7 +444,12 @@ function psfc_orientation_upcoming_orientations() {
     "c.field_orientation_closed_value != 1;";
   $result = db_query($sql);
   foreach ($result as $ort) {
-    $ret[$ort->nid] = format_date($ort->date);
+    // This is a bit hokey. Drupal stores the date/time in the database in UTC AND in ISO format.
+    // Since Drupal and PHP know we are in America/New_York, any attempt to convert to a UTC timestamp
+    // will expect this date to be in America/New_York, not UTC.
+    // So... convert it from 2017-07-02 23:30:00 to 2017-07-02T23:30:00Z - the Z means UTC.
+    $timestamp = strtotime(str_replace(' ', 'T', $ort->date) . 'Z');
+    $ret[$ort->nid] = format_date($timestamp);
   }
   return $ret;
 }
