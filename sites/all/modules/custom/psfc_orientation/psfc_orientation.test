@@ -77,9 +77,10 @@ class PsfcOrientationTestCase extends DrupalWebTestCase {
    *
    */
   function testReOpenOrientationOnCancellation() {
+    // Create an orientation with capacity of 1 and schedule it one day
+    // in advance.
     $orientation_rule = array('capacity' => 1);
-    // Schedule it.
-    $time = time();
+    $time = time() + 86400;
     $orientation_wrapper = psfc_orientation_node_build($orientation_rule, $time);
     $node_created = FALSE;
     $orientation_nid = $orientation_wrapper->nid->value();
