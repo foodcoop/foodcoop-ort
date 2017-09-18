@@ -235,6 +235,13 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['header']['area']['content'] = '<a href="/print/admin/psfc/orientation/attendee-roster/!1">Print</a>';
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   $handler->display->display_options['header']['area']['tokenize'] = TRUE;
+  $handler->display->display_options['defaults']['footer'] = FALSE;
+  /* Footer: Global: Text area */
+  $handler->display->display_options['footer']['area']['id'] = 'area';
+  $handler->display->display_options['footer']['area']['table'] = 'views';
+  $handler->display->display_options['footer']['area']['field'] = 'area';
+  $handler->display->display_options['footer']['area']['content'] = 'Additional Registrants:';
+  $handler->display->display_options['footer']['area']['format'] = 'filtered_html';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Global: View result counter */
   $handler->display->display_options['fields']['counter']['id'] = 'counter';
