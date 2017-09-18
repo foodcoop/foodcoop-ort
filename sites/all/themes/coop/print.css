@@ -11,5 +11,18 @@ td.views-field {
 .view-footer {
   max-height: 20%;
   min-height: 5%;
+  height: 400px;
+}
+
+.view-header {
+  display:none;
+}
+
+.print-breadcrumb {
+  display:none;
+}
+
+tr.even {
+  background-color: white;
 }
 
