@@ -7,3 +7,9 @@ table {
 td.views-field {
   padding:30px;
 }
+
+.view-footer {
+  max-height: 20%;
+  min-height: 5%;
+}
+

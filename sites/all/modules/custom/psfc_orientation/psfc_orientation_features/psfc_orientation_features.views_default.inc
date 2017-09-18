@@ -27,7 +27,9 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'title' => 'title',
@@ -96,6 +98,11 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['label'] = '';
   $handler->display->display_options['fields']['edit_node']['element_label_colon'] = FALSE;
+  /* Sort criterion: Content: Orientation date (field_orientation_date) */
+  $handler->display->display_options['sorts']['field_orientation_date_value']['id'] = 'field_orientation_date_value';
+  $handler->display->display_options['sorts']['field_orientation_date_value']['table'] = 'field_data_field_orientation_date';
+  $handler->display->display_options['sorts']['field_orientation_date_value']['field'] = 'field_orientation_date_value';
+  $handler->display->display_options['sorts']['field_orientation_date_value']['order'] = 'DESC';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -111,13 +118,6 @@ function psfc_orientation_features_views_default_views() {
     'orientation' => 'orientation',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content: Closed (field_orientation_closed) */
-  $handler->display->display_options['filters']['field_orientation_closed_value']['id'] = 'field_orientation_closed_value';
-  $handler->display->display_options['filters']['field_orientation_closed_value']['table'] = 'field_data_field_orientation_closed';
-  $handler->display->display_options['filters']['field_orientation_closed_value']['field'] = 'field_orientation_closed_value';
-  $handler->display->display_options['filters']['field_orientation_closed_value']['value'] = array(
-    0 => '0',
-  );
   $export['orientation_admin'] = $view;
 
   $view = new view();
