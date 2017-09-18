@@ -1,0 +1,9 @@
+/* Invoked when using the print modulue */
+
+table {
+  width: 100%;
+}
+
+td.views-field {
+  padding:30px;
+}

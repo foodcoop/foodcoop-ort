@@ -62,7 +62,8 @@ function psfc_orientation_disable_modules() {
 function psfc_orientation_configure_printer_friendly_module() {
   $settings = array(
     'print_logo_options' => 2,
-    'print_logo_url' => 'sites/all/themes/coop/images/logo-print.png'
+    'print_logo_url' => 'sites/all/themes/coop/images/logo-print.png',
+    'print_css' => '%t/print.css',
   );
   foreach($settings as $k => $v) {
     variable_set($k, $v);
