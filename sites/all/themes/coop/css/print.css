@@ -6,6 +6,13 @@ table {
 
 td.views-field {
   padding:30px;
+  border-bottom: 1px #000 solid;
+}
+
+th {
+  border-bottom: 1px #000 solid;
+  padding:30px;
+  text-align: left;
 }
 
 .view-footer {
