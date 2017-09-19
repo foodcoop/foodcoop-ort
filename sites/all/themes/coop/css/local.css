@@ -1,0 +1,176 @@
+/*
+ * Ensure that the header gets stretched 100%.
+ */
+.container {
+  width: 100% !important;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.main-container {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* The bootstrap theme tries to adjust the max width based on your screen
+ * size. By eliminating this setting, we ensure that the top nav bar is
+ * always 100%.
+ */
+.navbar.container {
+  max-width: none;
+}
+
+/* 
+ * The navbar background should be a color or repeating image. It will 
+ * stretch out 100% at all times.
+ */
+#navbar {
+  margin-top: 0px;
+  border: none;
+  background-image: url("/sites/all/themes/coop/images/header-bg.jpg"); 
+  max-height: 178px;
+  border-bottom: 1px solid #000;
+}
+
+/*
+ * The bootstrap theme seems to display this toggle when the screen is
+ * small. However we have nothing in this menu so we never want it displayed.
+ */
+.navbar-toggle {
+  display:none;
+}
+
+
+/* 
+ * Align the logo so it is the same height as the max height of the
+ * div. When at max height, we need the logo and the background image
+ * in the enclosing div to be the same. Also, ensure the div enclosing
+ * the logo is always 100% so it the image that is inside it can adjust
+ * as well.
+ */
+#navbar .logo {
+  margin-top: 0px;
+  max-width: 100% !important;
+  margin-left: 5%;
+  margin-right: auto;
+
+  /* 
+   * These settings ensure that the logo is always centered. The width
+   * must be set to the width of the image. 
+   */
+  float: none !important;
+  display: block;
+  width: 995px;
+}
+
+/* Don't float the nav-header - ensures logo is centered. */
+#navbar > .container > .navbar-header {
+  float: none;
+}
+
+/* 
+ * The following code sets the width of the middle column. You have to set the
+ * width if you want it to be centered. We start with the width for the smallest
+ * devices and then make the width bigger as the device size increases. We use
+ * bootstrap default sizes..
+ */
+
+.col-sm-12 {
+  float: none !important;
+  margin: 0 auto;
+  width: 300px !important;
+}
+
+@media only screen and (min-width : 480px) {
+  .col-sm-12 {
+    float: none !important;
+    margin: 0 auto;
+    width: 450px !important;
+  }
+}
+
+@media only screen and (min-width : 768px) {
+  .col-sm-12 {
+    float: none !important;
+    margin: 0 auto;
+    width: 750px !important;
+  }
+}
+
+@media only screen and (min-width : 992px) {
+  .col-sm-12 {
+    float: none !important;
+    margin: 0 auto;
+    width: 970px !important;
+  }
+}
+
+.navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+  margin-left: 0px;
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+  background-color: #005d7e; 
+  color: #fff;
+}
+
+.navbar-default .navbar-brand {
+  color: #fff;
+}
+
+a.navbar-brand {
+  display: block;
+  background-color: #005d7e; 
+  width: 100%;
+  color: #ffff;
+  padding-left: 75px;
+  font-family: "Sans-Serif";
+  text-transform: uppercase;
+  font-size: 30px;
+}
+
+.region-sidebar-first {
+  background-color: #fff6dc;
+}
+
+.page-header {
+  margin-bottom: 0px;
+  padding-bottom: 10px;
+}
+
+h1 {
+  color: #f90;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 17px;
+}
+
+a {
+  color: #272;
+}
+
+#node-6 em {
+  color: red;
+  font-weight: bold;
+}
+
+.Q {
+  font-weight: bold;
+}
+
+.QA {
+  margin-top: 15px;
+}
+
+.credit {
+  display: none;
+}
+
+.submitted {
+  display: none;
+}

@@ -1,7 +1,8 @@
-name = Park Slope Food Coop Orientation Theme. 
-description = This is a sub-theme of bootstrap 
+name = 'THEMETITLE'
+description = Uses the Bootstrap Framework Less source files and must be compiled (not for beginners).
 core = 7.x
-base theme = bootstrap 
+base theme = bootstrap
+
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Regions
@@ -24,7 +25,6 @@ regions[page_bottom]    = 'Page bottom'
 ;;;;;;;;;;;;;;;;;;;;;
 
 stylesheets[all][] = css/style.css
-stylesheets[all][] = css/local.css
 
 
 ;;;;;;;;;;;;;;;;;;;;;
@@ -44,6 +44,5 @@ scripts[] = 'bootstrap/js/scrollspy.js'
 scripts[] = 'bootstrap/js/tab.js'
 scripts[] = 'bootstrap/js/transition.js'
 
-; Disable BootstrapCDN so the compiled LESS source files can be used.
-settings[bootstrap_cdn_provider] = ''
-
+; Disable the CDN provider so compiled source files can be used.
+settings[bootstrap_cdn] = ''
