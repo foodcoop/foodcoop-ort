@@ -67,7 +67,6 @@ features[field_instance][] = node-orientation_attendee-field_last_name
 features[field_instance][] = node-orientation_attendee-field_orientation_nid
 features[field_instance][] = node-orientation_attendee-field_phone
 features[field_instance][] = node-page-body
-features[filter][] = filtered_html
 features[filter][] = psfc_html_filter
 features[menu_links][] = navigation_psfc-orientation-administration:admin/psfc/orientation
 features[node][] = orientation
