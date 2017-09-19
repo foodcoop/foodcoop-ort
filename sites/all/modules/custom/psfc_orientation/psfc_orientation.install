@@ -63,7 +63,7 @@ function psfc_orientation_configure_printer_friendly_module() {
   $settings = array(
     'print_logo_options' => 2,
     'print_logo_url' => 'sites/all/themes/coop/images/logo-print.png',
-    'print_css' => '%t/print.css',
+    'print_css' => '%t/css/print.css',
   );
   foreach($settings as $k => $v) {
     variable_set($k, $v);
@@ -147,7 +147,7 @@ function psfc_orientation_setup_themes() {
     'toggle_main_menu' => 1,
     'toggle_secondary_menu' => 1,
     'default_logo' => 0,
-    'logo_path' => 'sites/all/themes/coop/images/logo-join.png',
+    'logo_path' => 'sites/all/themes/coop/images/logo.png',
     'logo_upload' => NULL,
     'default_favicon' => 0,
     'favicon_path' => 'sites/all/themes/coop/images/favicon.ico',
