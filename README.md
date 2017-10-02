@@ -11,7 +11,7 @@ You can install it by following these directions:
  * Create an apache (or any web server) configuration
  * Clone this repo: 
 ```
-git clone https://github.com/jmcclelland/ort.git 
+git clone https://github.com/foodcoop/foodcoop-ort.git
 ```
  * Install drupal (replace the items in capital with appropriate values from your developer instance)
 ```
