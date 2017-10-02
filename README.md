@@ -1,8 +1,8 @@
-#Park Slope Food Coop Orientation System
+# Park Slope Food Coop Orientation System
 
 This repo contains the code that runs the Park Slope Food Coop's orientation site.
 
-##Installation
+## Installation
 
 You can install it by following these directions:
 
@@ -36,7 +36,7 @@ drush dis comment
 drush core-cron
 ```
 
-##Testing
+## Testing
 
 This project comes with some unit tests.
 
