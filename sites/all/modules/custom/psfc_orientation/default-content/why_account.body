@@ -1,7 +1,8 @@
 <div class="QA">
-  <a  class="Q" href="#">What is the online account?</a>
-  <div class="A">
-    <p class="A" >The online account is an account that will allow you to register online for an Orientation Session. If you join the Coop, this will become your online member account, if you opt into our online Member database.</p>
-  </div>
 
+  <p><a class="Q" href="#A1" data-toggle="collapse">What is the online account?</a></p>
+  <div id="A1" class="A collapse">
+    <p>The online account is an account that will allow you to register online for an Orientation Session. If you join the Coop, this will become your online member account, if you opt into our online Member database.</p>
+  </div>
+  
 </div>

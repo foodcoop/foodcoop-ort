@@ -93,7 +93,7 @@ button, label, legend {
 	font-family: "fira_semibold" ,Arial, sans-serif;
   font-weight: normal;
 }
-h1, h2, h3, h4, h5, h6, h7, .Q {
+h1, h2, h3, h4, h5, h6, h7 {
 	font-family: "fira_semibold" ,Arial, sans-serif;
   font-weight: normal;
 }
@@ -168,7 +168,7 @@ i, em {
 }
 
 /* Don't float the nav-header - ensures logo is centered. */
-#navbar > .container > .navbar-header {
+#navbar .navbar-header {
   float: none;
 }
 
@@ -305,9 +305,35 @@ a {
   font-weight: bold;
 }
 
+
+
+/* Q&A */
+.Q {
+  font-family: "fira_sansbook";	
+}
+.Q::before {
+	content: '▸ ';
+	margin-left: -10px;
+}
 .QA {
   margin-top: 20px;
+  margin-bottom: 20px;
 }
+.A  {
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.collapsing {
+    transition: height 0.6s;
+}
+.A {
+	padding-top: 1em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid #fd9;
+	border-top: 1px solid #fd9;
+}
+
+
 
 .credit {
   display: none;
