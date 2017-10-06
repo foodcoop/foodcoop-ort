@@ -74,7 +74,7 @@ function psfc_orientation_configure_printer_friendly_module() {
  * Set site name so it doesn't say "Site-Install" in the title
  */
 function psfc_orientation_set_site_name() {
-  variable_set('site_name', 'Park Slope Food Coop Orientation');
+  variable_set('site_name', 'How to Join');
 }
 
 /**
