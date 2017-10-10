@@ -16,6 +16,7 @@ dependencies[] = field_collection
 dependencies[] = file
 dependencies[] = filter
 dependencies[] = image
+dependencies[] = jquery_update 
 dependencies[] = libraries
 dependencies[] = link
 dependencies[] = list
