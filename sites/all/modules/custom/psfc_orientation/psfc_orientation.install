@@ -279,7 +279,7 @@ function psfc_orientation_init_logintoboggan_settings() {
     'logintoboggan_confirm_email_at_registration' => '1',
     'logintoboggan_immediate_login_on_register' =>  '1',
     // role 5 should be pre-auth role
-    'logintoboggan_pre_auth_role' => 5,
+    'logintoboggan_pre_auth_role' => 6,
     // user register should allow visitors to register without
     // approval
     'user_register' => 1,
