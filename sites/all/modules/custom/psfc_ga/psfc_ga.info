@@ -1,0 +1,5 @@
+name = PSFC Google Analytics 
+description = Adds Google Analytics code to all pages. 
+package = PSFC
+core = 7.x
+

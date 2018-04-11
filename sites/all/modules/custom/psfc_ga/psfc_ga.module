@@ -1,0 +1,33 @@
+<?php
+/**
+ * @file PSFC Google Analytics module. 
+ */
+
+define('PSFC_GA_ID','UA-963044-11'); 
+
+/**
+ * hook_init
+ *
+ * Add Google Analytics code on each page.
+ */
+function psfc_ga_init() {
+  $options = array(
+    'type' => 'external',
+    'every_page' => TRUE,
+    'require_jquery' => FALSE,
+    'defer' => TRUE,
+  );
+  drupal_add_js('https://www.googletagmanager.com/gtag/js?id=' . PSFC_GA_ID, $options);
+  $js = "window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '" . PSFC_GA_ID . "');
+    console.log('GA loaded');
+  ";
+  $options = array(
+    'type' => 'inline',
+    'every_page' => TRUE,
+    'requires_jquery' => FALSE,
+  );
+  drupal_add_js($js, $options);
+}
