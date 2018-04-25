@@ -164,7 +164,7 @@ i, em {
    */
   float: none !important;
   display: block;
-  width: 995px;
+/*   width: 995px; */
 }
 
 /* Don't float the nav-header - ensures logo is centered. */
