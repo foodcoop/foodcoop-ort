@@ -78,7 +78,7 @@
     <div class="row">
       <div class="navbar-header">
         <?php if ($logo): ?>
-          <a class="logo navbar-btn pull-left" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
+          <a class="logo navbar-btn pull-left" href="https://www.foodcoop.com" title="foodcoop.com">
             <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
           </a>
         <?php endif; ?>
@@ -123,7 +123,7 @@
 
       </div>
     </div>
-  
+
   </div>
 </header>
 
