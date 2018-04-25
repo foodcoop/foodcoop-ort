@@ -5,9 +5,9 @@
 @font-face {
 	font-family: "DIN1451StdEngschrift";
 	src: url("../fonts/DIN/dinengschriftstd-webfont.eot");
-	src: local("☺"), 
-	url("../fonts/DIN/dinengschriftstd-webfont.woff") format("woff"), 
-	url("../fonts/DIN/dinengschriftstd-webfont.ttf") format("truetype"), 
+	src: local("☺"),
+	url("../fonts/DIN/dinengschriftstd-webfont.woff") format("woff"),
+	url("../fonts/DIN/dinengschriftstd-webfont.ttf") format("truetype"),
 	url("../fonts/DIN/dinengschriftstd-webfont.svg#webfontjeP1lQbS") format("svg");
 	font-weight: normal;
 	font-style: normal;
@@ -124,14 +124,14 @@ i, em {
   max-width: none;
 }
 
-/* 
- * The navbar background should be a color or repeating image. It will 
+/*
+ * The navbar background should be a color or repeating image. It will
  * stretch out 100% at all times.
  */
 #navbar {
   margin-top: 0px;
   border: none;
-  background-image: url("../images/header-bg.jpg"); 
+  background-image: url("../images/header-bg.jpg");
   max-height: 178px;
   border-bottom: 1px solid #000;
 }
@@ -145,7 +145,7 @@ i, em {
 }
 
 
-/* 
+/*
  * Align the logo so it is the same height as the max height of the
  * div. When at max height, we need the logo and the background image
  * in the enclosing div to be the same. Also, ensure the div enclosing
@@ -158,9 +158,9 @@ i, em {
   margin-left: 5px;
   margin-right: auto;
 
-  /* 
+  /*
    * These settings ensure that the logo is always centered. The width
-   * must be set to the width of the image. 
+   * must be set to the width of the image.
    */
   float: none !important;
   display: block;
@@ -169,10 +169,10 @@ i, em {
 
 /* Don't float the nav-header - ensures logo is centered. */
 #navbar .navbar-header {
-  float: none;
+/*   float: none; */
 }
 
-/* 
+/*
  * The following code sets the width of the middle column. You have to set the
  * width if you want it to be centered. We start with the width for the smallest
  * devices and then make the width bigger as the device size increases. We use
@@ -218,7 +218,7 @@ i, em {
 }
 
 .nav-holder {
-  background-color: #005d7e; 
+  background-color: #005d7e;
 }
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
   color: #fff;
@@ -230,7 +230,7 @@ i, em {
 
 a.navbar-brand {
   display: block;
-  background-color: #005d7e; 
+  background-color: #005d7e;
   width: 100%;
   color: #ffff;
   font-family: 'DIN1451StdEngschrift','Tahoma', 'Sans-Serif';
@@ -278,7 +278,7 @@ a.navbar-brand {
 }
 
 
-p, li { 
+p, li {
   margin-top: 1em;
 }
 
@@ -309,7 +309,7 @@ a {
 
 /* Q&A */
 .Q {
-  font-family: "fira_sansbook";	
+  font-family: "fira_sansbook";
 }
 .Q::before {
 	content: '▸ ';
