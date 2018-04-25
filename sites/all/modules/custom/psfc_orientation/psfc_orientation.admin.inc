@@ -40,7 +40,7 @@ function psfc_orientation_admin_rule_form_skel($op, $orid = NULL) {
     case 'edit':
       if (is_numeric($orid)) {
         $info = psfc_orientation_get_repeat_rule_info($orid);
-        $time = psfc_orientation_split_out_time_of_day($info['time_of_day']); 
+        $time = psfc_orientation_split_out_time_of_day($info['time_of_day']);
       }
       break;
   }
@@ -401,15 +401,16 @@ function psfc_orientation_login() {
  */
 function theme_psfc_orientation_login() {
   $why_account_help_txt = node_load(variable_get('psfc_orientation_why_account', 37));
-  $why_account_help_txt_view = node_view($why_account_help_txt);
-  if (user_access('administer psfc orientation') && user_access('administer nodes')) {
-    $why_account_help_txt_view .= l('edit', "node/" . variable_get('psfc_orientation_why_account', 37) . "/edit");
-  }
+//   $why_account_help_txt_view = node_view($why_account_help_txt);
+//   if (user_access('administer psfc orientation') && user_access('administer nodes')) {
+//     $why_account_help_txt_view .= l('edit', "node/" . variable_get('psfc_orientation_why_account', 37) . "/edit");
+//   }
+
   $account_create_help_txt = node_load(variable_get('psfc_orientation_account_create', 38));
-  $account_create_help_txt_view = node_view($account_create_help_txt);
-  if (user_access('administer psfc orientation') && user_access('administer nodes')) {
-    $account_create_help_txt_view .= l('edit', "node/" . variable_get('psfc_orientation_account_create', 38) . "/edit");
-  }
+//   $account_create_help_txt_view = node_view($account_create_help_txt);
+//   if (user_access('administer psfc orientation') && user_access('administer nodes')) {
+//     $account_create_help_txt_view .= l('edit', "node/" . variable_get('psfc_orientation_account_create', 38) . "/edit");
+//   }
 
   $output = '<div class="orientation-login">';
   $output .= '<h3>If you already have an account, please log in</h3>';
@@ -417,12 +418,19 @@ function theme_psfc_orientation_login() {
   $output .= render($user_login);
   $output .= '<br />' . l(t('Request new password'), 'user/password');
   $output .= '<div class="orientation-what">';
-  $output .= render($why_account_help_txt_view);
+
+  $output .= "<h2>".$why_account_help_txt->title."</h2>";
+  $output .= field_get_items('node',$why_account_help_txt, 'body')[0]["value"];
+  // $output .= render($why_account_help_txt_view);
+
   $output .= '</div>';
   $output .= '</div>';
   $output .= '<div class="orientation-register">';
-  // $output .= '<h3>Create an account</h3>';
-  $output .= render($account_create_help_txt_view);
+
+  $output .= "<h2>".$account_create_help_txt->title."</h2>";
+  $output .= field_get_items('node',$account_create_help_txt, 'body')[0]["value"];
+  // $output .= render($account_create_help_txt_view);
+
   $user_register = drupal_get_form('user_register_form');
   $output .= render($user_register);
   $output .= '</div>';
