@@ -416,7 +416,7 @@ function theme_psfc_orientation_login() {
   $output .= '<h3>If you already have an account, please log in</h3>';
   $user_login = drupal_get_form('user_login');
   $output .= render($user_login);
-  $output .= '<br />' . l(t('Request new password'), 'user/password');
+  $output .= '<p>' . l(t('Request new password'), 'user/password') . "</p>";
   $output .= '<div class="orientation-what">';
 
   $output .= "<h2>".$why_account_help_txt->title."</h2>";
