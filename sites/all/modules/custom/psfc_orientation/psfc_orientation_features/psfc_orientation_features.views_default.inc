@@ -102,7 +102,6 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['sorts']['field_orientation_date_value']['id'] = 'field_orientation_date_value';
   $handler->display->display_options['sorts']['field_orientation_date_value']['table'] = 'field_data_field_orientation_date';
   $handler->display->display_options['sorts']['field_orientation_date_value']['field'] = 'field_orientation_date_value';
-  $handler->display->display_options['sorts']['field_orientation_date_value']['order'] = 'DESC';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -118,6 +117,12 @@ function psfc_orientation_features_views_default_views() {
     'orientation' => 'orientation',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Content: Orientation date (field_orientation_date) */
+  $handler->display->display_options['filters']['field_orientation_date_value']['id'] = 'field_orientation_date_value';
+  $handler->display->display_options['filters']['field_orientation_date_value']['table'] = 'field_data_field_orientation_date';
+  $handler->display->display_options['filters']['field_orientation_date_value']['field'] = 'field_orientation_date_value';
+  $handler->display->display_options['filters']['field_orientation_date_value']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_orientation_date_value']['default_date'] = 'today';
   $export['orientation_admin'] = $view;
 
   $view = new view();

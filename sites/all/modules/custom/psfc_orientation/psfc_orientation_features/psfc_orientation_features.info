@@ -8,6 +8,7 @@ dependencies[] = computed_field
 dependencies[] = ctools
 dependencies[] = date
 dependencies[] = date_api
+dependencies[] = date_views
 dependencies[] = email
 dependencies[] = entity
 dependencies[] = features
