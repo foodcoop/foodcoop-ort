@@ -196,7 +196,7 @@ function psfc_orientation_display_blackouts() {
   $rows = array();
   while ($result = $query->fetchAssoc()) {
     $datetime = strtotime($result['blackout_date']);
-    $date = date('F j, Y', $datetime);
+    $date = date('l, F j, Y', $datetime);
     if (user_access('administer psfc orientation')) {
       $rows[] = array($date, l('delete', 'admin/psfc/orientation/delete-blackout/' . $result['obid']));
     }
