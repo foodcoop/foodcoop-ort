@@ -342,3 +342,7 @@ a {
 .submitted {
   display: none;
 }
+
+.btn-success a {
+  color: #fff;
+}
