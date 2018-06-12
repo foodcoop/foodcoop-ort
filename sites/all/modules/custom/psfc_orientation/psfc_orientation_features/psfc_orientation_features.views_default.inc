@@ -417,6 +417,16 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['fields']['field_canceled_orientation']['id'] = 'field_canceled_orientation';
   $handler->display->display_options['fields']['field_canceled_orientation']['table'] = 'field_data_field_canceled_orientation';
   $handler->display->display_options['fields']['field_canceled_orientation']['field'] = 'field_canceled_orientation';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Content: Canceled (field_canceled_orientation) */
+  $handler->display->display_options['sorts']['field_canceled_orientation_value']['id'] = 'field_canceled_orientation_value';
+  $handler->display->display_options['sorts']['field_canceled_orientation_value']['table'] = 'field_data_field_canceled_orientation';
+  $handler->display->display_options['sorts']['field_canceled_orientation_value']['field'] = 'field_canceled_orientation_value';
+  /* Sort criterion: Content: Confirmed (field_confirmed_orientation) */
+  $handler->display->display_options['sorts']['field_confirmed_orientation_value']['id'] = 'field_confirmed_orientation_value';
+  $handler->display->display_options['sorts']['field_confirmed_orientation_value']['table'] = 'field_data_field_confirmed_orientation';
+  $handler->display->display_options['sorts']['field_confirmed_orientation_value']['field'] = 'field_confirmed_orientation_value';
+  $handler->display->display_options['sorts']['field_confirmed_orientation_value']['order'] = 'DESC';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
