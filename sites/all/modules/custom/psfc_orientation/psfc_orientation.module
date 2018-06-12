@@ -852,9 +852,12 @@ function psfc_orientation_registered($uid) {
     AND a.revision_id = n.vid
     JOIN {field_data_field_orientation_closed} o
     ON a.field_orientation_nid_nid = o.entity_id
-    WHERE o.field_orientation_closed_value = :open_value
+    LEFT JOIN {field_data_field_canceled_orientation} c
+    ON a.entity_id = c.entity_id
+    WHERE o.field_orientation_closed_value = 0 
+    AND c.field_canceled_orientation_value != 1
     AND n.uid = :userid_uid",
-  array(':open_value' => 0, ':userid_uid' => $uid))->fetchField()) {
+  array(':userid_uid' => $uid))->fetchField()) {
     return TRUE;
   }
   return FALSE;
@@ -1072,7 +1075,12 @@ function psfc_orientation_confirm_rehash($password, $timestamp, $login) {
  * @return Node object.
  */
 function psfc_orientation_get_attendee_node($account) {
-  $sql = "SELECT nid FROM node WHERE type = 'orientation_attendee' AND uid = :uid ORDER BY created DESC LIMIT 1";
+  $sql = "SELECT nid FROM {node} n 
+    LEFT JOIN {field_data_field_canceled_orientation} canceled 
+    ON n.nid = canceled.entity_id WHERE type = 'orientation_attendee' AND 
+    uid = :uid AND
+    canceled.field_canceled_orientation_value != 1
+    ORDER BY created DESC LIMIT 1";
   $result = db_query($sql, array(':uid' => $account->uid));
   if ($result->rowCount() > 0) {
     while ($nid = $result->fetchField()) {
