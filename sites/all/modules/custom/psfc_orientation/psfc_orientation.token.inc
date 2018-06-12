@@ -38,7 +38,7 @@ function psfc_orientation_tokens($type, $tokens, $data = array(), $options = arr
     global $user;
     // Not logged in.
     if (!$user->uid && psfc_orientation_check_openings()) {
-      $values['[psfc:register-button]'] = '<div"><button class="btn btn-success btn-lg"><a href="/login?destination=join/orientation">Create an Account / Login to Register for Orientation</a></button></div>';
+      $values['[psfc:register-button]'] = '<div class="btn btn-success btn-lg"><a href="/login?destination=join/orientation">Create an Account / Login to Register for Orientation</a></div>';
     }
     // Not logged in, no sessions available.
     elseif (!$user->uid && !psfc_orientation_check_openings()) {
