@@ -52,7 +52,7 @@ function psfc_orientation_tokens($type, $tokens, $data = array(), $options = arr
     }
     // Logged in, there are openings.
     if ($user->uid && psfc_orientation_check_openings()) {
-      $values['[psfc:register-button]'] = '<div><button class="btn btn-success btn-lg"><a href="/join/orientation">Register for Orientation</a></button></div>';
+      $values['[psfc:register-button]'] = '<div class="btn btn-success btn-lg"><a href="/join/orientation">Register for Orientation</a></div>';
     }
     // Logged in, there are openings.
     elseif ($user->uid && !psfc_orientation_check_openings()) {
