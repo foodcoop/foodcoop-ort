@@ -329,8 +329,8 @@ function psfc_orientation_create_based_on_repeat_rule($result) {
 /**
  * Delete unconfirmed registrations.
  */
-function psfc_orientation_delete_unconfirmed() {
-  // Delete unconfirmed registrations after 48 hours.
+function psfc_orientation_update_unconfirmed() {
+  // Update unconfirmed registrations after 48 hours.
   $expires = REQUEST_TIME - (2 * 24 * 60 * 60);
   $sql = "SELECT n.nid AS attendee_nid, n.uid AS uid, ".
     "o.field_orientation_nid_nid AS orientation_nid ".
@@ -354,8 +354,8 @@ function psfc_orientation_delete_unconfirmed() {
       $params['node'] = $attendee_node;
       drupal_mail('psfc_orientation', 'confirmation_window_missed', $recipient, language_default(), $params);
 
-      //  Delete attendee node and update orientation node.
-      node_delete($attendee['attendee_nid']);
+      //  Cancel registration (which should update orientation node).
+      psfc_orientation_cancel_registration($attendee['attendee_nid']);
     }
   }
 }
@@ -364,7 +364,7 @@ function psfc_orientation_delete_unconfirmed() {
  */
 function psfc_orientation_cron() {
   psfc_orientation_create_based_on_repeat_rules();
-  psfc_orientation_delete_unconfirmed();
+  psfc_orientation_update_unconfirmed();
   psfc_orientation_send_reminders();
   psfc_orientation_past_blackout_delete();
   psfc_orientation_close_orientations_starting_in_two_hours();
@@ -785,7 +785,7 @@ function psfc_orientation_capacity($node, $close = FALSE, $offset = 0) {
   $capacity = $node_wrapper->field_orientation_capacity->value();
 
   // Get count of users on the system registered.
-  $result = db_query("SELECT COUNT(*) FROM {field_data_field_orientation_nid} fnid WHERE fnid.field_orientation_nid_nid = :nid", array(':nid' => $node->nid));
+  $result = db_query("SELECT COUNT(*) FROM {field_data_field_orientation_nid} fnid JOIN {field_data_field_canceled_orientation} fcancel USING(entity_id) WHERE fnid.field_orientation_nid_nid = :nid AND fcancel.field_canceled_orientation_value != 1", array(':nid' => $node->nid));
   if ($result->rowCount() == 0) {
     $user_reg_count = 0;
   }
@@ -1015,7 +1015,14 @@ function psfc_orientation_cancel_confirm_submit($form, $form_state) {
  * Cancel orientation
  */
 function psfc_orientation_cancel_registration($nid) {
-  node_delete($nid);
+  $node = node_load($nid);
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+  $node_wrapper->field_canceled_orientation->set(1);
+  $node_wrapper->save();
+  $orientation_nid = $node_wrapper->field_orientation_nid->value()->nid;
+  $close_or_reopen = TRUE;
+  psfc_orientation_capacity($orientation_nid, $close_or_reopen);
+
   drupal_set_message(t("Your registration has been cancelled."));
 }
 
@@ -1405,10 +1412,15 @@ function psfc_orientation_join_orientation() {
   }
 }
 
+/**
+ * Computed field used in orientation view.
+ */
 function computed_field_field_confirmed_attendees_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items) {
   $sql = "SELECT COUNT(*) FROM field_data_field_confirmed_orientation 
     JOIN field_data_field_orientation_nid USING(entity_id)
-    WHERE field_confirmed_orientation_value =1 AND
+    JOIN field_data_field_canceled_orientation USING(entity_id)
+    WHERE field_confirmed_orientation_value = 1 AND
+    field_canceled_orientation_value != 1 AND
     field_orientation_nid_nid = :nid";
 
   $result = db_query($sql, array(':nid' => $entity->nid));

@@ -291,6 +291,39 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['arguments']['field_orientation_nid_nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['field_orientation_nid_nid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['field_orientation_nid_nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'orientation_attendee' => 'orientation_attendee',
+  );
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Content: Confirmed (field_confirmed_orientation) */
+  $handler->display->display_options['filters']['field_confirmed_orientation_value']['id'] = 'field_confirmed_orientation_value';
+  $handler->display->display_options['filters']['field_confirmed_orientation_value']['table'] = 'field_data_field_confirmed_orientation';
+  $handler->display->display_options['filters']['field_confirmed_orientation_value']['field'] = 'field_confirmed_orientation_value';
+  $handler->display->display_options['filters']['field_confirmed_orientation_value']['value'] = array(
+    1 => '1',
+  );
+  $handler->display->display_options['filters']['field_confirmed_orientation_value']['group'] = 1;
+  /* Filter criterion: Content: Canceled (field_canceled_orientation) */
+  $handler->display->display_options['filters']['field_canceled_orientation_value']['id'] = 'field_canceled_orientation_value';
+  $handler->display->display_options['filters']['field_canceled_orientation_value']['table'] = 'field_data_field_canceled_orientation';
+  $handler->display->display_options['filters']['field_canceled_orientation_value']['field'] = 'field_canceled_orientation_value';
+  $handler->display->display_options['filters']['field_canceled_orientation_value']['operator'] = 'not';
+  $handler->display->display_options['filters']['field_canceled_orientation_value']['value'] = array(
+    1 => '1',
+  );
   $handler->display->display_options['path'] = 'admin/psfc/orientation/attendee-roster';
 
   /* Display: Roster Management */
@@ -344,6 +377,14 @@ function psfc_orientation_features_views_default_views() {
       'label' => '',
     ),
   );
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = 'ID';
+  $handler->display->display_options['fields']['nid']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['nid']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['nid']['alter']['path'] = 'node/[nid]';
   /* Field: Content: First Name */
   $handler->display->display_options['fields']['field_first_name']['id'] = 'field_first_name';
   $handler->display->display_options['fields']['field_first_name']['table'] = 'field_data_field_first_name';
@@ -372,6 +413,10 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['fields']['field_confirmed_orientation']['id'] = 'field_confirmed_orientation';
   $handler->display->display_options['fields']['field_confirmed_orientation']['table'] = 'field_data_field_confirmed_orientation';
   $handler->display->display_options['fields']['field_confirmed_orientation']['field'] = 'field_confirmed_orientation';
+  /* Field: Content: Canceled */
+  $handler->display->display_options['fields']['field_canceled_orientation']['id'] = 'field_canceled_orientation';
+  $handler->display->display_options['fields']['field_canceled_orientation']['table'] = 'field_data_field_canceled_orientation';
+  $handler->display->display_options['fields']['field_canceled_orientation']['field'] = 'field_canceled_orientation';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
