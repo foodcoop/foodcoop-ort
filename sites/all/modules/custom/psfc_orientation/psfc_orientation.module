@@ -338,8 +338,11 @@ function psfc_orientation_update_unconfirmed() {
     "ON n.nid = o.entity_id AND n.vid = o.revision_id JOIN ".
     "{field_data_field_confirmed_orientation} con ".
     "ON n.nid = con.entity_id AND n.vid = con.revision_id ".
+    "LEFT JOIN field_data_field_canceled_orientation can ".
+    "ON n.nid = can.entity_id AND n.vid = can.revision_id ".
     "WHERE n.type = 'orientation_attendee' AND ".
-    "n.created < :created AND con.field_confirmed_orientation_value = 0";
+    "n.created < :created AND con.field_confirmed_orientation_value = 0 ".
+    "AND can.field_canceled_orientation_value != 1";
   $result = db_query($sql, array(':created' => $expires));
   while ($attendee = $result->fetchAssoc()) {
     $account = user_load($attendee['uid'], TRUE);
