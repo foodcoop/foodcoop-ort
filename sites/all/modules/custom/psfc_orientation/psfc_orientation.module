@@ -548,6 +548,20 @@ function psfc_orientation_entity_insert($entity, $type) {
 }
 
 /**
+ * Implements hook_entity_update.
+ *
+ * Ensure we update the orientation (close or re-open) depending on whether
+ * this update cancels their registration.
+ */
+function psfc_orientation_entity_update($entity, $type) {
+  if($type == 'node' && $entity->type == 'orientation_attendee') {
+    $node_wrapper = entity_metadata_wrapper('node', $entity);
+    // Check remaining capacity and close if necessary.
+    psfc_orientation_capacity($node_wrapper->field_orientation_nid->value(), TRUE);
+  }
+}
+
+/**
  * Implements hook_entity_delete.
  *
  */
