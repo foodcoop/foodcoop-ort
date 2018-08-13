@@ -196,7 +196,7 @@ function psfc_orientation_display_blackouts() {
   $rows = array();
   while ($result = $query->fetchAssoc()) {
     $datetime = strtotime($result['blackout_date']);
-    $date = date('l, F j, Y', $datetime);
+    $date = date('l, F j, Y \@ g:i a', $datetime);
     if (user_access('administer psfc orientation')) {
       $rows[] = array($date, l('delete', 'admin/psfc/orientation/delete-blackout/' . $result['obid']));
     }
@@ -225,9 +225,9 @@ function psfc_orientation_add_blackout($form, $form_state) {
     '#value' => (isset($values)) ? $values['obid'] : NULL,
   );
 
-  $format = 'Y-m-d';
+  $format = 'm-d-Y g:i a';
 
-  $date = date($format) . ' 00:00:00';
+  $date = date($format);
 
   $form['date'] = array(
     '#type' => 'date_select',

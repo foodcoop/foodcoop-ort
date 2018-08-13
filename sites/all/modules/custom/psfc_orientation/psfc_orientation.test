@@ -56,7 +56,7 @@ class PsfcOrientationTestCase extends DrupalWebTestCase {
     $time = array('hour' => 9, 'minute' => 30, 'ampm' => 'am');
     $next_ort = psfc_orientation_determine_next_repeat($time, $from);
     // Create a blackout date
-    $id = psfc_orientation_insert_blackout_date(date('Y-m-d', $next_ort));
+    $id = psfc_orientation_insert_blackout_date(date('Y-m-d H:i', $next_ort));
     // Try to create a repeat rule for this date.
     $rule = array('day_of_week' => 'Friday', 'time_of_day' => '9:30 am', 'capacity' => 10);
     $nid = psfc_orientation_create_based_on_repeat_rule($rule);
