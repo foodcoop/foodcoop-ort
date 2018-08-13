@@ -52,15 +52,21 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['content'] = 'Upcoming orientations';
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Content: Orientation date */
+  $handler->display->display_options['fields']['field_orientation_date']['id'] = 'field_orientation_date';
+  $handler->display->display_options['fields']['field_orientation_date']['table'] = 'field_data_field_orientation_date';
+  $handler->display->display_options['fields']['field_orientation_date']['field'] = 'field_orientation_date';
+  $handler->display->display_options['fields']['field_orientation_date']['label'] = 'Date/Time';
+  $handler->display->display_options['fields']['field_orientation_date']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_orientation_date']['settings'] = array(
+    'format_type' => 'custom',
+    'custom_date_format' => 'l, F j \\@g:i a',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+    'show_remaining_days' => 0,
+  );
   /* Field: Content: Capacity */
   $handler->display->display_options['fields']['field_orientation_capacity']['id'] = 'field_orientation_capacity';
   $handler->display->display_options['fields']['field_orientation_capacity']['table'] = 'field_data_field_orientation_capacity';
