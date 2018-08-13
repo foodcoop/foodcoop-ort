@@ -1139,7 +1139,15 @@ function psfc_orientation_user_has_upcoming_orientation($account) {
  */
 function psfc_orientation_get_all_attendee_nodes($oid) {
   $attendees = array();
-  $result = db_query("SELECT entity_id FROM {field_data_field_orientation_nid} WHERE field_orientation_nid_nid = :nid", array(':nid' => $oid));
+
+  $result = db_query("SELECT field_data_field_orientation_nid.entity_id FROM
+    field_data_field_confirmed_orientation 
+    JOIN field_data_field_orientation_nid USING(entity_id)
+    JOIN field_data_field_canceled_orientation USING(entity_id)
+    WHERE field_confirmed_orientation_value = 1 AND
+    field_canceled_orientation_value != 1 AND
+    field_orientation_nid_nid = :nid", array(':nid' => $oid));
+
   while ($nid = $result->fetchField()) {
     $attendees[] = node_load($nid);
   }
