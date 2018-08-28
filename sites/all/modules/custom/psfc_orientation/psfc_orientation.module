@@ -1415,6 +1415,12 @@ function psfc_orientation_mass_attendee_helper($nodes, $context) {
  **/
 function psfc_orientation_node_view_alter(&$build) {
   $build['#post_render'][] = 'psfc_orientation_node_post_render';
+  global $user;
+  if (empty($user->uid) && $build['#bundle'] == 'orientation_attendee') {
+    // Hacky way to prevent anonymous users from seeing orientation attendee
+    // information.
+    drupal_access_denied();
+  }
 }
 
 /**
