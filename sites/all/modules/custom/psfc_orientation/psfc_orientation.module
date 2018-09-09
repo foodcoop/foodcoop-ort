@@ -1415,12 +1415,41 @@ function psfc_orientation_mass_attendee_helper($nodes, $context) {
  **/
 function psfc_orientation_node_view_alter(&$build) {
   $build['#post_render'][] = 'psfc_orientation_node_post_render';
-  global $user;
-  if (empty($user->uid) && $build['#bundle'] == 'orientation_attendee') {
-    // Hacky way to prevent anonymous users from seeing orientation attendee
-    // information.
-    drupal_access_denied();
+}
+
+
+/**
+ * Implementation of hook_node_access
+ *
+ * The orientation_attendee contains sensitive information, so hide it
+ * from anonymous users and registered users that are not this attendee.
+ *
+ **/
+function psfc_orientation_node_access($node, $op, $account) {
+  $type = is_string($node) ? $node : $node->type;
+  if ($type == 'orientation_attendee') {
+    $owner_uid = NULL;
+    if (!is_string($node)) {
+      // I'm not sure under what condition $node would be a string, but
+      // following example on:
+      // https://api.drupal.org/api/drupal/modules%21node%21node.api.php/function/hook_node_access/7.x
+      $owner_uid = $node->uid;
+    }
+
+    if (empty($account->uid)) {
+      // Anonymous users get no access to attendee nodes.
+      return NODE_ACCESS_DENY;
+    }
+    if (!user_access('edit any orientation_attendee content', $account)) {
+      // Ability to edit orientation attendees is a proxy for someone who
+      // should also be able to view it. If you don't have this permission,
+      // then you can only view this record if you are the owner.
+      if ($owner_uid != $account->uid) {
+        return NODE_ACCESS_DENY;
+      }
+    }
   }
+  return NODE_ACCESS_IGNORE;
 }
 
 /**
