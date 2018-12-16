@@ -593,8 +593,6 @@ function psfc_orientation_email_autocomplete($string = '') {
       $matches[$user->mail] = check_plain($user->mail);
     }
   }
-  if (count($matches)) {
-    drupal_json_output($matches);
-  }
+  drupal_json_output($matches);
 }
 
