@@ -4,6 +4,7 @@
  */
 function psfc_orientation_admin_page() {
   drupal_add_css(drupal_get_path('module', 'psfc_orientation') . '/psfc_orientation_admin.css');
+  drupal_add_js(drupal_get_path('module', 'psfc_orientation') . '/psfc_orientation_admin.js');
   $view_name = 'orientation_admin';
   $display_id = 'default';
   $upcoming_orientations = views_embed_view($view_name, $display_id);
