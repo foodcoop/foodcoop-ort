@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * psfc_orientation_features.views_default.inc
@@ -205,6 +206,10 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['fields']['field_email']['id'] = 'field_email';
   $handler->display->display_options['fields']['field_email']['table'] = 'field_data_field_email';
   $handler->display->display_options['fields']['field_email']['field'] = 'field_email';
+  /* Sort criterion: Content: Last Name (field_last_name) */
+  $handler->display->display_options['sorts']['field_last_name_value']['id'] = 'field_last_name_value';
+  $handler->display->display_options['sorts']['field_last_name_value']['table'] = 'field_data_field_last_name';
+  $handler->display->display_options['sorts']['field_last_name_value']['field'] = 'field_last_name_value';
   /* Contextual filter: Content: Orientation nid (field_orientation_nid) */
   $handler->display->display_options['arguments']['field_orientation_nid_nid']['id'] = 'field_orientation_nid_nid';
   $handler->display->display_options['arguments']['field_orientation_nid_nid']['table'] = 'field_data_field_orientation_nid';
