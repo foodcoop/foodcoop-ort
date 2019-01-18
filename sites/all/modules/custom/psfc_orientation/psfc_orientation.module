@@ -702,7 +702,7 @@ function psfc_orientation_node_build($orientation_rule, $time_value) {
 
   $node_wrapper = entity_metadata_wrapper('node', $node);
   // dpm($node_wrapper->getPropertyInfo());
-  $node_wrapper->title->set($date_object->format('l, F j'));
+  $node_wrapper->title->set(date('l, F j', $date_object->getTimestamp()));
   $node_wrapper->status->set(1);
   $node_wrapper->promote->set(0);
   $node_wrapper->sticky->set(0);
