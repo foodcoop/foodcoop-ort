@@ -484,7 +484,7 @@ function psfc_orientation_add_registrant($form, $form_state) {
     '#type' => 'fieldset',
     '#title' => t('Sign up a person who already has a site account'),
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
+    '#collapsed' => FALSE,
     '#description' => t('You will need to have the person\'s email address. The person must already have a site account.'),
   );
 
@@ -499,7 +499,7 @@ function psfc_orientation_add_registrant($form, $form_state) {
     '#type' => 'fieldset',
     '#title' => t('Sign up a person using name and phone number'),
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
+    '#collapsed' => FALSE,
     '#description' => t('You will not need to have the person\'s email address.'),
   );
   $form['no_account']['first_name'] = array(
