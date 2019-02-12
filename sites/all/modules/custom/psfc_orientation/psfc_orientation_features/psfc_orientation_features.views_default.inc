@@ -439,6 +439,10 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['sorts']['field_confirmed_orientation_value']['table'] = 'field_data_field_confirmed_orientation';
   $handler->display->display_options['sorts']['field_confirmed_orientation_value']['field'] = 'field_confirmed_orientation_value';
   $handler->display->display_options['sorts']['field_confirmed_orientation_value']['order'] = 'DESC';
+  /* Sort criterion: Content: Last Name (field_last_name) */
+  $handler->display->display_options['sorts']['field_last_name_value']['id'] = 'field_last_name_value';
+  $handler->display->display_options['sorts']['field_last_name_value']['table'] = 'field_data_field_last_name';
+  $handler->display->display_options['sorts']['field_last_name_value']['field'] = 'field_last_name_value';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
