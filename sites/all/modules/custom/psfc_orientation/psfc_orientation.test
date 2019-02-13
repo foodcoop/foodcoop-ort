@@ -36,31 +36,44 @@ class PsfcOrientationTestCase extends DrupalWebTestCase {
   function testCreateOrientation() {
     // Make up an arbitrary repeat rule and test to ensure it gets created
     // using the functions used by the cron job.
-    $rule = array('day_of_week' => 'Thursday', 'time_of_day' => '5:30 am', 'capacity' => 10);
+
+    // Create a repeat rule for an orientation on whatever day today is
+    // for the time 5 minutes ago.
+    $ts = strtotime("5 minutes ago");
+    $day_of_week = date('l', $ts);
+    $time = date('h:i a', $ts);
+    $rule = array('day_of_week' => $day_of_week, 'time_of_day' => $time, 'capacity' => 10);
     $nid = psfc_orientation_create_based_on_repeat_rule($rule);
 
+    // We expect a new orientation to be created exactly two weeks from
+    // the timestamp we created above.
+    $next_ts = strtotime("+ 2 weeks", $ts);
     // See if an orientation node was created for the right date.
-    $from = strtotime("Last Thursday");
-    $time = array('hour' => 5, 'minute' => 30, 'ampm' => 'am');
-    $next_ort = psfc_orientation_determine_next_repeat($time, $from);
-    // Convert $next_ort from timestamp to value that should be displayed
-    // on the page.
-    $date_string =  date("l, F j, Y - g:ia", $next_ort);
+    $date_string =  date("l, F j, Y - g:ia", $next_ts);
     // Go to the page that should exist.
     $this->drupalGet("node/$nid");
     $this->assertResponse(200, 'Orientation was created and is accessible.');
-    $this->assertText($date_string, "Orientation was created with the proper date." );
+    $this->assertText($date_string, "Orientation was created with the proper date ($date_string).");
 
     // Now, ensure that we don't create orientations on black out dates.
-    $from = strtotime("Last Friday");
-    $time = array('hour' => 9, 'minute' => 30, 'ampm' => 'am');
-    $next_ort = psfc_orientation_determine_next_repeat($time, $from);
-    // Create a blackout date
-    $id = psfc_orientation_insert_blackout_date(date('Y-m-d H:i', $next_ort));
+
+    // Let's pick a time 60 minutes ago. 
+    $ts = strtotime("60 minutes ago");
+    $time = array('hour' => date('h', $ts), 'minute' => date('i', $ts), 'ampm' => date('a', $ts));
+    $next_ort = psfc_orientation_determine_next_repeat($time);
+    $next_ort_string = date('Y-m-d H:i', $next_ort);
+
+    // Create a blackout date for what should be the next orientation
+    $id = psfc_orientation_insert_blackout_date($next_ort_string);
+
     // Try to create a repeat rule for this date.
-    $rule = array('day_of_week' => 'Friday', 'time_of_day' => '9:30 am', 'capacity' => 10);
+    $day_of_week = date('l', $ts);
+    $time = date('g:i a', $ts);
+    $rule = array('day_of_week' => $day_of_week, 'time_of_day' => $time, 'capacity' => 10);
     $nid = psfc_orientation_create_based_on_repeat_rule($rule);
-    $this->assertFalse($nid, "Orientation not created during black out time.");
+
+    // Ensure it was not created.
+    $this->assertFalse($nid, "Orientation not created during black out time (nid: $nid and time: $time, next ort: $next_ort_string).");
 
   }
 

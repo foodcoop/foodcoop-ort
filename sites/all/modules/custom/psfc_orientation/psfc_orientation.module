@@ -310,17 +310,25 @@ function psfc_orientation_create_based_on_repeat_rules() {
  */
 function psfc_orientation_create_based_on_repeat_rule($result) {
   $day_of_week = $result['day_of_week'];
-  $from = strtotime("Last $day_of_week");
-  $time = psfc_orientation_split_out_time_of_day($result['time_of_day']);
-  $next_ort = psfc_orientation_determine_next_repeat($time, $from);
-  if (!psfc_orientation_orientation_exists($next_ort) &&
-    !psfc_orientation_orientation_blacked_out($next_ort)) {
-    $node_wrapper = psfc_orientation_node_build($result, $next_ort);
-    $nid = $node_wrapper->nid->value();
-    if ($nid) {
-      watchdog('psfc_orientation', 'Added an orientation for: @date, with nid @nid',
-        array('@date' => date('Y-m-d H:i:s', $next_ort), '@nid' => $nid), WATCHDOG_NOTICE);
-      return $nid;
+  $today_day_of_week = date('l');
+  // If today is the same day as this orientation rule, continue.
+  if ($day_of_week == $today_day_of_week) {
+    $time_of_day = psfc_orientation_split_out_time_of_day($result['time_of_day']);
+    $timestamp_of_day = mktime($time_of_day['hour'], $time_of_day['minute']);
+    // If the time right now is after the time of this orientation rule,
+    // continue.
+    if (time() > $timestamp_of_day) {
+      $next_ort = psfc_orientation_determine_next_repeat($time_of_day);
+      if (!psfc_orientation_orientation_exists($next_ort) &&
+        !psfc_orientation_orientation_blacked_out($next_ort)) {
+        $node_wrapper = psfc_orientation_node_build($result, $next_ort);
+        $nid = $node_wrapper->nid->value();
+        if ($nid) {
+          watchdog('psfc_orientation', 'Added an orientation for: @date, with nid @nid',
+            array('@date' => date('Y-m-d H:i:s', $next_ort), '@nid' => $nid), WATCHDOG_NOTICE);
+          return $nid;
+        }
+      }
     }
   }
   return FALSE;
@@ -612,11 +620,15 @@ function psfc_orientation_get_repeat_rule_info($orid) {
 }
 
 /**
- *  Helper function to determine next repeated orienation
+ *  Helper function to determine next repeated orienation.
+ * 
+ *  Returns a timestamp that is exactly two weeks from now
+ *  (or two weeks from the timestamp passed via $now)
+ *  with the given time.
  *
  */
-function psfc_orientation_determine_next_repeat($time, $from) {
-  $two_weeks = strtotime('+ 2 weeks', $from);
+function psfc_orientation_determine_next_repeat($time) {
+  $two_weeks = strtotime('+ 2 weeks');
   $date = date('Y-m-d', $two_weeks);
   $string = $date . ' ' . $time['hour'] . ':' . $time['minute'] . ' ' . $time['ampm'];
   $next_orientation = strtotime($string);
