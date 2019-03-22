@@ -314,7 +314,15 @@ function psfc_orientation_create_based_on_repeat_rule($result) {
   // If today is the same day as this orientation rule, continue.
   if ($day_of_week == $today_day_of_week) {
     $time_of_day = psfc_orientation_split_out_time_of_day($result['time_of_day']);
-    $timestamp_of_day = mktime($time_of_day['hour'], $time_of_day['minute']);
+    $hour = $time_of_day['hour'];
+    $minute = $time_of_day['minute'];
+    $ampm = $time_of_day['ampm'];
+    if ($ampm == 'pm') {
+      // In mktime below, the hour is expected to be based on 24 hour/
+      // military time.
+      $hour += 12;
+    }
+    $timestamp_of_day = mktime($hour, $minute);
     // If the time right now is after the time of this orientation rule,
     // continue.
     if (time() > $timestamp_of_day) {
