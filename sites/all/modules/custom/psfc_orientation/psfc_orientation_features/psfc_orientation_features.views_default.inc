@@ -259,8 +259,198 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['footer']['area']['id'] = 'area';
   $handler->display->display_options['footer']['area']['table'] = 'views';
   $handler->display->display_options['footer']['area']['field'] = 'area';
-  $handler->display->display_options['footer']['area']['content'] = '<h2>Additional Registrants</h2>';
-  $handler->display->display_options['footer']['area']['format'] = 'filtered_html';
+  $handler->display->display_options['footer']['area']['content'] = '<h3>Additional Registrants</h3>
+
+<table class="table table-bordered">
+<tr>
+<th>&nbsp;</th>
+<th>Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Joined? Circle One</th>
+</tr>
+<tbody>
+<tr class="odd">
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>N Y #_____</td>
+</tr>
+<tr class="even">
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>N Y #_____</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>N Y #_____</td>
+</tr>
+<tr class="even">
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>N Y #_____</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>N Y #_____</td>
+</tr>
+<tr class="even">
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>N Y #_____</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>N Y #_____</td>
+</tr>
+<tr class="even">
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>N Y #_____</td>
+</tr>
+<tr class="odd">
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>N Y #_____</td>
+</tr>
+<tr class="even">
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>N Y #_____</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Orientation Only Attendees</h3>
+
+<table class="table">
+<tr>
+<th>&nbsp;</th>
+<th>Name</th>
+<th>Member #</th>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</table>
+
+<h3>Housemates</h3>
+
+<table class="table">
+<tr>
+<th>&nbsp;</th>
+<th>Name</th>
+<th>Email Address</th>
+<th>Phone</th>
+<th>Control # of Registered housemates</th>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</table>
+';
+  $handler->display->display_options['footer']['area']['format'] = 'full_html';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Global: View result counter */
   $handler->display->display_options['fields']['counter']['id'] = 'counter';
@@ -286,13 +476,23 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['fields']['field_email']['table'] = 'field_data_field_email';
   $handler->display->display_options['fields']['field_email']['field'] = 'field_email';
   $handler->display->display_options['fields']['field_email']['type'] = 'email_plain';
+  /* Field: Content: Phone */
+  $handler->display->display_options['fields']['field_phone']['id'] = 'field_phone';
+  $handler->display->display_options['fields']['field_phone']['table'] = 'field_data_field_phone';
+  $handler->display->display_options['fields']['field_phone']['field'] = 'field_phone';
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['label'] = 'Attended?';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '&#9744;';
+  $handler->display->display_options['fields']['nothing']['label'] = 'Attended? Circle One';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Pres  Abs';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
+  $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing_1']['label'] = 'Joined? Circle one';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'N  Y # ______';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Orientation nid (field_orientation_nid) */
   $handler->display->display_options['arguments']['field_orientation_nid_nid']['id'] = 'field_orientation_nid_nid';
