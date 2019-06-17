@@ -259,91 +259,7 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['footer']['area']['id'] = 'area';
   $handler->display->display_options['footer']['area']['table'] = 'views';
   $handler->display->display_options['footer']['area']['field'] = 'area';
-  $handler->display->display_options['footer']['area']['content'] = '<h3>Additional Registrants</h3>
-
-<table class="table table-bordered">
-<tr>
-<th>&nbsp;</th>
-<th>Name</th>
-<th>Email</th>
-<th>Phone</th>
-<th>Joined? Circle One</th>
-</tr>
-<tbody>
-<tr class="odd">
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>N Y #_____</td>
-</tr>
-<tr class="even">
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>N Y #_____</td>
-</tr>
-<tr class="odd">
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>N Y #_____</td>
-</tr>
-<tr class="even">
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>N Y #_____</td>
-</tr>
-<tr class="odd">
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>N Y #_____</td>
-</tr>
-<tr class="even">
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>N Y #_____</td>
-</tr>
-<tr class="odd">
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>N Y #_____</td>
-</tr>
-<tr class="even">
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>N Y #_____</td>
-</tr>
-<tr class="odd">
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>N Y #_____</td>
-</tr>
-<tr class="even">
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>N Y #_____</td>
-</tr>
-</tbody>
-</table>
-
-<h3>Orientation Only Attendees</h3>
+  $handler->display->display_options['footer']['area']['content'] = '<h3>Orientation Only Attendees</h3>
 
 <table class="table">
 <tr>
@@ -491,8 +407,8 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
   $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing_1']['label'] = 'Joined? Circle one';
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'N  Y # ______';
+  $handler->display->display_options['fields']['nothing_1']['label'] = 'Member #';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '______________';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Orientation nid (field_orientation_nid) */
   $handler->display->display_options['arguments']['field_orientation_nid_nid']['id'] = 'field_orientation_nid_nid';
