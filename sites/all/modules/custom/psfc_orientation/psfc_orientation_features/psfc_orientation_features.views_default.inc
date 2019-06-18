@@ -259,86 +259,72 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['footer']['area']['id'] = 'area';
   $handler->display->display_options['footer']['area']['table'] = 'views';
   $handler->display->display_options['footer']['area']['field'] = 'area';
-  $handler->display->display_options['footer']['area']['content'] = '<h3>Orientation Only Attendees</h3>
+  $handler->display->display_options['footer']['area']['content'] = '<p id="orientation-only-attendees"><strong>Orientation Only Attendees</strong></p>
 
 <table class="table">
 <tr>
-<th>&nbsp;</th>
 <th>Name</th>
 <th>Member #</th>
 </tr>
 <tr class="odd">
 <td>1</td>
 <td>&nbsp;</td>
-<td>&nbsp;</td>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>&nbsp;</td>
 <td>&nbsp;</td>
 </tr>
 <tr class="odd">
 <td>3</td>
 <td>&nbsp;</td>
-<td>&nbsp;</td>
 </tr>
 <tr class="even">
 <td>4</td>
-<td>&nbsp;</td>
 <td>&nbsp;</td>
 </tr>
 <tr class="odd">
 <td>5</td>
 <td>&nbsp;</td>
-<td>&nbsp;</td>
 </tr>
 <tr class="even">
 <td>6</td>
-<td>&nbsp;</td>
 <td>&nbsp;</td>
 </tr>
 <tr class="odd">
 <td>7</td>
 <td>&nbsp;</td>
-<td>&nbsp;</td>
 </tr>
 <tr class="even">
 <td>8</td>
-<td>&nbsp;</td>
 <td>&nbsp;</td>
 </tr>
 <tr class="odd">
 <td>9</td>
 <td>&nbsp;</td>
-<td>&nbsp;</td>
 </tr>
 <tr class="even">
 <td>10</td>
 <td>&nbsp;</td>
-<td>&nbsp;</td>
 </tr>
 </table>
 
-<h3>Housemates</h3>
+<p id="housemates"><strong>Housemates</strong></p>
 
 <table class="table">
 <tr>
-<th>&nbsp;</th>
-<th>Name</th>
-<th>Email Address</th>
-<th>Phone</th>
-<th>Control # of Registered housemates</th>
+<th class="housemates-name">Name</th>
+<th class="housemates-email">Email Address</th>
+<th class="housemates-phone">Phone</th>
+<th class="housemates-control">Control # of Registered housemates</th>
 </tr>
 <tr class="odd">
 <td>1</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
-<td>&nbsp;</td>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
@@ -348,18 +334,15 @@ function psfc_orientation_features_views_default_views() {
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
-<td>&nbsp;</td>
 </tr>
 <tr class="even">
 <td>4</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
-<td>&nbsp;</td>
 </tr>
 <tr class="odd">
 <td>5</td>
-<td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
@@ -408,7 +391,6 @@ function psfc_orientation_features_views_default_views() {
   $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['label'] = 'Member #';
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '______________';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Orientation nid (field_orientation_nid) */
   $handler->display->display_options['arguments']['field_orientation_nid_nid']['id'] = 'field_orientation_nid_nid';
